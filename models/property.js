@@ -61,12 +61,14 @@ const PropertySchema = mongoose.Schema({
   status: {
     type: String
   },
-  comps: [[Number]],
+  comps: [{
+    type: Number
+  }],
   // someone mentioned online to store photos in a CDN and store URL reference here
   // something like Cloudinary looks like it'll work
-  photos: {
+  photos: [{
     type: String
-  }
+  }]
 });
 
 const Property = module.exports = mongoose.model('Property', PropertySchema);
