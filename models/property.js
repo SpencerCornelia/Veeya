@@ -1,7 +1,10 @@
 // Require mongoose package
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+const config = require('../config/database');
+var db = mongoose.createConnection(config.database);
 
-// Define Wholesaler schema with proper attributes
+// Define Property schema with proper attributes
 const PropertySchema = mongoose.Schema({
   /* ADD THIS WHEN FIGURING OUT RELATIONSHIPS
   wholesaler: {
@@ -71,4 +74,20 @@ const PropertySchema = mongoose.Schema({
   }]
 });
 
-const Property = module.exports = mongoose.model('Property', PropertySchema);
+const Property = module.exports = db.model('Property', PropertySchema);
+
+// Property.find() returns all of the properties
+module.exports.getAllProperties = (callback) => {
+  Property.find(callback);
+}
+
+// newProperty.save() is used to insert the document into MongoDB
+module.exports.addProperty = (newProperty, callback) => {
+  newProperty.save(callback);
+}
+
+// We need to pass an id parameter to Property.remove
+module.exports.deletePropertyById = (id, callback) => {
+  let query = {_id: id};
+  Property.remove(query, callback);
+}
