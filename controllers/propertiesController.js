@@ -22,4 +22,8 @@ router.get('/soldproperties', (req, res, next) => {
   res.send("GET for sold properties")
 });
 
+router.delete('/:id', (req, res, next) => {
+  res.send("DELETE a property");
+});
+
 module.exports = router;
