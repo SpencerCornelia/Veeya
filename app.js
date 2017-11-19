@@ -4,13 +4,14 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 const propertiesController = require('./controllers/propertiesController');
 
 // Connect mongoose to our database
 const config = require('./config/database');
 mongoose.createConnection(config.database);
-//var db = mongoose.connection;
-//db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 //Initialize our app variable
 const app = express();
@@ -31,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // This is the home page
 app.get('/', (req,res) => {
-    res.send("Invalid page");
+    res.send("Home page");
 });
 
 // Route all HTTP requests to propertiesController
