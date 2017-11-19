@@ -63,6 +63,7 @@ const PropertySchema = mongoose.Schema({
   },
   comps: [[Number]],
   // someone mentioned online to store photos in a CDN and store URL reference here
+  // something like Cloudinary looks like it'll work
   photos: {
     type: String
   }
