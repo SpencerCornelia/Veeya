@@ -15,5 +15,8 @@
     "express": "~4.15.3",
     "mongoose": "~4.11.0",
     "mongoose-type-email": "^1.0.5"
+  },
+  "devDependencies": {
+    "@angular/cli": "^1.5.2"
   }
 }
