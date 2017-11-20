@@ -1,0 +1,39 @@
+<p>
+  view-properties works!
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Address</th>
+      <th>City</th>
+      <th>State</th>
+      <th>Zip Code</th>
+      <th>Purchase Price</th>
+      <th>Bedrooms</th>
+      <th>Bathrooms</th>
+      <th>Rehab Cost Min</th>
+      <th>Rehab Cost Max</th>
+      <th>Property Type</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let property of properties">
+      <td>{{ property.address }}</td>
+      <td>{{ property.city }}</td>
+      <td>{{ property.state }}</td>
+      <td>{{ property.zipCode }}</td>
+      <td>{{ property.purchasePrice }}</td>
+      <td>{{ property.bedrooms }}</td>
+      <td>{{ property.bathrooms }}</td>
+      <td>{{ property.rehabCostMin }}</td>
+      <td>{{ property.rehabCostMax }}</td>
+      <td>{{ property.propertyType }}</td>
+      <td><button type="button" (click)="deleteProperty(property);
+        $event.stopPropagation();">Delete</button></td>
+    </tr>
+  </tbody>
+</table>
+
+<app-add-property (addProperty)='onAddProperty($event)'></app-add-property>
