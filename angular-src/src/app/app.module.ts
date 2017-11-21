@@ -11,12 +11,16 @@ import { ViewPropertiesComponent } from './view-properties/view-properties.compo
 import { AddPropertyService } from './services/addProperty.service';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddPropertyComponent,
-    ViewPropertiesComponent
+    ViewPropertiesComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
