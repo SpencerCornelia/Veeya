@@ -32,7 +32,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // This is the home page
 app.get('/', (req,res) => {
-    res.send("Home page");
+  // need to send this route to /login or /register
+  // or check if session id and send to /home
+  res.send("Home page");
 });
 
 // Route all HTTP requests to propertiesController
@@ -40,5 +42,5 @@ app.use('/properties', propertiesController);
 
 //Listen to port 3000
 app.listen(port, () => {
-    console.log(`Starting the server at port ${port}`);
+  console.log(`Starting the server at port ${port}`);
 });
