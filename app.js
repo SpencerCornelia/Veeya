@@ -6,6 +6,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const propertiesController = require('./controllers/propertiesController');
+const loginController = require('./controllers/loginController');
+const registerController = require('./controllers/registerController');
 
 // Connect mongoose to our database
 const config = require('./config/database');
@@ -36,6 +38,10 @@ app.get('/', (req,res) => {
   // or check if session id and send to /home
   res.send("Home page");
 });
+
+app.use('/login', loginController);
+
+app.use('/register', registerController);
 
 // Route all HTTP requests to propertiesController
 app.use('/properties', propertiesController);
