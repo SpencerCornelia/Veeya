@@ -69,7 +69,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 // GET HTTP for sold properties
-router.get('/soldproperties', (req, res, next) => {
+router.get('/sold', (req, res, next) => {
   res.send("GET for sold properties")
 });
 
