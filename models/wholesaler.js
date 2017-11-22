@@ -24,7 +24,6 @@ const WholesalerSchema = mongoose.Schema({
     required: true
   },
   email: {
-    //type: String,
     type: mongoose.SchemaTypes.Email,
     required: true
   },
@@ -44,7 +43,7 @@ const WholesalerSchema = mongoose.Schema({
 const Wholesaler = module.exports = db.model('Wholesaler', WholesalerSchema);
 
 module.exports.getWholesalerById = function(id, callback) {
-  Wholesaler.FindById(id, callback);
+  Wholesaler.findById(id, callback);
 };
 
 module.exports.addWholesaler = function(newWholesaler, callback) {
@@ -57,5 +56,5 @@ module.exports.addWholesaler = function(newWholesaler, callback) {
       newWholesaler.save(callback);
     });
   });
-  //newWholesaler.save(callback);
 };
+
