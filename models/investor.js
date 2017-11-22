@@ -1,6 +1,8 @@
 // Require mongoose package
 const mongoose = require('mongoose');
 require('mongoose-type-email');
+const config = require('../config/database');
+var db = mongoose.createConnection(config.database);
 
 // Define Wholesaler schema with proper attributes
 const InvestorSchema = mongoose.Schema({
@@ -21,4 +23,4 @@ const InvestorSchema = mongoose.Schema({
   }
 });
 
-const Investor = module.exports = mongoose.model('Investor', InvestorSchema);
+const Investor = module.exports = db.model('Investor', InvestorSchema);
