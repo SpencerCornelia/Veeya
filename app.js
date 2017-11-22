@@ -8,6 +8,7 @@ mongoose.Promise = global.Promise;
 const propertiesController = require('./controllers/propertiesController');
 const loginController = require('./controllers/loginController');
 const registerController = require('./controllers/registerController');
+const wholesalerController = require('./controllers/wholesalerController');
 
 // Connect mongoose to our database
 const config = require('./config/database');
@@ -42,6 +43,8 @@ app.get('/', (req,res) => {
 app.use('/login', loginController);
 
 app.use('/register', registerController);
+
+app.use('/wholesaler', wholesalerController);
 
 // Route all HTTP requests to propertiesController
 app.use('/properties', propertiesController);
