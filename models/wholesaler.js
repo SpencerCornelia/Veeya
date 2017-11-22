@@ -29,15 +29,15 @@ const WholesalerSchema = mongoose.Schema({
   },
   phoneNumber: {
     type: String
-  }
-  /* ADD THIS WHEN COMFORTABLE ADDING RELATIONSHIPS
-  properties: {
-
   },
-  investors: {
-
-  }
-  */
+  properties: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Property'
+  }],
+  investors: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Investor'
+  }]
 });
 
 const Wholesaler = module.exports = db.model('Wholesaler', WholesalerSchema);
