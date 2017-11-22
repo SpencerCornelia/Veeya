@@ -11,6 +11,9 @@ import { ViewPropertiesComponent } from './view-properties/view-properties.compo
 import { AddPropertyService } from './services/addProperty.service';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
+import { LoginService } from './services/login.service';
+import { RegisterService } from './services/register.service';
+
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
@@ -27,7 +30,7 @@ import { RegisterComponent } from './register/register.component';
     HttpModule,
     FormsModule
   ],
-  providers: [AddPropertyService, DeletePropertyService, GetAllPropertiesService],
+  providers: [AddPropertyService, DeletePropertyService, GetAllPropertiesService, LoginService, RegisterService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
 /* Property.ts */
 export interface Property {
-  _id: Number,
+  _id?: Number,
   address: String,
   city: String,
   state: String,
