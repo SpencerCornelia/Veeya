@@ -28,6 +28,7 @@ router.get('/', (req,res) => {
 // POST HTTP to /properties/addproperty
 router.post('/addproperty', (req, res, next) => {
   var newProperty = new property({
+    wholesaler: req.body.wholesaler,
     address: req.body.address,
     city: req.body.city,
     state: req.body.state,
