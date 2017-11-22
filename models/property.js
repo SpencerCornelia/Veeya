@@ -4,6 +4,8 @@ mongoose.Promise = global.Promise;
 const config = require('../config/database');
 var db = mongoose.createConnection(config.database);
 
+const Wholesaler = require('./wholesaler');
+
 // Define Property schema with proper attributes
 const PropertySchema = mongoose.Schema({
   wholesaler: {
@@ -81,7 +83,15 @@ module.exports.getAllProperties = (callback) => {
 }
 
 // newProperty.save() is used to insert the document into MongoDB
-module.exports.addProperty = (newProperty, callback) => {
+module.exports.addProperty = (newProperty, wholesalerID, callback) => {
+  const wholesaler = Wholesaler.findOneAndUpdate(
+    {_id: wholesalerID},
+    {$push: {properties: newProperty}},
+    {safe: true, upsert: true},
+    function(err, s) {
+      if (err) { console.log("error on updating wholesaler in addProperty"); }
+    }
+    );
   newProperty.save(callback);
 }
 
