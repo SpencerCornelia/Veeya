@@ -25,6 +25,25 @@ router.get('/', (req,res) => {
   });
 });
 
+// GET HTTP for /properties for a wholesaler
+router.get('/:uid', (req, res) => {
+  wholesaler.getPropertiesForWholesaler(req.params.uid, (err, w) => {
+    if (err) {
+      res.json({
+        success: false,
+        message: "Failed to find a wholesaler. Error: " + err
+      });
+    } else {
+      res.json({
+        success: true,
+        message: "Found wholesaler by id.",
+        wholesaler: w,
+        properties: w.properties
+      });
+    }
+  });
+});
+
 // POST HTTP to /properties/addproperty
 router.post('/addproperty', (req, res, next) => {
   var newProperty = new property({
@@ -49,16 +68,18 @@ router.post('/addproperty', (req, res, next) => {
     // need to figure out how to store photos in a CDN and then link that URL to photos array
     //photos: req.body.photos
   });
-  property.addProperty(newProperty, (err, prop) => {
+  property.addProperty(newProperty, req.body.wholesaler, (err, prop) => {
     if (err) {
       res.json({
         success: false,
-        message: "Failed to create a new property. Error: " + err
+        message: "Failed to create a new property.",
+        error: err
       });
     } else {
       res.json({
         success: true,
-        message: "Added property successfully. Property = " + prop
+        message: "Added property successfully.",
+        property: prop
       });
     }
   });
