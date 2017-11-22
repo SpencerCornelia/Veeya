@@ -58,3 +58,7 @@ module.exports.addWholesaler = function(newWholesaler, callback) {
   });
 };
 
+module.exports.getPropertiesForWholesaler = function(id, callback) {
+  Wholesaler.findOne({_id: id}, callback);
+};
+
