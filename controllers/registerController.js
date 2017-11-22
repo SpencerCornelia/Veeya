@@ -28,7 +28,8 @@ router.post('/wholesaler', (req, res, next) => {
     } else {
       res.json({
         success: true,
-        message: "Wholesaler registered. Wholealer = " + w
+        message: "Wholesaler registered.",
+        wholesaler: w
       });
     }
   });
