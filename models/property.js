@@ -6,11 +6,10 @@ var db = mongoose.createConnection(config.database);
 
 // Define Property schema with proper attributes
 const PropertySchema = mongoose.Schema({
-  /* ADD THIS WHEN FIGURING OUT RELATIONSHIPS
   wholesaler: {
-
-  }
-  */
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Wholesaler'
+  },
   address: {
     type: String,
     required: true
