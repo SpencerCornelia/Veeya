@@ -7,6 +7,10 @@ var db = mongoose.createConnection(config.database);
 
 // Define Wholesaler schema with proper attributes
 const WholesalerSchema = mongoose.Schema({
+  userType: {
+    type: String,
+    required: true
+  },
   userName: {
     type: String,
     required: true

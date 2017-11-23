@@ -11,6 +11,7 @@ router.get('/', (req,res) => {
 // POST HTTP to /register
 router.post('/wholesaler', (req, res, next) => {
   let newWholesaler = new Wholesaler({
+    userType: "Wholesaler",
     userName: req.body.userName,
     password: req.body.password,
     firstName: req.body.firstName,
