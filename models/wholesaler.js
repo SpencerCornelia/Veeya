@@ -7,6 +7,10 @@ var db = mongoose.createConnection(config.database);
 
 // Define Wholesaler schema with proper attributes
 const WholesalerSchema = mongoose.Schema({
+  userType: {
+    type: String,
+    required: true
+  },
   userName: {
     type: String,
     required: true
@@ -60,5 +64,21 @@ module.exports.addWholesaler = function(newWholesaler, callback) {
 
 module.exports.getPropertiesForWholesaler = function(id, callback) {
   Wholesaler.findOne({_id: id}, callback);
+};
+
+module.exports.addInvestorToWholesaler = function(newInvestor, wholesalerID, callback) {
+  if (wholesalerID) {
+    Wholesaler.findOneAndUpdate(
+      {_id: wholesalerID},
+      {$push: {investors: newInvestor}},
+      {safe: true, upsert: true},
+      function(err, s) {
+        if (err) {
+          console.log("err:", err);
+        }
+      }
+    );
+  }
+  newInvestor.save(callback);
 };
 

@@ -91,7 +91,7 @@ module.exports.addProperty = (newProperty, wholesalerID, callback) => {
     function(err, s) {
       if (err) { console.log("error on updating wholesaler in addProperty"); }
     }
-    );
+  );
   newProperty.save(callback);
 }
 
