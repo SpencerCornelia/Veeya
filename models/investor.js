@@ -4,6 +4,9 @@ require('mongoose-type-email');
 const config = require('../config/database');
 var db = mongoose.createConnection(config.database);
 
+// Require models
+const Wholesaler = require('./wholesaler');
+
 // Define Wholesaler schema with proper attributes
 const InvestorSchema = mongoose.Schema({
   userType: {
@@ -44,3 +47,15 @@ const InvestorSchema = mongoose.Schema({
 });
 
 const Investor = module.exports = db.model('Investor', InvestorSchema);
+
+module.exports.addInvestor = function(newInvestor, callback) {
+  newInvestor.save(callback);
+};
+
+module.exports.getAllInvestors = function() {
+
+};
+
+module.exports.getInvestorById = function(id, callback) {
+
+};
