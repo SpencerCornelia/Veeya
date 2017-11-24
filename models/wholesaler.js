@@ -66,3 +66,19 @@ module.exports.getPropertiesForWholesaler = function(id, callback) {
   Wholesaler.findOne({_id: id}, callback);
 };
 
+module.exports.addInvestorToWholesaler = function(newInvestor, wholesalerID, callback) {
+  if (wholesalerID) {
+    Wholesaler.findOneAndUpdate(
+      {_id: wholesalerID},
+      {$push: {investors: newInvestor}},
+      {safe: true, upsert: true},
+      function(err, s) {
+        if (err) {
+          console.log("err:", err);
+        }
+      }
+    );
+  }
+  newInvestor.save(callback);
+};
+
