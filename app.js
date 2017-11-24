@@ -9,6 +9,7 @@ const propertiesController = require('./controllers/propertiesController');
 const loginController = require('./controllers/loginController');
 const registerController = require('./controllers/registerController');
 const wholesalerController = require('./controllers/wholesalerController');
+const investorController = require('./controllers/investorController');
 
 // Connect mongoose to our database
 const config = require('./config/database');
@@ -35,19 +36,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // This is the home page
 app.get('/', (req,res) => {
-  // need to send this route to /login or /register
-  // or check if session id and send to /home
   res.send("Home page");
 });
 
+// Route all HTTP requests to loginController
 app.use('/login', loginController);
 
+// Route all HTTP requests to registerController
 app.use('/register', registerController);
 
+// Route all HTTP requests to wholesalerController
 app.use('/wholesaler', wholesalerController);
 
 // Route all HTTP requests to propertiesController
 app.use('/properties', propertiesController);
+
+// Route all HTTP requests to investorController
+app.use('/investor', investorController);
 
 //Listen to port 3000
 app.listen(port, () => {
