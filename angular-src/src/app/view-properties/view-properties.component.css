@@ -1,0 +1,16 @@
+#sidebar-wrapper {
+  z-index: 1;
+  position: absolute;
+  width: 250px;
+  height: 100%;
+  background: blue;
+  border: 2px solid red;
+  opacity: 0.9;
+}
+
+#page-content-wrapper {
+  width: 100%;
+  position: absolute;
+  padding-left: 250px;
+  border: 1px solid green;
+}
