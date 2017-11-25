@@ -7,6 +7,9 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12">
+          <div *ngFor="let property of wholesalerProperties">
+            <span>{{ property.address }}</span>
+          </div>
         </div>
       </div>
     </div>
