@@ -34,10 +34,9 @@ const WholesalerSchema = mongoose.Schema({
   phoneNumber: {
     type: String
   },
-  properties: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Property'
-  }],
+  properties: [],
+  // will probably need to do same thing with investors
+  // change it to array which makes it easier to display data
   investors: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Investor'

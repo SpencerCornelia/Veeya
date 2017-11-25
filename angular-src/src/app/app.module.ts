@@ -14,6 +14,7 @@ import { DeletePropertyService } from './services/deleteProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
 import { LoginService } from './services/login.service';
 import { RegisterService } from './services/register.service';
+import { GetWholesalerPropertiesService } from './services/getWholesalerProperties.service';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -34,7 +35,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     FormsModule,
     Routing
   ],
-  providers: [AddPropertyService, DeletePropertyService, GetAllPropertiesService, LoginService, RegisterService],
+  providers: [AddPropertyService, DeletePropertyService, GetAllPropertiesService, LoginService, RegisterService, GetWholesalerPropertiesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
