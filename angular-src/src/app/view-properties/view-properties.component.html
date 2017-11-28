@@ -6,9 +6,13 @@
   <div id="page-content-wrapper">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-12">
-          <div *ngFor="let property of wholesalerProperties">
-            <span>{{ property.address }}</span>
+        <div *ngFor="let property of wholesalerProperties">
+          <div class="col-xs-4 individualProperty">
+            <div class="propertyElement propertyPhoto">image {{ property.photos }}</div>
+            <div class="propertyElement">{{ property.address }}</div>
+            <div class="propertyElement">{{ property.city }}, {{ property.state }} {{ property.zipCode }}</div>
+            <div class="propertyElement">${{ property.purchasePrice }}</div>
+            <div class="propertyElement"><button type="button" class="btn btn-primary">Edit Property</button></div>
           </div>
         </div>
       </div>
