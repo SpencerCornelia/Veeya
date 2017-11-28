@@ -35,8 +35,6 @@ const WholesalerSchema = mongoose.Schema({
     type: String
   },
   properties: [],
-  // will probably need to do same thing with investors
-  // change it to array which makes it easier to display data
   investors: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Investor'
