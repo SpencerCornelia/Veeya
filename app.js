@@ -62,6 +62,7 @@ app.use('/properties', propertiesController);
 // Route all HTTP requests to investorController
 app.use('/investor', investorController);
 
+// Route for 404. Looks like app-routing.ts handles the variable ('**') route instead of this
 app.get('*', function(req, res, next) {
   res.send("Sorry but that URL does not exist");
 });
