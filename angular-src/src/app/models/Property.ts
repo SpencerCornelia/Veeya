@@ -1,6 +1,7 @@
 /* Property.ts */
 export interface Property {
   _id?: Number,
+  wholesaler: String,
   address: String,
   city: String,
   state: String,
@@ -15,5 +16,6 @@ export interface Property {
   squareFootage: Number,
   propertyType: String,
   yearBuilt: Number,
-  status: String
+  status: String,
+  comps: Number
 }

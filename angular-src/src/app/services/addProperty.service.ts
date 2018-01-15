@@ -17,6 +17,7 @@ export class AddPropertyService {
     let headers = new Headers;
     let body = JSON.stringify({
       _id: property._id,
+      wholesaler: property.wholesaler,
       address: property.address,
       city: property.city,
       state: property.state,
@@ -31,7 +32,8 @@ export class AddPropertyService {
       squareFootage: property.squareFootage,
       propertyType: property.propertyType,
       yearBuilt: property.yearBuilt,
-      status: property.status
+      status: property.status,
+      comps: property.comps
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, {headers: headers})

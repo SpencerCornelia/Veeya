@@ -35,7 +35,14 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     FormsModule,
     Routing
   ],
-  providers: [AddPropertyService, DeletePropertyService, GetAllPropertiesService, LoginService, RegisterService, GetWholesalerPropertiesService],
+  providers: [
+    AddPropertyService,
+    DeletePropertyService,
+    GetAllPropertiesService,
+    LoginService,
+    RegisterService,
+    GetWholesalerPropertiesService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
