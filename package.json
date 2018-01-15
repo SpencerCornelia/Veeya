@@ -10,17 +10,22 @@
   "author": "Spencer Cornelia",
   "license": "ISC",
   "dependencies": {
-    "@angular/core": "^4.2.4",
     "@angular/cli": "^1.5.2",
+    "@angular/compiler-cli": "^5.1.2",
+    "@angular/core": "^4.2.4",
     "bcrypt": "^1.0.3",
     "body-parser": "~1.17.2",
     "bootstrap": "^3.3.7",
     "cors": "~2.8.3",
     "express": "~4.15.3",
     "mongoose": "~4.11.0",
-    "mongoose-type-email": "^1.0.5"
+    "mongoose-type-email": "^1.0.5",
+    "typescript": "^2.6.1"
   },
   "devDependencies": {
-    "@angular/cli": "^1.5.2"
+    "@angular/core": "^4.2.4",
+    "@angular/cli": "^1.5.2",
+    "@angular/compiler-cli": "^5.1.2",
+    "typescript": "^2.6.1"
   }
 }
