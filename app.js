@@ -34,6 +34,14 @@ app.use(bodyParser.json());
 // We are telling express server public folder is the place to look for the static files
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Set headers
+app.use(function(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, DELETE, OPTIONS, PATCH');
+  next();
+});
+
 // This is the home page
 app.get('/', (req,res) => {
   res.send("Home page");
@@ -53,6 +61,10 @@ app.use('/properties', propertiesController);
 
 // Route all HTTP requests to investorController
 app.use('/investor', investorController);
+
+app.get('*', function(req, res, next) {
+  res.send("Sorry but that URL does not exist");
+});
 
 //Listen to port 3000
 app.listen(port, () => {
