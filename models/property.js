@@ -88,7 +88,7 @@ module.exports.addProperty = (newProperty, wholesalerID, callback) => {
     {_id: wholesalerID},
     {$push: {properties: newProperty}},
     {safe: true, upsert: true},
-    function(err, s) {
+    function(err, success) {
       if (err) { console.log("error on updating wholesaler in addProperty"); }
     }
   );
