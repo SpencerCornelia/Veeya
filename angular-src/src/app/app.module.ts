@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { Routing } from './app-routing';
+import { AppRoutingModule } from './app-routing.module';
+// import { Routing } from './app-routing';
 
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
@@ -33,7 +34,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     BrowserModule,
     HttpModule,
     FormsModule,
-    Routing
+    AppRoutingModule
   ],
   providers: [
     AddPropertyService,
