@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Property } from '../models/Property';
+import { AppRoutingModule } from '../app-routing.module';
+import { Router } from '@angular/router';
+// import { Routing } from '../app-routing';
 import { AddPropertyService } from '../services/addProperty.service';
-import { Routing } from '../app-routing';
 import { ModuleWithProviders } from '@angular/core';
 
 @Component({
@@ -11,11 +13,10 @@ import { ModuleWithProviders } from '@angular/core';
 })
 export class AddPropertyComponent implements OnInit {
 
-  private newProperty :Property;
-  private router = Routing;
+  private newProperty: Property;
   @Output() addProperty: EventEmitter<Property> = new EventEmitter<Property>();
 
-  constructor(private addPropertyService: AddPropertyService) { }
+  constructor(private addPropertyService: AddPropertyService, private router: Router) { }
 
   ngOnInit() {
     this.newProperty = {
