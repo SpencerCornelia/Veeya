@@ -95,6 +95,15 @@ router.get('/sold', (req, res, next) => {
   res.send("GET for sold properties")
 });
 
+// POST HTTP request to edit a property
+router.post('/editproperty', (req, res, next) => {
+  let id = req.params.id;
+
+  property.editProperty(id, (err, property) => {
+
+  });
+});
+
 // DELETE HTTP request for deleting a property
 router.delete('/:id', (req, res, next) => {
   // access the parameter which is the id of the item to be deleted
