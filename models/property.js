@@ -95,6 +95,10 @@ module.exports.addProperty = (newProperty, wholesalerID, callback) => {
   newProperty.save(callback);
 }
 
+module.exports.editProperty = (property, callback) => {
+  // Property.findById(property.id, )
+}
+
 // We need to pass an id parameter to Property.remove
 module.exports.deletePropertyById = (id, callback) => {
   let query = {_id: id};
