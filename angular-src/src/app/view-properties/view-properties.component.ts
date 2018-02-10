@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { GetAllPropertiesService } from '../services/getAllProperties.service';
 import { DeletePropertyService } from '../services/deleteProperty.service';
 import { GetWholesalerPropertiesService } from '../services/getWholesalerProperties.service';
+import { EditPropertyService } from '../services/editProperty.service'
 import { Property } from '../models/Property';
+
+import { AppRoutingModule } from '../app-routing.module';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-properties',
@@ -15,7 +19,7 @@ export class ViewPropertiesComponent implements OnInit {
   private properties: Property[] = [];
   private wholesalerProperties: Property[] = [];
 
-  constructor(private getPropertyService: GetAllPropertiesService, private deletePropertyService: DeletePropertyService, private getWholesalerPropertyService: GetWholesalerPropertiesService) { }
+  constructor(private getPropertyService: GetAllPropertiesService, private deletePropertyService: DeletePropertyService, private getWholesalerPropertyService: GetWholesalerPropertiesService, private editPropertyService: EditPropertyService, private router: Router) { }
 
   ngOnInit() {
     this.getPropertiesForWholesaler();
@@ -40,6 +44,11 @@ export class ViewPropertiesComponent implements OnInit {
 
   public onAddProperty(newProperty) {
     this.properties = this.properties.concat(newProperty);
+  }
+
+  public editProperty(property: Property) {
+    this.router.navigate(['/properties/editproperty/' + property._id]);
+    // https://angular.io/guide/component-interaction
   }
 
 }
