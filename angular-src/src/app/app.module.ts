@@ -5,13 +5,13 @@ import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-// import { Routing } from './app-routing';
 
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { DeletePropertyService } from './services/deleteProperty.service';
+import { EditPropertyService } from './services/editProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
 import { LoginService } from './services/login.service';
 import { RegisterService } from './services/register.service';
@@ -20,6 +20,7 @@ import { GetWholesalerPropertiesService } from './services/getWholesalerProperti
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { EditPropertyComponent } from './edit-property/edit-property.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     ViewPropertiesComponent,
     LoginComponent,
     RegisterComponent,
-    SidebarComponent
+    SidebarComponent,
+    EditPropertyComponent
   ],
   imports: [
     BrowserModule,
@@ -39,6 +41,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   providers: [
     AddPropertyService,
     DeletePropertyService,
+    EditPropertyService,
     GetAllPropertiesService,
     LoginService,
     RegisterService,
