@@ -1,0 +1,73 @@
+<p>
+  edit-property works!
+</p>
+
+<div>
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <label for="address">Address</label>
+      <input type="text" [(ngModel)]="newProperty.address" name="address" required>
+    </div>
+    <div>
+      <label for="city">City</label>
+      <input type="text" [(ngModel)]="newProperty.city" name="city" required>
+    </div>
+    <div>
+      <label for="state">State</label>
+      <input type="text" [(ngModel)]="newProperty.state" name="state" required>
+    </div>
+    <div>
+      <label for="zipCode">Zip Code</label>
+      <input type="text" [(ngModel)]="newProperty.zipCode" name="zipCode" required>
+    </div>
+    <div>
+      <label for="purchasePrice">purchasePrice</label>
+      <input type="text" [(ngModel)]="newProperty.purchasePrice" name="purchasePrice" required>
+    </div>
+    <div>
+      <label for="bedrooms">Bedrooms</label>
+      <input type="text" [(ngModel)]="newProperty.bedrooms" name="bedrooms" required>
+    </div>
+    <div>
+      <label for="bathrooms">Bathrooms</label>
+      <input type="text" [(ngModel)]="newProperty.bathrooms" name="bathrooms">
+    </div>
+    <div>
+      <label for="rehabCostMin">Rehab Cost Min</label>
+      <input type="text" [(ngModel)]="newProperty.rehabCostMin" name="rehabCostMin">
+    </div>
+    <div>
+      <label for="rehabCostMax">Rehab Cost Max</label>
+      <input type="text" [(ngModel)]="newProperty.rehabCostMax" name="rehabCostMax">
+    </div>
+    <div>
+      <label for="afterRepairValue">After Repair Value</label>
+      <input type="text" [(ngModel)]="newProperty.afterRepairValue" name="afterRepairValue">
+    </div>
+    <div>
+      <label for="averageRent">Average Rent</label>
+      <input type="text" [(ngModel)]="newProperty.averageRent" name="averageRent">
+    </div>
+    <div>
+      <label for="squareFootage">Square Footage</label>
+      <input type="text" [(ngModel)]="newProperty.squareFootage" name="squareFootage">
+    </div>
+    <div>
+      <label for="propertyType">Property Type</label>
+      <input type="text" [(ngModel)]="newProperty.propertyType" name="propertyType" required>
+    </div>
+    <div>
+      <label for="yearBuilt">Year Built</label>
+      <input type="text" [(ngModel)]="newProperty.yearBuilt" name="yearBuilt">
+    </div>
+    <div>
+      <label for="status">Status</label>
+      <input type="text" [(ngModel)]="newProperty.status" name="status">
+    </div>
+    <div>
+      <label for="comps">Comps</label>
+      <input type="text" [(ngModel)]="newProperty.comps" name="comps">
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
