@@ -45,9 +45,7 @@ export class AddPropertyComponent implements OnInit {
     this.addPropertyService.addProperty(this.newProperty).subscribe(
       response => {
         if (response.success === true) {
-          console.log("add property in onSubmit call in add property component")
           this.addProperty.emit(this.newProperty);
-          // check stack overflow posting to continue testing this
           this.router.navigate(['/properties']);
         }
       }
