@@ -12,6 +12,15 @@ export class EditPropertyService {
 
   private serverApi = 'http://localhost:3000/properties';
 
+  // public getPropertyByID(id):Observable<Property[]> {
+  public getPropertyByID(id) {
+    let URI = this.serverApi + '/edit/' + id;
+    let headers = new Headers;
+    return this.http.get(URI)
+      .map(res => res.json())
+      /* I THINK THE ISSUE IS WHAT I"M RETURNING RIGHT HERE */
+  }
+
   public editProperty(property: Property) {
     let URI = this.serverApi + "/editproperty" /* + property id */;
     let headers = new Headers;
