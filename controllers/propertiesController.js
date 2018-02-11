@@ -86,8 +86,19 @@ router.post('/addproperty', (req, res, next) => {
 });
 
 // GET HTTP to /properties/id to see a specific property
-router.get('/:id', (req, res, next) => {
-  res.send("GET specific property")
+router.get('/edit/:id', (req, res, next) => {
+  console.log("this gets called")
+  let id = req.params.id;
+
+  property.getPropertyByID(id, (err, property) => {
+    console.log("property returned to property controller =", property)
+    if (err) {
+      console.log("error getting property by id in properties controller");
+    } else {
+      res.json(property);
+    }
+  });
+  // res.send("GET specific property")
 });
 
 // GET HTTP for sold properties
