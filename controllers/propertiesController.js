@@ -102,8 +102,9 @@ router.get('/sold', (req, res, next) => {
 // PUT HTTP request to edit a property and UPDATE
 router.put('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
-  property.editProperty(id, (err, property) => {
 
+  property.editPropertyByID(req.body, (property) => {
+    res.json(property);
   });
 });
 
