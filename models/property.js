@@ -101,7 +101,6 @@ module.exports.editProperty = (property, callback) => {
 
 module.exports.getPropertyByID = (id, callback) => {
   Property.findById(id, (err, property) => {
-    console.log("property in model property = ", property);
     if (err) {
       console.log("error finding property by id in model");
     } else {
