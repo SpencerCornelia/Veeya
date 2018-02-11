@@ -48,7 +48,6 @@ export class ViewPropertiesComponent implements OnInit {
 
   public editProperty(property: Property) {
     this.router.navigate(['/properties/editproperty/' + property._id]);
-    // https://angular.io/guide/component-interaction
   }
 
 }
