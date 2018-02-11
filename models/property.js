@@ -95,8 +95,33 @@ module.exports.addProperty = (newProperty, wholesalerID, callback) => {
   newProperty.save(callback);
 }
 
-module.exports.editProperty = (property, callback) => {
-  // Property.findById(property.id, )
+module.exports.editPropertyByID = (updatedProperty, callback) => {
+  Property.findById(updatedProperty._id, (err, property) => {
+    property.address = updatedProperty.address;
+    property.city = updatedProperty.city;
+    property.state = updatedProperty.state;
+    property.zipCode = updatedProperty.zipCode;
+    property.purchasePrice = updatedProperty.purchasePrice;
+    property.bedrooms = updatedProperty.bedrooms;
+    property.bathrooms= updatedProperty.bathrooms;
+    property.rehabCostMin = updatedProperty.rehabCostMin;
+    property.rehabCostMax = updatedProperty.rehabCostMax;
+    property.afterRepairValue = updatedProperty.afterRepairValue;
+    property.averageRent = updatedProperty.averageRent;
+    property.squareFootage = updatedProperty.squareFootage;
+    property.propertyType = updatedProperty.propertyType;
+    property.yearBuilt = updatedProperty.yearBuilt;
+    property.status = updatedProperty.status;
+    property.comps = updatedProperty.comps;
+
+    property.save((err, property) => {
+      if (err) {
+        console.log("error with saving updated property");
+      } else {
+        callback(property);
+      }
+    });
+  });
 }
 
 module.exports.getPropertyByID = (id, callback) => {
@@ -109,7 +134,6 @@ module.exports.getPropertyByID = (id, callback) => {
   });
 }
 
-// We need to pass an id parameter to Property.remove
 module.exports.deletePropertyById = (id, callback) => {
   let query = {_id: id};
   Property.remove(query, callback);
