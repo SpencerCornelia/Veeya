@@ -99,6 +99,17 @@ module.exports.editProperty = (property, callback) => {
   // Property.findById(property.id, )
 }
 
+module.exports.getPropertyByID = (id, callback) => {
+  Property.findById(id, (err, property) => {
+    console.log("property in model property = ", property);
+    if (err) {
+      console.log("error finding property by id in model");
+    } else {
+      callback(property);
+    }
+  });
+}
+
 // We need to pass an id parameter to Property.remove
 module.exports.deletePropertyById = (id, callback) => {
   let query = {_id: id};
