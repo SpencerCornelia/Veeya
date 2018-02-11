@@ -20,6 +20,9 @@ export class EditPropertyComponent implements OnInit {
     this.getProperty(this.propertyID);
   }
 
+  ngOnInit() {
+  }
+
   getProperty(id) {
     this.editPropertyService.getPropertyByID(id)
       .subscribe((response) => {
@@ -27,7 +30,15 @@ export class EditPropertyComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
+  public onSubmit() {
+    this.editPropertyService.editProperty(this.initialProperty)
+      .subscribe((response) => {
+        if (response.status === 200) {
+          // this.getProperty.emit(this.initialProperty);
+
+          this.router.navigate(['/properties']);
+       }
+      });
   }
 
 }
