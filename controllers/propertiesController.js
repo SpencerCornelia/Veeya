@@ -86,19 +86,12 @@ router.post('/addproperty', (req, res, next) => {
 });
 
 // GET HTTP to /properties/id to see a specific property
-router.get('/edit/:id', (req, res, next) => {
-  console.log("this gets called")
+router.get('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
 
-  property.getPropertyByID(id, (err, property) => {
-    console.log("property returned to property controller =", property)
-    if (err) {
-      console.log("error getting property by id in properties controller");
-    } else {
-      res.json(property);
-    }
+  property.getPropertyByID(id, (property) => {
+    res.json(property);
   });
-  // res.send("GET specific property")
 });
 
 // GET HTTP for sold properties
@@ -106,10 +99,9 @@ router.get('/sold', (req, res, next) => {
   res.send("GET for sold properties")
 });
 
-// POST HTTP request to edit a property
-router.post('/editproperty', (req, res, next) => {
+// PUT HTTP request to edit a property and UPDATE
+router.put('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
-
   property.editProperty(id, (err, property) => {
 
   });
