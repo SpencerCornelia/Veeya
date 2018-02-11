@@ -12,17 +12,16 @@ export class EditPropertyService {
 
   private serverApi = 'http://localhost:3000/properties';
 
-  // public getPropertyByID(id):Observable<Property[]> {
-  public getPropertyByID(id) {
-    let URI = this.serverApi + '/edit/' + id;
-    let headers = new Headers;
+  public getPropertyByID(id): Observable<Property> {
+    let URI = this.serverApi + '/editproperty/' + id;
     return this.http.get(URI)
-      .map(res => res.json())
-      /* I THINK THE ISSUE IS WHAT I"M RETURNING RIGHT HERE */
+      .map((res) => {
+        return JSON.parse((<any>res)._body);
+      })
   }
 
   public editProperty(property: Property) {
-    let URI = this.serverApi + "/editproperty" /* + property id */;
+    let URI = this.serverApi + "/editproperty/" + property._id;
     let headers = new Headers;
     let body = JSON.stringify({
       _id: property._id,
@@ -45,7 +44,7 @@ export class EditPropertyService {
       comps: property.comps
     });
     headers.append('Content-Type', 'application/json');
-    return this.http.post(URI, body, {headers: headers})
+    return this.http.put(URI, body, {headers: headers})
       .map(res => res.json());
   }
 }
