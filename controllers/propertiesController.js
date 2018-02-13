@@ -37,7 +37,7 @@ router.get('/:uid', (req, res) => {
       res.json({
         success: true,
         message: "Found wholesaler by id.",
-        wholesaler: w,
+        // wholesaler: w,
         properties: w.properties
       });
     }
@@ -99,9 +99,14 @@ router.get('/sold', (req, res, next) => {
   res.send("GET for sold properties")
 });
 
-// PUT HTTP request to edit a property and UPDATE
+// PUT HTTP request to edit a property and UPDATE. ID = wholesalerID
 router.put('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
+
+  wholesaler.updatePropertyForWholesaler(req.body, (property) => {
+    console.log("updated property =", property)
+    // callback executed the update on updatePropertiesForWholesaler
+  });
 
   property.editPropertyByID(req.body, (property) => {
     res.json(property);
