@@ -21,6 +21,27 @@ export class EditPropertyComponent implements OnInit {
   }
 
   ngOnInit() {
+    // set initialProperty to beginning values to avoid field is undefined error in console
+    this.initialProperty = {
+      _id: 0,
+      wholesaler: '5a19be40ac529d148276ee90',
+      address: 'Form Address1',
+      city: 'Las Vegas',
+      state: 'NV',
+      zipCode: 89109,
+      purchasePrice: 250000,
+      bedrooms: 3,
+      bathrooms: 3,
+      rehabCostMin: 10000,
+      rehabCostMax: 20000,
+      afterRepairValue: 350000,
+      averageRent: 1200,
+      squareFootage: 1278,
+      propertyType: '4plex',
+      yearBuilt: 1987,
+      status: 'Under Contract',
+      comps: 450000
+    }
   }
 
   getProperty(id) {
