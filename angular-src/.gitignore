@@ -7,6 +7,7 @@
 
 # dependencies
 /node_modules
+../node_modules
 
 # IDEs and editors
 /.idea
@@ -55,3 +56,5 @@ tslint.json
 /src/tsconfig.app.json
 /src/tsconfig.spec.json
 /src/typings.d.ts
+/src/assets
+/src/environments
