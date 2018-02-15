@@ -8,9 +8,6 @@
 # dependencies
 /node_modules
 
-# e2e
-/e2e/
-
 # IDEs and editors
 /.idea
 .project
@@ -37,6 +34,7 @@ testem.log
 /typings
 
 # e2e
+/e2e/
 /e2e/*.js
 /e2e/*.map
 /e2e/*.ts
@@ -45,3 +43,10 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# unnecessary files created by angular
+.editorconfig
+karma.conf.js
+protractor.conf.js
+tsconfig.json
+tslint.json
