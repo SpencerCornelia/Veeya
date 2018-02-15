@@ -50,3 +50,8 @@ karma.conf.js
 protractor.conf.js
 tsconfig.json
 tslint.json
+/src/polyfills.ts
+/src/test.ts
+/src/tsconfig.app.json
+/src/tsconfig.spec.json
+/src/typings.d.ts
