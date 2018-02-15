@@ -80,41 +80,26 @@ module.exports.addInvestorToWholesaler = function(newInvestor, wholesalerID, cal
 };
 
 module.exports.updatePropertyForWholesaler = function(property, callback) {
+  let index = 0;
   Wholesaler.findOne({_id: property.wholesaler}, (err, wholesaler) => {
     if (err) {
       console.log("error finding wholesaler:", err);
     } else {
-      var prop = wholesaler.properties.filter((p) => {
-        return p._id == property._id;
+      var prop = wholesaler.properties.forEach((p, i) => {
+        if(p._id == property._id) {
+          index = i;
+        }
       });
-      prop[0] = property;
-      callback(prop[0]);
+      wholesaler.properties[index] = property;
+      wholesaler.markModified('properties');
+      wholesaler.save(function(err) {
+        if (err) {
+          console.log("error updating property for wholesaler:", err);
+          return;
+        }
+        callback(property);
+      });
     }
   });
-  // Wholesaler.findOneAndUpdate(
-  //   {_id: property._id},
-  //   {
-  //     address: property.address,
-  //     city: property.city,
-  //     state: property.state,
-  //     zipCode: property.zipCode,
-  //     purchasePrice: property.purchasePrice,
-  //     bedrooms: property.bedrooms,
-  //     bathrooms: property.bathrooms,
-  //     rehabCostMin: property.rehabCostMin,
-  //     rehabCostMax: property.rehabCostMax,
-  //     afterRepairValue: property.afterRepairValue,
-  //     averageRent: property.averageRent,
-  //     squareFootage: property.squareFootage,
-  //     propertyType: property.propertyType,
-  //     yearBuilt: property.yearBuilt,
-  //     status: property.status,
-  //     comps: property.comps
-  //   },
-  //   {
-  //     runValidators: true
-  //   },
-  //   callback()
-  // );
 };
 
