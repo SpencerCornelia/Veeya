@@ -127,9 +127,9 @@ module.exports.editPropertyByID = (updatedProperty, callback) => {
 module.exports.getPropertyByID = (id, callback) => {
   Property.findById(id, (err, property) => {
     if (err) {
-      console.log("error finding property by id in model");
+      callback(err);
     } else {
-      callback(property);
+      callback(false, property);
     }
   });
 }
