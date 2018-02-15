@@ -1,4 +1,3 @@
-/* Property.ts */
 export interface Property {
   _id?: Number,
   wholesaler: String,
