@@ -25,7 +25,24 @@ router.get('/', (req,res) => {
   });
 });
 
-// GET HTTP for /properties for a wholesaler
+router.get('/property/:uid', (req, res) => {
+  property.getPropertyByID(req.params.uid, (err, property) => {
+    if (err) {
+      res.json({
+        success: false,
+        message: "Error getting property:", err
+      });
+    } else {
+      res.json({
+        success: true,
+        message: "Get property successful.",
+        property: property
+      });
+    }
+  });
+});
+
+// GET HTTP for /properties for a wholesaler. uid = wholesalerID
 router.get('/:uid', (req, res) => {
   wholesaler.getPropertiesForWholesaler(req.params.uid, (err, w) => {
     if (err) {
@@ -89,8 +106,15 @@ router.post('/addproperty', (req, res, next) => {
 router.get('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
 
-  property.getPropertyByID(id, (property) => {
-    res.json(property);
+  property.getPropertyByID(id, (err, property) => {
+    if (err) {
+      res.json({
+        success: false,
+        message: "Error getting property by wholesalerID:", err
+      });
+    } else {
+      res.json(property);
+    }
   });
 });
 
@@ -103,9 +127,8 @@ router.get('/sold', (req, res, next) => {
 router.put('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
 
-  wholesaler.updatePropertyForWholesaler(req.body, (property) => {
-    console.log("updated property =", property)
-    // callback executed the update on updatePropertiesForWholesaler
+  wholesaler.updatePropertyForWholesaler(req.body, () => {
+    // do not receive anything from callback;
   });
 
   property.editPropertyByID(req.body, (property) => {
