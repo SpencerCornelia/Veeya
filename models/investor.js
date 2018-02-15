@@ -7,7 +7,7 @@ var db = mongoose.createConnection(config.database);
 // Require models
 const Wholesaler = require('./wholesaler');
 
-// Define Wholesaler schema with proper attributes
+// Define Investor schema with proper attributes
 const InvestorSchema = mongoose.Schema({
   userType: {
     type: String,
