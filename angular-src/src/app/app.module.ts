@@ -9,18 +9,19 @@ import { AppRoutingModule } from './app-routing.module';
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { EditPropertyComponent } from './edit-property/edit-property.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { EditPropertyService } from './services/editProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
+import { InviteInvestorService } from './services/inviteInvestor.service';
 import { LoginService } from './services/login.service';
 import { RegisterService } from './services/register.service';
 import { GetWholesalerPropertiesService } from './services/getWholesalerProperties.service';
-
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     ViewPropertiesComponent,
     LoginComponent,
     RegisterComponent,
-    SidebarComponent
+    SidebarComponent,
+    InviteInvestorComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +45,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     DeletePropertyService,
     EditPropertyService,
     GetAllPropertiesService,
+    InviteInvestorService,
     LoginService,
     RegisterService,
     GetWholesalerPropertiesService
