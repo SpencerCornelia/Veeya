@@ -6,5 +6,6 @@ export interface Investor {
   firstName: String,
   lastName: String,
   email: String,
-  phoneNumber: String
+  phoneNumber: String,
+  wholesaler: String
 }
