@@ -48,12 +48,12 @@ const InvestorSchema = mongoose.Schema({
 
 const Investor = module.exports = db.model('Investor', InvestorSchema);
 
-module.exports.addInvestor = function(newInvestor, callback) {
+module.exports.inviteInvestor = function(newInvestor, callback) {
   newInvestor.save(callback);
 };
 
-module.exports.getAllInvestors = function() {
-
+module.exports.getAllInvestors = function(callback) {
+  Investor.find().exec(callback);
 };
 
 module.exports.getInvestorById = function(id, callback) {
