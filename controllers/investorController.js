@@ -6,7 +6,7 @@ const wholesaler = require('../models/wholesaler');
 const investor = require('../models/investor');
 const property = require('../models/property');
 
-// GET HTTP to /investors
+// GET HTTP to /investor
 router.get('/', (req,res) => {
   investor.getAllInvestors((err, investor) => {
     if (err) {
@@ -42,18 +42,20 @@ router.get('/:uid', (req, res) => {
   });
 });
 
-// POST HTTP to /investor/addinvestor
-router.post('/addinvestor', (req, res, next) => {
+// POST HTTP to /investor/inviteinvestor
+router.post('/inviteinvestor', (req, res, next) => {
   var newInvestor = new investor({
     userType: req.body.userType,
-    userName: req.body.userName,
+    userName: req.body.firstName + req.body.lastName,
     password: req.body.password,
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    phoneNumber: req.body.phoneNumber
+    phoneNumber: req.body.phoneNumber,
+    wholesalers: []
   });
-  investor.addInvestor(newInvestor, (err, investor) => {
+  newInvestor.wholesalers[0] = req.body.wholesaler;
+  investor.inviteInvestor(newInvestor, (err, investor) => {
     if (err) {
       res.json({
         success: false,
