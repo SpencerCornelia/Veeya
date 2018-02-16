@@ -2,9 +2,11 @@
   padding: 0;
   list-style: none;
   position: fixed;
+  width: 250px;
 }
 
 .sidebar-nav li {
+  width: 100%;
   text-indent: 20px;
   line-height: 40px;
   margin-top: 10px;
