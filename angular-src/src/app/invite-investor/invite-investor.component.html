@@ -1,3 +1,25 @@
 <p>
   invite-investor works!
 </p>
+
+<div>
+  <form (ngSubmit)="onSubmit()">
+    <div>
+      <label for="firstName">First Name:</label>
+      <input type="text" [(ngModel)]="newInvestor.firstName" name="firstName" required>
+    </div>
+    <div>
+      <label for="lastName">Last Name:</label>
+      <input type="text" [(ngModel)]="newInvestor.lastName" name="lastName" required>
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="text" [(ngModel)]="newInvestor.email" name="email" required>
+    </div>
+    <div>
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="text" [(ngModel)]="newInvestor.phoneNumber" name="phoneNumber" required>
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+</div>
