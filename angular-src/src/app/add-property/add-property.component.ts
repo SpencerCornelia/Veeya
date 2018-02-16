@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Property } from '../models/Property';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
-// import { Routing } from '../app-routing';
 import { AddPropertyService } from '../services/addProperty.service';
 import { ModuleWithProviders } from '@angular/core';
 
