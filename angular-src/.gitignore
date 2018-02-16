@@ -44,13 +44,3 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-
-# unnecessary files created by angular
-.editorconfig
-karma.conf.js
-protractor.conf.js
-tslint.json
-/src/test.ts
-/src/typings.d.ts
-/src/assets
-/src/environments
