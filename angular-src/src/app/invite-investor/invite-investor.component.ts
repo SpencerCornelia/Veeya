@@ -10,6 +10,7 @@ export class InviteInvestorComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    // comment to add to git
   }
 
 }
