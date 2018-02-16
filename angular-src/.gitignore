@@ -49,7 +49,6 @@ Thumbs.db
 .editorconfig
 karma.conf.js
 protractor.conf.js
-tsconfig.json
 tslint.json
 /src/test.ts
 /src/tsconfig.app.json
