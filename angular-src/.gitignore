@@ -51,7 +51,6 @@ karma.conf.js
 protractor.conf.js
 tslint.json
 /src/test.ts
-/src/tsconfig.spec.json
 /src/typings.d.ts
 /src/assets
 /src/environments
