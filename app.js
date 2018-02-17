@@ -64,7 +64,7 @@ app.use('/investor', investorController);
 
 // Route for 404. Looks like app-routing.ts handles the variable ('**') route instead of this
 app.get('*', function(req, res, next) {
-  res.send("Sorry but that URL does not exist");
+  res.status(404).send("Sorry but that page does not exist");
 });
 
 //Listen to port 3000
