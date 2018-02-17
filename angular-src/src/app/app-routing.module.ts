@@ -6,6 +6,7 @@ import { ViewPropertiesComponent } from './view-properties/view-properties.compo
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { EditPropertyComponent } from './edit-property/edit-property.component'
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
+import { RegisterComponent } from './register/register.component';
 
 const APP_ROUTES: Routes = [
   { path: '', redirectTo: '/properties', pathMatch: 'full' },
@@ -13,6 +14,7 @@ const APP_ROUTES: Routes = [
   { path: 'properties/addproperty', component: AddPropertyComponent },
   { path: 'properties/editproperty/:id', component: EditPropertyComponent },
   { path: 'inviteinvestor', component: InviteInvestorComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: '/properties' }
 ];
 
