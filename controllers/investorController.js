@@ -24,6 +24,17 @@ router.get('/', (req,res) => {
   });
 });
 
+// POST HTTP to register a new investor
+router.post('/register', (req, res) => {
+  investor.registerInvestor(req.body, (error, response) => {
+    if (error) {
+      res.status(500).json(response);
+    } else {
+      res.status(201).json(response);
+    }
+  });
+});
+
 // GET HTTP for /investor for a single investor
 router.get('/:uid', (req, res) => {
   investor.getInvestorById(req.params.uid, (err, i) => {
@@ -70,11 +81,6 @@ router.post('/inviteinvestor', (req, res, next) => {
       });
     }
   });
-});
-
-// GET HTTP to /properties/id to see a specific property
-router.get('/:id', (req, res, next) => {
-  res.send("GET specific property")
 });
 
 // GET HTTP for sold properties
