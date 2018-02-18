@@ -5,17 +5,27 @@ const router = express.Router();
 const wholesaler = require('../models/wholesaler');
 const investor = require('../models/investor');
 
+router.get('/', (req, res) => {
+  wholesaler.getAllWholesalers((error, response) => {
+    if (error) {
+      res.status(500).json(response);
+    } else {
+      res.status(200).json(response);
+    }
+  });
+});
+
 // GET HTTP to /wholesaler
 router.get('/:uid', (req,res) => {
   wholesaler.getWholesalerById(req.params.uid, (err, w) => {
     if (err) {
-      res.json({
+      res.status(500).json({
         success: false,
         message: "Failed to find a wholesaler.",
         error: err
       });
     } else {
-      res.json({
+      res.status(201).json({
         success: true,
         message: "Found wholesaler by id.",
         wholesaler: w,
@@ -38,17 +48,28 @@ router.post('/:uid/addInvestor', (req, res, next) => {
   });
   wholesaler.addInvestorToWholesaler(newInvestor, req.params.uid, (err, investor) => {
     if (err) {
-      res.json({
+      res.status(500).json({
         success: false,
         message: "Failed to add a new investor to wholesaler.",
         error: err
       });
     } else {
-      res.json({
+      res.status(201).json({
         success: true,
         message: "Added investor successfully to wholesaler.",
         investor: investor
       });
+    }
+  });
+});
+
+// POST HTTP to register a new wholesaler
+router.post('/register', (req, res) => {
+  wholesaler.registerWholesaler(req.body, (error, response) => {
+    if (error) {
+      res.status(500).json(response);
+    } else {
+      res.status(201).json(response);
     }
   });
 });
