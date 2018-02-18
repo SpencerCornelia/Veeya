@@ -47,15 +47,54 @@ module.exports.getWholesalerById = function(id, callback) {
   Wholesaler.findById(id, callback);
 };
 
-module.exports.addWholesaler = function(newWholesaler, callback) {
-  bcrypt.genSalt(10, (err, salt) => {
-    bcrypt.hash(newWholesaler.password, salt, (err, hash) => {
-      if (err) {
-        throw err;
-      }
-      newWholesaler.password = hash;
-      newWholesaler.save(callback);
-    });
+module.exports.registerWholesaler = function(wholesaler, callback) {
+  Wholesaler.findOne({ 'email': wholesaler.email }, (err, user) => {
+    if (err) {
+      callback(true, {
+        success: false,
+        message: "Error registering wholesaler."
+      });
+    }
+
+    if (user) {
+      callback(true, {
+        success: false,
+        message: "Wholesaler already exists."
+      });
+    } else {
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(wholesaler.password, salt, (err, hash) => {
+          if (err) {
+            throw err;
+          }
+
+          let newWholesaler = new Wholesaler({
+            userType: "Wholesaler",
+            userName: wholesaler.userName,
+            password: hash,
+            firstName: wholesaler.firstName,
+            lastName: wholesaler.lastName,
+            email: wholesaler.email,
+            phoneNumber: wholesaler.phoneNumber
+          });
+
+          console.log("newWholesaler:", newWholesaler)
+          newWholesaler.save((err) => {
+            if (err) {
+              callback(true, {
+                success: false,
+                message: "Error registering wholesaler."
+              });
+            } else {
+              callback(false, {
+                success: true,
+                message: "Successfully registered wholesaler."
+              });
+            }
+          });
+        });
+      });
+    }
   });
 };
 
@@ -98,6 +137,23 @@ module.exports.updatePropertyForWholesaler = function(property, callback) {
           return;
         }
         callback(property);
+      });
+    }
+  });
+};
+
+module.exports.getAllWholesalers = function(callback) {
+  Wholesaler.find().exec((err, wholesalers) => {
+    if (err) {
+      callback(true, {
+        success: false,
+        message: "Error finding all wholesalers."
+      })
+    } else {
+      callback(false, {
+        success: true,
+        message: "Successfully retrieved all wholesalers.",
+        data: wholesalers
       });
     }
   });
