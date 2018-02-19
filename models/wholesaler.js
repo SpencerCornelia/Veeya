@@ -95,7 +95,6 @@ module.exports.registerWholesaler = function(wholesaler, callback) {
             phoneNumber: wholesaler.phoneNumber
           });
 
-          console.log("newWholesaler:", newWholesaler)
           newWholesaler.save((err) => {
             if (err) {
               callback(true, {
