@@ -5,6 +5,10 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { catchError } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-register',
@@ -14,6 +18,8 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
 
   private newUser: RegisterWholesaler;
+  private d: any;
+  private error: any;
 
   constructor(private validateService: ValidateService,
               private flashMessage: FlashMessagesService,
@@ -31,6 +37,13 @@ export class RegisterComponent implements OnInit {
       phoneNumber: ''
     }
   }
+
+  private handleError(error: HttpErrorResponse) {
+    // return an ErrorObservable with a user-facing error message
+    return new ErrorObservable(
+      `${error}`
+    );
+  };
 
   onRegisterSubmit() {
     // required fields
@@ -53,9 +66,17 @@ export class RegisterComponent implements OnInit {
 
     // register user
     this.authService.registerUser(this.newUser)
-      .subscribe((data) => {
-        console.log("data:", data);
-      })
+      .then(response => {
+        this.router.navigate(['/properties']);
+      },
+      error => {
+        let errorBody = JSON.parse(error._body);
+        let errorMessage = errorBody.message;
+        this.flashMessage.show(errorMessage, {
+          cssClass: '',
+          timeout: 3000
+        })
+      });
   }
 
 }
