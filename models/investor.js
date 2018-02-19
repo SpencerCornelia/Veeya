@@ -106,5 +106,55 @@ module.exports.getAllInvestors = function(callback) {
 };
 
 module.exports.getInvestorById = function(id, callback) {
-
+  Investor.findById(id, (error, investor) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: "Unable to retrieve investor by id."
+      });
+    } else if (!investor) {
+      callback(true, {
+        success: false,
+        message: "Investor not found by id."
+      });
+    } else {
+      callback(false, {
+        success: true,
+        message: "Successfully found investor by id.",
+        investor: investor
+      });
+    }
+  });
 };
+
+module.exports.getInvestorByEmail = function(email, callback) {
+  Investor.findOne({ 'email': email }, (error, user) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: "Unable to retrieve investor with email entered into application."
+      });
+    } else if (!user) {
+      callback(true, {
+        success: false,
+        message: "Investor not found with email entered into application."
+      });
+    } else {
+      callback(false, {
+        success: true,
+        message: "Successfully found investor.",
+        investor: user
+      });
+    }
+  });
+}
+
+module.exports.comparePassword = function(attemptedPassword, investorPassword, callback) {
+  bcrypt.compare(attemptedPassword, wholesalerPassword, (error, isMatch) => {
+    if (error) {
+      callback(true);
+    } else {
+      callback(false, isMatch);
+    }
+  });
+}
