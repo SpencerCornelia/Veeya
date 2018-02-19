@@ -47,6 +47,23 @@ module.exports.getWholesalerById = function(id, callback) {
   Wholesaler.findById(id, callback);
 };
 
+module.exports.getWholesalerByEmail = function(email, callback) {
+  Wholesaler.findOne({ 'email': email }, (err, user) => {
+    if (err) {
+      callback(true, {
+        success: false,
+        message: "Error finding wholesaler."
+      });
+    } else {
+      callback(false, {
+        success: true,
+        message: "Successfully found wholesaler.",
+        wholesaler: user
+      });
+    }
+  });
+};
+
 module.exports.registerWholesaler = function(wholesaler, callback) {
   Wholesaler.findOne({ 'email': wholesaler.email }, (err, user) => {
     if (err) {
@@ -155,6 +172,16 @@ module.exports.getAllWholesalers = function(callback) {
         message: "Successfully retrieved all wholesalers.",
         data: wholesalers
       });
+    }
+  });
+};
+
+module.exports.comparePassword = function(attemptedPassword, wholesalerPassword, callback) {
+  bcrypt.compare(attemptedPassword, wholesalerPassword, (error, isMatch) => {
+    if (error) {
+      callback(true);
+    } else {
+      callback(false, isMatch);
     }
   });
 };
