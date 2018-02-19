@@ -5,6 +5,7 @@ const router = express.Router();
 const wholesaler = require('../models/wholesaler');
 const investor = require('../models/investor');
 
+// GET HTTP for all wholesalers
 router.get('/', (req, res) => {
   wholesaler.getAllWholesalers((error, response) => {
     if (error) {
