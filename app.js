@@ -3,8 +3,12 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const passport = require('passport');
+const jwt = require('passport-jwt');
+
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
+
 const propertiesController = require('./controllers/propertiesController');
 const loginController = require('./controllers/loginController');
 const registerController = require('./controllers/registerController');
@@ -29,6 +33,12 @@ app.use(cors());
 //Middleware for bodyparsing using both json and urlencoding
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+require('./config/wholesalerPassport.js')(passport);
+require('./config/investorPassport.js')(passport);
 
 // express.static is a built in middleware function to serve static files.
 // We are telling express server public folder is the place to look for the static files
