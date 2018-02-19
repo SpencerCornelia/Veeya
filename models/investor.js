@@ -55,12 +55,12 @@ module.exports.registerInvestor = function(investor, callback) {
     if (err) {
       callback(true, {
         success: false,
-        message: "Error registering investor."
+        message: 'Error registering investor.'
       });
     } else if (user) {
       callback(true, {
         success: false,
-        message: "Investor already exists. Please head to Login page."
+        message: 'Investor already exists. Please head to Login page.'
       });
     } else {
       bcrypt.genSalt(10, (err, salt) => {
@@ -82,12 +82,12 @@ module.exports.registerInvestor = function(investor, callback) {
             if (err) {
               callback(true, {
                 success: false,
-                message: "Error registering investor."
+                message: 'Error registering investor.'
               });
             } else {
               callback(false, {
                 success: true,
-                message: "Successfully registered investor."
+                message: 'Successfully registered investor.'
               });
             }
           });
@@ -110,17 +110,17 @@ module.exports.getInvestorById = function(id, callback) {
     if (error) {
       callback(true, {
         success: false,
-        message: "Unable to retrieve investor by id."
+        message: 'Unable to retrieve investor by id.'
       });
     } else if (!investor) {
       callback(true, {
         success: false,
-        message: "Investor not found by id."
+        message: 'Investor not found by id.'
       });
     } else {
       callback(false, {
         success: true,
-        message: "Successfully found investor by id.",
+        message: 'Successfully found investor by id.',
         investor: investor
       });
     }
@@ -132,17 +132,17 @@ module.exports.getInvestorByEmail = function(email, callback) {
     if (error) {
       callback(true, {
         success: false,
-        message: "Unable to retrieve investor with email entered into application."
+        message: 'Unable to retrieve investor with email entered into application.'
       });
     } else if (!user) {
       callback(true, {
         success: false,
-        message: "Investor not found with email entered into application."
+        message: 'Investor not found with email entered into application.'
       });
     } else {
       callback(false, {
         success: true,
-        message: "Successfully found investor.",
+        message: 'Successfully found investor.',
         investor: user
       });
     }
