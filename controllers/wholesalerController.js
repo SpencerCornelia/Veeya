@@ -9,9 +9,16 @@ const investor = require('../models/investor');
 router.get('/', (req, res) => {
   wholesaler.getAllWholesalers((error, response) => {
     if (error) {
-      res.status(500).json(response);
+      res.status(500).json({
+        success: false,
+        message: response.message
+      });
     } else {
-      res.status(200).json(response);
+      res.status(200).json({
+        success: true,
+        message: response.message,
+        wholesalers: response.data
+      });
     }
   });
 });
@@ -22,13 +29,13 @@ router.get('/:uid', (req,res) => {
     if (err) {
       res.status(500).json({
         success: false,
-        message: "Failed to find a wholesaler.",
+        message: 'Failed to find a wholesaler.',
         error: err
       });
     } else {
       res.status(201).json({
         success: true,
-        message: "Found wholesaler by id.",
+        message: 'Found wholesaler by id.',
         wholesaler: w,
         id: wholesaler._id
       });
@@ -51,13 +58,13 @@ router.post('/:uid/addInvestor', (req, res, next) => {
     if (err) {
       res.status(500).json({
         success: false,
-        message: "Failed to add a new investor to wholesaler.",
+        message: 'Failed to add a new investor to wholesaler.',
         error: err
       });
     } else {
       res.status(201).json({
         success: true,
-        message: "Added investor successfully to wholesaler.",
+        message: 'Added investor successfully to wholesaler.',
         investor: investor
       });
     }
@@ -68,9 +75,16 @@ router.post('/:uid/addInvestor', (req, res, next) => {
 router.post('/register', (req, res) => {
   wholesaler.registerWholesaler(req.body, (error, response) => {
     if (error) {
-      res.status(500).json(response);
+      res.status(500).json({
+        success: false,
+        message: response.message
+      });
     } else {
-      res.status(201).json(response);
+      res.status(201).json({
+        success: true,
+        message: response.message,
+        wholesaler: response.data
+      });
     }
   });
 });
