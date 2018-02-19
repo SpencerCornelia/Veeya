@@ -60,7 +60,7 @@ module.exports.registerInvestor = function(investor, callback) {
     } else if (user) {
       callback(true, {
         success: false,
-        message: "Investor already exists"
+        message: "Investor already exists. Please head to Login page."
       });
     } else {
       bcrypt.genSalt(10, (err, salt) => {
@@ -150,7 +150,7 @@ module.exports.getInvestorByEmail = function(email, callback) {
 }
 
 module.exports.comparePassword = function(attemptedPassword, investorPassword, callback) {
-  bcrypt.compare(attemptedPassword, wholesalerPassword, (error, isMatch) => {
+  bcrypt.compare(attemptedPassword, investorPassword, (error, isMatch) => {
     if (error) {
       callback(true);
     } else {
