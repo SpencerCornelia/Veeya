@@ -2,17 +2,38 @@
   register works!
 </p>
 
-<form {ngSubmit}="onSubmit()">
+<form (ngSubmit)="onRegisterSubmit()">
+  <div>
+    <label for="firstName">First Name:</label>
+    <input type="text" [(ngModel)]="newUser.firstName" name="firstName" id="firstName">
+  </div>
+  <div>
+    <label for="lastName">Last Name:</label>
+    <input type="text" [(ngModel)]="newUser.lastName" name="lastName" id="lastName">
+  </div>
   <div>
     <label for="username">Username:</label>
-    <input type="text" id="username"></input>
+    <input type="text" [(ngModel)]="newUser.userName" name="userName" id="username">
   </div>
   <div>
     <label for="password">Password:</label>
-    <input type="text" id="password"></input>
+    <input type="password" [(ngModel)]="newUser.password" name="password" id="password">
   </div>
   <div>
-    <label for="Email:">Email:</label>
-    <input type="text" id="username"></input>
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" [(ngModel)]="newUser.passwordConfirmation" name="passwordConfirm" id="passwordConfirm">
   </div>
+  <div>
+    <label for="email">Email:</label>
+    <input type="text" [(ngModel)]="newUser.email" name="email" id="email">
+  </div>
+  <div>
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" [(ngModel)]="newUser.phoneNumber" name="phoneNumber" id="phoneNumber">
+  </div>
+  <div>
+    <label for="userType">Investor: </label><input type="radio" name="userType" id="investorUserType" value="Investor" [(ngModel)]="newUser.userType" name="userType" checked>
+    <label for="userType">Wholesaler: </label><input type="radio" name="userType" id="wholesalerUserType" value="Wholesaler" [(ngModel)]="newUser.userType" name="userType">
+  </div>
+  <button type="submit">SUBMIT</button>
 </form>
