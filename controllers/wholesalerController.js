@@ -24,7 +24,7 @@ router.get('/:uid', (req,res) => {
         message: "Failed to find a wholesaler.",
         error: err
       });
-    } else if (w) {
+    } else {
       res.status(201).json({
         success: true,
         message: "Found wholesaler by id.",
