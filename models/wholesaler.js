@@ -52,12 +52,12 @@ module.exports.getWholesalerByEmail = function(email, callback) {
     if (err) {
       callback(true, {
         success: false,
-        message: "Error finding wholesaler."
+        message: 'Error finding wholesaler.'
       });
     } else {
       callback(false, {
         success: true,
-        message: "Successfully found wholesaler.",
+        message: 'Successfully found wholesaler.',
         wholesaler: user
       });
     }
@@ -69,14 +69,14 @@ module.exports.registerWholesaler = function(wholesaler, callback) {
     if (err) {
       callback(true, {
         success: false,
-        message: "Error registering wholesaler."
+        message: 'Error registering wholesaler.'
       });
     }
 
     if (user) {
       callback(true, {
         success: false,
-        message: "Wholesaler already exists."
+        message: 'Wholesaler already exists.'
       });
     } else {
       bcrypt.genSalt(10, (err, salt) => {
@@ -99,12 +99,13 @@ module.exports.registerWholesaler = function(wholesaler, callback) {
             if (err) {
               callback(true, {
                 success: false,
-                message: "Error registering wholesaler."
+                message: 'Error registering wholesaler.'
               });
             } else {
               callback(false, {
                 success: true,
-                message: "Successfully registered wholesaler."
+                message: 'Successfully registered wholesaler.',
+                data: newWholesaler
               });
             }
           });
@@ -163,12 +164,12 @@ module.exports.getAllWholesalers = function(callback) {
     if (err) {
       callback(true, {
         success: false,
-        message: "Error finding all wholesalers."
+        message: 'Error finding all wholesalers.'
       })
     } else {
       callback(false, {
         success: true,
-        message: "Successfully retrieved all wholesalers.",
+        message: 'Successfully retrieved all wholesalers.',
         data: wholesalers
       });
     }
