@@ -21,17 +21,17 @@ router.post('/wholesaler', (req, res, next) => {
     phoneNumber: req.body.phoneNumber
   });
 
-  Wholesaler.addWholesaler(newWholesaler, (err, w) => {
-    if (err) {
+  Wholesaler.registerWholesaler(newWholesaler, (error, response) => {
+    if (error) {
       res.status(500).json({
         success: false,
-        message: "Failed to register a new wholesaler"
-      })
+        message: response.message
+      });
     } else {
       res.status(201).json({
         success: true,
         message: "Wholesaler registered.",
-        wholesaler: w
+        wholesaler: response.wholesaler
       });
     }
   });
@@ -49,16 +49,16 @@ router.post('/investor', (req, res, next) => {
     phoneNumber: req.body.phoneNumber
   });
 
-  Investor.addInvestor(newInvestor, (err, i) => {
-    if (err) {
+  Investor.registerInvestor(newInvestor, (error, response) => {
+    if (error) {
       res.status(500).json({
         success: false,
-        message: "Failed to register a new investor."
+        message: response.message
       });
     } else {
       res.status(201).json({
         success: true,
-        message: "Successfully registed investor."
+        message: "Successfully registered investor."
       });
     }
   });
