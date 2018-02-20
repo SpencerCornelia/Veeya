@@ -30,4 +30,12 @@ export class ValidateService {
     return regex.test(email);
   }
 
+  validateLogin(user) {
+    if (!user.email || !user.password || !user.userType) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }
