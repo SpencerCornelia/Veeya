@@ -26,15 +26,37 @@ export class AuthService {
     let route = serverApi + 'register/' + userType;
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    // return this.http.post(route, user, { headers: headers })
-    //   .map((res) => {
-    //     return res.json();
-    //   });
+
+    // database does not account for a second password field
+    // delete before http request
+    delete user.passwordConfirm;
+
     return this.http.post(route, user, { headers: headers })
       .toPromise()
       .then((response) => {
         response.json();
       })
       .catch(this.handleError)
+  }
+
+  authenticateUser(user) {
+    let serverApi = "http://localhost:3000/login/";
+
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    if (user.userType === 'Investor') {
+      let route = serverApi + 'investor';
+      return this.http.post(route, user, { headers: headers })
+        .map((response) => {
+          return response.json();
+        });
+    } else {
+      let route = serverApi + 'wholesaler';
+      return this.http.post(route, user, { headers: headers })
+        .map((response) => {
+          return response.json();
+        });
+    }
   }
 }
