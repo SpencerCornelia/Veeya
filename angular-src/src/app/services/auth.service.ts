@@ -12,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Injectable()
 export class AuthService {
   authToken: any;
-  user: any;
+  user_id: any;
 
   constructor(private http: Http) { }
 
@@ -30,11 +30,12 @@ export class AuthService {
     // database does not account for a second password field
     // delete before http request
     delete user.passwordConfirm;
+    let userName = user.userName || (user.firstName + user.lastName);
 
     return this.http.post(route, user, { headers: headers })
       .toPromise()
       .then((response) => {
-        response.json();
+        return response.json();
       })
       .catch(this.handleError)
   }
@@ -48,15 +49,32 @@ export class AuthService {
     if (user.userType === 'Investor') {
       let route = serverApi + 'investor';
       return this.http.post(route, user, { headers: headers })
-        .map((response) => {
+        .toPromise()
+        .then((response) => {
           return response.json();
-        });
+        })
+        .catch(this.handleError);
     } else {
       let route = serverApi + 'wholesaler';
       return this.http.post(route, user, { headers: headers })
-        .map((response) => {
+        .toPromise()
+        .then((response) => {
           return response.json();
-        });
+        })
+        .catch(this.handleError)
     }
+  }
+
+  storeUserData(token, user_id) {
+    localStorage.setItem('token_id', token);
+    localStorage.setItem('user_id', user_id);
+    this.authToken = token;
+    this.user_id = user_id;
+  }
+
+  logout() {
+    this.authToken = null;
+    this.user_id = null;
+    localStorage.clear();
   }
 }
