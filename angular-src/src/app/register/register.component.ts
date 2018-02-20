@@ -38,13 +38,6 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  private handleError(error: HttpErrorResponse) {
-    // return an ErrorObservable with a user-facing error message
-    return new ErrorObservable(
-      `${error}`
-    );
-  };
-
   onRegisterSubmit() {
     // required fields
     if(!this.validateService.validateRegister(this.newUser)) {
