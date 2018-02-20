@@ -2,5 +2,5 @@
   <li><a [routerLink]="['/properties/addproperty']">Add Property</a></li>
   <li><a [routerLink]="['/inviteinvestor']">Invite Investor</a></li>
   <li><a href="#">My Profile</a></li>
-  <li><a href="#">Sign Out</a></li>
+  <li><a (click)="onLogoutClick()" href="#">Logout</a></li>
 </ul>
