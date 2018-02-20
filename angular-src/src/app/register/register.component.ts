@@ -18,7 +18,6 @@ import { catchError } from 'rxjs/operators';
 export class RegisterComponent implements OnInit {
 
   private newUser: RegisterWholesaler;
-  private d: any;
   private error: any;
 
   constructor(private validateService: ValidateService,
@@ -33,6 +32,7 @@ export class RegisterComponent implements OnInit {
       firstName: '',
       lastName: '',
       password: '',
+      passwordConfirm: '',
       email: '',
       phoneNumber: ''
     }
@@ -49,6 +49,15 @@ export class RegisterComponent implements OnInit {
     // required fields
     if(!this.validateService.validateRegister(this.newUser)) {
       this.flashMessage.show('Please fill in all fields.', {
+        cssClass: 'alert-danger',
+        timeout: 2000
+      });
+      return false;
+    }
+
+    // validate password confirmation
+    if (!this.validateService.validatePassword(this.newUser.password, this.newUser.passwordConfirm)) {
+      this.flashMessage.show('Passwords do not match.', {
         cssClass: 'alert-danger',
         timeout: 2000
       });
