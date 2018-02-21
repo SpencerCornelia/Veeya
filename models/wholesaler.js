@@ -44,7 +44,26 @@ const WholesalerSchema = mongoose.Schema({
 const Wholesaler = module.exports = db.model('Wholesaler', WholesalerSchema);
 
 module.exports.getWholesalerById = function(id, callback) {
-  Wholesaler.findById(id, callback);
+  Wholesaler.findById(id, (error, wholesaler) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: 'Error retrieving wholesaler.',
+        error: error
+      });
+    } else if (wholesaler) {
+      callback(false, {
+        success: true,
+        message: 'Successfully retrieved wholesaler.',
+        data: wholesaler
+      });
+    } else {
+      callback(true, {
+        success: false,
+        message: 'Unable to find wholesaler.'
+      });
+    }
+  });
 };
 
 module.exports.getWholesalerByEmail = function(email, callback) {
@@ -58,18 +77,19 @@ module.exports.getWholesalerByEmail = function(email, callback) {
       callback(false, {
         success: true,
         message: 'Successfully found wholesaler.',
-        wholesaler: user
+        data: user
       });
     }
   });
 };
 
 module.exports.registerWholesaler = function(wholesaler, callback) {
-  Wholesaler.findOne({ 'email': wholesaler.email }, (err, user) => {
-    if (err) {
+  Wholesaler.findOne({ 'email': wholesaler.email }, (error, user) => {
+    if (error) {
       callback(true, {
         success: false,
-        message: 'Error registering wholesaler.'
+        message: 'Error registering wholesaler.',
+        error: error
       });
     }
 
@@ -80,9 +100,13 @@ module.exports.registerWholesaler = function(wholesaler, callback) {
       });
     } else {
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(wholesaler.password, salt, (err, hash) => {
-          if (err) {
-            throw err;
+        bcrypt.hash(wholesaler.password, salt, (error, hash) => {
+          if (error) {
+            callback(true, {
+              success: false,
+              message: 'Error registering wholesaler.',
+              error: error
+            });
           }
 
           let newWholesaler = new Wholesaler({
@@ -95,17 +119,24 @@ module.exports.registerWholesaler = function(wholesaler, callback) {
             phoneNumber: wholesaler.phoneNumber
           });
 
-          newWholesaler.save((err) => {
-            if (err) {
+          newWholesaler.save((error, wholesaler) => {
+            if (error) {
               callback(true, {
                 success: false,
-                message: 'Error registering wholesaler.'
+                message: 'Error registering wholesaler.',
+                error: error
               });
-            } else {
+            } else if (wholesaler) {
               callback(false, {
                 success: true,
                 message: 'Successfully registered wholesaler.',
                 data: newWholesaler
+              });
+            } else {
+              callback(true, {
+                success: false,
+                message: 'Unable to save wholesaler.',
+                error: ''
               });
             }
           });
@@ -116,7 +147,27 @@ module.exports.registerWholesaler = function(wholesaler, callback) {
 };
 
 module.exports.getPropertiesForWholesaler = function(id, callback) {
-  Wholesaler.findOne({_id: id}, callback);
+  Wholesaler.findOne({_id: id}, (error, wholesalerData) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: 'Error retrieving wholesaler.',
+        error: error
+      });
+    } else if (wholesalerData) {
+      callback(false, {
+        success: true,
+        message: 'Successfully retrieving wholesaler.',
+        data: wholesalerData
+      });
+    } else {
+      callback(true, {
+        success: false,
+        message: 'Unable to find wholesaler.',
+        error: ''
+      })
+    }
+  });
 };
 
 module.exports.addInvestorToWholesaler = function(newInvestor, wholesalerID, callback) {
@@ -125,21 +176,49 @@ module.exports.addInvestorToWholesaler = function(newInvestor, wholesalerID, cal
       {_id: wholesalerID},
       {$push: {investors: newInvestor}},
       {safe: true, upsert: true},
-      function(err, s) {
-        if (err) {
-          console.log("error adding investor to wholesaler:", err);
+      function(error, s) {
+        if (error) {
+          callback(true, {
+            success: false,
+            message: 'Unable to update wholesaler.',
+            error: error
+          });
         }
       }
     );
   }
-  newInvestor.save(callback);
+  newInvestor.save((error, investor) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: 'Error saving investor to wholesaler user.',
+        error: error
+      });
+    } else if (investor) {
+      callback(false, {
+        success: true,
+        message: 'Successfully updated wholesaler with new investor.',
+        data: investor
+      });
+    } else {
+      callback(true, {
+        success: false,
+        message: 'Unable to save new investor to wholesaler.',
+        error: ''
+      });
+    }
+  });
 };
 
 module.exports.updatePropertyForWholesaler = function(property, callback) {
   let index = 0;
-  Wholesaler.findOne({_id: property.wholesaler}, (err, wholesaler) => {
-    if (err) {
-      console.log("error finding wholesaler:", err);
+  Wholesaler.findOne({_id: property.wholesaler}, (error, wholesaler) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: 'Error finding wholesaler.',
+        error: error
+      });
     } else {
       var prop = wholesaler.properties.forEach((p, i) => {
         if(p._id == property._id) {
@@ -148,29 +227,50 @@ module.exports.updatePropertyForWholesaler = function(property, callback) {
       });
       wholesaler.properties[index] = property;
       wholesaler.markModified('properties');
-      wholesaler.save(function(err) {
-        if (err) {
-          console.log("error updating property for wholesaler:", err);
+      wholesaler.save(function(error, wholesaler) {
+        if (error) {
+          callback(true, {
+            success: false,
+            message: 'Error saving wholesaler.',
+            error: error
+          });
           return;
+        } else if (wholesaler) {
+          callback(false, {
+            success: true,
+            message: 'Successfully updated wholesaler.',
+            data: property
+          });
+        } else {
+          callback(true, {
+            success: false,
+            message: 'Unable to save wholesaler.',
+            error: ''
+          });
         }
-        callback(property);
       });
     }
   });
 };
 
 module.exports.getAllWholesalers = function(callback) {
-  Wholesaler.find().exec((err, wholesalers) => {
-    if (err) {
+  Wholesaler.find().exec((error, wholesalers) => {
+    if (error) {
       callback(true, {
         success: false,
         message: 'Error finding all wholesalers.'
       })
-    } else {
+    } else if (wholesalers) {
       callback(false, {
         success: true,
         message: 'Successfully retrieved all wholesalers.',
         data: wholesalers
+      });
+    } else {
+      callback(true, {
+        success: false,
+        message: 'Unable to find wholesaler',
+        error: ''
       });
     }
   });
@@ -179,9 +279,22 @@ module.exports.getAllWholesalers = function(callback) {
 module.exports.comparePassword = function(attemptedPassword, wholesalerPassword, callback) {
   bcrypt.compare(attemptedPassword, wholesalerPassword, (error, isMatch) => {
     if (error) {
-      callback(true);
+      callback(true, {
+        success: false,
+        message: 'Invalid login credentials. Please try again.',
+        error: error
+      });
+    } else if (isMatch) {
+      callback(false, {
+        success: true,
+        message: 'Success.'
+      });
     } else {
-      callback(false, isMatch);
+      callback(true, {
+        success: false,
+        message: 'Invalid login credentials. Please try again.',
+        error: ''
+      });
     }
   });
 };

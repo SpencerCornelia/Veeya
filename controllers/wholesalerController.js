@@ -10,12 +10,13 @@ router.get('/', (req, res) => {
   wholesaler.getAllWholesalers((error, response) => {
     if (error) {
       res.status(500).json({
-        success: false,
-        message: response.message
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
     } else {
       res.status(200).json({
-        success: true,
+        success: response.success,
         message: response.message,
         wholesalers: response.data
       });
@@ -25,19 +26,19 @@ router.get('/', (req, res) => {
 
 // GET HTTP to /wholesaler
 router.get('/:uid', (req,res) => {
-  wholesaler.getWholesalerById(req.params.uid, (err, w) => {
-    if (err) {
+  wholesaler.getWholesalerById(req.params.uid, (error, response) => {
+    if (error) {
       res.status(500).json({
-        success: false,
-        message: 'Failed to find a wholesaler.',
-        error: err
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
     } else {
       res.status(201).json({
-        success: true,
-        message: 'Found wholesaler by id.',
-        wholesaler: w,
-        id: wholesaler._id
+        success: response.success,
+        message: response.message,
+        wholesaler: response.data,
+        id: req.params.uid
       });
     }
   });
@@ -54,18 +55,18 @@ router.post('/:uid/addInvestor', (req, res, next) => {
     email: req.body.email,
     phoneNumber: req.body.phoneNumber
   });
-  wholesaler.addInvestorToWholesaler(newInvestor, req.params.uid, (err, investor) => {
-    if (err) {
+  wholesaler.addInvestorToWholesaler(newInvestor, req.params.uid, (error, response) => {
+    if (error) {
       res.status(500).json({
-        success: false,
-        message: 'Failed to add a new investor to wholesaler.',
-        error: err
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
     } else {
       res.status(201).json({
-        success: true,
-        message: 'Added investor successfully to wholesaler.',
-        investor: investor
+        success: response.success,
+        message: response.message,
+        investor: response.data
       });
     }
   });
@@ -76,12 +77,13 @@ router.post('/register', (req, res) => {
   wholesaler.registerWholesaler(req.body, (error, response) => {
     if (error) {
       res.status(500).json({
-        success: false,
-        message: response.message
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
     } else {
       res.status(201).json({
-        success: true,
+        success: response.success,
         message: response.message,
         wholesaler: response.data
       });

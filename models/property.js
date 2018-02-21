@@ -79,7 +79,27 @@ const Property = module.exports = db.model('Property', PropertySchema);
 
 // Property.find() returns all of the properties
 module.exports.getAllProperties = (callback) => {
-  Property.find(callback);
+  Property.find((error, properties) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: 'Error retrieving properties.',
+        error: error
+      });
+    } else if (properties) {
+      callback(false, {
+        success: true,
+        message: 'Successfully retrieved all properties.',
+        data: properties
+      });
+    } else {
+      callback(true, {
+        success: false,
+        message: 'Unable to find properties.',
+        error: ''
+      });
+    }
+  });
 }
 
 // newProperty.save() is used to insert the document into MongoDB
@@ -88,11 +108,37 @@ module.exports.addProperty = (newProperty, wholesalerID, callback) => {
     {_id: wholesalerID},
     {$push: {properties: newProperty}},
     {safe: true, upsert: true},
-    function(err, success) {
-      if (err) { console.log("error on updating wholesaler in addProperty"); }
+    function(error, success) {
+      if (error) {
+        callback(true, {
+          success: false,
+          message: 'Error adding property.',
+          error: error
+        });
+      }
     }
   );
-  newProperty.save(callback);
+  newProperty.save((error, property) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: 'Error saving property to wholesaler.',
+        error: error
+      });
+    } else if (property) {
+      callback(false, {
+        success: true,
+        message: 'Successfully saved new property.',
+        data: property
+      });
+    } else {
+      callback(true, {
+        success: false,
+        message: 'Unable to save new property.',
+        error: ''
+      });
+    }
+  });
 }
 
 module.exports.editPropertyByID = (updatedProperty, callback) => {
@@ -114,27 +160,74 @@ module.exports.editPropertyByID = (updatedProperty, callback) => {
     property.status = updatedProperty.status;
     property.comps = updatedProperty.comps;
 
-    property.save((err, property) => {
-      if (err) {
-        console.log("error with saving updated property");
+    property.save((error, property) => {
+      if (error) {
+        callback(true, {
+          success: false,
+          message: 'Error updating property.',
+          error: error
+        });
+      } else if (property) {
+        callback(false, {
+          success: true,
+          message: 'Successfully edited property.',
+          data: property
+        });
       } else {
-        callback(property);
+        callback(true, {
+          success: false,
+          message: 'Unable to save property.',
+          error: ''
+        });
       }
     });
   });
 }
 
 module.exports.getPropertyByID = (id, callback) => {
-  Property.findById(id, (err, property) => {
-    if (err) {
-      callback(err);
+  Property.findById(id, (error, property) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: 'Error retrieving property.',
+        error: error
+      });
+    } else if (property) {
+      callback(false, {
+        success: true,
+        message: 'Successfully retrieved property.',
+        data: property
+      });
     } else {
-      callback(false, property);
+      callback(true, {
+        success: false,
+        message: 'Unable to retrieve property.',
+        error: ''
+      });
     }
   });
 }
 
 module.exports.deletePropertyById = (id, callback) => {
   let query = {_id: id};
-  Property.remove(query, callback);
+  Property.remove(query, (error, success) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: 'Error deleting property.',
+        error: error
+      });
+    } else if (success) {
+      callback(false, {
+        success: true,
+        message: 'Successfully deleted property.'
+      });
+    } else {
+      callback(true, {
+        success: false,
+        message: 'Unable to delete property',
+        error: ''
+      });
+    }
+  });
 }

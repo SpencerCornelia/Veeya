@@ -24,14 +24,14 @@ router.post('/wholesaler', (req, res, next) => {
   Wholesaler.registerWholesaler(newWholesaler, (error, response) => {
     if (error) {
       res.status(500).json({
-        success: false,
+        success: response.success,
         message: response.message
       });
     } else {
       res.status(201).json({
-        success: true,
-        message: "Wholesaler registered.",
-        wholesaler: response.wholesaler
+        success: response.success,
+        message: response.message,
+        wholesaler: response.data
       });
     }
   });
@@ -52,13 +52,14 @@ router.post('/investor', (req, res, next) => {
   Investor.registerInvestor(newInvestor, (error, response) => {
     if (error) {
       res.status(500).json({
-        success: false,
-        message: response.message
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
     } else {
       res.status(201).json({
-        success: true,
-        message: "Successfully registered investor."
+        success: response.success,
+        message: response.message
       });
     }
   });

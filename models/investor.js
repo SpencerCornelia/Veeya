@@ -51,11 +51,12 @@ const InvestorSchema = mongoose.Schema({
 const Investor = module.exports = db.model('Investor', InvestorSchema);
 
 module.exports.registerInvestor = function(investor, callback) {
-  Investor.findOne({ 'email': investor.email }, (err, user) => {
-    if (err) {
+  Investor.findOne({ 'email': investor.email }, (error, user) => {
+    if (error) {
       callback(true, {
         success: false,
-        message: 'Error registering investor.'
+        message: 'Error registering investor.',
+        error: error
       });
     } else if (user) {
       callback(true, {
@@ -64,9 +65,13 @@ module.exports.registerInvestor = function(investor, callback) {
       });
     } else {
       bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(investor.password, salt, (err, hash) => {
-          if (err) {
-            throw err;
+        bcrypt.hash(investor.password, salt, (error, hash) => {
+          if (error) {
+            callback(true, {
+              success: false,
+              message: 'Error registering investor.',
+              error: error
+            });
           }
           let newInvestor = new Investor({
             userType: "Investor",
@@ -78,16 +83,23 @@ module.exports.registerInvestor = function(investor, callback) {
             phoneNumber: investor.phoneNumber
           });
 
-          newInvestor.save((err) => {
-            if (err) {
+          newInvestor.save((error, i) => {
+            if (error) {
               callback(true, {
                 success: false,
                 message: 'Error registering investor.'
               });
-            } else {
+            } else if (i) {
               callback(false, {
                 success: true,
-                message: 'Successfully registered investor.'
+                message: 'Successfully registered investor.',
+                data: i
+              });
+            } else {
+              callback(true, {
+                success: false,
+                message: 'Unable to save investor.',
+                error: ''
               });
             }
           });
@@ -98,11 +110,51 @@ module.exports.registerInvestor = function(investor, callback) {
 };
 
 module.exports.inviteInvestor = function(newInvestor, callback) {
-  newInvestor.save(callback);
+  newInvestor.save((error, investor) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: 'Error saving investor.',
+        error: error
+      });
+    } else if (investor) {
+      callback(false, {
+        success: true,
+        message: 'Successfully invited investor.',
+        data: investor
+      });
+    } else {
+      callback(true, {
+        success: false,
+        message: 'Unable to save investor.',
+        error: ''
+      });
+    }
+  });
 };
 
 module.exports.getAllInvestors = function(callback) {
-  Investor.find().exec(callback);
+  Investor.find().exec((error, investors) => {
+    if (error) {
+      callback(true, {
+        success: false,
+        message: 'Error retrieving investor.',
+        error: error
+      });
+    } else if (investors) {
+      callback(false, {
+        success: true,
+        message: 'Successfully retrieved investors.',
+        data: investors
+      });
+    } else {
+      callback(true, {
+        success: false,
+        message: 'Unable to find investors.',
+        error: ''
+      });
+    }
+  });
 };
 
 module.exports.getInvestorById = function(id, callback) {
@@ -112,16 +164,17 @@ module.exports.getInvestorById = function(id, callback) {
         success: false,
         message: 'Unable to retrieve investor by id.'
       });
-    } else if (!investor) {
-      callback(true, {
-        success: false,
-        message: 'Investor not found by id.'
-      });
-    } else {
+    } else if (investor) {
       callback(false, {
         success: true,
         message: 'Successfully found investor by id.',
-        investor: investor
+        data: investor
+      });
+    } else {
+      callback(true, {
+        success: false,
+        message: 'Investor not found by id.',
+        error: ''
       });
     }
   });
@@ -132,18 +185,20 @@ module.exports.getInvestorByEmail = function(email, callback) {
     if (error) {
       callback(true, {
         success: false,
-        message: 'Unable to retrieve investor with email entered into application.'
+        message: 'Unable to retrieve investor with email entered into application.',
+        error: error
       });
-    } else if (!user) {
-      callback(true, {
-        success: false,
-        message: 'Investor not found with email entered into application.'
-      });
-    } else {
+    } else if (user) {
       callback(false, {
         success: true,
         message: 'Successfully found investor.',
-        investor: user
+        data: user
+      });
+    } else {
+      callback(true, {
+        success: false,
+        message: 'Investor not found with email entered into application.',
+        error: ''
       });
     }
   });
@@ -152,9 +207,22 @@ module.exports.getInvestorByEmail = function(email, callback) {
 module.exports.comparePassword = function(attemptedPassword, investorPassword, callback) {
   bcrypt.compare(attemptedPassword, investorPassword, (error, isMatch) => {
     if (error) {
-      callback(true);
+      callback(true, {
+        success: false,
+        message: 'Invalid login credentials. Please try again.',
+        error: error
+      });
+    } else if (isMatch) {
+      callback(false, {
+        success: true,
+        message: 'Success.'
+      });
     } else {
-      callback(false, isMatch);
+      callback(true, {
+        success: false,
+        message: 'Invalid login credentials. Please try again.',
+        error: ''
+      });
     }
   });
 }

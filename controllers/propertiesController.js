@@ -9,34 +9,36 @@ const property = require('../models/property');
 // GET HTTP to /properties
 // use this for testing to see all properties
 router.get('/', (req,res) => {
-  property.getAllProperties((err, properties) => {
-    if (err) {
-      res.json({
-        success: false,
-        message: "Failed to load all lists. Error: " + err
+  property.getAllProperties((error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
     } else {
-      res.write(JSON.stringify({
-        success: true,
-        properties: properties
-      }, null, 2));
-      res.end();
+      res.status(200).json({
+        success: response.success,
+        message: response.message,
+        properties: response.data
+      });
     }
   });
 });
 
 router.get('/property/:uid', (req, res) => {
-  property.getPropertyByID(req.params.uid, (err, property) => {
-    if (err) {
-      res.json({
-        success: false,
-        message: "Error getting property:", err
+  property.getPropertyByID(req.params.uid, (error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
-    } else {
-      res.json({
-        success: true,
-        message: "Get property successful.",
-        property: property
+    } else if (property) {
+      res.status(200).json({
+        success: response.success,
+        message: response.message,
+        property: response.data
       });
     }
   });
@@ -44,18 +46,24 @@ router.get('/property/:uid', (req, res) => {
 
 // GET HTTP for /properties for a wholesaler. uid = wholesalerID
 router.get('/:uid', (req, res) => {
-  wholesaler.getPropertiesForWholesaler(req.params.uid, (err, w) => {
-    if (err) {
-      res.json({
-        success: false,
-        message: "Failed to find a wholesaler. Error: " + err
+  wholesaler.getPropertiesForWholesaler(req.params.uid, (error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
+      });
+    } else if (response) {
+      res.status(200).json({
+        success: response.success,
+        message: response.message,
+        // wholesaler: response.data,
+        properties: response.data.properties
       });
     } else {
-      res.json({
-        success: true,
-        message: "Found wholesaler by id.",
-        // wholesaler: w,
-        properties: w.properties
+      res.status(500).json({
+        success: response.success,
+        message: response.message
       });
     }
   });
@@ -85,18 +93,23 @@ router.post('/addproperty', (req, res, next) => {
     // need to figure out how to store photos in a CDN and then link that URL to photos array
     //photos: req.body.photos
   });
-  property.addProperty(newProperty, req.body.wholesaler, (err, prop) => {
-    if (err) {
-      res.json({
-        success: false,
-        message: "Failed to create a new property.",
-        error: err
+  property.addProperty(newProperty, req.body.wholesaler, (error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
+      });
+    } else if (property) {
+      res.status(201).json({
+        success: response.success,
+        message: response.message,
+        property: response.data
       });
     } else {
-      res.json({
-        success: true,
-        message: "Added property successfully.",
-        property: prop
+      res.status(500).json({
+        success: response.success,
+        message: response.message
       });
     }
   });
@@ -106,14 +119,24 @@ router.post('/addproperty', (req, res, next) => {
 router.get('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
 
-  property.getPropertyByID(id, (err, property) => {
-    if (err) {
-      res.json({
-        success: false,
-        message: "Error getting property by wholesalerID:", err
+  property.getPropertyByID(id, (error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
+      });
+    } else if (property) {
+      res.status(200).json({
+        success: response.success,
+        messsage: response.messsage,
+        property: response.data
       });
     } else {
-      res.json(property);
+      res.status(500).json({
+        success: response.success,
+        message: response.message
+      });
     }
   });
 });
@@ -127,12 +150,35 @@ router.get('/sold', (req, res, next) => {
 router.put('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
 
-  wholesaler.updatePropertyForWholesaler(req.body, () => {
-    // do not receive anything from callback;
+  wholesaler.updatePropertyForWholesaler(req.body, (error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
+      });
+    }
   });
 
-  property.editPropertyByID(req.body, (property) => {
-    res.json(property);
+  property.editPropertyByID(req.body, (error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
+      });
+    } else if (response) {
+      res.status(201).json({
+        success: response.success,
+        message: response.message,
+        property: response.data
+      });
+    } else {
+      res.status(500).json({
+        success: response.success,
+        message: response.message
+      });
+    }
   });
 });
 
@@ -141,20 +187,22 @@ router.delete('/:id', (req, res, next) => {
   // access the parameter which is the id of the item to be deleted
   let id = req.params.id;
   // call the model method deletePropertyById
-  property.deletePropertyById(id, (err, property) => {
-    if (err) {
-      res.json({
-        success: false,
-        message: "Failed to delete property. Error: " + err
+  property.deletePropertyById(id, (error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
-    } else if (property) {
-      res.json({
-        success: true,
-        message: "Property deleted successfully."
+    } else if (response) {
+      res.status(201).json({
+        success: response.success,
+        message: response.message
       });
     } else {
-      res.json({
-        success: false
+      res.status(500).json({
+        success: response.success,
+        message: response.message
       });
     }
   });

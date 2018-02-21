@@ -15,36 +15,37 @@ router.post('/wholesaler', (req, res, next) => {
   Wholesaler.getWholesalerByEmail(email, (error, response) => {
     if (error) {
       return res.status(500).json({
-        success: false,
-        message: "Wholesaler with those credentials not found."
+        success: response.success,
+        message: response.message
       });
     }
 
-    Wholesaler.comparePassword(password, response.wholesaler.password, (error, isMatch) => {
+    Wholesaler.comparePassword(password, response.data.password, (error, isMatchResponse) => {
       if (error) {
         return res.status(500).json({
-          success: false,
-          message: "Error logging wholesaler into application."
+          success: isMatchResponse.success,
+          message: isMatchResponse.message,
+          error: isMatchResponse.error
         });
       }
 
-      if (isMatch) {
-        const token = jwt.sign(response.wholesaler.toJSON(), keys.secret, {
+      if (isMatchResponse) {
+        const token = jwt.sign(response.data.toJSON(), keys.secret, {
           expiresIn: 604800
         });
 
         res.status(201).json({
-          success: true,
+          success: isMatchResponse.success,
           token: 'JWT ' + token,
           user: {
-            id: response.wholesaler._id,
-            firstName: response.wholesaler.firstName
+            id: response.data._id,
+            firstName: response.data.firstName
           }
         });
       } else {
         return res.status(500).json({
-          success: false,
-          message: "Combination of email and password incorrect for wholesaler user type."
+          success: isMatchResponse.success,
+          message: isMatchResponse.message
         });
       }
     });
@@ -59,36 +60,39 @@ router.post('/investor', (req, res, next) => {
   Investor.getInvestorByEmail(email, (error, response) => {
     if (error) {
       return res.status(500).json({
-        success: false,
-        message: "Investor with those credentials not found."
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
     }
 
-    Investor.comparePassword(password, response.investor.password, (error, isMatch) => {
+    Investor.comparePassword(password, response.data.password, (error, isMatchResponse) => {
       if (error) {
         return res.status(500).json({
-          success: false,
-          message: "Error logging investor into application."
+          success: isMatchResponse.success,
+          message: isMatchResponse.message,
+          error: isMatchResponse.error
         });
       }
 
-      if (isMatch) {
-        const token = jwt.sign(response.investor.toJSON(), keys.secret, {
+      if (isMatchResponse) {
+        const token = jwt.sign(response.data.toJSON(), keys.secret, {
           expiresIn: 604800
         });
 
         res.status(201).json({
-          success: true,
+          success: isMatch.success,
           token: 'JWT ' + token,
           user: {
-            id: response.investor._id,
-            firstName: response.investor.firstName
+            id: response.data._id,
+            firstName: response.data.firstName
           }
         });
       } else {
         return res.status(500).json({
-          success: false,
-          message: "Combination of email and password incorrect for investor user type."
+          success: isMatchResponse.success,
+          message: isMatchResponse.message,
+          error: isMatchResponse.error
         });
       }
     });

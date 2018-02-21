@@ -8,17 +8,18 @@ const property = require('../models/property');
 
 // GET HTTP to /investor
 router.get('/', (req,res) => {
-  investor.getAllInvestors((err, investor) => {
-    if (err) {
-      res.json({
-        success: false,
-        message: "Failed to load all lists. Error: " + err
+  investor.getAllInvestors((error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
     } else {
-      res.json({
-        success: true,
-        message: "Successfully grabbed all investors",
-        investors: investor
+      res.status(200).json({
+        success: response.success,
+        message: response.message,
+        investors: response.data
       });
     }
   });
@@ -28,26 +29,35 @@ router.get('/', (req,res) => {
 router.post('/register', (req, res) => {
   investor.registerInvestor(req.body, (error, response) => {
     if (error) {
-      res.status(500).json(response);
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
+      });
     } else {
-      res.status(201).json(response);
+      res.status(201).json({
+        success: response.success,
+        message: response.message,
+        investor: response.data
+      });
     }
   });
 });
 
 // GET HTTP for /investor for a single investor
 router.get('/:uid', (req, res) => {
-  investor.getInvestorById(req.params.uid, (err, i) => {
-    if (err) {
-      res.json({
-        success: false,
-        message: "Failed to find a investor. Error: " + err
+  investor.getInvestorById(req.params.uid, (error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
     } else {
-      res.json({
-        success: true,
-        message: "Found investor by id.",
-        investor: i
+      res.status(201).json({
+        success: response.success,
+        message: response.message,
+        investor: response.data
       });
     }
   });
@@ -66,18 +76,18 @@ router.post('/inviteinvestor', (req, res, next) => {
     wholesalers: []
   });
   newInvestor.wholesalers[0] = req.body.wholesaler;
-  investor.inviteInvestor(newInvestor, (err, investor) => {
-    if (err) {
-      res.json({
-        success: false,
-        message: "Failed to add a new investor.",
-        error: err
+  investor.inviteInvestor(newInvestor, (error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
     } else {
-      res.json({
-        success: true,
-        message: "Added new investor successfully.",
-        investor: investor
+      res.status(201).json({
+        success: response.success,
+        message: response.message,
+        investor: response.data
       });
     }
   });
@@ -90,23 +100,19 @@ router.get('/sold', (req, res, next) => {
 
 // DELETE HTTP request for deleting a property
 router.delete('/:id', (req, res, next) => {
-  // access the parameter which is the id of the item to be deleted
   let id = req.params.id;
-  // call the model method deletePropertyById
-  property.deletePropertyById(id, (err, property) => {
-    if (err) {
-      res.json({
-        success: false,
-        message: "Failed to delete property. Error: " + err
-      });
-    } else if (property) {
-      res.json({
-        success: true,
-        message: "Property deleted successfully."
+
+  property.deletePropertyById(id, (error, response) => {
+    if (error) {
+      res.status(500).json({
+        success: response.success,
+        message: response.message,
+        error: response.error
       });
     } else {
-      res.json({
-        success: false
+      res.status(201).json({
+        success: response.success,
+        message: response.message
       });
     }
   });
