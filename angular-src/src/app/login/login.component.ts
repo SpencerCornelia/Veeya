@@ -43,28 +43,15 @@ export class LoginComponent implements OnInit {
       return false;
     }
 
-
     this.authService.authenticateUser(this.loginUser)
-      .then(response => {
-        let successMessage = 'Welcome back ' + response.user.firstName;
-        this.authService.storeUserData(response.token, response.user.id);
-        this.flashMessage.show(successMessage, {
-          cssClass: 'alert-success',
-          timeout: 3000
-        });
-        this.router.navigate(['/properties']);
-      },
-      error => {
-        let errorBody = JSON.parse(error._body);
-        let errorMessage = errorBody.message;
-        this.loginUser = {
-          email: '',
-          password: ''
-        }
-        this.flashMessage.show(errorMessage, {
+      .subscribe((response) => {
+        // need to navigate to home page
+        // and display success message
+      }, (error) => {
+        this.flashMessage.show(error.message, {
           cssClass: 'alert-danger',
-          timeout: 3000
-        })
+          timeout: 4000
+        });
       });
   }
 
