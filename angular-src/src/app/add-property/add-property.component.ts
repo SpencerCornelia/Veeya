@@ -4,6 +4,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 import { AddPropertyService } from '../services/addProperty.service';
 import { ModuleWithProviders } from '@angular/core';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-add-property',
@@ -14,10 +15,13 @@ export class AddPropertyComponent implements OnInit {
 
   private newProperty: Property;
 
-  constructor(private addPropertyService: AddPropertyService, private router: Router) { }
+  constructor(private addPropertyService: AddPropertyService,
+              private router: Router,
+              private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
-    let wholesalerID = localStorage.getItem('user_id');
+    let wholesalerID = !localStorage.getItem('user_id') ? '5a19be40ac529d148276ee90' : localStorage.getItem('user_id');
+    console.log(wholesalerID)
     this.newProperty = {
       _id: 0,
       wholesaler: wholesalerID,
@@ -42,13 +46,20 @@ export class AddPropertyComponent implements OnInit {
 
   public onSubmit() {
     this.addPropertyService.addProperty(this.newProperty)
-    // need to change this to be like login and register
-    // follow what I did there
-      .subscribe(response => {
+      .subscribe((response) => {
         if (response.success === true) {
           this.router.navigate(['/properties']);
+          this.flashMessage.show(response.message, {
+            cssClass: 'alert-success',
+            timeout: 3000
+          });
         }
-      })
+      }, (error) => {
+        this.flashMessage.show(error.message, {
+          cssClass: 'alert-danger',
+          timeout: 3000
+        });
+      });
   }
 
 }
