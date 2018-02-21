@@ -13,14 +13,14 @@ import { ModuleWithProviders } from '@angular/core';
 export class AddPropertyComponent implements OnInit {
 
   private newProperty: Property;
-  @Output() addProperty: EventEmitter<Property> = new EventEmitter<Property>();
 
   constructor(private addPropertyService: AddPropertyService, private router: Router) { }
 
   ngOnInit() {
+    let wholesalerID = localStorage.getItem('user_id');
     this.newProperty = {
       _id: 0,
-      wholesaler: '5a19be40ac529d148276ee90',
+      wholesaler: wholesalerID,
       address: 'Form Address1',
       city: 'Las Vegas',
       state: 'NV',
@@ -41,14 +41,14 @@ export class AddPropertyComponent implements OnInit {
   }
 
   public onSubmit() {
-    this.addPropertyService.addProperty(this.newProperty).subscribe(
-      response => {
+    this.addPropertyService.addProperty(this.newProperty)
+    // need to change this to be like login and register
+    // follow what I did there
+      .subscribe(response => {
         if (response.success === true) {
-          this.addProperty.emit(this.newProperty);
           this.router.navigate(['/properties']);
         }
-      }
-    )
+      })
   }
 
 }
