@@ -13,9 +13,12 @@ import { EditPropertyService } from '../services/editProperty.service';
 export class EditPropertyComponent implements OnInit {
 
   private propertyID: string;
-  private initialProperty;
+  private initialProperty: any;
 
-  constructor(private route: ActivatedRoute, private editPropertyService: EditPropertyService, private router: Router) {
+  constructor(private route: ActivatedRoute,
+              private editPropertyService: EditPropertyService,
+              private router: Router
+              ) {
     this.propertyID = route.snapshot.params['id'];
     this.getProperty(this.propertyID);
   }
@@ -46,17 +49,19 @@ export class EditPropertyComponent implements OnInit {
 
   getProperty(id) {
     this.editPropertyService.getPropertyByID(id)
-      .subscribe((response) => {
-        this.initialProperty = response;
-    });
+    // edit this to be like login and register
+    // for handling 500 errors
+      .subscribe((data) => {
+        this.initialProperty = data.property;
+      });
   }
 
   public onSubmit() {
+    // edit this to be like login and register
+    // for handling 500 errors
     this.editPropertyService.editProperty(this.initialProperty)
       .subscribe((response) => {
-        if (response.status === 200) {
-          // this.getProperty.emit(this.initialProperty);
-
+        if (response.success) {
           this.router.navigate(['/properties']);
        }
       });
