@@ -44,8 +44,8 @@ export class AuthService {
     if (user.userType === 'Investor') {
       let route = serverApi + 'investor';
       return this.http.post(route, user, { headers: headers })
-        .map((success) => {
-          return success.json();
+        .map((response) => {
+          return response.json();
         })
         .catch((error)  => {
           return Observable.throw(error.json());
@@ -53,8 +53,8 @@ export class AuthService {
     } else {
       let route = serverApi + 'wholesaler';
       return this.http.post(route, user, { headers: headers })
-        .map((success) => {
-          return success.json();
+        .map((response) => {
+          return response.json();
         })
         .catch((error) => {
           return Observable.throw(error.json());

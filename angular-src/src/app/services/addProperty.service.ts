@@ -37,6 +37,11 @@ export class AddPropertyService {
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, {headers: headers})
-      .map(res => res.json());
+      .map((response) => {
+        return response.json();
+      })
+      .catch((error) => {
+        return Observable.throw(error.json());
+      });
   }
 }

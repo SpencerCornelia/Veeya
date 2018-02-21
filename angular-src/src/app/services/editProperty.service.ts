@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { Property } from '../models/Property';
 
 import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/throw';
+
 
 @Injectable()
 export class EditPropertyService {
@@ -45,8 +47,11 @@ export class EditPropertyService {
     });
     headers.append('Content-Type', 'application/json');
     return this.http.put(URI, body, {headers: headers})
-      .map((res) => {
-        return res.json();
+      .map((response) => {
+        return response.json();
+      })
+      .catch((error) => {
+        return Observable.throw(error.json());
       })
   }
 }

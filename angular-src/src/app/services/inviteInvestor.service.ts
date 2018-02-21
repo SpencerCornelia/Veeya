@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Investor } from '../models/Investor';
 
 import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class InviteInvestorService {
@@ -28,6 +29,11 @@ export class InviteInvestorService {
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, {headers: headers})
-      .map(res => res.json());
+      .map((response) => {
+        return response.json()
+      })
+      .catch((error) => {
+        return Observable.throw(error.json());
+      })
   }
 }
