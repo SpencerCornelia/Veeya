@@ -4,6 +4,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 import { InviteInvestorService } from '../services/inviteInvestor.service';
 import { ModuleWithProviders } from '@angular/core';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-invite-investor',
@@ -13,9 +14,10 @@ import { ModuleWithProviders } from '@angular/core';
 export class InviteInvestorComponent implements OnInit {
 
   private newInvestor: Investor;
-  @Output() addInvitedInvestor: EventEmitter<Investor> = new EventEmitter<Investor>();
 
-  constructor(private inviteInvestorService: InviteInvestorService, private router: Router) { }
+  constructor(private inviteInvestorService: InviteInvestorService,
+              private router: Router,
+              private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
     this.newInvestor = {
@@ -34,9 +36,17 @@ export class InviteInvestorComponent implements OnInit {
     this.inviteInvestorService.inviteInvestor(this.newInvestor)
       .subscribe((response) => {
         if (response.success === true) {
-          this.addInvitedInvestor.emit(this.newInvestor);
           this.router.navigate(['/properties']);
+          this.flashMessage.show(response.message, {
+            cssClass: 'alert-success',
+            timeout: 3000
+          });
         }
+      }, (error) => {
+        this.flashMessage.show(error.message, {
+          cssClass: 'alert-danger',
+          timeout: 3000
+        });
       });
   }
 
