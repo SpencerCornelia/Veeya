@@ -3,11 +3,8 @@ import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/map';
-
-
-import { HttpErrorResponse } from '@angular/common/http';
-
-
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class AuthService {
@@ -15,10 +12,6 @@ export class AuthService {
   user_id: any;
 
   constructor(private http: Http) { }
-
-  handleError(error: any): Promise<any> {
-    return Promise.reject(error);
-  }
 
   registerUser(user) {
     let serverApi = "http://localhost:3000/";
@@ -33,13 +26,15 @@ export class AuthService {
     let userName = user.userName || (user.firstName + user.lastName);
 
     return this.http.post(route, user, { headers: headers })
-      .toPromise()
-      .then((response) => {
-        return response.json();
+      .map((success) => {
+        return success.json();
       })
-      .catch(this.handleError)
+      .catch((error) => {
+        return Observable.throw(error.json());
+      });
   }
 
+  // authenticateUser(user): Observable<any> {
   authenticateUser(user) {
     let serverApi = "http://localhost:3000/login/";
 
@@ -49,19 +44,21 @@ export class AuthService {
     if (user.userType === 'Investor') {
       let route = serverApi + 'investor';
       return this.http.post(route, user, { headers: headers })
-        .toPromise()
-        .then((response) => {
-          return response.json();
+        .map((success) => {
+          return success.json();
         })
-        .catch(this.handleError);
+        .catch((error)  => {
+          return Observable.throw(error.json());
+        });
     } else {
       let route = serverApi + 'wholesaler';
       return this.http.post(route, user, { headers: headers })
-        .toPromise()
-        .then((response) => {
-          return response.json();
+        .map((success) => {
+          return success.json();
         })
-        .catch(this.handleError)
+        .catch((error) => {
+          return Observable.throw(error.json());
+        });
     }
   }
 
