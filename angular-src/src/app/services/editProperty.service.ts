@@ -46,7 +46,7 @@ export class EditPropertyService {
     headers.append('Content-Type', 'application/json');
     return this.http.put(URI, body, {headers: headers})
       .map((res) => {
-        return res;
+        return res.json();
       })
   }
 }
