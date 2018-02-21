@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Property } from '../models/Property';
 import { AppRoutingModule } from '../app-routing.module';
 import { ActivatedRoute, Router } from '@angular/router';
+import { FlashMessagesService } from 'angular2-flash-messages';
 
 import { EditPropertyService } from '../services/editProperty.service';
 
@@ -17,7 +18,8 @@ export class EditPropertyComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private editPropertyService: EditPropertyService,
-              private router: Router
+              private router: Router,
+              private flashMessage: FlashMessagesService
               ) {
     this.propertyID = route.snapshot.params['id'];
     this.getProperty(this.propertyID);
@@ -63,7 +65,16 @@ export class EditPropertyComponent implements OnInit {
       .subscribe((response) => {
         if (response.success) {
           this.router.navigate(['/properties']);
+          this.flashMessage.show(response.message, {
+            cssClass: 'alert-success',
+            timeout: 3000
+          });
        }
+      }, (error) => {
+        this.flashMessage.show(error.message, {
+          cssClass: 'alert-danger',
+          timeout: 3000
+        });
       });
   }
 
