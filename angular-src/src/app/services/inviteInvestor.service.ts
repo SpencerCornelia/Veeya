@@ -25,7 +25,7 @@ export class InviteInvestorService {
       lastName: investor.lastName,
       email: investor.email,
       phoneNumber: investor.phoneNumber,
-      wholesaler: investor.wholesaler
+      wholesaler_id: investor.wholesaler_id
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, {headers: headers})
