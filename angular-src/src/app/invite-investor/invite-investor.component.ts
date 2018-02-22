@@ -20,15 +20,18 @@ export class InviteInvestorComponent implements OnInit {
               private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
+    // use this variable for testing purposes
+    let wholesalerID = localStorage.getItem('user_id') ? localStorage.getItem('user_id') : '5a19be40ac529d148276ee90';
+    let userName = this.newInvestor.firstName.toString() + this.newInvestor.lastName.toString();
     this.newInvestor = {
       userType: 'Investor',
-      userName: '',
+      userName: userName,
       password: 'initialPassword',
       firstName: '',
       lastName: '',
       email: '',
       phoneNumber: '',
-      wholesaler: '5a19be40ac529d148276ee90'
+      wholesaler_id: wholesalerID
     }
   }
 
