@@ -23,6 +23,7 @@ import { GetAllPropertiesService } from './services/getAllProperties.service';
 import { InviteInvestorService } from './services/inviteInvestor.service';
 import { ValidateService } from './services/validate.service';
 import { GetWholesalerPropertiesService } from './services/getWholesalerProperties.service';
+import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { GetWholesalerPropertiesService } from './services/getWholesalerProperti
     LoginComponent,
     RegisterComponent,
     SidebarComponent,
-    InviteInvestorComponent
+    InviteInvestorComponent,
+    InviteWholesalerComponent
   ],
   imports: [
     BrowserModule,
