@@ -21,7 +21,6 @@ export class AddPropertyComponent implements OnInit {
 
   ngOnInit() {
     let wholesalerID = !localStorage.getItem('user_id') ? '5a19be40ac529d148276ee90' : localStorage.getItem('user_id');
-    console.log(wholesalerID)
     this.newProperty = {
       _id: 0,
       wholesaler: wholesalerID,
