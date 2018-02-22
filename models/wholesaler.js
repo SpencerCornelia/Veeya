@@ -130,7 +130,7 @@ module.exports.registerWholesaler = function(wholesaler, callback) {
               callback(false, {
                 success: true,
                 message: 'Successfully registered wholesaler.',
-                data: newWholesaler
+                data: wholesaler
               });
             } else {
               callback(true, {
