@@ -170,44 +170,35 @@ module.exports.getPropertiesForWholesaler = function(id, callback) {
   });
 };
 
-module.exports.addInvestorToWholesaler = function(newInvestor, wholesalerID, callback) {
+module.exports.addInvestorConnection = function(investor, wholesalerID, callback) {
   if (wholesalerID) {
     Wholesaler.findOneAndUpdate(
       {_id: wholesalerID},
-      {$push: {investors: newInvestor}},
+      {$push: {investors: investor}},
       {safe: true, upsert: true},
-      function(error, s) {
+      function(error, w) {
         if (error) {
           callback(true, {
             success: false,
             message: 'Unable to update wholesaler.',
             error: error
           });
+        } else if (w) {
+          callback(false, {
+            success: true,
+            message: 'Successfully added investor as a connection.',
+            data: w
+          });
+        } else {
+          callback(true, {
+            success: false,
+            message: 'Unable to add investor as a connection.',
+            error: ''
+          });
         }
       }
     );
   }
-  newInvestor.save((error, investor) => {
-    if (error) {
-      callback(true, {
-        success: false,
-        message: 'Error saving investor to wholesaler user.',
-        error: error
-      });
-    } else if (investor) {
-      callback(false, {
-        success: true,
-        message: 'Successfully updated wholesaler with new investor.',
-        data: investor
-      });
-    } else {
-      callback(true, {
-        success: false,
-        message: 'Unable to save new investor to wholesaler.',
-        error: ''
-      });
-    }
-  });
 };
 
 module.exports.updatePropertyForWholesaler = function(property, callback) {
