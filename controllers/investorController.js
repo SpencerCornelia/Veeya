@@ -98,9 +98,9 @@ router.post('/inviteinvestor', (req, res, next) => {
       wholesaler.updateInvestorsList(wholesaler_id, registerResponse.data, (error, updateWholesalerResponse) => {
         if (error) {
           res.status(500).json({
-            success: response.success,
-            message: response.message,
-            error: response.error
+            success: updateWholesalerResponse.success,
+            message: updateWholesalerResponse.message,
+            error: updateWholesalerResponse.error
           });
         }
       });
@@ -112,15 +112,14 @@ router.post('/inviteinvestor', (req, res, next) => {
             message: updateInvestorResponse.message,
             error: updateInvestorResponse.error
           });
+        } else {
+          res.status(201).json({
+            success: true,
+            message: 'Successfully invited investor.'
+          });
         }
       });
     });
-
-  });
-
-  res.status(201).json({
-    success: true,
-    message: 'Successfully invited investor.'
   });
 });
 
