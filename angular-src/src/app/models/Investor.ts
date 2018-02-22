@@ -7,5 +7,5 @@ export interface Investor {
   lastName: String,
   email: String,
   phoneNumber: String,
-  wholesaler: String
+  wholesaler_id?: String
 }
