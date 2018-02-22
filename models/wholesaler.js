@@ -299,3 +299,32 @@ module.exports.comparePassword = function(attemptedPassword, wholesalerPassword,
   });
 };
 
+module.exports.updateInvestorsList = function(wholesalerID, newInvestor, callback) {
+  Wholesaler.findOneAndUpdate(
+    { '_id': wholesalerID },
+    { $push: { investors: newInvestor } },
+    { safe: true, upsert: true, new: true },
+    function(error, w) {
+      if (error) {
+        callback(true, {
+          success: false,
+          message: 'Error updating wholesaler.',
+          error: error
+        });
+      } else if (w) {
+        callback(false, {
+          success: true,
+          message: 'Successfully updated wholesaler.',
+          data: w
+        })
+      } else {
+        callback(true, {
+          success: false,
+          message: 'Unable to update wholesaler.',
+          error: ''
+        });
+      }
+    }
+  );
+}
+
