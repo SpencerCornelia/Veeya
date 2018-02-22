@@ -201,10 +201,10 @@ module.exports.comparePassword = function(attemptedPassword, investorPassword, c
   });
 }
 
-module.exports.updateWholesalersList = function(investorID, newWholesaler, callback) {
+module.exports.addWholesalerConnection = function(wholesaler, investorID, callback) {
   Investor.findOneAndUpdate(
     { '_id': investorID },
-    { $push: { wholesalers: newWholesaler } },
+    { $push: { wholesalers: wholesaler } },
     { safe: true, upsert: true, new: true },
     function(error, i) {
       if (error) {
