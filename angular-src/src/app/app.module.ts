@@ -14,6 +14,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
+import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
@@ -23,7 +24,6 @@ import { GetAllPropertiesService } from './services/getAllProperties.service';
 import { InviteInvestorService } from './services/inviteInvestor.service';
 import { ValidateService } from './services/validate.service';
 import { GetWholesalerPropertiesService } from './services/getWholesalerProperties.service';
-import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
 
 @NgModule({
   declarations: [
