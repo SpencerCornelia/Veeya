@@ -65,31 +65,61 @@ router.get('/:uid', (req, res) => {
 
 // POST HTTP to /investor/inviteinvestor
 router.post('/inviteinvestor', (req, res, next) => {
-  var newInvestor = new investor({
-    userType: req.body.userType,
-    userName: req.body.firstName + req.body.lastName,
-    password: req.body.password,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    phoneNumber: req.body.phoneNumber,
-    wholesalers: []
-  });
-  newInvestor.wholesalers[0] = req.body.wholesaler;
-  investor.inviteInvestor(newInvestor, (error, response) => {
+  let wholesaler_id = req.body.wholesaler_id;
+  wholesaler.getWholesalerById(req.body.wholesaler_id, (error, response) => {
     if (error) {
       res.status(500).json({
         success: response.success,
         message: response.message,
         error: response.error
       });
-    } else {
-      res.status(201).json({
-        success: response.success,
-        message: response.message,
-        investor: response.data
-      });
     }
+
+    let newInvestor = {
+      userType: req.body.userType,
+      userName: req.body.userName,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password
+    }
+    investor.registerInvestor(newInvestor, (error, registerResponse) => {
+      if (error) {
+        res.status(500).json({
+          success: registerResponse.success,
+          message: registerResponse.message,
+          error: registerResponse.error
+        });
+      }
+
+      delete registerResponse.data.password;
+
+      wholesaler.updateInvestorsList(wholesaler_id, registerResponse.data, (error, updateWholesalerResponse) => {
+        if (error) {
+          res.status(500).json({
+            success: response.success,
+            message: response.message,
+            error: response.error
+          });
+        }
+      });
+
+      investor.updateWholesalersList(registerResponse._id, response.data, (error, updateInvestorResponse) => {
+        if (error) {
+          res.status(500).json({
+            success: updateInvestorResponse.success,
+            message: updateInvestorResponse.message,
+            error: updateInvestorResponse.error
+          });
+        }
+      });
+    });
+
+  });
+
+  res.status(201).json({
+    success: true,
+    message: 'Successfully invited investor.'
   });
 });
 
