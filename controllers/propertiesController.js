@@ -184,9 +184,7 @@ router.put('/editproperty/:id', (req, res, next) => {
 
 // DELETE HTTP request for deleting a property
 router.delete('/:id', (req, res, next) => {
-  // access the parameter which is the id of the item to be deleted
   let id = req.params.id;
-  // call the model method deletePropertyById
   property.deletePropertyById(id, (error, response) => {
     if (error) {
       res.status(500).json({
@@ -194,13 +192,8 @@ router.delete('/:id', (req, res, next) => {
         message: response.message,
         error: response.error
       });
-    } else if (response) {
-      res.status(201).json({
-        success: response.success,
-        message: response.message
-      });
     } else {
-      res.status(500).json({
+      res.status(201).json({
         success: response.success,
         message: response.message
       });
