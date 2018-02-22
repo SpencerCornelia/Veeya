@@ -6,9 +6,6 @@ const db = mongoose.createConnection(config.database);
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-// Require models
-const Wholesaler = require('./wholesaler');
-
 // Define Investor schema with proper attributes
 const InvestorSchema = mongoose.Schema({
   userType: {
@@ -61,7 +58,8 @@ module.exports.registerInvestor = function(investor, callback) {
     } else if (user) {
       callback(true, {
         success: false,
-        message: 'Investor already exists. Please head to Login page.'
+        message: 'Investor already exists. If you are attempting to register a new investor, please head to login page. '
+         + 'If you are attempting to invite an investor, please connect with the investor using our connection process.'
       });
     } else {
       bcrypt.genSalt(10, (err, salt) => {
@@ -104,30 +102,6 @@ module.exports.registerInvestor = function(investor, callback) {
             }
           });
         })
-      });
-    }
-  });
-};
-
-module.exports.inviteInvestor = function(newInvestor, callback) {
-  newInvestor.save((error, investor) => {
-    if (error) {
-      callback(true, {
-        success: false,
-        message: 'Error saving investor.',
-        error: error
-      });
-    } else if (investor) {
-      callback(false, {
-        success: true,
-        message: 'Successfully invited investor.',
-        data: investor
-      });
-    } else {
-      callback(true, {
-        success: false,
-        message: 'Unable to save investor.',
-        error: ''
       });
     }
   });
@@ -225,4 +199,33 @@ module.exports.comparePassword = function(attemptedPassword, investorPassword, c
       });
     }
   });
+}
+
+module.exports.updateWholesalersList = function(investorID, newWholesaler, callback) {
+  Investor.findOneAndUpdate(
+    { '_id': investorID },
+    { $push: { wholesalers: newWholesaler } },
+    { safe: true, upsert: true, new: true },
+    function(error, i) {
+      if (error) {
+        callback(true, {
+          success: false,
+          message: 'Error updating investor.',
+          error: error
+        });
+      } else if (i) {
+        callback(false, {
+          success: true,
+          message: 'Successfully updated investor.',
+          data: i
+        })
+      } else {
+        callback(true, {
+          success: false,
+          message: 'Unable to update investor.',
+          error: ''
+        });
+      }
+    }
+  );
 }
