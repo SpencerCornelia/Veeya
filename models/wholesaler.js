@@ -63,7 +63,8 @@ module.exports.getWholesalerById = function(id) {
       } else {
         let errorObj = {
           success: false,
-          message: 'Unable to find wholesaler.'
+          message: 'Unable to find wholesaler.',
+          error: ''
         }
         reject(errorObj);
       }
