@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { FlashMessagesModule } from 'angular2-flash-messages';
 import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { EditPropertyComponent } from './edit-property/edit-property.component';
@@ -16,6 +17,8 @@ import { RegisterComponent } from './register/register.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
@@ -37,7 +40,9 @@ import { GetWholesalerPropertiesService } from './services/getWholesalerProperti
     RegisterComponent,
     SidebarComponent,
     InviteInvestorComponent,
-    InviteWholesalerComponent
+    InviteWholesalerComponent,
+    DashboardComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +61,8 @@ import { GetWholesalerPropertiesService } from './services/getWholesalerProperti
     InviteWholesalerService,
     ValidateService,
     GetWholesalerPropertiesService,
-    AuthGuard
+    AuthGuard,
+    RoleGuard
   ],
   bootstrap: [AppComponent]
 })
