@@ -11,10 +11,10 @@ export class InviteWholesalerService {
 
   constructor(private http: Http) { }
 
-  private serverApi = 'http://localhost:3000/wholesaler';
+  private serverApi = 'http://localhost:3000/';
 
   public inviteWholesaler(wholesaler: Wholesaler) {
-    let URI = this.serverApi + "/invitewholesaler";
+    let URI = this.serverApi + "wholesaler/invitewholesaler";
     let headers = new Headers;
     let body = JSON.stringify({
       _id: 0,
