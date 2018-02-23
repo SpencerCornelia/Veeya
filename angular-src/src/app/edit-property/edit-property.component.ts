@@ -51,16 +51,17 @@ export class EditPropertyComponent implements OnInit {
 
   getProperty(id) {
     this.editPropertyService.getPropertyByID(id)
-    // edit this to be like login and register
-    // for handling 500 errors
       .subscribe((data) => {
         this.initialProperty = data.property;
+      }, (error) => {
+        this.flashMessage.show(error.message, {
+          cssClass: 'alert-danger',
+          timeout: 3000
+        });
       });
   }
 
   public onSubmit() {
-    // edit this to be like login and register
-    // for handling 500 errors
     this.editPropertyService.editProperty(this.initialProperty)
       .subscribe((response) => {
         if (response.success) {
