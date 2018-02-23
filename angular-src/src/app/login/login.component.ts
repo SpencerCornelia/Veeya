@@ -45,8 +45,12 @@ export class LoginComponent implements OnInit {
 
     this.authService.authenticateUser(this.loginUser)
       .subscribe((response) => {
-        // need to navigate to home page
-        // and display success message
+        this.authService.storeUserData(response.token, response.user.id);
+        this.router.navigate(['/properties']);
+        this.flashMessage.show(response.message, {
+          cssClass: 'alert-success',
+          timeout: 3000
+        });
       }, (error) => {
         this.flashMessage.show(error.message, {
           cssClass: 'alert-danger',
