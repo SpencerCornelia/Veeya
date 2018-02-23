@@ -35,16 +35,16 @@ export class InviteWholesalerComponent implements OnInit {
   }
 
   public onSubmit() {
+    this.newWholesaler.userName = this.newWholesaler.firstName.toString() + this.newWholesaler.lastName.toString();
     this.inviteWholesalerService.inviteWholesaler(this.newWholesaler)
       .subscribe((response) => {
-        if (response.success === true) {
-          this.router.navigate(['/properties']);
-          this.flashMessage.show(response.message, {
-            cssClass: 'alert-success',
-            timeout: 3000
-          });
-        }
-      }, (error) => {
+        this.router.navigate(['/properties']);
+        this.flashMessage.show(response.message, {
+          cssClass: 'alert-success',
+          timeout: 3000
+        });
+      },
+      (error) => {
         this.flashMessage.show(error.message, {
           cssClass: 'alert-danger',
           timeout: 3000
