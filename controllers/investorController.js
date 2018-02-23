@@ -71,14 +71,14 @@ router.post('/inviteinvestor', (req, res, next) => {
     .then((investor) => {
       return investor;
     })
-    .then((response) => {
-      investorEmail = response.data.email
-      delete response.data.password;
-      return wholesaler.addInvestorConnection(response.data, wholesalerID);
+    .then((investor) => {
+      investorEmail = investor.data.email
+      delete investor.data.password;
+      return wholesaler.addInvestorConnection(investor.data, wholesalerID);
     })
-    .then((response) => {
-      delete response.data.password;
-      return investor.addWholesalerConnection(response.data, investorEmail);
+    .then((wholesaler) => {
+      delete wholesaler.data.password;
+      return investor.addWholesalerConnection(wholesaler.data, investorEmail);
     })
     .then((response) => {
       if (response.success) {
