@@ -83,66 +83,75 @@ module.exports.getWholesalerByEmail = function(email, callback) {
   });
 };
 
-module.exports.registerWholesaler = function(wholesaler, callback) {
-  Wholesaler.findOne({ 'email': wholesaler.email }, (error, user) => {
-    if (error) {
-      callback(true, {
-        success: false,
-        message: 'Error registering wholesaler.',
-        error: error
-      });
-    }
+module.exports.registerWholesaler = function(wholesaler) {
+  return new Promise((resolve, reject) => {
+    Wholesaler.findOne({ 'email': wholesaler.email }, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error registering wholesaler.',
+          error: error
+        }
+        reject(errorObj);
+      }
 
-    if (user) {
-      callback(true, {
-        success: false,
-        message: 'Wholesaler already exists.'
-      });
-    } else {
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(wholesaler.password, salt, (error, hash) => {
-          if (error) {
-            callback(true, {
-              success: false,
-              message: 'Error registering wholesaler.',
-              error: error
-            });
-          }
-
-          let newWholesaler = new Wholesaler({
-            userType: "Wholesaler",
-            userName: wholesaler.userName,
-            password: hash,
-            firstName: wholesaler.firstName,
-            lastName: wholesaler.lastName,
-            email: wholesaler.email,
-            phoneNumber: wholesaler.phoneNumber
-          });
-
-          newWholesaler.save((error, wholesaler) => {
+      if (user) {
+        let userObj = {
+          success: false,
+          message: 'Wholesaler already exists.',
+          error: ''
+        }
+        reject(userObj);
+      } else {
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(wholesaler.password, salt, (error, hash) => {
             if (error) {
-              callback(true, {
+              let errorObj = {
                 success: false,
-                message: 'Error registering wholesaler.',
+                message: 'Error registering wholesaler',
                 error: error
-              });
-            } else if (wholesaler) {
-              callback(false, {
-                success: true,
-                message: 'Successfully registered wholesaler.',
-                data: wholesaler
-              });
-            } else {
-              callback(true, {
-                success: false,
-                message: 'Unable to save wholesaler.',
-                error: ''
-              });
+              }
+              reject(errorObj);
             }
+
+            let newWholesaler = new Wholesaler({
+              userType: "Wholesaler",
+              userName: wholesaler.userName,
+              password: hash,
+              firstName: wholesaler.firstName,
+              lastName: wholesaler.lastName,
+              email: wholesaler.email,
+              phoneNumber: wholesaler.phoneNumber
+            });
+
+            newWholesaler.save((error, wholesaler) => {
+              if (error) {
+                let errorObj = {
+                  success: false,
+                  message: 'Error registering wholesaler.',
+                  error: error
+                }
+                reject(errorObj);
+              } else if (wholesaler) {
+                let wholesalerObj = {
+                  success: true,
+                  message: 'Successfully registered wholesaler.',
+                  data: wholesaler
+                }
+                resolve(wholesalerObj);
+              } else {
+                let errorObj = {
+                  success: false,
+                  message: 'Unable to register wholesaler.',
+                  error: ''
+                }
+                reject(errorObj);
+              }
+            });
           });
         });
-      });
-    }
+      }
+    });
   });
 };
 
@@ -173,8 +182,8 @@ module.exports.getPropertiesForWholesaler = function(id, callback) {
 module.exports.addInvestorConnection = function(investor, wholesalerID) {
   return new Promise((resolve, reject) => {
     Wholesaler.findOneAndUpdate(
-      {_id: wholesalerID},
-      {$push: {investors: investor}},
+      { _id: wholesalerID },
+      { $push: { investors: investor }},
       {safe: true, upsert: true, new: true},
       function(error, w) {
         if (error) {
