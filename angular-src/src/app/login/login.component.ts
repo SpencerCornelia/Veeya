@@ -45,8 +45,8 @@ export class LoginComponent implements OnInit {
 
     this.authService.authenticateUser(this.loginUser)
       .subscribe((response) => {
-        this.authService.storeUserData(response.token, response.user.id);
-        this.router.navigate(['/properties']);
+        this.authService.storeUserData(response.token, response.user.id, response.user.user_type);
+        this.router.navigate(['/dashboard']);
         this.flashMessage.show(response.message, {
           cssClass: 'alert-success',
           timeout: 3000

@@ -69,7 +69,7 @@ export class RegisterComponent implements OnInit {
     // register user
     this.authService.registerUser(this.newUser)
       .subscribe((response) => {
-        this.router.navigate(['/properties'])
+        this.router.navigate(['/dashboard'])
         this.flashMessage.show(response.message, {
           cssClass: 'alert-success',
           timeout: 3000
