@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { tokenNotExpired } from 'angular2-jwt';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -19,22 +20,19 @@ export class AuthService {
     let route = serverApi + 'register/' + userType;
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-
-    // database does not account for a second password field
-    // delete before http request
     delete user.passwordConfirm;
     let userName = user.userName || (user.firstName + user.lastName);
 
     return this.http.post(route, user, { headers: headers })
-      .map((success) => {
-        return success.json();
+      .map((response) => {
+        console.log("response:", response)
+        return response.json();
       })
       .catch((error) => {
         return Observable.throw(error.json());
       });
   }
 
-  // authenticateUser(user): Observable<any> {
   authenticateUser(user) {
     let serverApi = "http://localhost:3000/login/";
 
@@ -60,6 +58,15 @@ export class AuthService {
           return Observable.throw(error.json());
         });
     }
+  }
+
+  loadToken() {
+    const token = localStorage.getItem('token_id');
+    this.authToken = token;
+  }
+
+  loggedIn() {
+    return tokenNotExpired();
   }
 
   storeUserData(token, user_id) {
