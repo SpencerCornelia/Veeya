@@ -22,10 +22,9 @@ export class InviteInvestorComponent implements OnInit {
   ngOnInit() {
     // use this variable for testing purposes
     let wholesalerID = localStorage.getItem('user_id') ? localStorage.getItem('user_id') : '5a19be40ac529d148276ee90';
-    let userName = this.newInvestor.firstName.toString() + this.newInvestor.lastName.toString();
     this.newInvestor = {
       userType: 'Investor',
-      userName: userName,
+      userName: '',
       password: 'initialPassword',
       firstName: '',
       lastName: '',
@@ -36,20 +35,13 @@ export class InviteInvestorComponent implements OnInit {
   }
 
   public onSubmit() {
+    this.newInvestor.userName = this.newInvestor.firstName.toString() + this.newInvestor.lastName.toString();
     this.inviteInvestorService.inviteInvestor(this.newInvestor)
       .subscribe((response) => {
-        if (response.success === true) {
-          this.router.navigate(['/properties']);
-          this.flashMessage.show(response.message, {
-            cssClass: 'alert-success',
-            timeout: 3000
-          });
-        }
-      }, (error) => {
-        this.flashMessage.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
+
+      },
+      (error) => {
+
       });
   }
 
