@@ -64,41 +64,33 @@ router.post('/register', (req, res) => {
 
 // POST HTTP to invite a wholesaler
 router.post('/invitewholesaler', (req, res) => {
-  wholesaler.registerWholesaler(req.body, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else {
-      res.status(201).json({
-        success: response.success,
-        message: response.message,
-        wholesaler: response.data
-      });
-    }
-  });
-});
-
-// POST HTTP to add investor to investors array
-router.post('/addInvestorConnection', (req, res) => {
-  delete req.body.password;
-  wholesaler.addInvestorConnection(req.body, req.body.wholesaler_id, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else {
-      res.status(201).json({
-        success: response.success,
-        message: response.message,
-        wholesaler: response.data
-      });
-    }
-  });
+  let investorID = req.body.investor_id;
+  let wholesalerID = '';
+  wholesaler.registerWholesaler(req.body)
+    .then((wholesaler) => {
+      return wholesaler;
+    })
+    .then((wholesaler) => {
+      wholesalerID = wholesaler.data._id;
+      delete wholesaler.data.password;
+      return investor.addWholesalerConnection(wholesaler.data, false, investorID);
+    })
+    .then((investor) => {
+      delete investor.data.password;
+      return wholesaler.addInvestorConnection(investor.data, wholesalerID);
+    })
+    .then((response) => {
+      if (response.success) {
+        delete response.data.password;
+        res.status(201).json(response);
+      } else {
+        res.status(500).json(response);
+      }
+    })
+    .catch((error) => {
+      console.log("made it to catch:", error)
+      res.status(500).json(error);
+    })
 });
 
 
