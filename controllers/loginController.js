@@ -30,6 +30,7 @@ router.post('/wholesaler', (req, res, next) => {
 
           res.status(201).json({
             success: isMatchResponse.success,
+            message: isMatchResponse.message,
             token: 'JWT ' + token,
             user: {
               id: response.data._id,
@@ -74,6 +75,7 @@ router.post('/investor', (req, res, next) => {
           res.status(201).json({
             success: isMatchResponse.success,
             token: 'JWT ' + token,
+            message: 'Success logging in. Welcome back ' + response.data.firstName + '!',
             user: {
               id: response.data._id,
               firstName: response.data.firstName
