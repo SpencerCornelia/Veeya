@@ -170,35 +170,38 @@ module.exports.getPropertiesForWholesaler = function(id, callback) {
   });
 };
 
-module.exports.addInvestorConnection = function(investor, wholesalerID, callback) {
-  if (wholesalerID) {
+module.exports.addInvestorConnection = function(investor, wholesalerID) {
+  return new Promise((resolve, reject) => {
     Wholesaler.findOneAndUpdate(
       {_id: wholesalerID},
       {$push: {investors: investor}},
-      {safe: true, upsert: true},
+      {safe: true, upsert: true, new: true},
       function(error, w) {
         if (error) {
-          callback(true, {
+          let errorObj = {
             success: false,
             message: 'Unable to update wholesaler.',
             error: error
-          });
+          }
+          reject(errorObj);
         } else if (w) {
-          callback(false, {
+          let successObj = {
             success: true,
             message: 'Successfully added investor as a connection.',
             data: w
-          });
+          }
+          resolve(successObj);
         } else {
-          callback(true, {
+          let errorObj = {
             success: false,
             message: 'Unable to add investor as a connection.',
             error: ''
-          });
+          }
+          reject(errorObj);
         }
       }
     );
-  }
+  })
 };
 
 module.exports.updatePropertyForWholesaler = function(property, callback) {
@@ -289,33 +292,4 @@ module.exports.comparePassword = function(attemptedPassword, wholesalerPassword,
     }
   });
 };
-
-module.exports.updateInvestorsList = function(wholesalerID, newInvestor, callback) {
-  Wholesaler.findOneAndUpdate(
-    { '_id': wholesalerID },
-    { $push: { investors: newInvestor } },
-    { safe: true, upsert: true, new: true },
-    function(error, w) {
-      if (error) {
-        callback(true, {
-          success: false,
-          message: 'Error updating wholesaler.',
-          error: error
-        });
-      } else if (w) {
-        callback(false, {
-          success: true,
-          message: 'Successfully updated wholesaler.',
-          data: w
-        })
-      } else {
-        callback(true, {
-          success: false,
-          message: 'Unable to update wholesaler.',
-          error: ''
-        });
-      }
-    }
-  );
-}
 
