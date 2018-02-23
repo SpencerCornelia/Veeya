@@ -38,7 +38,7 @@ export class InviteInvestorComponent implements OnInit {
     this.newInvestor.userName = this.newInvestor.firstName.toString() + this.newInvestor.lastName.toString();
     this.inviteInvestorService.inviteInvestor(this.newInvestor)
       .subscribe((response) => {
-        this.router.navigate(['/properties']);
+        this.router.navigate(['/dashboard']);
         this.flashMessage.show(response.message, {
           cssClass: 'alert-success',
           timeout: 3000

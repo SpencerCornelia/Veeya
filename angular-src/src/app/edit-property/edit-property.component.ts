@@ -66,7 +66,7 @@ export class EditPropertyComponent implements OnInit {
     this.editPropertyService.editProperty(this.initialProperty)
       .subscribe((response) => {
         if (response.success) {
-          this.router.navigate(['/properties']);
+          this.router.navigate(['/dashboard']);
           this.flashMessage.show(response.message, {
             cssClass: 'alert-success',
             timeout: 3000

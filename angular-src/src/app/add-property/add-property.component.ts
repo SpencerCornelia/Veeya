@@ -47,7 +47,7 @@ export class AddPropertyComponent implements OnInit {
     this.addPropertyService.addProperty(this.newProperty)
       .subscribe((response) => {
         if (response.success === true) {
-          this.router.navigate(['/properties']);
+          this.router.navigate(['/dashboard']);
           this.flashMessage.show(response.message, {
             cssClass: 'alert-success',
             timeout: 3000

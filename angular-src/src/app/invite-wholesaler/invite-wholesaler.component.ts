@@ -38,7 +38,7 @@ export class InviteWholesalerComponent implements OnInit {
     this.newWholesaler.userName = this.newWholesaler.firstName.toString() + this.newWholesaler.lastName.toString();
     this.inviteWholesalerService.inviteWholesaler(this.newWholesaler)
       .subscribe((response) => {
-        this.router.navigate(['/properties']);
+        this.router.navigate(['/dashboard']);
         this.flashMessage.show(response.message, {
           cssClass: 'alert-success',
           timeout: 3000
