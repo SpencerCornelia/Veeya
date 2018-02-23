@@ -20,7 +20,7 @@ export class InviteInvestorComponent implements OnInit {
               private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
-    // use this variable for testing purposes
+    // use the hard coded variable for testing purposes
     let wholesalerID = localStorage.getItem('user_id') ? localStorage.getItem('user_id') : '5a19be40ac529d148276ee90';
     this.newInvestor = {
       userType: 'Investor',
@@ -38,10 +38,17 @@ export class InviteInvestorComponent implements OnInit {
     this.newInvestor.userName = this.newInvestor.firstName.toString() + this.newInvestor.lastName.toString();
     this.inviteInvestorService.inviteInvestor(this.newInvestor)
       .subscribe((response) => {
-
+        this.router.navigate(['/properties']);
+        this.flashMessage.show(response.message, {
+          cssClass: 'alert-success',
+          timeout: 3000
+        });
       },
       (error) => {
-
+        this.flashMessage.show(error.message, {
+          cssClass: 'alert-danger',
+          timeout: 3000
+        });
       });
   }
 
