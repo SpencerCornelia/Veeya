@@ -26,10 +26,11 @@ export class EditPropertyComponent implements OnInit {
   }
 
   ngOnInit() {
+    let wholesalerID = localStorage.getItem('user_id');
     // set initialProperty to beginning values to avoid field is undefined error in console
     this.initialProperty = {
       _id: 0,
-      wholesaler: '5a19be40ac529d148276ee90',
+      wholesaler: wholesalerID,
       address: 'Form Address1',
       city: 'Las Vegas',
       state: 'NV',

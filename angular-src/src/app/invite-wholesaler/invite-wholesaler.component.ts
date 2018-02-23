@@ -21,7 +21,7 @@ export class InviteWholesalerComponent implements OnInit {
 
   ngOnInit() {
     // use this for testing purposes
-    let investorID = localStorage.getItem('user_id') ? localStorage.getItem('user_id') : '5a8cef4a6676160891429c5e';
+    let investorID = localStorage.getItem('user_id');
     this.newWholesaler = {
       userType: 'Wholesaler',
       firstName: '',

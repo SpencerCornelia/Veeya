@@ -26,8 +26,9 @@ export class ViewPropertiesComponent implements OnInit {
   }
 
   public getPropertiesForWholesaler() {
+    let wholesalerID = localStorage.getItem('user_id');
     // Get all properties for the wholesaler who is logged in
-    this.getWholesalerPropertyService.getWholesalerProperties("5a19be40ac529d148276ee90")
+    this.getWholesalerPropertyService.getWholesalerProperties(wholesalerID)
       .subscribe(response => this.wholesalerProperties = response)
   }
 

@@ -20,7 +20,7 @@ export class AddPropertyComponent implements OnInit {
               private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
-    let wholesalerID = !localStorage.getItem('user_id') ? '5a19be40ac529d148276ee90' : localStorage.getItem('user_id');
+    let wholesalerID = localStorage.getItem('user_id');
     this.newProperty = {
       _id: 0,
       wholesaler: wholesalerID,
