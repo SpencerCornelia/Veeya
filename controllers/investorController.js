@@ -8,59 +8,35 @@ const property = require('../models/property');
 
 // GET HTTP to /investor
 router.get('/', (req,res) => {
-  investor.getAllInvestors((error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else {
-      res.status(200).json({
-        success: response.success,
-        message: response.message,
-        investors: response.data
-      });
-    }
-  });
+  investor.getAllInvestors()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    })
 });
 
 // POST HTTP to register a new investor
 router.post('/register', (req, res) => {
-  investor.registerInvestor(req.body, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else {
-      res.status(201).json({
-        success: response.success,
-        message: response.message,
-        investor: response.data
-      });
-    }
-  });
+  investor.registerInvestor(req.body)
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 // GET HTTP for /investor for a single investor
 router.get('/:uid', (req, res) => {
-  investor.getInvestorById(req.params.uid, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else {
-      res.status(201).json({
-        success: response.success,
-        message: response.message,
-        investor: response.data
-      });
-    }
-  });
+  investor.getInvestorById(req.params.uid)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(response);
+    });
 });
 
 // POST HTTP to /investor/inviteinvestor

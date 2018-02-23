@@ -11,58 +11,24 @@ router.get('/', (req,res) => {
 
 // POST HTTP to /register
 router.post('/wholesaler', (req, res, next) => {
-  let newWholesaler = new Wholesaler({
-    userType: "Wholesaler",
-    userName: req.body.userName,
-    password: req.body.password,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    phoneNumber: req.body.phoneNumber
-  });
-
-  Wholesaler.registerWholesaler(newWholesaler, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message
-      });
-    } else {
-      res.status(201).json({
-        success: response.success,
-        message: response.message,
-        wholesaler: response.data
-      });
-    }
-  });
+  Wholesaler.registerWholesaler(req.body)
+    .then((wholesaler) => {
+      res.status(201).json(wholesaler);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 // POST HTTP to /register
 router.post('/investor', (req, res, next) => {
-  let newInvestor = new Investor({
-    userType: "Investor",
-    userName: req.body.userName,
-    password: req.body.password,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    phoneNumber: req.body.phoneNumber
-  });
-
-  Investor.registerInvestor(newInvestor, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else {
-      res.status(201).json({
-        success: response.success,
-        message: response.message
-      });
-    }
-  });
+  Investor.registerInvestor(req.body)
+    .then((investor) => {
+      res.status(201).json(investor);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 module.exports = router;

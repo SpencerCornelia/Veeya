@@ -9,64 +9,34 @@ const property = require('../models/property');
 // GET HTTP to /properties
 // use this for testing to see all properties
 router.get('/', (req,res) => {
-  property.getAllProperties((error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else {
-      res.status(200).json({
-        success: response.success,
-        message: response.message,
-        properties: response.data
-      });
-    }
-  });
+  property.getAllProperties()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 router.get('/property/:uid', (req, res) => {
-  property.getPropertyByID(req.params.uid, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else if (property) {
-      res.status(200).json({
-        success: response.success,
-        message: response.message,
-        property: response.data
-      });
-    }
-  });
+  property.getPropertyByID(req.params.uid)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 // GET HTTP for /properties for a wholesaler. uid = wholesalerID
 router.get('/:uid', (req, res) => {
-  wholesaler.getPropertiesForWholesaler(req.params.uid, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else if (response) {
-      res.status(200).json({
-        success: response.success,
-        message: response.message,
-        // wholesaler: response.data,
-        properties: response.data.properties
-      });
-    } else {
-      res.status(500).json({
-        success: response.success,
-        message: response.message
-      });
-    }
-  });
+  wholesaler.getPropertiesForWholesaler(req.params.uid)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 // POST HTTP to /properties/addproperty
@@ -93,112 +63,55 @@ router.post('/addproperty', (req, res, next) => {
     // need to figure out how to store photos in a CDN and then link that URL to photos array
     //photos: req.body.photos
   });
-  property.addProperty(newProperty, req.body.wholesaler, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else if (property) {
-      res.status(201).json({
-        success: response.success,
-        message: response.message,
-        property: response.data
-      });
-    } else {
-      res.status(500).json({
-        success: response.success,
-        message: response.message
-      });
-    }
-  });
+  property.addProperty(newProperty, req.body.wholesaler)
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 // GET HTTP to /properties/id to see a specific property
 router.get('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
 
-  property.getPropertyByID(id, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else if (property) {
-      res.status(200).json({
-        success: response.success,
-        messsage: response.messsage,
-        property: response.data
-      });
-    } else {
-      res.status(500).json({
-        success: response.success,
-        message: response.message
-      });
-    }
-  });
-});
-
-// GET HTTP for sold properties
-router.get('/sold', (req, res, next) => {
-  res.send("GET for sold properties")
+  property.getPropertyByID(id)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 // PUT HTTP request to edit a property and UPDATE. ID = wholesalerID
 router.put('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
 
-  wholesaler.updatePropertyForWholesaler(req.body, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    }
-  });
+  wholesaler.updatePropertyForWholesaler(req.body)
+    .then((response) => {
+      return property.editPropertyByID(req.body)
+    })
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 
-  property.editPropertyByID(req.body, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else if (response) {
-      res.status(201).json({
-        success: response.success,
-        message: response.message,
-        property: response.data
-      });
-    } else {
-      res.status(500).json({
-        success: response.success,
-        message: response.message
-      });
-    }
-  });
 });
 
 // DELETE HTTP request for deleting a property
 router.delete('/:id', (req, res, next) => {
   let id = req.params.id;
-  property.deletePropertyById(id, (error, response) => {
-    if (error) {
-      res.status(500).json({
-        success: response.success,
-        message: response.message,
-        error: response.error
-      });
-    } else {
-      res.status(201).json({
-        success: response.success,
-        message: response.message
-      });
-    }
-  });
+  property.deletePropertyById(id)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 module.exports = router;
