@@ -118,73 +118,88 @@ module.exports.registerInvestor = function(investor) {
 };
 
 module.exports.getAllInvestors = function(callback) {
-  Investor.find().exec((error, investors) => {
-    if (error) {
-      callback(true, {
-        success: false,
-        message: 'Error retrieving investor.',
-        error: error
-      });
-    } else if (investors) {
-      callback(false, {
-        success: true,
-        message: 'Successfully retrieved investors.',
-        data: investors
-      });
-    } else {
-      callback(true, {
-        success: false,
-        message: 'Unable to find investors.',
-        error: ''
-      });
-    }
+  return new Promise((resolve, reject) => {
+    Investor.find().exec((error, investors) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving investor.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investors) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved investors.',
+          data: investors
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to find investors.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
   });
 };
 
 module.exports.getInvestorById = function(id, callback) {
-  Investor.findById(id, (error, investor) => {
-    if (error) {
-      callback(true, {
-        success: false,
-        message: 'Unable to retrieve investor by id.'
-      });
-    } else if (investor) {
-      callback(false, {
-        success: true,
-        message: 'Successfully found investor by id.',
-        data: investor
-      });
-    } else {
-      callback(true, {
-        success: false,
-        message: 'Investor not found by id.',
-        error: ''
-      });
-    }
+  return new Promise((resolve, reject) => {
+    Investor.findById(id, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve investor by id.'
+        }
+        reject(errorObj);
+      } else if (investor) {
+        let successObj = {
+          success: true,
+          message: 'Successfully found investor by id.',
+          data: investor
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Investor not found by id.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
   });
 };
 
 module.exports.getInvestorByEmail = function(email, callback) {
-  Investor.findOne({ 'email': email }, (error, user) => {
-    if (error) {
-      callback(true, {
-        success: false,
-        message: 'Unable to retrieve investor with email entered into application.',
-        error: error
-      });
-    } else if (user) {
-      callback(false, {
-        success: true,
-        message: 'Successfully found investor.',
-        data: user
-      });
-    } else {
-      callback(true, {
-        success: false,
-        message: 'Investor not found with email entered into application.',
-        error: ''
-      });
-    }
+  return new Promise((resolve, reject) => {
+    Investor.findOne({ 'email': email }, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve investor with email entered into application.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+        let successObj = {
+          success: true,
+          message: 'Successfully found investor.',
+          data: user
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Investor not found with email entered into application.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
   });
 }
 
@@ -216,9 +231,9 @@ module.exports.addWholesalerConnection = function(wholesaler, investorEmail, inv
   let ObjectId = mongoose.Types.ObjectId;
 
   if (investorID) {
-    query["_id"] = new ObjectId(investorID)
+    query["_id"] = new ObjectId(investorID);
   } else {
-    query["email"] = investorEmail
+    query["email"] = investorEmail;
   }
   return new Promise((resolve, reject) => {
     Investor.findOneAndUpdate(

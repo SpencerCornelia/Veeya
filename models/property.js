@@ -79,155 +79,181 @@ const Property = module.exports = db.model('Property', PropertySchema);
 
 // Property.find() returns all of the properties
 module.exports.getAllProperties = (callback) => {
-  Property.find((error, properties) => {
-    if (error) {
-      callback(true, {
-        success: false,
-        message: 'Error retrieving properties.',
-        error: error
-      });
-    } else if (properties) {
-      callback(false, {
-        success: true,
-        message: 'Successfully retrieved all properties.',
-        data: properties
-      });
-    } else {
-      callback(true, {
-        success: false,
-        message: 'Unable to find properties.',
-        error: ''
-      });
-    }
-  });
+  return new Promise((resolve, reject) => {
+    Property.find((error, properties) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving properties.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (properties) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved all properties.',
+          data: properties
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to find properties.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  })
 }
 
 // newProperty.save() is used to insert the document into MongoDB
 module.exports.addProperty = (newProperty, wholesalerID, callback) => {
-  const wholesaler = Wholesaler.findOneAndUpdate(
-    {_id: wholesalerID},
-    {$push: {properties: newProperty}},
-    {safe: true, upsert: true},
-    function(error, success) {
-      if (error) {
-        callback(true, {
-          success: false,
-          message: 'Error adding property.',
-          error: error
-        });
+  return new Promise((resolve, reject) => {
+    Wholesaler.findOneAndUpdate(
+      { _id: wholesalerID },
+      { $push: { properties: newProperty }},
+      { safe: true, upsert: true, new: true },
+      function(error, success) {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error adding property.',
+            error: error
+          }
+          reject(errorObj);
+        }
       }
-    }
-  );
-  newProperty.save((error, property) => {
-    if (error) {
-      callback(true, {
-        success: false,
-        message: 'Error saving property to wholesaler.',
-        error: error
-      });
-    } else if (property) {
-      callback(false, {
-        success: true,
-        message: 'Successfully saved new property.',
-        data: property
-      });
-    } else {
-      callback(true, {
-        success: false,
-        message: 'Unable to save new property.',
-        error: ''
-      });
-    }
-  });
-}
-
-module.exports.editPropertyByID = (updatedProperty, callback) => {
-  Property.findById(updatedProperty._id, (err, property) => {
-    property.address = updatedProperty.address;
-    property.city = updatedProperty.city;
-    property.state = updatedProperty.state;
-    property.zipCode = updatedProperty.zipCode;
-    property.purchasePrice = updatedProperty.purchasePrice;
-    property.bedrooms = updatedProperty.bedrooms;
-    property.bathrooms= updatedProperty.bathrooms;
-    property.rehabCostMin = updatedProperty.rehabCostMin;
-    property.rehabCostMax = updatedProperty.rehabCostMax;
-    property.afterRepairValue = updatedProperty.afterRepairValue;
-    property.averageRent = updatedProperty.averageRent;
-    property.squareFootage = updatedProperty.squareFootage;
-    property.propertyType = updatedProperty.propertyType;
-    property.yearBuilt = updatedProperty.yearBuilt;
-    property.status = updatedProperty.status;
-    property.comps = updatedProperty.comps;
-
-    property.save((error, property) => {
+    );
+    newProperty.save((error, property) => {
       if (error) {
-        callback(true, {
+        let errorObj = {
           success: false,
-          message: 'Error updating property.',
+          message: 'Error saving property to wholesaler.',
           error: error
-        });
+        }
+        reject(errorObj);
       } else if (property) {
-        callback(false, {
+        let successObj = {
           success: true,
-          message: 'Successfully edited property.',
+          message: 'Successfully saved new property.',
           data: property
-        });
+        }
+        resolve(successObj);
       } else {
-        callback(true, {
+        let errorObj = {
           success: false,
-          message: 'Unable to save property.',
+          message: 'Unable to save new property.',
           error: ''
-        });
+        }
+        reject(errorObj);
       }
     });
   });
 }
 
+module.exports.editPropertyByID = (updatedProperty, callback) => {
+  return new Promise((resolve, reject) => {
+    Property.findById(updatedProperty._id, (err, property) => {
+      property.address = updatedProperty.address;
+      property.city = updatedProperty.city;
+      property.state = updatedProperty.state;
+      property.zipCode = updatedProperty.zipCode;
+      property.purchasePrice = updatedProperty.purchasePrice;
+      property.bedrooms = updatedProperty.bedrooms;
+      property.bathrooms= updatedProperty.bathrooms;
+      property.rehabCostMin = updatedProperty.rehabCostMin;
+      property.rehabCostMax = updatedProperty.rehabCostMax;
+      property.afterRepairValue = updatedProperty.afterRepairValue;
+      property.averageRent = updatedProperty.averageRent;
+      property.squareFootage = updatedProperty.squareFootage;
+      property.propertyType = updatedProperty.propertyType;
+      property.yearBuilt = updatedProperty.yearBuilt;
+      property.status = updatedProperty.status;
+      property.comps = updatedProperty.comps;
+
+      property.save((error, property) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error updating property.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (property) {
+          let successObj = {
+            success: true,
+            message: 'Successfully edited property.',
+            data: property
+          }
+          resolve(successObj);
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to save property.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      });
+    });
+  });
+}
+
 module.exports.getPropertyByID = (id, callback) => {
-  Property.findById(id, (error, property) => {
-    if (error) {
-      callback(true, {
-        success: false,
-        message: 'Error retrieving property.',
-        error: error
-      });
-    } else if (property) {
-      callback(false, {
-        success: true,
-        message: 'Successfully retrieved property.',
-        data: property
-      });
-    } else {
-      callback(true, {
-        success: false,
-        message: 'Unable to retrieve property.',
-        error: ''
-      });
-    }
+  return new Promise((resolve, reject) => {
+    Property.findById(id, (error, property) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving property.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (property) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved property.',
+          data: property
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve property.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
   });
 }
 
 module.exports.deletePropertyById = (id, callback) => {
-  let query = {_id: id};
-  Property.remove(query, (error, success) => {
-    if (error) {
-      callback(true, {
-        success: false,
-        message: 'Error deleting property.',
-        error: error
-      });
-    } else if (success) {
-      callback(false, {
-        success: true,
-        message: 'Successfully deleted property.'
-      });
-    } else {
-      callback(true, {
-        success: false,
-        message: 'Unable to delete property',
-        error: ''
-      });
-    }
+  return new Promise((resolve, reject) => {
+    let query = {_id: id};
+    Property.remove(query, (error, success) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error deleting property.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (success) {
+        let successObj = {
+          success: true,
+          message: 'Successfully deleted property.'
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to delete property',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
   });
 }
