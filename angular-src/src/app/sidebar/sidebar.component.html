@@ -1,7 +1,10 @@
 <ul class="sidebar-nav">
-  <li><a [routerLink]="['/properties/addproperty']">Add Property</a></li>
-  <li><a [routerLink]="['/inviteinvestor']">Invite Investor</a></li>
-  <li><a [routerLink]="['/invitewholesaler']">Invite Wholesaler</a></li>
-  <li><a href="#">My Profile</a></li>
-  <li><a (click)="onLogoutClick()" href="#">Logout</a></li>
+  <li><a *ngIf="authService.loggedIn()" [routerLink]="['/properties']">Dashboard</a></li>
+  <li><a *ngIf="!authService.loggedIn()" [routerLink]="['/login']">Login</a></li>
+  <li><a *ngIf="!authService.loggedIn()" [routerLink]="['/register']">Sign Up</a></li>
+  <li><a *ngIf="authService.loggedIn()" [routerLink]="['/properties/addproperty']">Add Property</a></li>
+  <li><a *ngIf="authService.loggedIn()" [routerLink]="['/inviteinvestor']">Invite Investor</a></li>
+  <li><a *ngIf="authService.loggedIn()" [routerLink]="['/invitewholesaler']">Invite Wholesaler</a></li>
+  <li><a *ngIf="authService.loggedIn()" href="#">My Profile</a></li>
+  <li><a *ngIf="authService.loggedIn()" (click)="onLogoutClick()" href="#">Logout</a></li>
 </ul>
