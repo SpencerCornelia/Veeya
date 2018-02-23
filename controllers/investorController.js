@@ -66,7 +66,7 @@ router.get('/:uid', (req, res) => {
 // POST HTTP to /investor/inviteinvestor
 router.post('/inviteinvestor', (req, res, next) => {
   let wholesalerID = req.body.wholesaler_id;
-  let investorEmail = 's';
+  let investorEmail = '';
   investor.registerInvestor(req.body)
     .then((investor) => {
       return investor;
