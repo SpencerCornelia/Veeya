@@ -30,11 +30,12 @@ router.post('/wholesaler', (req, res, next) => {
 
           res.status(201).json({
             success: isMatchResponse.success,
-            message: isMatchResponse.message,
+            message: 'Successfully logged in. Welcome back ' + response.data.firstName + '!',
             token: 'JWT ' + token,
             user: {
               id: response.data._id,
-              firstName: response.data.firstName
+              firstName: response.data.firstName,
+              user_type: response.data.userType
             }
           });
         } else {
@@ -78,7 +79,8 @@ router.post('/investor', (req, res, next) => {
             message: 'Success logging in. Welcome back ' + response.data.firstName + '!',
             user: {
               id: response.data._id,
-              firstName: response.data.firstName
+              firstName: response.data.firstName,
+              user_type: response.data.userType
             }
           });
         } else {
