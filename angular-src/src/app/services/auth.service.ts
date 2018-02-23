@@ -25,7 +25,6 @@ export class AuthService {
 
     return this.http.post(route, user, { headers: headers })
       .map((response) => {
-        console.log("response:", response)
         return response.json();
       })
       .catch((error) => {
@@ -61,16 +60,16 @@ export class AuthService {
   }
 
   loadToken() {
-    const token = localStorage.getItem('token_id');
+    const token = localStorage.getItem('id_token');
     this.authToken = token;
   }
 
   loggedIn() {
-    return tokenNotExpired();
+    return tokenNotExpired('id_token');
   }
 
   storeUserData(token, user_id) {
-    localStorage.setItem('token_id', token);
+    localStorage.setItem('id_token', token);
     localStorage.setItem('user_id', user_id);
     this.authToken = token;
     this.user_id = user_id;
