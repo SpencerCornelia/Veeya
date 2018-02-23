@@ -211,10 +211,18 @@ module.exports.comparePassword = function(attemptedPassword, investorPassword, c
   });
 }
 
-module.exports.addWholesalerConnection = function(wholesaler, investorEmail, callback) {
+module.exports.addWholesalerConnection = function(wholesaler, investorEmail, investorID) {
+  let query = {};
+  let ObjectId = mongoose.Types.ObjectId;
+
+  if (investorID) {
+    query["_id"] = new ObjectId(investorID)
+  } else {
+    query["email"] = investorEmail
+  }
   return new Promise((resolve, reject) => {
     Investor.findOneAndUpdate(
-      { 'email': investorEmail },
+      query,
       { $push: { wholesalers: wholesaler } },
       { safe: true, upsert: true, new: true },
       function(error, i) {
