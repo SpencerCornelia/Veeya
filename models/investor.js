@@ -117,7 +117,7 @@ module.exports.registerInvestor = function(investor) {
   });
 };
 
-module.exports.getAllInvestors = function(callback) {
+module.exports.getAllInvestors = function() {
   return new Promise((resolve, reject) => {
     Investor.find().exec((error, investors) => {
       if (error) {
@@ -146,7 +146,7 @@ module.exports.getAllInvestors = function(callback) {
   });
 };
 
-module.exports.getInvestorById = function(id, callback) {
+module.exports.getInvestorById = function(id) {
   return new Promise((resolve, reject) => {
     Investor.findById(id, (error, investor) => {
       if (error) {
@@ -174,7 +174,7 @@ module.exports.getInvestorById = function(id, callback) {
   });
 };
 
-module.exports.getInvestorByEmail = function(email, callback) {
+module.exports.getInvestorByEmail = function(email) {
   return new Promise((resolve, reject) => {
     Investor.findOne({ 'email': email }, (error, user) => {
       if (error) {
@@ -200,6 +200,36 @@ module.exports.getInvestorByEmail = function(email, callback) {
         reject(errorObj);
       }
     });
+  });
+}
+
+module.exports.getPropertiesForInvestor = function(id) {
+  return new Promise((resolve, reject) => {
+    Investor.findById(id, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving properties for investor.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved properties for investor.',
+          data: investor.properties,
+          error: ''
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve properties for investor.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    })
   });
 }
 
