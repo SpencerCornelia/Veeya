@@ -43,9 +43,9 @@ export class EditPropertyComponent implements OnInit {
       afterRepairValue: 350000,
       averageRent: 1200,
       squareFootage: 1278,
-      propertyType: '4plex',
+      propertyType: 'singleFamily',
       yearBuilt: 1987,
-      status: 'Under Contract',
+      status: 'contractYes',
       comps: 450000
     }
   }
