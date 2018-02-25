@@ -29,7 +29,7 @@ router.get('/property/:uid', (req, res) => {
 });
 
 // GET HTTP for /properties for a wholesaler. uid = wholesalerID
-router.get('/:uid', (req, res) => {
+router.get('/wholesaler/:uid', (req, res) => {
   wholesaler.getPropertiesForWholesaler(req.params.uid)
     .then((response) => {
       res.status(200).json(response);
@@ -37,6 +37,17 @@ router.get('/:uid', (req, res) => {
     .catch((error) => {
       res.status(500).json(error);
     });
+});
+
+// GET HTTP for /properties for an investor. uid = investorID
+router.get('/investor/:uid', (req, res) => {
+  investor.getPropertiesForInvestor(req.params.uid)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    })
 });
 
 // POST HTTP to /properties/addproperty
