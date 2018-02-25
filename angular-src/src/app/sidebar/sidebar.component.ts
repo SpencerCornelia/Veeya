@@ -17,6 +17,24 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
   }
 
+  isInvestor() {
+    let userType = localStorage.getItem('user_type');
+    if (userType === 'Investor') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isWholesaler() {
+    let userType = localStorage.getItem('user_type');
+    if (userType === 'Wholesaler') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   onLogoutClick() {
     this.authService.logout();
     this.flashMessage.show('You are now logged out.', {

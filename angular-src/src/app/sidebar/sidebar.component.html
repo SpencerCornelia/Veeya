@@ -1,10 +1,12 @@
 <ul class="sidebar-nav">
-  <li><a *ngIf="authService.loggedIn()" [routerLink]="['/properties']">Dashboard</a></li>
+  <div class="logo"><li class="veeyaStamp">Veeya</li></div>
+  <div class="userImage"><img src="https://scontent.flas1-1.fna.fbcdn.net/v/t1.0-9/26993322_3918229670408_8250173985738273633_n.jpg?oh=995c5e9823a7f695f68745a2061c6a05&oe=5B1C6A86" /></div>
+  <li><a *ngIf="authService.loggedIn()" [routerLink]="['/dashboard']">Dashboard</a></li>
   <li><a *ngIf="!authService.loggedIn()" [routerLink]="['/login']">Login</a></li>
   <li><a *ngIf="!authService.loggedIn()" [routerLink]="['/register']">Sign Up</a></li>
-  <li><a *ngIf="authService.loggedIn()" [routerLink]="['/properties/addproperty']">Add Property</a></li>
-  <li><a *ngIf="authService.loggedIn()" [routerLink]="['/inviteinvestor']">Invite Investor</a></li>
-  <li><a *ngIf="authService.loggedIn()" [routerLink]="['/invitewholesaler']">Invite Wholesaler</a></li>
-  <li><a *ngIf="authService.loggedIn()" href="#">My Profile</a></li>
+  <li><a *ngIf="authService.loggedIn() && this.isWholesaler()" [routerLink]="['/properties/addproperty']">Add Property</a></li>
+  <li><a *ngIf="authService.loggedIn() && this.isWholesaler()" [routerLink]="['/inviteinvestor']">Invite Investor</a></li>
+  <li><a *ngIf="authService.loggedIn() && this.isInvestor()" [routerLink]="['/invitewholesaler']">Invite Wholesaler</a></li>
+  <li><a *ngIf="authService.loggedIn()" [routerLink]="['/profile']">My Profile</a></li>
   <li><a *ngIf="authService.loggedIn()" (click)="onLogoutClick()" href="#">Logout</a></li>
 </ul>
