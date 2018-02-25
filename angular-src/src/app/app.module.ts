@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -20,6 +20,7 @@ import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProfileComponent } from './profile/profile.component';
+import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
@@ -30,6 +31,7 @@ import { InviteInvestorService } from './services/inviteInvestor.service';
 import { InviteWholesalerService } from './services/invitewholesaler.service';
 import { ValidateService } from './services/validate.service';
 import { GetWholesalerPropertiesService } from './services/getWholesalerProperties.service';
+import { ProfileService } from './services/profile.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ import { GetWholesalerPropertiesService } from './services/getWholesalerProperti
     InviteWholesalerComponent,
     DashboardComponent,
     PageNotFoundComponent,
-    ProfileComponent
+    ProfileComponent,
+    TopNavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -63,8 +66,10 @@ import { GetWholesalerPropertiesService } from './services/getWholesalerProperti
     InviteWholesalerService,
     ValidateService,
     GetWholesalerPropertiesService,
+    ProfileService,
     AuthGuard,
-    RoleGuard
+    RoleGuard,
+    Title
   ],
   bootstrap: [AppComponent]
 })
