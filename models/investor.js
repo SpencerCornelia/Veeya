@@ -6,7 +6,6 @@ const db = mongoose.createConnection(config.database);
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
-// Define Investor schema with proper attributes
 const InvestorSchema = mongoose.Schema({
   userType: {
     type: String,

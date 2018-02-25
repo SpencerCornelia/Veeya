@@ -6,7 +6,6 @@ var db = mongoose.createConnection(config.database);
 
 const Wholesaler = require('./wholesaler');
 
-// Define Property schema with proper attributes
 const PropertySchema = mongoose.Schema({
   wholesaler: {
     type: mongoose.Schema.Types.ObjectId,

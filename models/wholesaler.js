@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const config = require('../config/database');
 var db = mongoose.createConnection(config.database);
 
-// Define Wholesaler schema with proper attributes
 const WholesalerSchema = mongoose.Schema({
   userType: {
     type: String,
