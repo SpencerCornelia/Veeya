@@ -20,7 +20,6 @@ import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProfileComponent } from './profile/profile.component';
-import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
@@ -46,8 +45,7 @@ import { ProfileService } from './services/profile.service';
     InviteWholesalerComponent,
     DashboardComponent,
     PageNotFoundComponent,
-    ProfileComponent,
-    TopNavbarComponent
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
