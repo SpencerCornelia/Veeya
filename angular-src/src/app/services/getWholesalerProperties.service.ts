@@ -13,7 +13,7 @@ export class GetWholesalerPropertiesService {
   private serverApi = 'http://localhost:3000/properties';
 
   public getWholesalerProperties(wholesalerId):Observable<Property[]> {
-    let URI = this.serverApi + "/" + wholesalerId;
+    let URI = this.serverApi + "/wholesaler/" + wholesalerId;
     return this.http.get(URI)
       .map(res => res.json())
       .map(res => <Property[]>res.properties);
