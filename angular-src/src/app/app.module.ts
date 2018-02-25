@@ -19,6 +19,7 @@ import { InviteInvestorComponent } from './invite-investor/invite-investor.compo
 import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { ProfileComponent } from './profile/profile.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
@@ -42,7 +43,8 @@ import { GetWholesalerPropertiesService } from './services/getWholesalerProperti
     InviteInvestorComponent,
     InviteWholesalerComponent,
     DashboardComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
