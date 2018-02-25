@@ -39,10 +39,7 @@ const InvestorSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Wholesaler'
   }],
-  properties: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Property'
-  }]
+  propertiesBought: []
 });
 
 const Investor = module.exports = db.model('Investor', InvestorSchema);
