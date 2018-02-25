@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { Property } from '../models/Property';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
