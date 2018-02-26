@@ -1,0 +1,26 @@
+#navbar-wrapper {
+  padding-left: 250px;
+}
+
+.navbar-brand {
+  cursor: default;
+}
+
+#showSidebarButton {
+  position: absolute;
+  margin-left: 10px;
+  z-index: 1;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 785px) {
+  #navbar-wrapper {
+    padding-left: 0px;
+  }
+}
+
+@media screen and (min-width: 785px) {
+  #showSidebarButton {
+    display: none;
+  }
+}
