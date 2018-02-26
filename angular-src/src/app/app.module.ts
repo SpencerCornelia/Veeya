@@ -1,14 +1,15 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppComponent } from './app.component';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { FlashMessagesModule } from 'angular2-flash-messages';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 
+import { AppComponent } from './app.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { EditPropertyComponent } from './edit-property/edit-property.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
@@ -31,6 +32,7 @@ import { InviteWholesalerService } from './services/invitewholesaler.service';
 import { ValidateService } from './services/validate.service';
 import { GetWholesalerPropertiesService } from './services/getWholesalerProperties.service';
 import { ProfileService } from './services/profile.service';
+import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 
 @NgModule({
   declarations: [
@@ -45,14 +47,16 @@ import { ProfileService } from './services/profile.service';
     InviteWholesalerComponent,
     DashboardComponent,
     PageNotFoundComponent,
-    ProfileComponent
+    ProfileComponent,
+    TopNavbarComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     FormsModule,
     AppRoutingModule,
-    FlashMessagesModule.forRoot()
+    FlashMessagesModule.forRoot(),
+    AngularFontAwesomeModule
   ],
   providers: [
     AddPropertyService,
