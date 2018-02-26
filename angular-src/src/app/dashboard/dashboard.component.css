@@ -4,14 +4,11 @@
 }
 
 .dashboard-wrapper {
-  margin-left: 250px;
+  width: 100%;
+  position: absolute;
+  padding-left: 250px;
   border: 1px solid red;
   height: 100vh;
-}
-
-.dashboardText span {
-  margin-left: 20px;
-  line-height: 60px;
 }
 
 .add-boxes-wrapper {
@@ -37,21 +34,45 @@
   border: 1px solid green;
   background-color: #FFFFFF;
   height: 250px;
+  position: relative;
 }
 
-.topNavbar {
-  height: 60px;
-  background-color: #FFF;
-  margin-left: 250px;
-  border: 1px solid green;
+.boxTitle {
+  position: relative;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  height: 50px;
 }
 
-.rightNavbarIcons {
+.title-text {
+  font-size: 20px;
+  line-height: 50px;
+  padding-left: 10px;
+}
+
+.boxText {
+  position: relative;
+  height: 150px;
+}
+
+#search-box-button {
+  margin: 0 auto;
+  display: block;
+}
+
+#icon {
   float: right;
-  margin-top: 15px;
-  margin-right: 15px;
+  margin-top: 10px;
+  margin-right: 10px;
 }
 
-.rightNavbarIcons button {
-  margin-right: 20px;
+@media screen and (max-width: 785px) {
+  .dashboard-wrapper {
+    padding-left: 0px;
+  }
+}
+
+@media screen and (max-width: 1088px) and (min-width: 994px) {
+  .title-text {
+    padding-left: 0px;
+  }
 }

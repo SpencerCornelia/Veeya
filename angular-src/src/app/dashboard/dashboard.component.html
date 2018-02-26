@@ -3,63 +3,81 @@
     <app-sidebar></app-sidebar>
   </div>
   <div class="navbar-wrapper">
-    <div class="topNavbar">
-      <span class="dashboardText">
-        <span>Dashboard</span>
-      </span>
-      <span class="rightNavbarIcons">
-        <button type="button" class="btn btn-outline-info" [routerLink]="['/profile']">{{user.firstName}} {{user.lastName}}</button>
-        <button type="button" class="btn btn-outline-danger" [routerLink]="['/logout']">Logout</button>
-      </span>
-    </div>
+    <app-top-navbar></app-top-navbar>
   </div>
   <div class="dashboard-wrapper">
     <div class="add-boxes-wrapper">
-      <div class="container">
+      <div class="container-fluid">
         <div class="row">
-          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
             <div class="add-box">
-              Connect With An Investor
+              <div class="boxTitle">
+                <span class="title-text">Connect With User</span><fa name="far fa-address-book" size="2x" id="icon"></fa>
+              </div>
+              <div class="boxText">
+                Enter an investor's email or username to connect.
+              </div>
+              <div class="boxButton">
+                <button class="btn btn-primary" id="search-box-button">Connect</button>
+              </div>
             </div>
           </div>
-          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
             <div class="add-box">
-              Add New Property
+              <div class="boxTitle">
+                <span class="title-text">Add New Property</span><fa name="fas fa-home" size="2x" id="icon"></fa>
+              </div>
+              <div class="boxText">
+                Click below to add a new property.
+              </div>
+              <div class="boxButton">
+                <button class="btn btn-primary" id="search-box-button">Add</button>
+              </div>
             </div>
           </div>
-          <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
             <div class="add-box">
-              Search For Investor
+              <div class="boxTitle">
+                <span class="title-text">Search for Investor</span><fa name="fas fa-search" size="2x" id="icon"></fa>
+              </div>
+              <div class="boxText">
+                Click below to search for an investor.
+              </div>
+              <div class="boxButton">
+                <button class="btn btn-primary" id="search-box-button">Search</button>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+
+        </div> <!-- End Add boxes row -->
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+            <div class="properties-box">
+              spencer cornelia
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+            <div class="properties-box">
+              spencer cornelia
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+            <div class="properties-box">
+              spencer cornelia
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+            <div class="properties-box">
+              spencer cornelia
+            </div>
+          </div>
+        </div> <!-- End Properties Row -->
+      </div> <!-- End container-fluid -->
+    </div> <!-- End add-boxes-wrapper -->
+  </div> <!-- End dashboard-wrapper -->
     <div class="properties-wrapper">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-            <div class="properties-box">
-              spencer cornelia
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-            <div class="properties-box">
-              spencer cornelia
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-            <div class="properties-box">
-              spencer cornelia
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-            <div class="properties-box">
-              spencer cornelia
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="container-fluid">
+
     </div>
   </div>
 </div>

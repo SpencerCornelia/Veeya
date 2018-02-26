@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../services/profile.service';
 import { Property } from '../models/Property';
 
+import * as $ from 'jquery';
+
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
@@ -39,6 +41,10 @@ export class DashboardComponent implements OnInit {
     } else {
       console.log("this.userType is not available.");
     }
+  }
+
+  ngAfterViewInit() {
+
   }
 
   getWholesalerProfileInfo() {
