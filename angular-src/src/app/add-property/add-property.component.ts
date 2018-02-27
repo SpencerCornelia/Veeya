@@ -23,7 +23,7 @@ export class AddPropertyComponent implements OnInit {
     let wholesalerID = localStorage.getItem('user_id');
     this.newProperty = {
       _id: 0,
-      wholesaler: wholesalerID,
+      wholesaler_id: wholesalerID,
       address: 'Form Address1',
       city: 'Las Vegas',
       state: 'NV',

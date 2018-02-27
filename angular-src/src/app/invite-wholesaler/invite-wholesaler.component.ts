@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Wholesaler } from '../models/Wholesaler';
+import { User } from '../models/User';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 import { InviteWholesalerService } from '../services/invitewholesaler.service';
@@ -13,7 +13,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class InviteWholesalerComponent implements OnInit {
 
-  private newWholesaler: Wholesaler;
+  private newWholesaler: User;
 
   constructor(private inviteWholesalerService: InviteWholesalerService,
               private router: Router,

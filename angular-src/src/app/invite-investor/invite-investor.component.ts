@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Investor } from '../models/Investor';
+import { User } from '../models/User';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 import { InviteInvestorService } from '../services/inviteInvestor.service';
@@ -13,7 +13,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class InviteInvestorComponent implements OnInit {
 
-  private newInvestor: Investor;
+  private newInvestor: User;
 
   constructor(private inviteInvestorService: InviteInvestorService,
               private router: Router,
