@@ -17,7 +17,7 @@ export class AddPropertyService {
     let headers = new Headers;
     let body = JSON.stringify({
       _id: property._id,
-      wholesaler: property.wholesaler,
+      wholesaler_id: property.wholesaler_id,
       address: property.address,
       city: property.city,
       state: property.state,

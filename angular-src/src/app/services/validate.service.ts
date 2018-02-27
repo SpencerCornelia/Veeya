@@ -10,7 +10,7 @@ export class ValidateService {
   constructor(private http: Http) { }
 
   validateRegister(user) {
-    if (!user.firstName || !user.lastName || !user.email || !user.firstName) {
+    if (!user.firstName || !user.lastName || !user.email) {
       return false;
     } else {
       return true;

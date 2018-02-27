@@ -27,7 +27,7 @@ export class EditPropertyService {
     let headers = new Headers;
     let body = JSON.stringify({
       _id: property._id,
-      wholesaler: property.wholesaler,
+      wholesaler: property.wholesaler_id,
       address: property.address,
       city: property.city,
       state: property.state,

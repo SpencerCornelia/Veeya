@@ -15,9 +15,7 @@ export class AuthService {
   constructor(private http: Http) { }
 
   registerUser(user) {
-    let serverApi = "http://localhost:3000/";
-    let userType = user.userType;
-    let route = serverApi + 'register/' + userType;
+    let route= "http://localhost:3000/register";
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     delete user.passwordConfirm;
