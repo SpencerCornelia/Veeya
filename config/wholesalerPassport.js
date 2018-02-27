@@ -10,7 +10,7 @@ module.exports = function(passport) {
   opts.secretOrKey = keys.secret;
 
   passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
-    user.getWholesalerById(jwt_payload._id, (err, user) => {
+    User.getWholesalerById(jwt_payload._id, (err, user) => {
       if (err) {
         return done(err, false);
       }
