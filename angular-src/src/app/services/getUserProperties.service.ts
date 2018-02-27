@@ -6,14 +6,14 @@ import { Property } from '../models/Property';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class GetInvestorPropertiesService {
+export class GetUserPropertiesService {
 
   constructor(private http: Http) { }
 
   private serverApi = 'http://localhost:3000/properties';
 
-  public getInvestorProperties(investorID):Observable<Property[]> {
-    let URI = this.serverApi + "/" + investorID;
+  public getUserProperties(userID):Observable<Property[]> {
+    let URI = this.serverApi + "/" + userID;
     return this.http.get(URI)
       .map(res => res.json())
       .map(res => <Property[]>res.properties);

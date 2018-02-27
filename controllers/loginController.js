@@ -2,19 +2,18 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
-const Wholesaler = require('../models/wholesaler.js');
-const Investor = require('../models/investor.js');
+const User = require('../models/user.js');
 
 const keys = require('../config/keys.js');
 
-// POST HTTP to /login for wholesaler
-router.post('/wholesaler', (req, res, next) => {
+// POST HTTP to /login for user
+router.post('/', (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  Wholesaler.getWholesalerByEmail(email)
+  User.getUserByEmail(email)
     .then((response) => {
-      Wholesaler.comparePassword(password, response.data.password, (error, isMatchResponse) => {
+      User.comparePassword(password, response.data.password, (error, isMatchResponse) => {
         if (error) {
           return res.status(500).json({
             success: isMatchResponse.success,
@@ -42,52 +41,6 @@ router.post('/wholesaler', (req, res, next) => {
           return res.status(500).json({
             success: isMatchResponse.success,
             message: isMatchResponse.message
-          });
-        }
-      });
-    })
-    .catch((error) => {
-      res.status(500).json(error);
-    });
-
-});
-
-// POST HTTP login to investor
-router.post('/investor', (req, res, next) => {
-  const email = req.body.email;
-  const password = req.body.password;
-
-  Investor.getInvestorByEmail(email)
-    .then((response) => {
-      Investor.comparePassword(password, response.data.password, (error, isMatchResponse) => {
-        if (error) {
-          return res.status(500).json({
-            success: isMatchResponse.success,
-            message: isMatchResponse.message,
-            error: isMatchResponse.error
-          });
-        }
-
-        if (isMatchResponse) {
-          const token = jwt.sign(response.data.toJSON(), keys.secret, {
-            expiresIn: 604800
-          });
-
-          res.status(201).json({
-            success: isMatchResponse.success,
-            token: 'JWT ' + token,
-            message: 'Success logging in. Welcome back ' + response.data.firstName + '!',
-            user: {
-              id: response.data._id,
-              firstName: response.data.firstName,
-              user_type: response.data.userType
-            }
-          });
-        } else {
-          return res.status(500).json({
-            success: isMatchResponse.success,
-            message: isMatchResponse.message,
-            error: isMatchResponse.error
           });
         }
       });

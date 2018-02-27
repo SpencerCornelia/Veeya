@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-// Add models
-const wholesaler = require('../models/wholesaler');
-const investor = require('../models/investor');
 const property = require('../models/property');
+const user = require('../models/user');
 
 // GET HTTP to /properties
 // use this for testing to see all properties
@@ -30,7 +28,7 @@ router.get('/property/:uid', (req, res) => {
 
 // GET HTTP for /properties for a wholesaler. uid = wholesalerID
 router.get('/wholesaler/:uid', (req, res) => {
-  wholesaler.getPropertiesForWholesaler(req.params.uid)
+  user.getPropertiesForUser(req.params.uid)
     .then((response) => {
       res.status(200).json(response);
     })
@@ -41,7 +39,7 @@ router.get('/wholesaler/:uid', (req, res) => {
 
 // GET HTTP for /properties for an investor. uid = investorID
 router.get('/investor/:uid', (req, res) => {
-  investor.getPropertiesForInvestor(req.params.uid)
+  user.getPropertiesForUser(req.params.uid)
     .then((response) => {
       res.status(200).json(response);
     })
@@ -100,7 +98,7 @@ router.get('/editproperty/:id', (req, res, next) => {
 router.put('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
 
-  wholesaler.updatePropertyForWholesaler(req.body)
+  user.updatePropertyForWholesaler(req.body)
     .then((response) => {
       return property.editPropertyByID(req.body)
     })

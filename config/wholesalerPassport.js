@@ -1,6 +1,6 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-const Wholesaler = require('../models/wholesaler.js');
+const User = require('../models/user.js');
 
 const keys = require('./keys.js');
 
@@ -10,7 +10,7 @@ module.exports = function(passport) {
   opts.secretOrKey = keys.secret;
 
   passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
-    Wholesaler.getWholesalerById(jwt_payload._id, (err, user) => {
+    user.getWholesalerById(jwt_payload._id, (err, user) => {
       if (err) {
         return done(err, false);
       }

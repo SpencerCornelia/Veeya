@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GetAllPropertiesService } from '../services/getAllProperties.service';
 import { DeletePropertyService } from '../services/deleteProperty.service';
-import { GetWholesalerPropertiesService } from '../services/getWholesalerProperties.service';
+import { GetUserPropertiesService } from '../services/getUserProperties.service';
 import { EditPropertyService } from '../services/editProperty.service'
 import { Property } from '../models/Property';
 
@@ -19,7 +19,7 @@ export class ViewPropertiesComponent implements OnInit {
   private properties: Property[] = [];
   private wholesalerProperties: Property[] = [];
 
-  constructor(private getPropertyService: GetAllPropertiesService, private deletePropertyService: DeletePropertyService, private getWholesalerPropertyService: GetWholesalerPropertiesService, private editPropertyService: EditPropertyService, private router: Router) { }
+  constructor(private getPropertyService: GetAllPropertiesService, private deletePropertyService: DeletePropertyService, private getUserPropertiesService: GetUserPropertiesService, private editPropertyService: EditPropertyService, private router: Router) { }
 
   ngOnInit() {
     this.getPropertiesForWholesaler();
@@ -28,7 +28,7 @@ export class ViewPropertiesComponent implements OnInit {
   public getPropertiesForWholesaler() {
     let wholesalerID = localStorage.getItem('user_id');
     // Get all properties for the wholesaler who is logged in
-    this.getWholesalerPropertyService.getWholesalerProperties(wholesalerID)
+    this.getUserPropertiesService.getUserProperties(wholesalerID)
       .subscribe(response => this.wholesalerProperties = response)
   }
 

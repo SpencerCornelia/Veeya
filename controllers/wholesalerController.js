@@ -1,14 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-// Add Model
-const wholesaler = require('../models/wholesaler');
-const investor = require('../models/investor');
+const user = require('../models/user');
 
 // GET HTTP for all wholesalers
 router.get('/', (req, res) => {
 
-  wholesaler.getAllWholesalers()
+  user.getAllWholesalers()
     .then((response) => {
       res.status(200).json(response);
     })
@@ -19,7 +17,7 @@ router.get('/', (req, res) => {
 
 // GET HTTP to /wholesaler
 router.get('/:uid', (req,res) => {
-  wholesaler.getWholesalerById(req.params.uid)
+  user.getWholesalerById(req.params.uid)
     .then((response) => {
       res.status(200).json(response);
     })
@@ -32,7 +30,7 @@ router.get('/:uid', (req,res) => {
 router.post('/invitewholesaler', (req, res) => {
   let investorID = req.body.investor_id;
   let wholesalerID = '';
-  wholesaler.registerWholesaler(req.body)
+  user.registerUser(req.body)
     .then((wholesaler) => {
       return wholesaler;
     })
@@ -54,7 +52,6 @@ router.post('/invitewholesaler', (req, res) => {
       }
     })
     .catch((error) => {
-      console.log("made it to catch:", error)
       res.status(500).json(error);
     })
 });

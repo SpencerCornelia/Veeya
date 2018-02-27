@@ -4,12 +4,12 @@ mongoose.Promise = global.Promise;
 const config = require('../config/database');
 var db = mongoose.createConnection(config.database);
 
-const Wholesaler = require('./wholesaler');
+const User = require('./user');
 
 const PropertySchema = mongoose.Schema({
   wholesaler: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Wholesaler'
+    ref: 'User'
   },
   address: {
     type: String,
