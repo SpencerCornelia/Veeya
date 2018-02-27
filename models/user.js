@@ -67,8 +67,8 @@ module.exports.registerUser = function(userBody) {
       } else if (user) {
         let userObj = {
           success: false,
-          message: 'User already exists. If you are attempting to register a new user, please head to login page. '
-            + 'If you are attempting to invite an user, please connect with the user using our connection process.',
+          message: 'Email already exists. If you are attempting to login using this email, please head to login page. '
+            + 'If you are attempting to invite a user, please request a connection with the user using our Add Connection feature.',
           error: ''
         }
         reject(userObj)
@@ -97,21 +97,21 @@ module.exports.registerUser = function(userBody) {
               if (error) {
                 let errorObj = {
                   success: false,
-                  message: 'Error registering investor.',
+                  message: 'Error registering user.',
                   error: error
                 }
                 reject(errorObj);
               } else if (savedUser) {
                 let investorObj = {
                   success: true,
-                  message: 'Successfully registered investor.',
+                  message: 'Successfully registered user.',
                   data: savedUser
                 }
                 resolve(investorObj);
               } else {
                 let errorObj = {
                   success: false,
-                  message: 'Unable to save investor.',
+                  message: 'Unable to save user.',
                   error: ''
                 }
                 reject(errorObj);
@@ -187,7 +187,7 @@ module.exports.getWholesalerById = function(id) {
   let ObjectId = mongoose.Types.ObjectId;
   let searchId = new ObjectId(id);
   return new Promise((resolve, reject) => {
-    user.find({ 'userType': 'Wholesaler', '_id': searchId }, (error, wholesaler) => {
+    User.find({ 'userType': 'Wholesaler', '_id': searchId }, (error, wholesaler) => {
       if (error) {
         let errorObj = {
           success: false,
@@ -290,7 +290,7 @@ module.exports.addInvestorConnection = function(investor, wholesalerID) {
         } else if (user) {
           let successObj = {
             success: true,
-            message: 'Successfully added investor as a connection.',
+            message: 'Successfully invited user.',
             data: user
           }
           resolve(successObj);
@@ -350,8 +350,11 @@ module.exports.getAllInvestors = function() {
 module.exports.getInvestorById = function(id) {
   let ObjectId = mongoose.Types.ObjectId;
   let searchId = new ObjectId(id);
+  console.log("searchId:", searchId)
   return new Promise((resolve, reject) => {
-    user.find({ 'userType': 'Investor', '_id': searchId }, (error, investor) => {
+    User.find({ 'userType': 'Investor', '_id': searchId }, (error, investor) => {
+      console.log("investor:", investor)
+      console.log("error:", error)
       if (error) {
         let errorObj = {
           success: false,
@@ -386,10 +389,14 @@ module.exports.getInvestorById = function(id) {
 
 
 /*
-===== INVESTOR SETTERS BEGIN
+===== INVESTOR SETTERS BEGIN =====
 */
 
 module.exports.addWholesalerConnection = function(wholesaler, investorEmail, investorID) {
+  console.log("wholesaler:", wholesaler)
+  console.log("investorEmail:",investorEmail)
+  console.log("investorID:", investorID)
+
   let query = {};
   let ObjectId = mongoose.Types.ObjectId;
 
@@ -404,6 +411,7 @@ module.exports.addWholesalerConnection = function(wholesaler, investorEmail, inv
       { $push: { connections: wholesaler } },
       { safe: true, upsert: true, new: true },
       function(error, user) {
+        console.log("user after update:", user)
         if (error) {
           let errorObj = {
             success: false,
@@ -414,7 +422,7 @@ module.exports.addWholesalerConnection = function(wholesaler, investorEmail, inv
         } else if (user) {
           let successObj = {
             success: true,
-            message: 'Successfully updated user.',
+            message: 'Successfully invited user.',
             data: user
           }
           resolve(successObj);
