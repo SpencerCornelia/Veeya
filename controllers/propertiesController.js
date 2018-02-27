@@ -51,7 +51,7 @@ router.get('/investor/:uid', (req, res) => {
 // POST HTTP to /properties/addproperty
 router.post('/addproperty', (req, res, next) => {
   var newProperty = new property({
-    wholesaler: req.body.wholesaler,
+    wholesaler: req.body.wholesaler_id,
     address: req.body.address,
     city: req.body.city,
     state: req.body.state,
@@ -72,7 +72,7 @@ router.post('/addproperty', (req, res, next) => {
     // need to figure out how to store photos in a CDN and then link that URL to photos array
     //photos: req.body.photos
   });
-  property.addProperty(newProperty, req.body.wholesaler)
+  property.addProperty(newProperty, req.body.wholesaler_id)
     .then((response) => {
       res.status(201).json(response);
     })
