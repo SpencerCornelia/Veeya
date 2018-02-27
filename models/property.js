@@ -109,11 +109,11 @@ module.exports.getAllProperties = (callback) => {
 // newProperty.save() is used to insert the document into MongoDB
 module.exports.addProperty = (newProperty, wholesalerID, callback) => {
   return new Promise((resolve, reject) => {
-    Wholesaler.findOneAndUpdate(
+    User.findOneAndUpdate(
       { _id: wholesalerID },
       { $push: { properties: newProperty }},
       { safe: true, upsert: true, new: true },
-      function(error, success) {
+      function(error, user) {
         if (error) {
           let errorObj = {
             success: false,
