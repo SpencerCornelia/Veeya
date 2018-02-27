@@ -1,6 +1,6 @@
 export interface Property {
   _id?: Number,
-  wholesaler: String,
+  wholesaler_id: String,
   address: String,
   city: String,
   state: String,
