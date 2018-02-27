@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RegisterWholesaler } from '../models/RegisterWholesaler';
+
+import { RegisterUser } from '../models/RegisterUser';
 import { ValidateService } from '../services/validate.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { AuthService } from '../services/auth.service';
@@ -17,7 +18,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class RegisterComponent implements OnInit {
 
-  private newUser: RegisterWholesaler;
+  private newUser: RegisterUser;
   private error: any;
 
   constructor(private validateService: ValidateService,

@@ -31,7 +31,7 @@ export class ValidateService {
   }
 
   validateLogin(user) {
-    if (!user.email || !user.password || !user.userType) {
+    if (!user.email || !user.password) {
       return false;
     } else {
       return true;

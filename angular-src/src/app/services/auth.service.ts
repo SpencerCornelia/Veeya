@@ -33,30 +33,18 @@ export class AuthService {
   }
 
   authenticateUser(user) {
-    let serverApi = "http://localhost:3000/login/";
+    let route = "http://localhost:3000/login";
 
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    if (user.userType === 'Investor') {
-      let route = serverApi + 'investor';
-      return this.http.post(route, user, { headers: headers })
-        .map((response) => {
-          return response.json();
-        })
-        .catch((error)  => {
-          return Observable.throw(error.json());
-        });
-    } else {
-      let route = serverApi + 'wholesaler';
-      return this.http.post(route, user, { headers: headers })
-        .map((response) => {
-          return response.json();
-        })
-        .catch((error) => {
-          return Observable.throw(error.json());
-        });
-    }
+    return this.http.post(route, user, { headers: headers })
+      .map((response) => {
+        return response.json();
+      })
+      .catch((error)  => {
+        return Observable.throw(error.json());
+      });
   }
 
   investorUser() {

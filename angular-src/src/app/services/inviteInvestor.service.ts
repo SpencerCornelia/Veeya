@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Investor } from '../models/Investor';
+import { User } from '../models/User';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
@@ -13,19 +13,19 @@ export class InviteInvestorService {
 
   private serverApi = 'http://localhost:3000/';
 
-  public inviteInvestor(investor: Investor) {
+  public inviteInvestor(user: User) {
     let URI = this.serverApi + "investor/inviteinvestor";
     let headers = new Headers;
     let body = JSON.stringify({
       _id: 0,
-      userType: investor.userType,
-      userName: investor.userName,
-      password: investor.password,
-      firstName: investor.firstName,
-      lastName: investor.lastName,
-      email: investor.email,
-      phoneNumber: investor.phoneNumber,
-      wholesaler_id: investor.wholesaler_id
+      userType: user.userType,
+      userName: user.userName,
+      password: user.password,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      wholesaler_id: user.wholesaler_id
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, { headers: headers })
