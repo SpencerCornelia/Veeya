@@ -7,9 +7,9 @@ var db = mongoose.createConnection(config.database);
 const User = require('./user');
 
 const PropertySchema = mongoose.Schema({
-  wholesaler: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+  wholesaler_id: {
+    type: String,
+    required: true
   },
   address: {
     type: String,
@@ -106,8 +106,32 @@ module.exports.getAllProperties = (callback) => {
   })
 }
 
-// newProperty.save() is used to insert the document into MongoDB
-module.exports.addProperty = (newProperty, wholesalerID, callback) => {
+module.exports.addProperty = (propertyBody) => {
+  var newProperty = new Property({
+    wholesaler_id: propertyBody.wholesaler_id,
+    address: propertyBody.address,
+    city: propertyBody.city,
+    state: propertyBody.state,
+    zipCode: propertyBody.zipCode,
+    purchasePrice: propertyBody.purchasePrice,
+    bedrooms: propertyBody.bedrooms,
+    bathrooms: propertyBody.bathrooms,
+    rehabCostMin: propertyBody.rehabCostMin,
+    rehabCostMax: propertyBody.rehabCostMax,
+    afterRepairValue: propertyBody.afterRepairValue,
+    averageRent: propertyBody.averageRent,
+    squareFootage: propertyBody.squareFootage,
+    propertyType: propertyBody.propertyType,
+    yearBuilt: propertyBody.yearBuilt,
+    status: propertyBody.status,
+    comps: propertyBody.comps,
+    photos: "to be added later"
+    // need to figure out how to store photos in a CDN and then link that URL to photos array
+    //photos: req.body.photos
+  });
+
+  let wholesalerID = propertyBody.wholesaler_id;
+
   return new Promise((resolve, reject) => {
     User.findOneAndUpdate(
       { _id: wholesalerID },
@@ -151,7 +175,7 @@ module.exports.addProperty = (newProperty, wholesalerID, callback) => {
   });
 }
 
-module.exports.editPropertyByID = (updatedProperty, callback) => {
+module.exports.editPropertyByID = (updatedProperty) => {
   return new Promise((resolve, reject) => {
     Property.findById(updatedProperty._id, (err, property) => {
       property.address = updatedProperty.address;
@@ -199,7 +223,7 @@ module.exports.editPropertyByID = (updatedProperty, callback) => {
   });
 }
 
-module.exports.getPropertyByID = (id, callback) => {
+module.exports.getPropertyByID = (id) => {
   return new Promise((resolve, reject) => {
     Property.findById(id, (error, property) => {
       if (error) {
@@ -228,7 +252,7 @@ module.exports.getPropertyByID = (id, callback) => {
   });
 }
 
-module.exports.deletePropertyById = (id, callback) => {
+module.exports.deletePropertyById = (id) => {
   return new Promise((resolve, reject) => {
     let query = {_id: id};
     Property.remove(query, (error, success) => {
