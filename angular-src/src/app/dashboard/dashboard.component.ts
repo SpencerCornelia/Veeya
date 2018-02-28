@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../services/profile.service';
+import { EditPropertyService } from '../services/editProperty.service';
 import { Property } from '../models/Property';
 
 import * as $ from 'jquery';
@@ -21,7 +22,9 @@ export class DashboardComponent implements OnInit {
   private userType: String;
 
   constructor(private profileService: ProfileService,
-              private flashMessageService: FlashMessagesService) { }
+              private flashMessageService: FlashMessagesService,
+              private editPropertyService: EditPropertyService,
+              private router: Router) { }
 
   ngOnInit() {
     this.user = {
@@ -67,6 +70,18 @@ export class DashboardComponent implements OnInit {
       .subscribe((response) => {
         this.user = response[0];
         this.properties = response[0].properties;
+      }, (error) => {
+        this.flashMessageService.show(error.message, {
+          cssClass: 'alert-danger',
+          timeout: 3000
+        })
+      })
+  }
+
+  editProperty(property: Property) {
+    this.editPropertyService.getPropertyByID(property._id)
+      .subscribe((response) => {
+        this.router.navigate(['/editproperty/' + property._id]);
       }, (error) => {
         this.flashMessageService.show(error.message, {
           cssClass: 'alert-danger',
