@@ -50,8 +50,10 @@ export class DashboardComponent implements OnInit {
   getWholesalerProfileInfo() {
     this.profileService.getWholesalerProfileInfo(this.userID)
       .subscribe((response) => {
-        this.user = response;
-        this.properties = response.properties;
+        console.log("response:", response)
+        this.user = response[0];
+        this.properties = response[0].properties;
+        console.log("this.properties:", this.properties)
       }, (error) => {
         this.flashMessageService.show(error.message, {
           cssClass: 'alert-danger',
@@ -63,8 +65,8 @@ export class DashboardComponent implements OnInit {
   getInvestorProfileInfo() {
     this.profileService.getInvestorProfileInfo(this.userID)
       .subscribe((response) => {
-        this.user = response;
-        this.properties = response.properties;
+        this.user = response[0];
+        this.properties = response[0].properties;
       }, (error) => {
         this.flashMessageService.show(error.message, {
           cssClass: 'alert-danger',

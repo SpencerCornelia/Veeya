@@ -26,7 +26,11 @@
   margin-top: 35px;
   border: 1px solid green;
   background-color: #FFFFFF;
-  height: 400px;
+
+}
+
+#propertiesRow {
+  margin-bottom: 10px;
 }
 
 .add-box {
@@ -63,6 +67,27 @@
   float: right;
   margin-top: 10px;
   margin-right: 10px;
+}
+
+.property-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+}
+
+.property-price, .property-address, .property-property-type, .property-bedrooms-bathrooms {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.property-image {
+  position: relative;
+}
+
+.property-image img {
+  max-width: 100%;
 }
 
 @media screen and (max-width: 785px) {

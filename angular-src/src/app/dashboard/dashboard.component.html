@@ -8,6 +8,8 @@
   <div class="dashboard-wrapper">
     <div class="add-boxes-wrapper">
       <div class="container-fluid">
+
+        <!-- Start ADD BOXES row -->
         <div class="row">
           <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
             <div class="add-box">
@@ -50,28 +52,36 @@
           </div>
 
         </div> <!-- End Add boxes row -->
-        <div class="row">
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+
+
+        <!-- Start Properties Row -->
+        <div class="row" id="propertiesRow">
+          <div *ngFor="let property of properties" class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
             <div class="properties-box">
-              spencer cornelia
+              <div class="property-title">
+                {{ property.address }}
+              </div>
+              <div class="property-image">
+                <img src="https://scontent.flas1-1.fna.fbcdn.net/v/t1.0-9/26993322_3918229670408_8250173985738273633_n.jpg?oh=6794919c8e47c6ba7d54143eb3c357a7&oe=5B43F786" href="#" />
+              </div>
+              <div class="property-price">
+                {{ property.purchasePrice }}
+              </div>
+              <div class="property-address">
+                {{ property.city }}, {{ property.state }} {{ property.zipCode }}
+              </div>
+              <div class="property-property-type">
+                {{ property.propertyType }}
+              </div>
+              <div class="property-bedrooms-bathrooms">
+                Bed: {{ property.bedrooms }} Bath: {{ property.bathrooms }}
+              </div>
             </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-            <div class="properties-box">
-              spencer cornelia
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-            <div class="properties-box">
-              spencer cornelia
-            </div>
-          </div>
-          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
-            <div class="properties-box">
-              spencer cornelia
-            </div>
-          </div>
+            <div class="spacer"></div>
+          </div> <!-- End ngFor through properties -->
         </div> <!-- End Properties Row -->
+
+
       </div> <!-- End container-fluid -->
     </div> <!-- End add-boxes-wrapper -->
   </div> <!-- End dashboard-wrapper -->
