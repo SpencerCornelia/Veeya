@@ -52,8 +52,9 @@ export class EditPropertyComponent implements OnInit {
 
   getProperty(id) {
     this.editPropertyService.getPropertyByID(id)
-      .subscribe((data) => {
-        this.initialProperty = data.property;
+      .subscribe((response) => {
+        this.initialProperty = response.data;
+        console.log("this.initialProperty:", this.initialProperty)
       }, (error) => {
         this.flashMessage.show(error.message, {
           cssClass: 'alert-danger',

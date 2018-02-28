@@ -81,7 +81,7 @@ export class DashboardComponent implements OnInit {
   editProperty(property: Property) {
     this.editPropertyService.getPropertyByID(property._id)
       .subscribe((response) => {
-        this.router.navigate(['/editproperty/' + property._id]);
+        this.router.navigate(['/properties/editproperty/' + property._id]);
       }, (error) => {
         this.flashMessageService.show(error.message, {
           cssClass: 'alert-danger',
