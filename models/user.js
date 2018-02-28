@@ -236,13 +236,13 @@ module.exports.updatePropertyForWholesaler = function(property) {
         }
         reject(errorObj)
       } else {
-        var prop = wholesaler.wholesalerProperties.forEach((p, i) => {
+        var prop = wholesaler.properties.forEach((p, i) => {
           if(p._id == property._id) {
             index = i;
           }
         });
-        wholesaler.wholesalerProperties[index] = property;
-        wholesaler.markModified('wholesalerProperties');
+        wholesaler.properties[index] = property;
+        wholesaler.markModified('properties');
         wholesaler.save(function(error, wholesaler) {
           if (error) {
             let errorObj = {
