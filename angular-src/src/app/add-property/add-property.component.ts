@@ -36,7 +36,7 @@ export class AddPropertyComponent implements OnInit {
       afterRepairValue: 350000,
       averageRent: 1200,
       squareFootage: 1278,
-      propertyType: 'singleFamily',
+      propertyType: 'Single Family',
       yearBuilt: 1987,
       status: 'contractYes',
       comps: 450000
