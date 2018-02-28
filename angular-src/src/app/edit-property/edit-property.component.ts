@@ -30,7 +30,7 @@ export class EditPropertyComponent implements OnInit {
     // set initialProperty to beginning values to avoid field is undefined error in console
     this.initialProperty = {
       _id: 0,
-      wholesaler: wholesalerID,
+      wholesaler_id: wholesalerID,
       address: 'Form Address1',
       city: 'Las Vegas',
       state: 'NV',
