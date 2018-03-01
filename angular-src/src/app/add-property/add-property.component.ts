@@ -39,7 +39,8 @@ export class AddPropertyComponent implements OnInit {
       propertyType: 'Single Family',
       yearBuilt: 1987,
       status: 'contractYes',
-      comps: 450000
+      comps: 450000,
+      photos: ''
     }
   }
 
