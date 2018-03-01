@@ -13,6 +13,7 @@ import { EditPropertyService } from '../services/editProperty.service';
 })
 export class EditPropertyComponent implements OnInit {
 
+  private pageTitle: String;
   private propertyID: string;
   private initialProperty: any;
 
@@ -46,8 +47,10 @@ export class EditPropertyComponent implements OnInit {
       propertyType: 'singleFamily',
       yearBuilt: 1987,
       status: 'contractYes',
-      comps: 450000
+      comps: 450000,
+      photos: ''
     }
+    this.pageTitle = 'Edit Property';
   }
 
   getProperty(id) {
