@@ -17,6 +17,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 export class DashboardComponent implements OnInit {
 
   private user: any;
+  private pageTitle: String;
   private properties: Property[] = [];
   private userID: String;
   private userType: String;
@@ -44,6 +45,7 @@ export class DashboardComponent implements OnInit {
     } else {
       console.log("this.userType is not available.");
     }
+    this.pageTitle = 'Dashboard';
   }
 
   ngAfterViewInit() {
@@ -53,10 +55,8 @@ export class DashboardComponent implements OnInit {
   getWholesalerProfileInfo() {
     this.profileService.getWholesalerProfileInfo(this.userID)
       .subscribe((response) => {
-        console.log("response:", response)
         this.user = response[0];
         this.properties = response[0].properties;
-        console.log("this.properties:", this.properties)
       }, (error) => {
         this.flashMessageService.show(error.message, {
           cssClass: 'alert-danger',
