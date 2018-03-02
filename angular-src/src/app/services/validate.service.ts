@@ -38,4 +38,13 @@ export class ValidateService {
     }
   }
 
+  validatePhotoInput(fileType) {
+    console.log("fileType:", fileType);
+    if (fileType !== 'image/jpeg' || fileType !== 'image/png' || fileType !== 'image/jpg') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }
