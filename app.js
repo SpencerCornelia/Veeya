@@ -9,11 +9,12 @@ const jwt = require('passport-jwt');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-const propertiesController = require('./controllers/propertiesController');
+const investorController = require('./controllers/investorController');
 const loginController = require('./controllers/loginController');
+const photosController = require('./controllers/photosController');
+const propertiesController = require('./controllers/propertiesController');
 const registerController = require('./controllers/registerController');
 const wholesalerController = require('./controllers/wholesalerController');
-const investorController = require('./controllers/investorController');
 
 // Connect mongoose to our database
 const config = require('./config/database');
@@ -71,6 +72,9 @@ app.use('/properties', propertiesController);
 
 // Route all HTTP requests to investorController
 app.use('/investor', investorController);
+
+// Route all HTTP requests to photosController
+app.use('/photos', photosController);
 
 // Route for 404. Looks like app-routing.ts handles the variable ('**') route instead of this
 app.get('*', function(req, res, next) {
