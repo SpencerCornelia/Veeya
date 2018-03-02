@@ -10,8 +10,9 @@
   <div class="form-wrapper">
     <form (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <label for="imageInput">Please Enter One Photo:</label>
-        <input type="file" class="form-control-file" id="imageInput" />
+        <label for="imageInput">Please Enter Photos:</label>
+        <input type="file" class="form-control-file" id="imageInput" (change)="addPhoto($event)" />
+        <button type="button" (click)="uploadPhotos()">Upload Photos</button>
       </div>
       <div class="form-group">
         <label for="address">Address</label>

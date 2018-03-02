@@ -1,10 +1,16 @@
 import { Component, OnInit, Output } from '@angular/core';
-import { Property } from '../models/Property';
-import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
-import { AddPropertyService } from '../services/addProperty.service';
+
+import { AppRoutingModule } from '../app-routing.module';
 import { ModuleWithProviders } from '@angular/core';
+
+import { Property } from '../models/Property';
+
+import { AddPropertyService } from '../services/addProperty.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
+import { PhotosService } from '../services/photos.service';
+import { ValidateService } from '../services/validate.service';
+
 
 @Component({
   selector: 'app-add-property',
@@ -14,10 +20,14 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 export class AddPropertyComponent implements OnInit {
 
   private newProperty: Property;
+  private photo: File;
+  private photos: Array<File> = [];
 
   constructor(private addPropertyService: AddPropertyService,
+              private flashMessage: FlashMessagesService,
+              private photosService: PhotosService,
               private router: Router,
-              private flashMessage: FlashMessagesService) { }
+              private validateService: ValidateService) { }
 
   ngOnInit() {
     let wholesalerID = localStorage.getItem('user_id');
@@ -60,6 +70,29 @@ export class AddPropertyComponent implements OnInit {
           timeout: 3000
         });
       });
+  }
+
+  public addPhoto(event) {
+    let file = event.target.files[0];
+    let fileType = file["type"];
+    if (this.validateService.validatePhotoInput(fileType)) {
+      this.photo = event.target.files[0];
+      this.photos.push(this.photo);
+    } else {
+      // display an error message telling user to upload a file that is an image
+    }
+  }
+
+  public uploadPhotos(event) {
+    this.photosService.uploadPhotos(this.photos)
+      .subscribe((response) => {
+        // need to set this.newProperty.photos = response.photos
+      }, (error) => {
+        this.flashMessage.show(error.message, {
+          cssClass: 'alert-danger',
+          timeout: 3000
+        })
+      })
   }
 
 }
