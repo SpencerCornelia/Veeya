@@ -28,11 +28,13 @@ import { AuthService } from './services/auth.service';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { EditPropertyService } from './services/editProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
+import { GetUserPropertiesService } from './services/getUserProperties.service';
 import { InviteInvestorService } from './services/inviteInvestor.service';
 import { InviteWholesalerService } from './services/invitewholesaler.service';
-import { ValidateService } from './services/validate.service';
+import { PhotosService } from './services/photos.service';
 import { ProfileService } from './services/profile.service';
-import { GetUserPropertiesService } from './services/getUserProperties.service';
+import { ValidateService } from './services/validate.service';
+
 
 @NgModule({
   declarations: [
@@ -66,8 +68,9 @@ import { GetUserPropertiesService } from './services/getUserProperties.service';
     GetAllPropertiesService,
     InviteInvestorService,
     InviteWholesalerService,
-    ValidateService,
+    PhotosService,
     ProfileService,
+    ValidateService,
     AuthGuard,
     RoleGuard,
     Title,
