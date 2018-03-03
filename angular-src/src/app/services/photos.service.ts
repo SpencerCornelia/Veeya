@@ -23,7 +23,7 @@ export class PhotosService {
     this.user_id = localStorage.getItem('user_id');
   }
 
-  public uploadPhotos(photos: Array<File>, callback) {
+  public uploadPropertyPhotos(photos: Array<File>, callback) {
     let storageRef = firebase.storage().ref();
     for (let i = 0; i < photos.length; i++) {
       let path = `${this.propertyPhotosFolder}/${this.user_id}/` + photos[i].name;
@@ -42,5 +42,35 @@ export class PhotosService {
     } else {
       callback(true);
     }
+  }
+
+  public removePropertyPhoto(photoName: String, callback) {
+    let storageRef = firebase.storage().ref();
+    let path = `${this.propertyPhotosFolder}/${this.user_id}/` + photoName;
+    storageRef.delete()
+      .then(() => {
+        callback(false);
+      })
+      .catch((error) => {
+        callback(true);
+      });
+  }
+
+  public getPropertyPhotoUrls(photos: Array<String>, callback) {
+    let urls = [];
+    let storageRef = firebase.storage();
+    let path = `${this.propertyPhotosFolder}/${this.user_id}/`;
+    for (let i = 0; i < photos.length; i++) {
+      let pathRef = storageRef.ref(path + photos[i]);
+      pathRef.getDownloadURL()
+        .then((url) => {
+          urls.push(url);
+        })
+        .catch((error) => {
+          callback(true);
+          return;
+        })
+    }
+    callback(false, urls);
   }
 }
