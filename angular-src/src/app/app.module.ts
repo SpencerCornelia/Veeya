@@ -1,11 +1,15 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { environment } from '../environments/environment';
 
-import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppRoutingModule } from './app-routing.module';
 import { FlashMessagesModule } from 'angular2-flash-messages';
-import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { FormsModule } from '@angular/forms';
+import { HttpModule } from '@angular/http';
+
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
 
@@ -53,12 +57,14 @@ import { ValidateService } from './services/validate.service';
     TopNavbarComponent
   ],
   imports: [
-    BrowserModule,
-    HttpModule,
-    FormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule,
+    AngularFontAwesomeModule,
     AppRoutingModule,
-    FlashMessagesModule.forRoot(),
-    AngularFontAwesomeModule
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    FlashMessagesModule.forRoot()
   ],
   providers: [
     AddPropertyService,
