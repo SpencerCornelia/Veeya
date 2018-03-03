@@ -17,7 +17,7 @@ export interface Property {
   yearBuilt: Number,
   status: String,
   comps: Number,
-  photos: any,
+  photos: Array<String>,
   property?: any,
   data?: any
 }
