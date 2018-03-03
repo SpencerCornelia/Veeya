@@ -350,11 +350,9 @@ module.exports.getAllInvestors = function() {
 module.exports.getInvestorById = function(id) {
   let ObjectId = mongoose.Types.ObjectId;
   let searchId = new ObjectId(id);
-  console.log("searchId:", searchId)
+
   return new Promise((resolve, reject) => {
     User.find({ 'userType': 'Investor', '_id': searchId }, (error, investor) => {
-      console.log("investor:", investor)
-      console.log("error:", error)
       if (error) {
         let errorObj = {
           success: false,
@@ -393,10 +391,6 @@ module.exports.getInvestorById = function(id) {
 */
 
 module.exports.addWholesalerConnection = function(wholesaler, investorEmail, investorID) {
-  console.log("wholesaler:", wholesaler)
-  console.log("investorEmail:",investorEmail)
-  console.log("investorID:", investorID)
-
   let query = {};
   let ObjectId = mongoose.Types.ObjectId;
 
@@ -411,7 +405,6 @@ module.exports.addWholesalerConnection = function(wholesaler, investorEmail, inv
       { $push: { connections: wholesaler } },
       { safe: true, upsert: true, new: true },
       function(error, user) {
-        console.log("user after update:", user)
         if (error) {
           let errorObj = {
             success: false,
