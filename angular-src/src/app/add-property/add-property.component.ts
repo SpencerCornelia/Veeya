@@ -93,7 +93,7 @@ export class AddPropertyComponent implements OnInit {
   public uploadPhotos(event) {
     this.photosService.uploadPhotos(this.photos, (error, photos) => {
       if (error) {
-        this.flashMessage.show("Error uploading photos. Please try again later.", {
+        this.flashMessage.show('Error uploading photos. Please try again later.', {
           cssClass: 'alert-danger',
           timeout: 2000
         });
