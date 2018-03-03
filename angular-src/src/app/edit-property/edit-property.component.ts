@@ -71,6 +71,7 @@ export class EditPropertyComponent implements OnInit {
         if (this.initialProperty.photos.length === 3) {
           let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
           inputButton.disabled = true;
+          document.getElementById('uploadPhotos').hidden = true;
         }
       }, (error) => {
         this.flashMessage.show(error.message, {
@@ -81,6 +82,18 @@ export class EditPropertyComponent implements OnInit {
   }
 
   public onSubmit() {
+    this.photosService.getPropertyPhotoUrls(this.photos, (error, photos) => {
+      if (error) {
+        this.flashMessage.show('Error submitting form. Please try again.', {
+          cssClass: 'alert-danger',
+          timeout: 3000
+        });
+        return;
+      } else {
+        this.initialProperty.photos = photos;
+      }
+    });
+
     this.editPropertyService.editProperty(this.initialProperty)
       .subscribe((response) => {
         if (response.success) {
@@ -104,11 +117,17 @@ export class EditPropertyComponent implements OnInit {
     if (this.validateService.validatePhotoInput(fileType)) {
       this.photo = event.target.files[0];
       this.photosToAdd.push(this.photo);
+      document.getElementById('selectedFiles').innerHTML += file.name + "</br>";
+    }
+
+    if (this.photos.length + this.photosToAdd.length === 3) {
+      let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
+      inputButton.disabled = true;
     }
   }
 
   public uploadPhotos(event) {
-    this.photosService.uploadPhotos(this.photosToAdd, (error, photos) => {
+    this.photosService.uploadPropertyPhotos(this.photosToAdd, (error, photos) => {
       if (error) {
         this.flashMessage.show('Error uploading photos. Please try again later.', {
           cssClass: 'alert-danger',
@@ -116,12 +135,25 @@ export class EditPropertyComponent implements OnInit {
         })
       } else {
         this.photos = photos;
+        this.photosToAdd = [];
       }
     })
   }
 
   public removePhoto(photo) {
-    // figure out how to remove photo from firebase storage
+    this.photosService.removePropertyPhoto(photo, (error) => {
+      if (error) {
+        this.flashMessage.show('Error removing photo. Please try again.', {
+          cssClass: 'alert-danger',
+          timeout: 3000
+        });
+      } else {
+        this.flashMessage.show('Successfully removed photo.', {
+          cssClass: 'alert-success',
+          timeout: 3000
+        })
+      }
+    });
   }
 
 }
