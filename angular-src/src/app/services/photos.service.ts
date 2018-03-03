@@ -24,7 +24,6 @@ export class PhotosService {
   }
 
   public uploadPhotos(photos: Array<File>, callback) {
-
     let storageRef = firebase.storage().ref();
     for (let i = 0; i < photos.length; i++) {
       let path = `${this.propertyPhotosFolder}/${this.user_id}/` + photos[i].name;
