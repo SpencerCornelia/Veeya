@@ -7,10 +7,25 @@
   </div>
 
     <div class="form-wrapper">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngFor="let photo of testPhotos" id="imageContainer">
+            <img id="propertyImage" src="{{ photo }}" />
+            <div class="middle">
+              <div (click)="removePhoto(photo)" class="text">Click to Delete Image</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <form (ngSubmit)="onSubmit()">
-        <div class="form-group row">
-          <label class="col-xs-4" for="imageInput">Please Enter One Photo:</label>
-          <input type="file" class="col-sm-8 form-control-file" id="imageInput" />
+        <p for="imageInput">Enter Additional Photo:</p>
+        <div class="custom-file">
+          <label class="col-xs-4 custom-file-label">Choose File...</label>
+          <input type="file" class="col-sm-8 custom-file-input" id="imageInput" (change)="addPhoto($event)" />
+          <div id="selectedFiles"></div>
+          <button type="button" (click)="removePhotos()" id="removePhotos">Remove Photos</button>
         </div>
         <div class="form-group">
           <label for="address">Address</label>
