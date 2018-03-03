@@ -30,6 +30,7 @@ export class AddPropertyComponent implements OnInit {
               private validateService: ValidateService) { }
 
   ngOnInit() {
+    document.getElementById('removePhotos').hidden = true;
     let wholesalerID = localStorage.getItem('user_id');
     this.newProperty = {
       _id: 0,
@@ -50,7 +51,7 @@ export class AddPropertyComponent implements OnInit {
       yearBuilt: 1987,
       status: 'contractYes',
       comps: 450000,
-      photos: ''
+      photos: []
     }
   }
 
@@ -78,21 +79,36 @@ export class AddPropertyComponent implements OnInit {
     if (this.validateService.validatePhotoInput(fileType)) {
       this.photo = event.target.files[0];
       this.photos.push(this.photo);
+      document.getElementById('selectedFiles').innerHTML += file.name + "</br>";
+      document.getElementById('removePhotos').hidden = false;
     } else {
       // display an error message telling user to upload a file that is an image
+    }
+    if (this.photos.length === 3) {
+      let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
+      inputButton.disabled = true;
     }
   }
 
   public uploadPhotos(event) {
-    this.photosService.uploadPhotos(this.photos)
-      .subscribe((response) => {
-        // need to set this.newProperty.photos = response.photos
-      }, (error) => {
-        this.flashMessage.show(error.message, {
+    this.photosService.uploadPhotos(this.photos, (error, photos) => {
+      if (error) {
+        this.flashMessage.show("Error uploading photos. Please try again later.", {
           cssClass: 'alert-danger',
-          timeout: 3000
-        })
-      })
+          timeout: 2000
+        });
+      } else {
+        this.newProperty.photos = photos;
+      }
+    });
+  }
+
+  public removePhotos() {
+    this.photos = [];
+    document.getElementById('selectedFiles').innerHTML = "";
+    let inputValue = (<HTMLInputElement>document.getElementById('imageInput'));
+    inputValue.value = "";
+    inputValue.disabled = false;
   }
 
 }
