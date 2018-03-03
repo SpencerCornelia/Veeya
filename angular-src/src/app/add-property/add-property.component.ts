@@ -22,6 +22,7 @@ export class AddPropertyComponent implements OnInit {
   private newProperty: Property;
   private photo: File;
   private photos: Array<File> = [];
+  private uploadedPhotos: Array<String> = [];
 
   constructor(private addPropertyService: AddPropertyService,
               private flashMessage: FlashMessagesService,
@@ -31,6 +32,7 @@ export class AddPropertyComponent implements OnInit {
 
   ngOnInit() {
     document.getElementById('removePhotos').hidden = true;
+    document.getElementById('uploadPhotos').hidden = true;
     let wholesalerID = localStorage.getItem('user_id');
     this.newProperty = {
       _id: 0,
@@ -56,6 +58,18 @@ export class AddPropertyComponent implements OnInit {
   }
 
   public onSubmit() {
+    this.photosService.getPropertyPhotoUrls(this.uploadedPhotos, (error, photos) => {
+      if (error) {
+        this.flashMessage.show('Error submitting form. Please try again.', {
+          cssClass: 'alert-danger',
+          timeout: 3000
+        });
+        return;
+      } else {
+        this.newProperty.photos = photos;
+      }
+    });
+
     this.addPropertyService.addProperty(this.newProperty)
       .subscribe((response) => {
         if (response.success === true) {
@@ -81,6 +95,7 @@ export class AddPropertyComponent implements OnInit {
       this.photos.push(this.photo);
       document.getElementById('selectedFiles').innerHTML += file.name + "</br>";
       document.getElementById('removePhotos').hidden = false;
+      document.getElementById('uploadPhotos').hidden = false;
     } else {
       // display an error message telling user to upload a file that is an image
     }
@@ -91,14 +106,14 @@ export class AddPropertyComponent implements OnInit {
   }
 
   public uploadPhotos(event) {
-    this.photosService.uploadPhotos(this.photos, (error, photos) => {
+    this.photosService.uploadPropertyPhotos(this.photos, (error, photos) => {
       if (error) {
         this.flashMessage.show('Error uploading photos. Please try again later.', {
           cssClass: 'alert-danger',
           timeout: 2000
         });
       } else {
-        this.newProperty.photos = photos;
+        this.uploadedPhotos = photos;
       }
     });
   }
