@@ -39,6 +39,7 @@ import { InviteInvestorService } from './services/inviteInvestor.service';
 import { InviteWholesalerService } from './services/invitewholesaler.service';
 import { PhotosService } from './services/photos.service';
 import { ProfileService } from './services/profile.service';
+import { UserService } from './services/user.service';
 import { ValidateService } from './services/validate.service';
 
 
@@ -80,6 +81,7 @@ import { ValidateService } from './services/validate.service';
     InviteWholesalerService,
     PhotosService,
     ProfileService,
+    UserService,
     ValidateService,
     AuthGuard,
     RoleGuard,
