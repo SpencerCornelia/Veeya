@@ -5,4 +5,27 @@
   <div class="navbar-wrapper">
     <app-top-navbar></app-top-navbar>
   </div>
+
+  <div class="form-wrapper">
+    <form (ngSubmit)="onSubmit()">
+      <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" [(ngModel)]="newWholesaler.firstName" name="firstName" required>
+      </div>
+      <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" [(ngModel)]="newWholesaler.lastName" name="lastName" required>
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input type="text" [(ngModel)]="newWholesaler.email" name="email" required>
+      </div>
+      <div>
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="text" [(ngModel)]="newWholesaler.phoneNumber" name="phoneNumber" required>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
 </div>
