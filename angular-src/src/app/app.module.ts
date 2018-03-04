@@ -33,6 +33,7 @@ import { ConnectionsComponent } from './connections/connections.component';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { EditPropertyService } from './services/editProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
+import { GetConnectionsService } from './services/getConnections.service';
 import { GetUserPropertiesService } from './services/getUserProperties.service';
 import { InviteInvestorService } from './services/inviteInvestor.service';
 import { InviteWholesalerService } from './services/invitewholesaler.service';
@@ -74,6 +75,7 @@ import { ValidateService } from './services/validate.service';
     DeletePropertyService,
     EditPropertyService,
     GetAllPropertiesService,
+    GetConnectionsService,
     InviteInvestorService,
     InviteWholesalerService,
     PhotosService,
