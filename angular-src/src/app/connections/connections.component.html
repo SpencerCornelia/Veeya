@@ -1,0 +1,116 @@
+<div class="wrapper">
+  <div class="sidebar-wrapper">
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="navbar-wrapper">
+    <app-top-navbar></app-top-navbar>
+  </div>
+
+  <div class="connections-wrapper">
+
+    <div class="container" id="content">
+      <div class="row">
+        <div class="col-xs-12">
+
+
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="pills-view-tab" data-toggle="pill" href="#pills-view" role="tab" aria-controls="pills-view" aria-selected="true">View All Connections</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-search-tab" data-toggle="pill" href="#pills-search" role="tab" aria-controls="pills-search" aria-selected="false">Search For New Connections</a>
+            </li>
+          </ul>
+
+
+          <!-- View All Connections table -->
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-view" role="tabpanel" aria-labelledby="pills-view-tab">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">City</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Profile</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let connection of connections; let i = index">
+                    <th scope="row">{{ i }}</th>
+                    <td>{{ connection.userName }}</td>
+                    <td>{{ connection.firstName }}</td>
+                    <td>{{ connection.lastName }}</td>
+                    <td>{{ connection.email }}</td>
+                    <td>{{ connection.phoneNumber }}</td>
+                    <td>{{ connection.city }}</td>
+                    <td>{{ connection.state }}</td>
+                    <td><a [routerLink]="['/user/' + connection._id]">View</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Search For New Connections Form -->
+            <div class="tab-pane fade" id="pills-search" role="tabpanel" aria-labelledby="pills-search-tab">
+              <form class="form-inline">
+                <div class="form-group">
+                  <input (input)="searchEmail($event)" type="text" class="form-control" id="email" aria-describedby="emailInput" placeholder="Filter by Email">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="username" placeholder="Filter by Username">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="firstName" placeholder="Filter by First Name">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="lastName" placeholder="Filter by Last Name">
+                </div>
+              </form>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">City</th>
+                    <th scope="col">State</th>
+                    <th scope="col">Profile</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ user.userName }}</td>
+                    <td>{{ user.firstName }}</td>
+                    <td>{{ user.lastName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phoneNumber }}</td>
+                    <td>{{ user.city }}</td>
+                    <td>{{ user.state }}</td>
+                    <td><a [routerLink]="['/user/' + user._id]">View</a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- End New Connections Form -->
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
