@@ -12,6 +12,10 @@ import { HttpModule } from '@angular/http';
 
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
+import { FilterEmailPipe } from './pipes/filterEmail.pipe';
+import { FilterFirstNamePipe } from './pipes/filterFirstName.pipe';
+import { FilterLastNamePipe } from './pipes/filterLastName.pipe';
+import { FilterUsernamePipe } from './pipes/filterUsername.pipe';
 
 import { AppComponent } from './app.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
@@ -50,6 +54,10 @@ import { ValidateService } from './services/validate.service';
     EditPropertyComponent,
     ConnectionsComponent,
     DashboardComponent,
+    FilterEmailPipe,
+    FilterFirstNamePipe,
+    FilterLastNamePipe,
+    FilterUsernamePipe,
     LoginComponent,
     InviteInvestorComponent,
     InviteWholesalerComponent,
@@ -77,6 +85,7 @@ import { ValidateService } from './services/validate.service';
     EditPropertyService,
     GetAllPropertiesService,
     GetConnectionsService,
+    GetUserPropertiesService,
     InviteInvestorService,
     InviteWholesalerService,
     PhotosService,
@@ -85,8 +94,7 @@ import { ValidateService } from './services/validate.service';
     ValidateService,
     AuthGuard,
     RoleGuard,
-    Title,
-    GetUserPropertiesService
+    Title
   ],
   bootstrap: [AppComponent]
 })
