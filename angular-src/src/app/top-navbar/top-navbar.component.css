@@ -6,13 +6,6 @@
   cursor: default;
 }
 
-#showSidebarButton {
-  position: absolute;
-  margin-left: 10px;
-  z-index: 1;
-  margin-top: 10px;
-}
-
 @media screen and (max-width: 785px) {
   #navbar-wrapper {
     padding-left: 0px;
