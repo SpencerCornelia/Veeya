@@ -29,6 +29,7 @@ import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
+import { ConnectionsComponent } from './connections/connections.component';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { EditPropertyService } from './services/editProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
@@ -45,16 +46,17 @@ import { ValidateService } from './services/validate.service';
     AppComponent,
     AddPropertyComponent,
     EditPropertyComponent,
-    ViewPropertiesComponent,
+    ConnectionsComponent,
+    DashboardComponent,
     LoginComponent,
-    RegisterComponent,
-    SidebarComponent,
     InviteInvestorComponent,
     InviteWholesalerComponent,
-    DashboardComponent,
     PageNotFoundComponent,
     ProfileComponent,
-    TopNavbarComponent
+    RegisterComponent,
+    SidebarComponent,
+    TopNavbarComponent,
+    ViewPropertiesComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
