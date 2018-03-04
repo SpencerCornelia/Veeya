@@ -13,6 +13,7 @@ import { UserService } from '../services/user.service';
 export class ConnectionsComponent implements OnInit {
 
   private connections: Array<User> = [];
+  private searchText: String;
   private users: Array<User> = [];
 
   constructor(private flashMessagesService: FlashMessagesService,
@@ -47,14 +48,6 @@ export class ConnectionsComponent implements OnInit {
           timeout: 3000
         });
       })
-  }
-
-  searchEmail(event) {
-    console.log("search email. value:", event.target.value);
-  }
-
-  searchUserName(event) {
-
   }
 
 }

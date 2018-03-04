@@ -3,17 +3,18 @@
   background-color: #E0E0E0;
 }
 
-#content {
-  display: flex;
-  justify-content: center;
-}
-
 .connections-wrapper {
   margin-top: 40px;
   max-width: 100%;
   position: absolute;
-  padding-left: 250px;
+  margin-left: 250px;
   height: 100vh;
+}
+
+#content {
+  display: flex;
+  /*justify-content: center;*/
+  flex-basis: 100%;
 }
 
 .nav-pills {
@@ -21,9 +22,41 @@
   justify-content: center;
 }
 
+#searchInput {
+  width: 80%;
+}
+/*
 @media screen and (max-width: 785px) {
   .connections-wrapper {
     margin-top: 100px;
     padding-left: 0px;
   }
+
+  .tab-content {
+    margin-left: 285px;
+  }
+
+  #pills-search {
+    margin-left: 160px;
+  }
 }
+
+@media screen and (min-width: 785px) and (max-width: 1000px) {
+  .tab-content {
+    margin-left: 225px;
+  }
+
+  #pills-search {
+    margin-left: 110px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .tab-content {
+    margin-left: 0px;
+  }
+
+  #pills-search {
+    margin-left: 0px;
+  }
+}*/

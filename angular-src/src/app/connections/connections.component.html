@@ -26,14 +26,17 @@
           <!-- View All Connections table -->
           <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="pills-view" role="tabpanel" aria-labelledby="pills-view-tab">
-              <table class="table">
+              <form>
+                <input id="searchInput" [(ngModel)]="searchText" name="searchText" placeholder="Search your connections.." />
+              </form>
+              <table class="table-responsive">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
                     <th scope="col">First</th>
                     <th scope="col">Last</th>
-                    <th scope="col">Email</th>
+                    <th scope="col">Username</th>
                     <th scope="col">Phone Number</th>
                     <th scope="col">City</th>
                     <th scope="col">State</th>
@@ -41,12 +44,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let connection of connections; let i = index">
-                    <th scope="row">{{ i }}</th>
-                    <td>{{ connection.userName }}</td>
+                  <tr *ngFor="let connection of connections | filterEmail : searchText; let i=index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ connection.email }}</td>
                     <td>{{ connection.firstName }}</td>
                     <td>{{ connection.lastName }}</td>
-                    <td>{{ connection.email }}</td>
+                    <td>{{ connection.userName }}</td>
                     <td>{{ connection.phoneNumber }}</td>
                     <td>{{ connection.city }}</td>
                     <td>{{ connection.state }}</td>
@@ -60,26 +63,26 @@
             <div class="tab-pane fade" id="pills-search" role="tabpanel" aria-labelledby="pills-search-tab">
               <form class="form-inline">
                 <div class="form-group">
-                  <input (input)="searchEmail($event)" type="text" class="form-control" id="email" aria-describedby="emailInput" placeholder="Filter by Email">
+                  <input [(ngModel)]="searchText" name="searchText" type="text" class="form-control" id="email" aria-describedby="emailInput" placeholder="Filter by Email" />
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="username" placeholder="Filter by Username">
+                  <input [(ngModel)]="searchUsername" name="userName" type="text" class="form-control" id="username" placeholder="Filter by Username" />
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="firstName" placeholder="Filter by First Name">
+                  <input [(ngModel)]="searchFirstName" name="firstName" type="text" class="form-control" id="firstName" placeholder="Filter by First Name" />
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="lastName" placeholder="Filter by Last Name">
+                  <input [(ngModel)]="searchLastName" name="lastName" type="text" class="form-control" id="lastName" placeholder="Filter by Last Name" />
                 </div>
               </form>
-              <table class="table">
+              <table class="table-responsive">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Username</th>
+                    <th scope="col">Email</th>
                     <th scope="col">First</th>
                     <th scope="col">Last</th>
-                    <th scope="col">Email</th>
+                    <th scope="col">Username</th>
                     <th scope="col">Phone Number</th>
                     <th scope="col">City</th>
                     <th scope="col">State</th>
@@ -87,12 +90,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let user of users; let i = index">
+                  <tr *ngFor="let user of users | filterEmail : searchText | filterUsername : searchUsername | filterFirstName : searchFirstName | filterLastName : searchLastName; let i=index">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ user.userName }}</td>
+                    <td>{{ user.email }}</td>
                     <td>{{ user.firstName }}</td>
                     <td>{{ user.lastName }}</td>
-                    <td>{{ user.email }}</td>
+                    <td>{{ user.userName }}</td>
                     <td>{{ user.phoneNumber }}</td>
                     <td>{{ user.city }}</td>
                     <td>{{ user.state }}</td>
