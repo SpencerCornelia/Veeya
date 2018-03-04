@@ -528,6 +528,66 @@ module.exports.getPropertiesForUser = function(id) {
   });
 };
 
+module.exports.getAllConnections = function(id) {
+  return new Promise((resolve, reject) => {
+    User.findById(id, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving connections for user.',
+          error: error
+        }
+        resolve(errorObj);
+      } else if (user) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved user connections.',
+          data: user.connections,
+          error: ''
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve connections for user.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.getAllUsers = function() {
+  return new Promise((resolve, reject) => {
+    User.find().exec((error, users) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving users.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (users) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved all users.',
+          data: users,
+          error: ''
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve all users.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    })
+  });
+}
+
 /*
 ===== USER GETTERS END =====
 */
