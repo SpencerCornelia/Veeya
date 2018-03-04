@@ -13,6 +13,7 @@ const investorController = require('./controllers/investorController');
 const loginController = require('./controllers/loginController');
 const propertiesController = require('./controllers/propertiesController');
 const registerController = require('./controllers/registerController');
+const userController = require('./controllers/userController');
 const wholesalerController = require('./controllers/wholesalerController');
 
 // Connect mongoose to our database
@@ -57,20 +58,24 @@ app.get('/', (req,res) => {
   res.send("Home page");
 });
 
+// Route all HTTP requests to investorController
+app.use('/investor', investorController);
+
 // Route all HTTP requests to loginController
 app.use('/login', loginController);
-
-// Route all HTTP requests to registerController
-app.use('/register', registerController);
-
-// Route all HTTP requests to wholesalerController
-app.use('/wholesaler', wholesalerController);
 
 // Route all HTTP requests to propertiesController
 app.use('/properties', propertiesController);
 
-// Route all HTTP requests to investorController
-app.use('/investor', investorController);
+// Route all HTTP requests to registerController
+app.use('/register', registerController);
+
+// Route all HTTP requests to userController
+app.use('/user', userController);
+
+// Route all HTTP requests to wholesalerController
+app.use('/wholesaler', wholesalerController);
+
 
 // Route for 404. Looks like app-routing.ts handles the variable ('**') route instead of this
 app.get('*', function(req, res, next) {
