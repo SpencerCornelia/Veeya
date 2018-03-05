@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { User } from '../models/User';
+import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -12,10 +13,11 @@ export class MyProfileComponent implements OnInit {
 
   private user: User;
 
-  constructor(private userService: UserService) { }
+  constructor(private authService: AuthService,
+              private userService: UserService) { }
 
   ngOnInit() {
-    let user_id = localStorage.getItem('user_id');
+    let user_id = this.authService.loggedInUser();
     this.getUser(user_id);
 
     this.user = {

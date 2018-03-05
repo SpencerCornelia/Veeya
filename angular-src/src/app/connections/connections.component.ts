@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { User } from '../models/User';
+import { AuthService } from '../services/auth.service';
 import { GetConnectionsService } from '../services/getConnections.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { UserService } from '../services/user.service';
@@ -16,7 +17,8 @@ export class ConnectionsComponent implements OnInit {
   private searchText: String;
   private users: Array<User> = [];
 
-  constructor(private flashMessagesService: FlashMessagesService,
+  constructor(private authService: AuthService,
+              private flashMessagesService: FlashMessagesService,
               private getConnectionsService: GetConnectionsService,
               private userService: UserService) { }
 
@@ -26,7 +28,7 @@ export class ConnectionsComponent implements OnInit {
   }
 
   getConnectionsForUser() {
-    let user_id = localStorage.getItem("user_id");
+    let user_id = this.authService.loggedInUser();
     this.getConnectionsService.getConnectionsForUser(user_id)
       .subscribe((response) => {
         this.connections = response;

@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { AppRoutingModule } from '../app-routing.module';
+import { Router } from '@angular/router';
+
+import { AuthService } from '../services/auth.service';
 import { GetAllPropertiesService } from '../services/getAllProperties.service';
 import { DeletePropertyService } from '../services/deleteProperty.service';
 import { GetUserPropertiesService } from '../services/getUserProperties.service';
 import { EditPropertyService } from '../services/editProperty.service'
 import { Property } from '../models/Property';
 
-import { AppRoutingModule } from '../app-routing.module';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-properties',
@@ -24,10 +26,15 @@ export class ViewPropertiesComponent implements OnInit {
   private investorPropertiesConnected: Property[] = [];
   private investorPropertiesStarred: Property[] = [];
 
-  constructor(private getPropertyService: GetAllPropertiesService, private deletePropertyService: DeletePropertyService, private getUserPropertiesService: GetUserPropertiesService, private editPropertyService: EditPropertyService, private router: Router) { }
+  constructor(private authService: AuthService,
+              private getPropertyService: GetAllPropertiesService,
+              private deletePropertyService: DeletePropertyService,
+              private getUserPropertiesService: GetUserPropertiesService,
+              private editPropertyService: EditPropertyService,
+              private router: Router) { }
 
   ngOnInit() {
-    let userType = localStorage.getItem('user_type');
+    let userType = this.authService.loggedInUserType();
     if (userType === 'Wholesaler') {
       this.getPropertiesForWholesaler();
 
@@ -56,14 +63,14 @@ export class ViewPropertiesComponent implements OnInit {
   }
 
   public getPropertiesForWholesaler() {
-    let wholesalerID = localStorage.getItem('user_id');
+    let wholesalerID = this.authService.loggedInUser();
     // Get all properties for the wholesaler who is logged in
     this.getUserPropertiesService.getWholesalerUserProperties(wholesalerID)
       .subscribe(response => this.properties = response)
   }
 
   public getPropertiesForInvestor() {
-    let investorID = localStorage.getItem('user_id');
+    let investorID = this.authService.loggedInUser();
     this.getUserPropertiesService.getInvestorUserProperties(investorID)
       .subscribe(response => this.properties = response)
   }

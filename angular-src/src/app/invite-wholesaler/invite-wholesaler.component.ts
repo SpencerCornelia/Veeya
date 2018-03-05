@@ -1,9 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { User } from '../models/User';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
-import { InviteService } from '../services/invite.service';
 import { ModuleWithProviders } from '@angular/core';
+
+import { User } from '../models/User';
+import { AuthService } from '../services/auth.service';
+import { InviteService } from '../services/invite.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
@@ -15,13 +17,13 @@ export class InviteWholesalerComponent implements OnInit {
 
   private newWholesaler: User;
 
-  constructor(private inviteService: InviteService,
+  constructor(private authService: AuthService,
+              private inviteService: InviteService,
               private router: Router,
               private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
-    // use this for testing purposes
-    let investorID = localStorage.getItem('user_id');
+    let investorID = this.authService.loggedInUser();
     this.newWholesaler = {
       userType: 'Wholesaler',
       firstName: '',

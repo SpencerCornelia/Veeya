@@ -6,6 +6,7 @@ import { ModuleWithProviders } from '@angular/core';
 
 import { Property } from '../models/Property';
 
+import { AuthService } from '../services/auth.service';
 import { AddPropertyService } from '../services/addProperty.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { PhotosService } from '../services/photos.service';
@@ -24,7 +25,8 @@ export class AddPropertyComponent implements OnInit {
   private photos: Array<File> = [];
   private uploadedPhotos: Array<String> = [];
 
-  constructor(private addPropertyService: AddPropertyService,
+  constructor(private authService: AuthService,
+              private addPropertyService: AddPropertyService,
               private flashMessage: FlashMessagesService,
               private photosService: PhotosService,
               private router: Router,
@@ -33,7 +35,7 @@ export class AddPropertyComponent implements OnInit {
   ngOnInit() {
     document.getElementById('removePhotos').hidden = true;
     document.getElementById('uploadPhotos').hidden = true;
-    let wholesalerID = localStorage.getItem('user_id');
+    let wholesalerID = this.authService.loggedInUser();
     this.newProperty = {
       _id: 0,
       wholesaler_id: wholesalerID,

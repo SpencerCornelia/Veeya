@@ -31,7 +31,6 @@ export class ViewPropertyComponent implements OnInit {
               private photosService: PhotosService,
               private validateService: ValidateService) {
     this.propertyID = route.snapshot.params['id'];
-    console.log(this.propertyID);
     this.getProperty(this.propertyID);
   }
 

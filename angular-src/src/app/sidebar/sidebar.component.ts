@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
   }
 
   isInvestor() {
-    let userType = localStorage.getItem('user_type');
+    let userType = this.authService.loggedInUserType();
     if (userType === 'Investor') {
       return true;
     } else {
@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit {
   }
 
   isWholesaler() {
-    let userType = localStorage.getItem('user_type');
+    let userType = this.authService.loggedInUserType();
     if (userType === 'Wholesaler') {
       return true;
     } else {

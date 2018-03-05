@@ -1,9 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { User } from '../models/User';
+import { ModuleWithProviders } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
+
+import { User } from '../models/User';
+import { AuthService } from '../services/auth.service';
 import { InviteService } from '../services/invite.service';
-import { ModuleWithProviders } from '@angular/core';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
@@ -15,12 +17,13 @@ export class InviteLenderComponent implements OnInit {
 
   private lender: User;
 
-  constructor(private inviteService: InviteService,
+  constructor(private authService: AuthService,
+              private inviteService: InviteService,
               private router: Router,
               private flashMessage: FlashMessagesService) { }
 
   ngOnInit() {
-    let user_id = localStorage.getItem('user_id');
+    let user_id = this.authService.loggedInUser();
     this.lender = {
       userType: 'Lender',
       userName: '',

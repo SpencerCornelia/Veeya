@@ -27,4 +27,16 @@ export class UserService {
       .map(res => <User>res.data)
   }
 
+  public searchInvestorEmailUsername(email, username) {
+    let URI = this.serverApi + "/investor/searchInvestor";
+    return this.http.get(URI, {
+      params: {
+        email: email,
+        userName: username
+      }
+    })
+      .map(res => res.json())
+      .map(res => res.data)
+  }
+
 }

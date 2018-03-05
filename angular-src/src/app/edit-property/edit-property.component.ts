@@ -3,6 +3,7 @@ import { Property } from '../models/Property';
 import { AppRoutingModule } from '../app-routing.module';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { AuthService } from '../services/auth.service';
 import { EditPropertyService } from '../services/editProperty.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { PhotosService } from '../services/photos.service';
@@ -23,7 +24,8 @@ export class EditPropertyComponent implements OnInit {
   private propertyID: string;
   private initialProperty: Property;
 
-  constructor(private route: ActivatedRoute,
+  constructor(private authService: AuthService,
+              private route: ActivatedRoute,
               private editPropertyService: EditPropertyService,
               private router: Router,
               private flashMessage: FlashMessagesService,
@@ -36,7 +38,7 @@ export class EditPropertyComponent implements OnInit {
 
   ngOnInit() {
     document.getElementById('removePhotos').hidden = true;
-    let wholesalerID = localStorage.getItem('user_id');
+    let wholesalerID = this.authService.loggedInUser();
 
     this.initialProperty = {
       _id: 0,

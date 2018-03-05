@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { AngularFireStorage } from 'angularfire2/storage';
 import * as firebase from 'firebase';
 
+import { AuthService } from './auth.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 import 'rxjs/add/operator/map';
@@ -18,9 +19,9 @@ export class PhotosService {
   private propertyPhotosFolder: any;
   private user_id: String;
 
-  constructor(private storage: AngularFireStorage, private flashMessages: FlashMessagesService) {
+  constructor(private authService: AuthService, private storage: AngularFireStorage, private flashMessages: FlashMessagesService) {
     this.propertyPhotosFolder = 'property-photos';
-    this.user_id = localStorage.getItem('user_id');
+    this.user_id = this.authService.loggedInUser();
   }
 
   public uploadPropertyPhotos(photos: Array<File>, callback) {

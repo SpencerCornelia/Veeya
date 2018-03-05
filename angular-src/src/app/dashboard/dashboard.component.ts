@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+
+import { AuthService } from '../services/auth.service';
 import { ProfileService } from '../services/profile.service';
 import { EditPropertyService } from '../services/editProperty.service';
 import { Property } from '../models/Property';
@@ -22,7 +24,8 @@ export class DashboardComponent implements OnInit {
   private userID: String;
   private userType: String;
 
-  constructor(private profileService: ProfileService,
+  constructor(private authService: AuthService,
+              private profileService: ProfileService,
               private flashMessageService: FlashMessagesService,
               private editPropertyService: EditPropertyService,
               private router: Router) { }
@@ -36,8 +39,8 @@ export class DashboardComponent implements OnInit {
       phoneNumber: '',
       properties: this.properties
     }
-    this.userID = localStorage.getItem('user_id');
-    this.userType = localStorage.getItem('user_type');
+    this.userID = this.authService.loggedInUser();
+    this.userType = this.authService.loggedInUserType();
     if (this.userType === 'Wholesaler') {
       this.getWholesalerProfileInfo();
     } else if (this.userType === 'Investor') {

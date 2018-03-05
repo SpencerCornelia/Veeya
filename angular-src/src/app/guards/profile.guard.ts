@@ -7,7 +7,7 @@ export class ProfileGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot) {
-    let user_id = localStorage.getItem('user_id');
+    let user_id = this.authService.loggedInUser();
     let user = route.params.id;
     if (this.authService.loggedIn()) {
       if (user_id === user) {

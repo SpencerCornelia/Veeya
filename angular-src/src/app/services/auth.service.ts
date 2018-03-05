@@ -46,18 +46,30 @@ export class AuthService {
   }
 
   investorUser() {
-    let userType = localStorage.getItem('user_type');
+    let userType = this.loggedInUserType();
     return userType === 'Investor' ? true : false;
   }
 
   wholesalerUser() {
-    let userType = localStorage.getItem('user_type');
+    let userType = this.loggedInUserType();
     return userType === 'Wholesaler' ? true : false;
   }
 
   loadToken() {
-    const token = localStorage.getItem('id_token');
+    const token = this.loggedInUserToken();
     this.authToken = token;
+  }
+
+  loggedInUser() {
+    return localStorage.getItem('user_id');
+  }
+
+  loggedInUserType() {
+    return localStorage.getItem('user_type');
+  }
+
+  loggedInUserToken() {
+    return localStorage.getItem('id_token');
   }
 
   loggedIn() {
