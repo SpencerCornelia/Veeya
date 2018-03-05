@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { User } from '../models/User';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
-import { InviteInvestorService } from '../services/inviteInvestor.service';
+import { InviteService } from '../services/invite.service';
 import { ModuleWithProviders } from '@angular/core';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
@@ -15,7 +15,7 @@ export class InviteInvestorComponent implements OnInit {
 
   private newInvestor: User;
 
-  constructor(private inviteInvestorService: InviteInvestorService,
+  constructor(private inviteService: InviteService,
               private router: Router,
               private flashMessage: FlashMessagesService) { }
 
@@ -36,7 +36,7 @@ export class InviteInvestorComponent implements OnInit {
 
   public onSubmit() {
     this.newInvestor.userName = this.newInvestor.firstName.toString() + this.newInvestor.lastName.toString();
-    this.inviteInvestorService.inviteInvestor(this.newInvestor)
+    this.inviteService.inviteInvestor(this.newInvestor)
       .subscribe((response) => {
         this.router.navigate(['/dashboard']);
         this.flashMessage.show(response.message, {

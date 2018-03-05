@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { User } from '../models/User';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
-import { InviteWholesalerService } from '../services/invitewholesaler.service';
+import { InviteService } from '../services/invite.service';
 import { ModuleWithProviders } from '@angular/core';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
@@ -15,7 +15,7 @@ export class InviteWholesalerComponent implements OnInit {
 
   private newWholesaler: User;
 
-  constructor(private inviteWholesalerService: InviteWholesalerService,
+  constructor(private inviteService: InviteService,
               private router: Router,
               private flashMessage: FlashMessagesService) { }
 
@@ -36,7 +36,7 @@ export class InviteWholesalerComponent implements OnInit {
 
   public onSubmit() {
     this.newWholesaler.userName = this.newWholesaler.firstName.toString() + this.newWholesaler.lastName.toString();
-    this.inviteWholesalerService.inviteWholesaler(this.newWholesaler)
+    this.inviteService.inviteWholesaler(this.newWholesaler)
       .subscribe((response) => {
         this.router.navigate(['/dashboard']);
         this.flashMessage.show(response.message, {
