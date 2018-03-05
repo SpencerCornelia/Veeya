@@ -15,7 +15,7 @@ export class ConnectionsComponent implements OnInit {
 
   private connections: Array<User> = [];
   private searchText: String;
-  private users: Array<User> = [];
+  private user_id: String;
 
   constructor(private authService: AuthService,
               private flashMessagesService: FlashMessagesService,
@@ -23,13 +23,12 @@ export class ConnectionsComponent implements OnInit {
               private userService: UserService) { }
 
   ngOnInit() {
+    this.user_id = this.authService.loggedInUser();
     this.getConnectionsForUser();
-    this.getAllUsers();
   }
 
   getConnectionsForUser() {
-    let user_id = this.authService.loggedInUser();
-    this.getConnectionsService.getConnectionsForUser(user_id)
+    this.getConnectionsService.getConnectionsForUser(this.user_id)
       .subscribe((response) => {
         this.connections = response;
       }, (error) => {
@@ -38,18 +37,6 @@ export class ConnectionsComponent implements OnInit {
           timeout: 3000
         })
       });
-  }
-
-  getAllUsers() {
-    this.userService.getAllUsers()
-      .subscribe((response) => {
-        this.users = response;
-      }, (error) => {
-        this.flashMessagesService.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
-      })
   }
 
 }
