@@ -15,6 +15,20 @@ router.get('/', (req,res) => {
     })
 });
 
+router.get('/searchInvestor', (req, res) => {
+  let email = req.query.email;
+  let userName = req.query.username;
+  let phoneNumber = req.query.phoneNumber;
+
+  user.searchInvestor(email, userName, phoneNumber)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      re.status(500).json(error);
+    });
+});
+
 // GET HTTP for /investor for a single investor
 router.get('/:uid', (req, res) => {
   user.getInvestorById(req.params.uid)
@@ -54,6 +68,7 @@ router.post('/inviteinvestor', (req, res, next) => {
       res.status(500).json(error);
     })
 });
+
 
 
 module.exports = router;
