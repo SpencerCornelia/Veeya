@@ -12,11 +12,18 @@ export class GetUserPropertiesService {
 
   private serverApi = 'http://localhost:3000/properties';
 
-  public getUserProperties(userID):Observable<Property[]> {
-    let URI = this.serverApi + "/" + userID;
+  public getWholesalerUserProperties(wholesalerID):Observable<Property[]> {
+    let URI = this.serverApi + "/wholesaler/" + wholesalerID;
     return this.http.get(URI)
       .map(res => res.json())
-      .map(res => <Property[]>res.properties);
+      .map(res => <Property[]>res.data);
+  }
+
+  public getInvestorUserProperties(investorID):Observable<Property[]> {
+    let URI = this.serverApi + "/investor/" + investorID;
+    return this.http.get(URI)
+      .map(res => res.json())
+      .map(res => <Property[]>res.data)
   }
 
 }
