@@ -15,7 +15,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { ProfileComponent } from './profile/profile.component';
 import { RegisterComponent } from './register/register.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
-
+import { ViewPropertyComponent } from './view-property/view-property.component';
 
 const APP_ROUTES: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -24,6 +24,7 @@ const APP_ROUTES: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard] },
   { path: 'properties', component: ViewPropertiesComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
+  { path: 'properties/property/:id', component: ViewPropertyComponent, canActivate:[AuthGuard] },
   { path: 'properties/addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'properties/editproperty/:id', component: EditPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'inviteinvestor', component: InviteInvestorComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
