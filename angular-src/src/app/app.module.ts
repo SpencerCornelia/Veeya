@@ -46,6 +46,7 @@ import { PhotosService } from './services/photos.service';
 import { ProfileService } from './services/profile.service';
 import { UserService } from './services/user.service';
 import { ValidateService } from './services/validate.service';
+import { ViewPropertyService } from './services/viewProperty.service';
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import { ValidateService } from './services/validate.service';
     ProfileService,
     UserService,
     ValidateService,
+    ViewPropertyService,
     AuthGuard,
     RoleGuard,
     Title
