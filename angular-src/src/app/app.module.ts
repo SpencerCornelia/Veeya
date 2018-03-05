@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AuthGuard } from './guards/auth.guard';
+import { ProfileGuard } from './guards/profile.guard';
 import { RoleGuard } from './guards/role.guard';
 import { FilterEmailPipe } from './pipes/filterEmail.pipe';
 import { FilterFirstNamePipe } from './pipes/filterFirstName.pipe';
@@ -19,18 +20,18 @@ import { FilterUsernamePipe } from './pipes/filterUsername.pipe';
 
 import { AppComponent } from './app.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditPropertyComponent } from './edit-property/edit-property.component';
-import { ViewPropertiesComponent } from './view-properties/view-properties.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './login/login.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
+import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ProfileComponent } from './profile/profile.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
+import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
@@ -61,10 +62,10 @@ import { ViewPropertyService } from './services/viewProperty.service';
     FilterLastNamePipe,
     FilterUsernamePipe,
     LoginComponent,
+    MyProfileComponent,
     InviteInvestorComponent,
     InviteWholesalerComponent,
     PageNotFoundComponent,
-    ProfileComponent,
     RegisterComponent,
     SidebarComponent,
     TopNavbarComponent,
@@ -97,6 +98,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     ValidateService,
     ViewPropertyService,
     AuthGuard,
+    ProfileGuard,
     RoleGuard,
     Title
   ],
