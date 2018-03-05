@@ -29,21 +29,18 @@ router.get('/:uid', (req,res) => {
 router.post('/invitewholesaler', (req, res) => {
   let investorID = req.body.investor_id;
   let wholesalerID = '';
-  console.log("req.body:", req.body)
+
   user.registerUser(req.body)
     .then((wholesaler) => {
       wholesalerID = wholesaler.data._id;
-      console.log("first wholesaler:", wholesaler)
       delete wholesaler.data.password;
       return user.addWholesalerConnection(wholesaler.data, false, investorID);
     })
     .then((investor) => {
-      console.log("investor:", investor)
       delete investor.data.password;
       return user.addInvestorConnection(investor.data, wholesalerID);
     })
     .then((response) => {
-      console.log("response:", response)
       if (response.success) {
         delete response.data.password;
         res.status(201).json(response);
