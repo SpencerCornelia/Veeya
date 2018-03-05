@@ -42,8 +42,7 @@ import { EditPropertyService } from './services/editProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
 import { GetConnectionsService } from './services/getConnections.service';
 import { GetUserPropertiesService } from './services/getUserProperties.service';
-import { InviteInvestorService } from './services/inviteInvestor.service';
-import { InviteWholesalerService } from './services/invitewholesaler.service';
+import { InviteService } from './services/invite.service';
 import { PhotosService } from './services/photos.service';
 import { ProfileService } from './services/profile.service';
 import { UserService } from './services/user.service';
@@ -92,8 +91,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     GetAllPropertiesService,
     GetConnectionsService,
     GetUserPropertiesService,
-    InviteInvestorService,
-    InviteWholesalerService,
+    InviteService,
     PhotosService,
     ProfileService,
     UserService,
