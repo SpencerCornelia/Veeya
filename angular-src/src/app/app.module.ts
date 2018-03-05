@@ -29,6 +29,7 @@ import { LoginComponent } from './login/login.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SearchComponent } from './search/search.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
@@ -69,6 +70,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     InviteWholesalerComponent,
     PageNotFoundComponent,
     RegisterComponent,
+    SearchComponent,
     SidebarComponent,
     TopNavbarComponent,
     UserProfileComponent,

@@ -16,6 +16,7 @@ import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { RegisterComponent } from './register/register.component';
+import { SearchComponent } from './search/search.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -34,6 +35,7 @@ const APP_ROUTES: Routes = [
   { path: 'invitelender', component: InviteLenderComponent, canActivate:[AuthGuard] },
   { path: 'invitewholesaler', component: InviteWholesalerComponent, canActivate:[RoleGuard], data:{userType: 'Investor' } },
   { path: 'register', component: RegisterComponent },
+  { path: 'search', component: SearchComponent, canActivate:[AuthGuard] },
   { path: 'user/:id', component: UserProfileComponent, canActivate:[AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
 ];
