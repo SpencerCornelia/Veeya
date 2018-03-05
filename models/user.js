@@ -214,6 +214,38 @@ module.exports.getWholesalerById = function(id) {
   });
 };
 
+module.exports.searchWholesaler = function(email, userName, phoneNumber) {
+  return new Promise((resolve, reject) => {
+    User.find({
+      'userType': 'Wholesaler',
+      $or:[{ 'email': email }, { 'userName': userName }, { 'phoneNumber': phoneNumber }]
+    }, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error searching for investor.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user.length > 0) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved investor.',
+          data: user
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to find an investor with those search parameters.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    })
+  });
+};
+
 /*
 ===== WHOLESALER GETTERS END =====
 */
@@ -379,6 +411,38 @@ module.exports.getInvestorById = function(id) {
   });
 };
 
+module.exports.searchInvestor = function(email, userName, phoneNumber) {
+  return new Promise((resolve, reject) => {
+    User.find({
+      'userType': 'Investor',
+      $or:[{ 'email': email }, { 'userName': userName }, { 'phoneNumber': phoneNumber }]
+    }, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error searching for investor.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user.length > 0) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved investor.',
+          data: user
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to find an investor with those search parameters.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    })
+  });
+};
+
 /*
 ===== INVESTOR GETTERS END =====
 */
@@ -437,6 +501,41 @@ module.exports.addWholesalerConnection = function(wholesaler, investorEmail, inv
 */
 
 
+/*
+===== LENDER GETTERS BEGIN=====
+*/
+
+module.exports.searchLender = function(email, userName, phoneNumber) {
+  return new Promise((resolve, reject) => {
+    User.find({
+      'userType': 'Lender',
+      $or:[{ 'email': email }, { 'userName': userName }, { 'phoneNumber': phoneNumber }]
+    }, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error searching for investor.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user.length > 0) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved investor.',
+          data: user
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to find an investor with those search parameters.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    })
+  });
+};
 
 
 /*
