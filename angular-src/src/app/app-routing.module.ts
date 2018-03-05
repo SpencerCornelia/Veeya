@@ -18,6 +18,7 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { RegisterComponent } from './register/register.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const APP_ROUTES: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -33,6 +34,7 @@ const APP_ROUTES: Routes = [
   { path: 'invitelender', component: InviteLenderComponent, canActivate:[AuthGuard] },
   { path: 'invitewholesaler', component: InviteWholesalerComponent, canActivate:[RoleGuard], data:{userType: 'Investor' } },
   { path: 'register', component: RegisterComponent },
+  { path: 'user/:id', component: UserProfileComponent, canActivate:[AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
 ];
 
