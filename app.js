@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const investorController = require('./controllers/investorController');
+const lenderController = require('./controllers/lenderController');
 const loginController = require('./controllers/loginController');
 const propertiesController = require('./controllers/propertiesController');
 const registerController = require('./controllers/registerController');
@@ -60,6 +61,9 @@ app.get('/', (req,res) => {
 
 // Route all HTTP requests to investorController
 app.use('/investor', investorController);
+
+// Route all HTTP requests to lenderController
+app.use('/lender', lenderController);
 
 // Route all HTTP requests to loginController
 app.use('/login', loginController);
