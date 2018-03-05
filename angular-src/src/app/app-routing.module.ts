@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { ProfileGuard } from './guards/profile.guard';
 import { RoleGuard } from './guards/role.guard';
 
 // Add in components
@@ -12,7 +13,7 @@ import { InviteInvestorComponent } from './invite-investor/invite-investor.compo
 import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ProfileComponent } from './profile/profile.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
 import { RegisterComponent } from './register/register.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
@@ -22,7 +23,7 @@ const APP_ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'connections', component: ConnectionsComponent, canActivate:[AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate:[AuthGuard] },
+  { path: 'profile/:id', component: MyProfileComponent, canActivate:[ProfileGuard] },
   { path: 'properties', component: ViewPropertiesComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'properties/property/:id', component: ViewPropertyComponent, canActivate:[AuthGuard] },
   { path: 'properties/addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
