@@ -451,6 +451,7 @@ module.exports.getUserById = function(id) {
         }
         reject(errorObj);
       } else if (user) {
+        delete user.password;
         let successObj = {
           success: true,
           message: 'Successfully found user by id.',
@@ -480,6 +481,7 @@ module.exports.getUserByEmail = function(email) {
         }
         reject(errorObj);
       } else if (user) {
+        delete user.password;
         let successObj = {
           success: true,
           message: 'Successfully found user.',
@@ -512,8 +514,7 @@ module.exports.getPropertiesForUser = function(id) {
         let successObj = {
           success: true,
           message: 'Successfully retrieved properties for user.',
-          data: user.properties,
-          error: ''
+          data: user.properties
         }
         resolve(successObj);
       } else {
@@ -542,8 +543,7 @@ module.exports.getAllConnections = function(id) {
         let successObj = {
           success: true,
           message: 'Successfully retrieved user connections.',
-          data: user.connections,
-          error: ''
+          data: user.connections
         }
         resolve(successObj);
       } else {
@@ -569,11 +569,13 @@ module.exports.getAllUsers = function() {
         }
         reject(errorObj);
       } else if (users) {
+        users.forEach((user) => {
+          delete user.password;
+        })
         let successObj = {
           success: true,
           message: 'Successfully retrieved all users.',
-          data: users,
-          error: ''
+          data: users
         }
         resolve(successObj);
       } else {
