@@ -174,7 +174,7 @@ module.exports.getAllWholesalers = function() {
       } else {
         let errorObj = {
           success: false,
-          message: 'Unable to find wholesalers.',
+          message: 'Unable to find wholesalers. Please try again.',
           error: ''
         }
         reject(errorObj);
@@ -370,7 +370,7 @@ module.exports.getAllInvestors = function() {
       } else {
         let errorObj = {
           success: false,
-          message: 'Unable to find investors.',
+          message: 'Unable to find investors. Please try again.',
           error: ''
         }
         reject(errorObj);
@@ -504,6 +504,35 @@ module.exports.addWholesalerConnection = function(wholesaler, investorEmail, inv
 /*
 ===== LENDER GETTERS BEGIN=====
 */
+
+module.exports.getAllLenders = function() {
+  return new Promise((resolve, reject) => {
+    User.find({ 'userType': 'Lender' }).exec((error, wholesalers) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving lenders.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (wholesalers) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved all lenders.',
+          data: wholesalers
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to find lenders. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
 
 module.exports.searchLender = function(email, userName, phoneNumber) {
   return new Promise((resolve, reject) => {
