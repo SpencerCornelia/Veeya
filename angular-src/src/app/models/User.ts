@@ -14,5 +14,6 @@ export interface User {
   maximumLoanAmount?: String,
   connections?: Array<any>,
   terms?: Array<any>,
-  profilePhoto?: String
+  profilePhoto?: String,
+  user_id?: String
 }
