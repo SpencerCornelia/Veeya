@@ -4,7 +4,7 @@ const router = express.Router();
 const user = require('../models/user');
 
 // GET HTTP for all wholesalers
-router.get('/', (req, res) => {
+router.get('/all', (req, res) => {
   user.getAllWholesalers()
     .then((response) => {
       res.status(200).json(response);
