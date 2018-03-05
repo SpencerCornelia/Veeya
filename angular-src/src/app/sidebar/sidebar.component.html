@@ -8,6 +8,7 @@
   <li><a *ngIf="authService.loggedIn() && this.isWholesaler()" [routerLink]="['/properties']">View Properties</a></li>
   <li><a *ngIf="authService.loggedIn()" [routerLink]="['/connections']">Connections</a></li>
   <li><a *ngIf="authService.loggedIn() && this.isWholesaler()" [routerLink]="['/inviteinvestor']">Invite Investor</a></li>
+  <li><a *ngIf="authService.loggedIn()" [routerLink]="['/invitelender']">Invite Lender</a></li>
   <li><a *ngIf="authService.loggedIn() && this.isInvestor()" [routerLink]="['/invitewholesaler']">Invite Wholesaler</a></li>
   <li><a *ngIf="authService.loggedIn()" [routerLink]="['/profile']">My Profile</a></li>
   <li><a *ngIf="authService.loggedIn()" (click)="onLogoutClick()" href="#">Logout</a></li>
