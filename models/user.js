@@ -438,6 +438,88 @@ module.exports.addWholesalerConnection = function(wholesaler, investorEmail, inv
 
 
 
+
+/*
+===== LENDER SETTERS BEGIN =====
+*/
+
+module.exports.addLenderConnection = function(user, user_id) {
+  let query = {};
+  let ObjectId = mongoose.Types.ObjectId;
+  query["_id"] = new ObjectId(user_id);
+
+  return new Promise((resolve, reject) => {
+    User.findOneAndUpdate(
+      query,
+      { $push: { connections: user } },
+      { safe: true, upsert: true, new: true },
+      function(error, updatedUser) {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error updating user.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (user) {
+          let successObj = {
+            success: true,
+            message: 'Successfully invited user.',
+            data: updatedUser
+          }
+          resolve(successObj);
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to update user.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      }
+    );
+  });
+};
+
+module.exports.addUserConnectionForLender = function(user, lenderID) {
+  let query = {};
+  let ObjectId = mongoose.Types.ObjectId;
+  query["_id"] = new ObjectId(lenderID);
+
+  return new Promise((resolve, reject) => {
+    User.findOneAndUpdate(
+      query,
+      { $push: { connections: user } },
+      { safe: true, upsert: true, new: true },
+      function(error, updatedUser) {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error updating user.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (user) {
+          let successObj = {
+            success: true,
+            message: 'Successfully invited user.',
+            data: updatedUser
+          }
+          resolve(successObj);
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to update user.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      }
+    );
+  });
+};
+
+
 /*
 ===== USER GETTERS BEGIN =====
 */
