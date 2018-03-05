@@ -23,6 +23,7 @@ import { AddPropertyComponent } from './add-property/add-property.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditPropertyComponent } from './edit-property/edit-property.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
+import { InviteLenderComponent } from './invite-lender/invite-lender.component';
 import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
 import { LoginComponent } from './login/login.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
@@ -64,6 +65,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     LoginComponent,
     MyProfileComponent,
     InviteInvestorComponent,
+    InviteLenderComponent,
     InviteWholesalerComponent,
     PageNotFoundComponent,
     RegisterComponent,
