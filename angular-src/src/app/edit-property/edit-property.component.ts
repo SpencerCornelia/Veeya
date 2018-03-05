@@ -21,7 +21,7 @@ export class EditPropertyComponent implements OnInit {
   private photos: Array<String> = [];
   private photosToAdd: Array<File> = [];
   private propertyID: string;
-  private initialProperty: any;
+  private initialProperty: Property;
 
   constructor(private route: ActivatedRoute,
               private editPropertyService: EditPropertyService,
