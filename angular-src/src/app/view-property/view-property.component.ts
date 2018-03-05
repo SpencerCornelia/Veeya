@@ -62,7 +62,6 @@ export class ViewPropertyComponent implements OnInit {
   getProperty(id) {
     this.viewPropertyService.getPropertyById(id)
       .subscribe((response) => {
-        console.log("response in view property service:", response);
         this.initialProperty = response;
         this.photos = this.initialProperty.photos;
       }, (error) => {
