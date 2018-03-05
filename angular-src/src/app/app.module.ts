@@ -30,6 +30,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProfileComponent } from './profile/profile.component';
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
+import { ViewPropertyComponent } from './view-property/view-property.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
@@ -66,7 +67,8 @@ import { ValidateService } from './services/validate.service';
     RegisterComponent,
     SidebarComponent,
     TopNavbarComponent,
-    ViewPropertiesComponent
+    ViewPropertiesComponent,
+    ViewPropertyComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
