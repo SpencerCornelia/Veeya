@@ -3,6 +3,18 @@ const router = express.Router();
 
 const user = require('../models/user');
 
+// HTTP requests to /user/
+
+router.get('/:id', (req, res) => {
+  user.getUserById(req.params.id)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(response);
+    });
+});
+
 router.get('/all', (req, res) => {
   user.getAllUsers()
     .then((response) => {
@@ -10,7 +22,7 @@ router.get('/all', (req, res) => {
     })
     .catch((error) => {
       res.status(500).json(error);
-    })
+    });
 });
 
 router.get('/all/investors', (req, res) => {
