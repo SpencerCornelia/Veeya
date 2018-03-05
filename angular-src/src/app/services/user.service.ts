@@ -20,6 +20,20 @@ export class UserService {
       .map(res => <User[]>res.data);
   }
 
+  public getAllInvestors() {
+    let URI = this.serverApi + "/investor/all";
+    return this.http.get(URI)
+      .map(res => res.json())
+      .map(res => <User[]>res.data)
+  }
+
+  public getAllWholesalers() {
+    let URI = this.serverApi + "/wholesaler/all";
+    return this.http.get(URI)
+      .map(res => res.json())
+      .map(res => <User[]>res.data)
+  }
+
   public getUserById(id):Observable<User> {
     let URI = this.serverApi + "/user/" + id;
     return this.http.get(URI)
