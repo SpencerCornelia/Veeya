@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../models/User';
 import { AuthService } from '../services/auth.service';
 import { GetConnectionsService } from '../services/getConnections.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -18,7 +17,6 @@ export class ConnectionsComponent implements OnInit {
   private user_id: String;
 
   constructor(private authService: AuthService,
-              private flashMessagesService: FlashMessagesService,
               private getConnectionsService: GetConnectionsService,
               private userService: UserService) { }
 
@@ -32,10 +30,7 @@ export class ConnectionsComponent implements OnInit {
       .subscribe((response) => {
         this.connections = response;
       }, (error) => {
-        this.flashMessagesService.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        })
+
       });
   }
 

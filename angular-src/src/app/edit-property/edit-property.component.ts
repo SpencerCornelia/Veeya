@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
 import { EditPropertyService } from '../services/editProperty.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { PhotosService } from '../services/photos.service';
 import { ValidateService } from '../services/validate.service';
 
@@ -28,7 +27,6 @@ export class EditPropertyComponent implements OnInit {
               private route: ActivatedRoute,
               private editPropertyService: EditPropertyService,
               private router: Router,
-              private flashMessage: FlashMessagesService,
               private photosService: PhotosService,
               private validateService: ValidateService
               ) {
@@ -76,20 +74,14 @@ export class EditPropertyComponent implements OnInit {
           document.getElementById('uploadPhotos').hidden = true;
         }
       }, (error) => {
-        this.flashMessage.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
+
       });
   }
 
   public onSubmit() {
     this.photosService.getPropertyPhotoUrls(this.photos, (error, photos) => {
       if (error) {
-        this.flashMessage.show('Error submitting form. Please try again.', {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
+        // error message
         return;
       } else {
         this.initialProperty.photos = photos;
@@ -100,16 +92,9 @@ export class EditPropertyComponent implements OnInit {
       .subscribe((response) => {
         if (response.success) {
           this.router.navigate(['/dashboard']);
-          this.flashMessage.show(response.message, {
-            cssClass: 'alert-success',
-            timeout: 3000
-          });
        }
       }, (error) => {
-        this.flashMessage.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
+
       });
   }
 
@@ -131,10 +116,7 @@ export class EditPropertyComponent implements OnInit {
   public uploadPhotos(event) {
     this.photosService.uploadPropertyPhotos(this.photosToAdd, (error, photos) => {
       if (error) {
-        this.flashMessage.show('Error uploading photos. Please try again later.', {
-          cssClass: 'alert-danger',
-          timeout: 2000
-        })
+
       } else {
         this.photos = photos;
         this.photosToAdd = [];
@@ -145,15 +127,9 @@ export class EditPropertyComponent implements OnInit {
   public removePhoto(photo) {
     this.photosService.removePropertyPhoto(photo, (error) => {
       if (error) {
-        this.flashMessage.show('Error removing photo. Please try again.', {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
+        // error message = 'Error removing photo. Please try again.'
       } else {
-        this.flashMessage.show('Successfully removed photo.', {
-          cssClass: 'alert-success',
-          timeout: 3000
-        })
+        // message = 'Successfully removed photo.'
       }
     });
   }

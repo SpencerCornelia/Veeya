@@ -7,8 +7,6 @@ import { User } from '../models/User';
 import { AuthService } from '../services/auth.service';
 import { InviteService } from '../services/invite.service';
 
-import { FlashMessagesService } from 'angular2-flash-messages';
-
 @Component({
   selector: 'app-invite-investor',
   templateUrl: './invite-investor.component.html',
@@ -20,8 +18,7 @@ export class InviteInvestorComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private inviteService: InviteService,
-              private router: Router,
-              private flashMessage: FlashMessagesService) { }
+              private router: Router) { }
 
   ngOnInit() {
     let wholesalerID = this.authService.loggedInUser();
@@ -42,16 +39,10 @@ export class InviteInvestorComponent implements OnInit {
     this.inviteService.inviteInvestor(this.newInvestor)
       .subscribe((response) => {
         this.router.navigate(['/dashboard']);
-        this.flashMessage.show(response.message, {
-          cssClass: 'alert-success',
-          timeout: 3000
-        });
+
       },
       (error) => {
-        this.flashMessage.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
+
       });
   }
 

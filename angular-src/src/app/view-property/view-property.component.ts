@@ -4,7 +4,6 @@ import { AppRoutingModule } from '../app-routing.module';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { EditPropertyService } from '../services/editProperty.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { PhotosService } from '../services/photos.service';
 import { ValidateService } from '../services/validate.service';
 import { ViewPropertyService } from '../services/viewProperty.service';
@@ -27,7 +26,6 @@ export class ViewPropertyComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private viewPropertyService: ViewPropertyService,
               private router: Router,
-              private flashMessage: FlashMessagesService,
               private photosService: PhotosService,
               private validateService: ValidateService) {
     this.propertyID = route.snapshot.params['id'];
@@ -64,10 +62,7 @@ export class ViewPropertyComponent implements OnInit {
         this.initialProperty = response;
         this.photos = this.initialProperty.photos;
       }, (error) => {
-        this.flashMessage.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
+
       });
   }
 }

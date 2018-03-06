@@ -26,7 +26,6 @@ export class DashboardComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private profileService: ProfileService,
-              private flashMessageService: FlashMessagesService,
               private editPropertyService: EditPropertyService,
               private router: Router) { }
 
@@ -61,10 +60,7 @@ export class DashboardComponent implements OnInit {
         this.user = response[0];
         this.properties = response[0].properties;
       }, (error) => {
-        this.flashMessageService.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        })
+
       });
   }
 
@@ -74,10 +70,7 @@ export class DashboardComponent implements OnInit {
         this.user = response[0];
         this.properties = response[0].properties;
       }, (error) => {
-        this.flashMessageService.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        })
+
       })
   }
 
@@ -86,10 +79,7 @@ export class DashboardComponent implements OnInit {
       .subscribe((response) => {
         this.router.navigate(['/properties/editproperty/' + property._id]);
       }, (error) => {
-        this.flashMessageService.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        })
+
       })
   }
 

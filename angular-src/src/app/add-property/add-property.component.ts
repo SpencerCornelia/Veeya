@@ -8,7 +8,6 @@ import { Property } from '../models/Property';
 
 import { AuthService } from '../services/auth.service';
 import { AddPropertyService } from '../services/addProperty.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { PhotosService } from '../services/photos.service';
 import { ValidateService } from '../services/validate.service';
 
@@ -27,7 +26,6 @@ export class AddPropertyComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private addPropertyService: AddPropertyService,
-              private flashMessage: FlashMessagesService,
               private photosService: PhotosService,
               private router: Router,
               private validateService: ValidateService) { }
@@ -62,10 +60,7 @@ export class AddPropertyComponent implements OnInit {
   public onSubmit() {
     this.photosService.getPropertyPhotoUrls(this.uploadedPhotos, (error, photos) => {
       if (error) {
-        this.flashMessage.show('Error submitting form. Please try again.', {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
+        // error message = 'Error submitting form. Please try again.'
         return;
       } else {
         this.newProperty.photos = photos;
@@ -76,16 +71,9 @@ export class AddPropertyComponent implements OnInit {
       .subscribe((response) => {
         if (response.success === true) {
           this.router.navigate(['/dashboard']);
-          this.flashMessage.show(response.message, {
-            cssClass: 'alert-success',
-            timeout: 3000
-          });
         }
       }, (error) => {
-        this.flashMessage.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
+
       });
   }
 
@@ -110,10 +98,7 @@ export class AddPropertyComponent implements OnInit {
   public uploadPhotos(event) {
     this.photosService.uploadPropertyPhotos(this.photos, (error, photos) => {
       if (error) {
-        this.flashMessage.show('Error uploading photos. Please try again later.', {
-          cssClass: 'alert-danger',
-          timeout: 2000
-        });
+        // error message = 'Error uploading photos. Please try again later.'
       } else {
         this.uploadedPhotos = photos;
       }

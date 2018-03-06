@@ -6,7 +6,6 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppRoutingModule } from './app-routing.module';
-import { FlashMessagesModule } from 'angular2-flash-messages';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
@@ -84,8 +83,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     AppRoutingModule,
     BrowserModule,
     FormsModule,
-    HttpModule,
-    FlashMessagesModule.forRoot()
+    HttpModule
   ],
   providers: [
     AddPropertyService,

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { RegisterUser } from '../models/RegisterUser';
 import { ValidateService } from '../services/validate.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -22,7 +21,6 @@ export class RegisterComponent implements OnInit {
   private error: any;
 
   constructor(private validateService: ValidateService,
-              private flashMessage: FlashMessagesService,
               private authService: AuthService,
               private router: Router) { }
 
@@ -42,28 +40,19 @@ export class RegisterComponent implements OnInit {
   onRegisterSubmit() {
     // required fields
     if(!this.validateService.validateRegister(this.newUser)) {
-      this.flashMessage.show('Please fill in all fields.', {
-        cssClass: 'alert-danger',
-        timeout: 2000
-      });
+      // need error message
       return false;
     }
 
     // validate password confirmation
     if (!this.validateService.validatePassword(this.newUser.password, this.newUser.passwordConfirm)) {
-      this.flashMessage.show('Passwords do not match.', {
-        cssClass: 'alert-danger',
-        timeout: 2000
-      });
+      // error message = "Passwords do not match"
       return false;
     }
 
     // validate email
     if (!this.validateService.validateEmail(this.newUser.email)) {
-      this.flashMessage.show('Please fill in a valid email.', {
-        cssClass: 'alert-danger',
-        timeout: 2000
-      });
+      // error message = 'Please fill in a valid email.'
       return false;
     }
 
@@ -71,15 +60,8 @@ export class RegisterComponent implements OnInit {
     this.authService.registerUser(this.newUser)
       .subscribe((response) => {
         this.router.navigate(['/dashboard'])
-        this.flashMessage.show(response.message, {
-          cssClass: 'alert-success',
-          timeout: 3000
-        });
       }, (error) => {
-        this.flashMessage.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 4000
-        });
+
       });
   }
 
