@@ -9,7 +9,6 @@ import * as $ from 'jquery';
 
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
-import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-dashboard',
