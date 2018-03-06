@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
-import * as $ from 'jquery';
+
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-top-navbar',
@@ -10,9 +11,16 @@ import * as $ from 'jquery';
 })
 export class TopNavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
+  }
+
+  onLogoutClick() {
+    this.authService.logout();
+
+    this.router.navigate(['/login']);
+    return false;
   }
 
 }
