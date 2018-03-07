@@ -42,9 +42,8 @@ app.use(passport.session());
 require('./config/wholesalerPassport.js')(passport);
 require('./config/investorPassport.js')(passport);
 
-// express.static is a built in middleware function to serve static files.
-// We are telling express server public folder is the place to look for the static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'angular-src/src/assets')));
+app.use(express.static(path.join(__dirname, 'angular-src/node_modules')));
 
 // Set headers
 app.use(function(req, res, next) {
