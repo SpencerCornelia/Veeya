@@ -78,9 +78,12 @@ export class AuthService {
     return tokenNotExpired('id_token');
   }
 
-  redirectUrl(url) {
-    this.redirecturl = url;
+  getRedirectUrl() {
     return this.redirecturl;
+  }
+
+  setRedirectUrl(url) {
+    this.redirecturl = url;
   }
 
   storeUserData(token, user_id, user_type) {
