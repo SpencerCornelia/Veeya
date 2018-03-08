@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { tokenNotExpired } from 'angular2-jwt';
+import { Router } from '@angular/router';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -10,9 +11,10 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class AuthService {
   authToken: any;
+  redirecturl: String;
   user_id: any;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private router: Router) { }
 
   registerUser(user) {
     let route= "http://localhost:3000/register";
@@ -76,6 +78,10 @@ export class AuthService {
     return tokenNotExpired('id_token');
   }
 
+  redirectUrl(url) {
+    this.redirectUrl = url;
+  }
+
   storeUserData(token, user_id, user_type) {
     localStorage.setItem('id_token', token);
     localStorage.setItem('user_id', user_id);
@@ -88,5 +94,6 @@ export class AuthService {
     this.authToken = null;
     this.user_id = null;
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }
