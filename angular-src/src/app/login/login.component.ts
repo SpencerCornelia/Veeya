@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
         this.authService.storeUserData(response.token, response.user.id, response.user.user_type);
         let redirect = this.authService.redirecturl ? this.authService.redirecturl : '/dashboard';
         this.router.navigate([redirect]);
-        this.authService.redirecturl = null;
+        this.authService.setRedirectUrl('');
       }, (error) => {
 
       });
