@@ -42,8 +42,8 @@ app.use(passport.session());
 require('./config/wholesalerPassport.js')(passport);
 require('./config/investorPassport.js')(passport);
 
-app.use(express.static(path.join(__dirname, 'angular-src/src/assets')));
-app.use(express.static(path.join(__dirname, 'angular-src/node_modules')));
+// serves index.html located here. All files in front-end will need to have a route from this location.
+app.use(express.static(path.join(__dirname, '/angular-src/src/')));
 
 // Set headers
 app.use(function(req, res, next) {
