@@ -11,6 +11,7 @@ import { HttpModule } from '@angular/http';
 
 import { AuthGuard } from './guards/auth.guard';
 import { ProfileGuard } from './guards/profile.guard';
+import { RegisterGuard } from './guards/register.guard';
 import { RoleGuard } from './guards/role.guard';
 import { FilterEmailPipe } from './pipes/filterEmail.pipe';
 import { FilterFirstNamePipe } from './pipes/filterFirstName.pipe';
@@ -19,6 +20,7 @@ import { FilterUsernamePipe } from './pipes/filterUsername.pipe';
 
 import { AppComponent } from './app.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
+import { ConnectionsComponent } from './connections/connections.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditPropertyComponent } from './edit-property/edit-property.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
@@ -36,7 +38,6 @@ import { ViewPropertiesComponent } from './view-properties/view-properties.compo
 
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
-import { ConnectionsComponent } from './connections/connections.component';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { EditPropertyService } from './services/editProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
@@ -80,14 +81,14 @@ import { ViewPropertyService } from './services/viewProperty.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
     AngularFontAwesomeModule,
-    AppRoutingModule,
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    AppRoutingModule
   ],
   providers: [
-    AddPropertyService,
     AuthService,
+    AddPropertyService,
     DeletePropertyService,
     EditPropertyService,
     GetAllPropertiesService,
@@ -101,6 +102,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     ViewPropertyService,
     AuthGuard,
     ProfileGuard,
+    RegisterGuard,
     RoleGuard,
     Title
   ],
