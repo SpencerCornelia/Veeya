@@ -37,8 +37,9 @@ export class LoginComponent implements OnInit {
     this.authService.authenticateUser(this.loginUser)
       .subscribe((response) => {
         this.authService.storeUserData(response.token, response.user.id, response.user.user_type);
-        let redirect = this.authService.redirectUrl ? this.authService.redirectUrl : '/dashboard';
+        let redirect = this.authService.redirecturl ? this.authService.redirecturl : '/dashboard';
         this.router.navigate([redirect]);
+        this.authService.redirecturl = null;
       }, (error) => {
 
       });
