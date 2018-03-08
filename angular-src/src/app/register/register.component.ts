@@ -46,13 +46,18 @@ export class RegisterComponent implements OnInit {
 
     // validate password confirmation
     if (!this.validateService.validatePassword(this.newUser.password, this.newUser.passwordConfirm)) {
-      // error message = "Passwords do not match"
+      // error message = 'Passwords do not match'
       return false;
     }
 
     // validate email
     if (!this.validateService.validateEmail(this.newUser.email)) {
-      // error message = 'Please fill in a valid email.'
+      // error message = 'Please enter a valid email.'
+      return false;
+    }
+
+    if (!this.validateService.validatePhoneNumber(this.newUser.phoneNumber)) {
+      // error message = 'Please enter a valid phone number.'
       return false;
     }
 
