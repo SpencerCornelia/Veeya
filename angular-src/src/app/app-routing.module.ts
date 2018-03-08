@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { ProfileGuard } from './guards/profile.guard';
+import { RegisterGuard } from './guards/register.guard';
 import { RoleGuard } from './guards/role.guard';
 
 // Add in components
@@ -34,7 +35,7 @@ const APP_ROUTES: Routes = [
   { path: 'inviteinvestor', component: InviteInvestorComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'invitelender', component: InviteLenderComponent, canActivate:[AuthGuard] },
   { path: 'invitewholesaler', component: InviteWholesalerComponent, canActivate:[RoleGuard], data:{userType: 'Investor' } },
-  { path: 'register', component: RegisterComponent },
+  { path: 'register', component: RegisterComponent, canActivate:[RegisterGuard] },
   { path: 'search', component: SearchComponent, canActivate:[AuthGuard] },
   { path: 'user/:id', component: UserProfileComponent, canActivate:[AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
