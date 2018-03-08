@@ -10753,7 +10753,8 @@ tbody.collapse.show {
   display: block;
   padding: 0.5rem 1rem; }
   .nav-link:hover, .nav-link:focus {
-    text-decoration: none; }
+    text-decoration: none;
+    cursor: pointer; }
   .nav-link.disabled {
     color: #6c757d; }
 
@@ -10766,7 +10767,8 @@ tbody.collapse.show {
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem; }
     .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
-      border-color: #e9ecef #e9ecef #dee2e6; }
+      border-color: #e9ecef #e9ecef #dee2e6;
+      cursor: pointer;}
     .nav-tabs .nav-link.disabled {
       color: #6c757d;
       background-color: transparent;
@@ -22414,23 +22416,23 @@ div.tagsinput {
 /* === Landing screens === */
 /* Auth */
 .auth.login-full-bg {
-  background: url("../images/auth/login_1.jpg");
+  background-image: url("/assets/images/auth/login_1.jpg");
   background-size: cover; }
 
 .auth .login-half-bg {
-  background: url("../images/auth/login_2.jpg");
+  background: url("/assets/images/auth/login_2.jpg");
   background-size: cover; }
 
 .auth.register-full-bg {
-  background: url("../images/auth/register_1.jpg");
+  background: url("/assets/images/auth/register_1.jpg");
   background-size: cover; }
 
 .auth .register-half-bg {
-  background: url("../images/auth/register_2.jpg");
+  background: url("/assets/images/auth/register_2.jpg");
   background-size: cover; }
 
 .auth.lock-full-bg {
-  background: url("../images/auth/lock_bg.jpg");
+  background: url("/assets/images/auth/lock_bg.jpg");
   background-size: cover; }
 
 .auth .lock-profile-img {
