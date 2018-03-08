@@ -11,7 +11,7 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class AuthService {
   authToken: any;
-  redirecturl: String;
+  redirecturl: String = '';
   user_id: any;
 
   constructor(private http: Http, private router: Router) { }
@@ -79,7 +79,8 @@ export class AuthService {
   }
 
   redirectUrl(url) {
-    this.redirectUrl = url;
+    this.redirecturl = url;
+    return this.redirecturl;
   }
 
   storeUserData(token, user_id, user_type) {
