@@ -34,6 +34,12 @@ const UserSchema = mongoose.Schema({
   phoneNumber: {
     type: String
   },
+  city: {
+    type: String
+  },
+  state: {
+    type: String
+  },
   properties: [],
   connections: [],
   profilePhoto: {

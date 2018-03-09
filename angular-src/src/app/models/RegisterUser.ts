@@ -6,5 +6,7 @@ export interface RegisterUser {
   firstName: String,
   lastName: String,
   email: String,
-  phoneNumber: String
+  phoneNumber: String,
+  city: String,
+  state: String
 }

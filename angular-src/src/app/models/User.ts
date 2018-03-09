@@ -7,6 +7,8 @@ export interface User {
   userName: String,
   email: String,
   phoneNumber: String,
+  city: String,
+  state: String,
   investor_id?: String,
   wholesaler_id?: String,
   properties?: Array<any>,

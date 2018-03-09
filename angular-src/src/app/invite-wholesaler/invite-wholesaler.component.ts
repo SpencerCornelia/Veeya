@@ -34,6 +34,8 @@ export class InviteWholesalerComponent implements OnInit {
       userName: '',
       email: '',
       phoneNumber: '',
+      city: '',
+      state: '',
       investor_id: investorID
     }
 
@@ -44,7 +46,9 @@ export class InviteWholesalerComponent implements OnInit {
       password: '',
       userName: '',
       email: '',
-      phoneNumber: ''
+      phoneNumber: '',
+      city: '',
+      state: ''
     }
   }
 
