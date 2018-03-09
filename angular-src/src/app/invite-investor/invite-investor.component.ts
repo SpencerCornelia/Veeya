@@ -14,11 +14,14 @@ import { InviteService } from '../services/invite.service';
 })
 export class InviteInvestorComponent implements OnInit {
 
+  private currentUser: User;
   private newInvestor: User;
 
   constructor(private authService: AuthService,
               private inviteService: InviteService,
-              private router: Router) { }
+              private router: Router) {
+    this.getCurrentUser();
+  }
 
   ngOnInit() {
     let wholesalerID = this.authService.loggedInUser();
@@ -32,6 +35,25 @@ export class InviteInvestorComponent implements OnInit {
       phoneNumber: '',
       wholesaler_id: wholesalerID
     }
+
+    this.currentUser = {
+      userType: '',
+      userName: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      email: '',
+      phoneNumber: ''
+    }
+
+    /*
+    --> this listens for changes to currentUser in auth.service.ts <--
+    this.authService.getCurrentUser()
+      .subscribe((user) => {
+        this.currentUser = user;
+      })
+    */
+
   }
 
   public onSubmit() {
@@ -39,11 +61,17 @@ export class InviteInvestorComponent implements OnInit {
     this.inviteService.inviteInvestor(this.newInvestor)
       .subscribe((response) => {
         this.router.navigate(['/dashboard']);
-
       },
       (error) => {
 
       });
+  }
+
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
+      .subscribe((response) => {
+        this.currentUser = response.data;
+      })
   }
 
 }
