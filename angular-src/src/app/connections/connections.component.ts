@@ -13,16 +13,32 @@ import { UserService } from '../services/user.service';
 export class ConnectionsComponent implements OnInit {
 
   private connections: Array<User> = [];
+  private currentUser: User;
   private searchText: String;
   private user_id: String;
 
   constructor(private authService: AuthService,
               private getConnectionsService: GetConnectionsService,
-              private userService: UserService) { }
+              private userService: UserService)
+              {
+                this.getCurrentUser();
+              }
 
   ngOnInit() {
     this.user_id = this.authService.loggedInUser();
     this.getConnectionsForUser();
+
+    this.currentUser = {
+      userType: '',
+      userName: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      email: '',
+      phoneNumber: '',
+      city: '',
+      state: ''
+    }
   }
 
   getConnectionsForUser() {
@@ -32,6 +48,15 @@ export class ConnectionsComponent implements OnInit {
       }, (error) => {
 
       });
+  }
+
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
+      .subscribe((response) => {
+        this.currentUser = response.data;
+      }, (error) => {
+
+      })
   }
 
 }
