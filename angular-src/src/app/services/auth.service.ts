@@ -4,15 +4,20 @@ import { Observable } from 'rxjs/Observable';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Router } from '@angular/router';
 
+import { User } from '../models/User';
+
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class AuthService {
-  authToken: any;
-  redirecturl: String = '';
-  user_id: any;
+
+  public authToken: any;
+  public currentUser = new BehaviorSubject<User>(null);
+  public redirecturl: String = '';
+  private user_id: any;
 
   constructor(private http: Http, private router: Router) { }
 
@@ -29,6 +34,11 @@ export class AuthService {
       })
       .catch((error) => {
         return Observable.throw(error.json());
+      })
+      .subscribe((response) => {
+        this.storeUserData(response.token, response.user.id, response.user.user_type);
+        this.router.navigate(['/dashboard']);
+        this.setCurrentUser(response.user);
       });
   }
 
@@ -44,8 +54,29 @@ export class AuthService {
       })
       .catch((error)  => {
         return Observable.throw(error.json());
-      });
+      })
+      .subscribe((response) => {
+        this.storeUserData(response.token, response.user._id, response.user.userType);
+        this.router.navigate(['/dashboard']);
+        this.setCurrentUser(response.user);
+      })
   }
+
+
+  getLoggedInUser() {
+    let userId = this.loggedInUser();
+    let route = `http://localhost:3000/user/${userId}`;
+    return this.http.get(route)
+      .map((response) => {
+        return response.json();
+      })
+      .catch((error) => {
+        return Observable.throw(error.json());
+      })
+  }
+
+
+  /* GETTERS */
 
   investorUser() {
     let userType = this.loggedInUserType();
@@ -82,8 +113,18 @@ export class AuthService {
     return this.redirecturl;
   }
 
+  getCurrentUser() {
+    return this.currentUser.asObservable();
+  }
+
+  /* SETTERS */
+
   setRedirectUrl(url) {
     this.redirecturl = url;
+  }
+
+  setCurrentUser(user) {
+    this.currentUser.next(user);
   }
 
   storeUserData(token, user_id, user_type) {
