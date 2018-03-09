@@ -56,7 +56,7 @@ export class InviteInvestorComponent implements OnInit {
 
   }
 
-  public onSubmit() {
+  onSubmit() {
     this.newInvestor.userName = this.newInvestor.firstName.toString() + this.newInvestor.lastName.toString();
     this.inviteService.inviteInvestor(this.newInvestor)
       .subscribe((response) => {
@@ -71,6 +71,8 @@ export class InviteInvestorComponent implements OnInit {
     this.authService.getLoggedInUser()
       .subscribe((response) => {
         this.currentUser = response.data;
+      }, (error) => {
+
       })
   }
 

@@ -14,11 +14,15 @@ import { InviteService } from '../services/invite.service';
 })
 export class InviteWholesalerComponent implements OnInit {
 
+  private currentUser: User;
   private newWholesaler: User;
 
   constructor(private authService: AuthService,
               private inviteService: InviteService,
-              private router: Router) { }
+              private router: Router) {
+
+              this.getCurrentUser
+              }
 
   ngOnInit() {
     let investorID = this.authService.loggedInUser();
@@ -32,18 +36,36 @@ export class InviteWholesalerComponent implements OnInit {
       phoneNumber: '',
       investor_id: investorID
     }
+
+    this.currentUser = {
+      userType: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      userName: '',
+      email: '',
+      phoneNumber: ''
+    }
   }
 
-  public onSubmit() {
+  onSubmit() {
     this.newWholesaler.userName = this.newWholesaler.firstName.toString() + this.newWholesaler.lastName.toString();
     this.inviteService.inviteWholesaler(this.newWholesaler)
       .subscribe((response) => {
         this.router.navigate(['/dashboard']);
-
       },
       (error) => {
 
       });
+  }
+
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
+      .subscribe((response) => {
+        this.currentUser = response.data;
+      }, (error) => {
+
+      })
   }
 
 }

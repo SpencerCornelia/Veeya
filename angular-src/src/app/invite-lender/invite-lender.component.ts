@@ -14,11 +14,15 @@ import { InviteService } from '../services/invite.service';
 })
 export class InviteLenderComponent implements OnInit {
 
+  private currentUser: User;
   private lender: User;
 
   constructor(private authService: AuthService,
               private inviteService: InviteService,
-              private router: Router) { }
+              private router: Router)
+              {
+                this.getCurrentUser();
+              }
 
   ngOnInit() {
     let user_id = this.authService.loggedInUser();
@@ -32,9 +36,19 @@ export class InviteLenderComponent implements OnInit {
       phoneNumber: '',
       user_id: user_id
     }
+
+    this.currentUser = {
+      userType: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
+      password: '',
+      email: '',
+      phoneNumber: ''
+    }
   }
 
-  public onSubmit() {
+  onSubmit() {
     this.lender.userName = this.lender.firstName.toString() + this.lender.lastName.toString();
     this.inviteService.inviteLender(this.lender)
       .subscribe((response) => {
@@ -44,6 +58,15 @@ export class InviteLenderComponent implements OnInit {
       (error) => {
 
       });
+  }
+
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
+      .subscribe((response) => {
+        this.currentUser = response.data;
+      }, (error) => {
+
+      })
   }
 
 }
