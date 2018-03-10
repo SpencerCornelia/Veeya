@@ -44,39 +44,37 @@ export class AddPropertyComponent implements OnInit {
     this.newProperty = {
       _id: 0,
       wholesaler_id: wholesalerID,
-      address: 'Form Address1',
-      city: 'Las Vegas',
-      state: 'NV',
-      zipCode: 89109,
-      purchasePrice: 250000,
-      bedrooms: 3,
-      bathrooms: 3,
-      rehabCostMin: 10000,
-      rehabCostMax: 20000,
-      afterRepairValue: 350000,
-      averageRent: 1200,
-      squareFootage: 1278,
+      address: '',
+      city: '',
+      state: 'AL',
+      zipCode: 0,
+      purchasePrice: 0,
+      bedrooms: 0,
+      bathrooms: 0,
+      rehabCostMin: 0,
+      rehabCostMax: 0,
+      afterRepairValue: 0,
+      averageRent: 0,
+      squareFootage: 0,
       propertyType: 'Single Family',
-      yearBuilt: 1987,
+      yearBuilt: 0,
       status: 'contractYes',
-      comps: [],
+      comps: [
+        {
+          firstCompAddress: '',
+          firstCompPrice: ''
+        },
+        {
+          secondCompAddress: '',
+          secondCompPrice: ''
+        },
+        {
+          thirdCompAddress: '',
+          thirdCompPrice: ''
+        }
+      ],
       photos: []
     }
-
-    this.propertyComps = [
-      {
-        firstCompAddress: '',
-        firstCompPrice: ''
-      },
-      {
-        secondCompAddress: '',
-        secondCompPrice: ''
-      },
-      {
-        thirdCompAddress: '',
-        thirdCompPrice: ''
-      }
-    ];
 
     this.currentUser = {
       userType: '',
@@ -101,6 +99,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   onSubmit() {
+
     this.photosService.getPropertyPhotoUrls(this.uploadedPhotos, (error, photos) => {
       if (error) {
         // error message = 'Error submitting form. Please try again.'
@@ -109,8 +108,6 @@ export class AddPropertyComponent implements OnInit {
         this.newProperty.photos = photos;
       }
     });
-
-    this.newProperty.comps = this.propertyComps;
 
     this.addPropertyService.addProperty(this.newProperty)
       .subscribe((response) => {

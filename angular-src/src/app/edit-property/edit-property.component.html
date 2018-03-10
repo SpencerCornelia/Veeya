@@ -364,6 +364,24 @@
                         <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Images of the Property">
                       </span>
                     </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-4">
+                          <label>Under Contract?</label>
+                          <div class="col-xs-3">
+                            <select class="form-control" [(ngModel)]="newProperty.status" name="status">
+                              <option value="contractYes">Yes</option>
+                              <option value="contractNo">No</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Under Contract</label>
+                      <label>Yes</label><input type="radio" name="contractStatus" [(ngModel)]="initialProperty.status" value="contractYes">
+                      <label>No</label><input type="radio" name="contractStatus" [(ngModel)]="initialProperty.status" value="contractNo">
+                    </div>
                     <div class="row submit-add-property-btn">
                       <button type="submit" class="btn btn-success mr-2">Submit</button>
                       <button class="btn btn-light">Cancel</button>

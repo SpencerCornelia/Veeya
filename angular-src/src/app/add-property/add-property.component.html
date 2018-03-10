@@ -368,7 +368,8 @@
                           <label class="col-sm-3 col-form-label">Beds</label>
                           <div class="col-sm-4">
                             <select [(ngModel)]="newProperty.bedrooms" name="bedrooms" class="form-control">
-                              <option value="1">0</option>
+                              <option value="0">0</option>
+                              <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
                               <option value="4">4</option>
@@ -382,7 +383,8 @@
                           <label class="col-sm-4 col-form-label">Baths</label>
                           <div class="col-sm-4">
                             <select [(ngModel)]="newProperty.bathrooms" name="bathrooms" class="form-control">
-                              <option value="1">0</option>
+                              <option value="0">0</option>
+                              <option value="1">1</option>
                               <option value="2">2</option>
                               <option value="3">3</option>
                               <option value="4">4</option>
@@ -472,7 +474,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">First Comp Address</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="propertyComps[0].firstCompAddress" name="firstCompAddress" />
+                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[0].firstCompAddress" name="firstCompAddress" />
                           </div>
                         </div>
                       </div>
@@ -480,7 +482,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">First Comp Price</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="propertyComps[0].firstCompPrice" name="firstCompPrice" />
+                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[0].firstCompPrice" name="firstCompPrice" />
                           </div>
                         </div>
                       </div>
@@ -490,7 +492,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Second Comp Address</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="propertyComps[1].secondCompAddress" name="secondCompAddress" />
+                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[1].secondCompAddress" name="secondCompAddress" />
                           </div>
                         </div>
                       </div>
@@ -498,7 +500,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Second Comp Price</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="propertyComps[1].secondCompPrice" name="secondCompPrice" />
+                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[1].secondCompPrice" name="secondCompPrice" />
                           </div>
                         </div>
                       </div>
@@ -508,7 +510,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Third Comp Address</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="propertyComps[2].thirdCompAddress" name="thirdCompAddress" />
+                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[2].thirdCompAddress" name="thirdCompAddress" />
                           </div>
                         </div>
                       </div>
@@ -516,7 +518,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Third Comp Price</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="propertyComps[2].thirdCompPrice" name="thirdCompPrice" />
+                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[2].thirdCompPrice" name="thirdCompPrice" />
                           </div>
                         </div>
                       </div>
@@ -525,8 +527,21 @@
                       <label>File upload</label>
                       <span class="input-group-append">
                         <button class="file-upload-browse btn btn-info" type="button">Upload</button>
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Images of the Property">
+                        <input type="text" class="form-control file-upload-info" placeholder="Upload Images of the Property">
                       </span>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-4">
+                          <label>Under Contract?</label>
+                          <div class="col-xs-3">
+                            <select class="form-control" [(ngModel)]="newProperty.status" name="status">
+                              <option value="contractYes">Yes</option>
+                              <option value="contractNo">No</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div class="row submit-add-property-btn">
                       <button type="submit" class="btn btn-success mr-2">Submit</button>

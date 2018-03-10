@@ -3,6 +3,9 @@ import { Property } from '../models/Property';
 import { AppRoutingModule } from '../app-routing.module';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { User } from '../models/User';
+
+import { AuthService } from '../services/auth.service';
 import { EditPropertyService } from '../services/editProperty.service';
 import { PhotosService } from '../services/photos.service';
 import { ValidateService } from '../services/validate.service';
@@ -16,6 +19,7 @@ import { ViewPropertyService } from '../services/viewProperty.service';
 })
 export class ViewPropertyComponent implements OnInit {
 
+  private currentUser: User;
   private pageTitle: String;
   private photo: File;
   private testPhotos: Array<String> = [];
@@ -24,10 +28,12 @@ export class ViewPropertyComponent implements OnInit {
   private initialProperty: Property;
 
   constructor(private route: ActivatedRoute,
+              private authService: AuthService,
               private viewPropertyService: ViewPropertyService,
               private router: Router,
               private photosService: PhotosService,
               private validateService: ValidateService) {
+    this.getCurrentUser();
     this.propertyID = route.snapshot.params['id'];
     this.getProperty(this.propertyID);
   }
@@ -36,24 +42,58 @@ export class ViewPropertyComponent implements OnInit {
     this.initialProperty = {
       _id: 0,
       wholesaler_id: '0',
-      address: 'Form Address1',
-      city: 'Las Vegas',
-      state: 'NV',
-      zipCode: 89109,
-      purchasePrice: 250000,
-      bedrooms: 3,
-      bathrooms: 3,
-      rehabCostMin: 10000,
-      rehabCostMax: 20000,
-      afterRepairValue: 350000,
-      averageRent: 1200,
-      squareFootage: 1278,
-      propertyType: 'singleFamily',
-      yearBuilt: 1987,
-      status: 'contractYes',
-      comps: 450000,
+      address: '',
+      city: '',
+      state: '',
+      zipCode: 0,
+      purchasePrice: 0,
+      bedrooms: 0,
+      bathrooms: 0,
+      rehabCostMin: 0,
+      rehabCostMax: 0,
+      afterRepairValue: 0,
+      averageRent: 0,
+      squareFootage: 0,
+      propertyType: '',
+      yearBuilt: 0,
+      status: '',
+      comps: [
+        {
+          firstCompAddress: '',
+          firstCompPrice: ''
+        },
+        {
+          secondCompAddress: '',
+          secondCompPrice: ''
+        },
+        {
+          thirdCompAddress: '',
+          thirdCompPrice: ''
+        }
+      ],
       photos: []
     }
+
+    this.currentUser = {
+      userType: '',
+      userName: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      email: '',
+      phoneNumber: '',
+      city: '',
+      state: ''
+    }
+  }
+
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
+      .subscribe((response) => {
+        this.currentUser = response.data;
+      }, (error) => {
+
+      })
   }
 
   getProperty(id) {

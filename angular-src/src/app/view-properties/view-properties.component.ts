@@ -69,6 +69,12 @@ export class ViewPropertiesComponent implements OnInit {
       .subscribe(response => this.properties = response)
   }
 
+  viewProperty(property) {
+    console.log("property:", property)
+    let propertyId = property.id;
+    this.router.navigate(['/properties/property/', propertyId]);
+  }
+
   public getPropertiesForInvestor() {
     let investorID = this.authService.loggedInUser();
     this.getUserPropertiesService.getInvestorUserProperties(investorID)

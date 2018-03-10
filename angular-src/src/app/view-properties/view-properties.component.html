@@ -15,6 +15,7 @@
             <div class="propertyElement">{{ property.address }}</div>
             <div class="propertyElement">{{ property.city }}, {{ property.state }} {{ property.zipCode }}</div>
             <div class="propertyElement">${{ property.purchasePrice }}</div>
+            <button (click)="viewProperty(property)"></button>
             <div class="propertyElement"><button type="button" class="btn btn-primary" (click)="editProperty(property)">Edit Property</button></div>
           </div>
         </div>

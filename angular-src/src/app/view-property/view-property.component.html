@@ -1,3 +1,339 @@
-<p>
-  view-property works!
-</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Veeya</title>
+  <!-- inject:css -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="/assets/images/favicon.png" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+        <a class="navbar-brand brand-logo" href="../../index.html"><img src="/assets/images/logo.svg" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="/assets/images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="icon-menu"></span>
+        </button>
+        <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
+          <li class="nav-item">
+            <a href="/assets/pages/apps/gallery.html" class="nav-link"><i class="mdi mdi-image-filter"></i>Gallery</a>
+          </li>
+          <li class="nav-item active">
+            <a href="../../pages/apps/email.html" class="nav-link"><i class="mdi mdi-email-outline"></i>Inbox</a>
+          </li>
+          <li class="nav-item">
+            <a href="../../pages/apps/calendar.html" class="nav-link"><i class="mdi mdi-calendar"></i>Calendar</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-settings d-none d-lg-block">
+            <a class="nav-link" href="#">
+              <img class="img-xs rounded-circle" src="/assets/images/faces/face4.jpg" alt="">
+            </a>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="icon-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item nav-profile">
+            <div class="nav-link">
+              <div class="profile-image"> <img src="/assets/images/faces/face4.jpg" alt="image"/> <span class="online-status online"></span> </div>
+              <div class="profile-name">
+                <p class="name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
+                <p class="designation">{{ currentUser.userType }}</p>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item"> <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/dashboard']">
+            <span class="menu-title">Dashboard</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn() && authService.wholesalerUser()" [routerLink]="['/properties/addproperty']"><span class="menu-title">Add Property</span> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/properties']"><span class="menu-title">View Properties</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/connections']"><span class="menu-title">Connections</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn() && authService.wholesalerUser()" [routerLink]="['/inviteinvestor']"><span class="menu-title">Invite Investor</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/invitelender']"><span class="menu-title">Invite Lender</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/search']"><span class="menu-title">Search</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/profile', authService.loggedInUser()]"><span class="menu-title">My Profile</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" (click)="authService.logout()"><span class="menu-title">Logout</span></a>
+          </li>
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Edit Property</h4>
+                  <form (ngSubmit)="onSubmit()" class="form-sample">
+                    <div class="row">
+                      <div class="col-md-8">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Street Address</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.address" name="address" readonly />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">City</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.city" name="city" readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-5">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">State</label>
+                          <div class="col-sm-6">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.state" name="state" readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group row">
+                          <label class="col-sm-5 col-form-label">Zip</label>
+                          <div class="col-sm-7">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.zipCode" name="zipCode" readonly />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-5">
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Purchase Price</label>
+                           <div class="col-sm-7">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.purchasePrice" name="purchasePrice" readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Beds</label>
+                          <div class="col-sm-4">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.bedrooms" name="bedrooms" readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group row">
+                          <label class="col-sm-4 col-form-label">Baths</label>
+                          <div class="col-sm-4">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.bathrooms" name="bathrooms" readonly />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Rehab Cost Min</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.rehabCostMin" name="rehabCostMin" readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Rehab Cost Max</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.rehabCostMax" name="rehabCostMax" readonly />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">After Repair Value (ARV)</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.afterRepairValue" name="afterRepairValue"
+                            readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Gross Monthly Rent</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.averageRent" name="averageRent" readonly />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Square Footage</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.squareFootage" name="squareFootage" readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Property Type</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.propertyType" name="propertyType" readonly />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Year Built</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.yearBuilt" name="yearBuilt" readonly />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <p>
+                      Comps
+                    </p>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">First Comp Address</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.comps[0].firstCompAddress" name="firstCompAddress" readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">First Comp Price</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.comps[0].firstCompPrice" name="firstCompPrice" readonly />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Second Comp Address</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.comps[1].secondCompAddress" name="secondCompAddress" readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Second Comp Price</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.comps[1].secondCompPrice" name="secondCompPrice" readonly />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Third Comp Address</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.comps[2].thirdCompAddress" name="thirdCompAddress" readonly />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Third Comp Price</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.comps[2].thirdCompPrice" name="thirdCompPrice" readonly />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-4">
+                          <label>Under Contract?</label>
+                          <div class="col-xs-3">
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.status" name="status" readonly />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid clearfix">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="/node_modules/typeahead.js/dist/typeahead.bundle.min.js"></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="/assets/js/off-canvas.js"></script>
+  <script src="/assets/js/hoverable-collapse.js"></script>
+  <script src="/assets/js/misc.js"></script>
+  <script src="/assets/js/settings.js"></script>
+  <script src="/assets/js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="/assets/js/file-upload.js"></script>
+  <script src="/assets/js/typeahead.js"></script>
+  <!-- End custom js for this page-->
+</body>
+
+</html>
