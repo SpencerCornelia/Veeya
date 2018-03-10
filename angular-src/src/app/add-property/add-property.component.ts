@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AppRoutingModule } from '../app-routing.module';
 import { ModuleWithProviders } from '@angular/core';
 
+import { User } from '../models/User';
 import { Property } from '../models/Property';
 
 import { AuthService } from '../services/auth.service';
@@ -19,6 +20,8 @@ import { ValidateService } from '../services/validate.service';
 })
 export class AddPropertyComponent implements OnInit {
 
+  private propertyComps: Array<Object>;
+  private currentUser: User;
   private newProperty: Property;
   private photo: File;
   private photos: Array<File> = [];
@@ -28,12 +31,16 @@ export class AddPropertyComponent implements OnInit {
               private addPropertyService: AddPropertyService,
               private photosService: PhotosService,
               private router: Router,
-              private validateService: ValidateService) { }
+              private validateService: ValidateService)
+              {
+                this.getCurrentUser();
+              }
 
   ngOnInit() {
-    document.getElementById('removePhotos').hidden = true;
-    document.getElementById('uploadPhotos').hidden = true;
+    // document.getElementById('removePhotos').hidden = true;
+    // document.getElementById('uploadPhotos').hidden = true;
     let wholesalerID = this.authService.loggedInUser();
+    let propertyComps = [];
     this.newProperty = {
       _id: 0,
       wholesaler_id: wholesalerID,
@@ -52,12 +59,48 @@ export class AddPropertyComponent implements OnInit {
       propertyType: 'Single Family',
       yearBuilt: 1987,
       status: 'contractYes',
-      comps: 450000,
+      comps: [],
       photos: []
+    }
+
+    this.propertyComps = [
+      {
+        firstCompAddress: '',
+        firstCompPrice: ''
+      },
+      {
+        secondCompAddress: '',
+        secondCompPrice: ''
+      },
+      {
+        thirdCompAddress: '',
+        thirdCompPrice: ''
+      }
+    ];
+
+    this.currentUser = {
+      userType: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
+      password: '',
+      email: '',
+      phoneNumber: '',
+      city: '',
+      state: ''
     }
   }
 
-  public onSubmit() {
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
+      .subscribe((response) => {
+        this.currentUser = response.data;
+      }, (error) => {
+
+      })
+  }
+
+  onSubmit() {
     this.photosService.getPropertyPhotoUrls(this.uploadedPhotos, (error, photos) => {
       if (error) {
         // error message = 'Error submitting form. Please try again.'
@@ -66,6 +109,8 @@ export class AddPropertyComponent implements OnInit {
         this.newProperty.photos = photos;
       }
     });
+
+    this.newProperty.comps = this.propertyComps;
 
     this.addPropertyService.addProperty(this.newProperty)
       .subscribe((response) => {
@@ -77,7 +122,7 @@ export class AddPropertyComponent implements OnInit {
       });
   }
 
-  public addPhoto(event) {
+  addPhoto(event) {
     let file = event.target.files[0];
     let fileType = file["type"];
     if (this.validateService.validatePhotoInput(fileType)) {
@@ -95,7 +140,7 @@ export class AddPropertyComponent implements OnInit {
     }
   }
 
-  public uploadPhotos(event) {
+  uploadPhotos(event) {
     this.photosService.uploadPropertyPhotos(this.photos, (error, photos) => {
       if (error) {
         // error message = 'Error uploading photos. Please try again later.'
@@ -105,7 +150,7 @@ export class AddPropertyComponent implements OnInit {
     });
   }
 
-  public removePhotos() {
+  removePhotos() {
     this.photos = [];
     document.getElementById('selectedFiles').innerHTML = "";
     let inputValue = (<HTMLInputElement>document.getElementById('imageInput'));
