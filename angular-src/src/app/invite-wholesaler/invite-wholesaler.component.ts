@@ -21,7 +21,7 @@ export class InviteWholesalerComponent implements OnInit {
               private inviteService: InviteService,
               private router: Router) {
 
-              this.getCurrentUser
+              this.getCurrentUser()
               }
 
   ngOnInit() {
