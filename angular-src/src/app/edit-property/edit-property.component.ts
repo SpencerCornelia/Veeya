@@ -3,6 +3,8 @@ import { Property } from '../models/Property';
 import { AppRoutingModule } from '../app-routing.module';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { User } from '../models/User';
+
 import { AuthService } from '../services/auth.service';
 import { EditPropertyService } from '../services/editProperty.service';
 import { PhotosService } from '../services/photos.service';
@@ -15,6 +17,7 @@ import { ValidateService } from '../services/validate.service';
 })
 export class EditPropertyComponent implements OnInit {
 
+  private currentUser: User;
   private pageTitle: String;
   private photo: File;
   private testPhotos: Array<String> = [];
@@ -30,12 +33,13 @@ export class EditPropertyComponent implements OnInit {
               private photosService: PhotosService,
               private validateService: ValidateService
               ) {
+    this.getCurrentUser();
     this.propertyID = route.snapshot.params['id'];
     this.getProperty(this.propertyID);
   }
 
   ngOnInit() {
-    document.getElementById('removePhotos').hidden = true;
+    // document.getElementById('removePhotos').hidden = true;
     let wholesalerID = this.authService.loggedInUser();
 
     this.initialProperty = {
@@ -56,11 +60,46 @@ export class EditPropertyComponent implements OnInit {
       propertyType: 'singleFamily',
       yearBuilt: 1987,
       status: 'contractYes',
-      comps: 450000,
+      comps: [
+        {
+          firstCompAddress: '',
+          firstCompPrice: ''
+        },
+        {
+          secondCompAddress: '',
+          secondCompPrice: ''
+        },
+        {
+          thirdCompAddress: '',
+          thirdCompPrice: ''
+        }
+      ],
       photos: []
     }
+
+    this.currentUser = {
+      userType: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
+      password: '',
+      email: '',
+      phoneNumber: '',
+      city: '',
+      state: ''
+    }
+
     this.pageTitle = 'Edit Property';
     this.testPhotos = ["https://scontent.flas1-1.fna.fbcdn.net/v/t1.0-9/26993322_3918229670408_8250173985738273633_n.jpg?oh=6794919c8e47c6ba7d54143eb3c357a7&oe=5B43F786", "https://scontent.flas1-1.fna.fbcdn.net/v/t1.0-9/26993322_3918229670408_8250173985738273633_n.jpg?oh=6794919c8e47c6ba7d54143eb3c357a7&oe=5B43F786", "https://scontent.flas1-1.fna.fbcdn.net/v/t1.0-9/26993322_3918229670408_8250173985738273633_n.jpg?oh=6794919c8e47c6ba7d54143eb3c357a7&oe=5B43F786"];
+  }
+
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
+      .subscribe((response) => {
+        this.currentUser = response.data;
+      }, (error) => {
+
+      })
   }
 
   getProperty(id) {
@@ -69,16 +108,16 @@ export class EditPropertyComponent implements OnInit {
         this.initialProperty = response.data;
         this.photos = this.initialProperty.photos;
         if (this.initialProperty.photos.length === 3) {
-          let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
-          inputButton.disabled = true;
-          document.getElementById('uploadPhotos').hidden = true;
+          // let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
+          // inputButton.disabled = true;
+          // document.getElementById('uploadPhotos').hidden = true;
         }
       }, (error) => {
 
       });
   }
 
-  public onSubmit() {
+  onSubmit() {
     this.photosService.getPropertyPhotoUrls(this.photos, (error, photos) => {
       if (error) {
         // error message
@@ -98,7 +137,7 @@ export class EditPropertyComponent implements OnInit {
       });
   }
 
-  public addPhoto(event) {
+  addPhoto(event) {
     let file = event.target.files[0];
     let fileType = file["type"];
     if (this.validateService.validatePhotoInput(fileType)) {
@@ -113,7 +152,7 @@ export class EditPropertyComponent implements OnInit {
     }
   }
 
-  public uploadPhotos(event) {
+  uploadPhotos(event) {
     this.photosService.uploadPropertyPhotos(this.photosToAdd, (error, photos) => {
       if (error) {
 
@@ -124,7 +163,7 @@ export class EditPropertyComponent implements OnInit {
     })
   }
 
-  public removePhoto(photo) {
+  removePhoto(photo) {
     this.photosService.removePropertyPhoto(photo, (error) => {
       if (error) {
         // error message = 'Error removing photo. Please try again.'
