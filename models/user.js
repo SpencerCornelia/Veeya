@@ -108,6 +108,7 @@ module.exports.registerUser = function(userBody) {
                 }
                 reject(errorObj);
               } else if (savedUser) {
+                delete savedUser.password;
                 let investorObj = {
                   success: true,
                   message: 'Successfully registered user.',
@@ -171,6 +172,9 @@ module.exports.getAllWholesalers = function() {
         }
         reject(errorObj);
       } else if (wholesalers) {
+        wholesalers.forEach((w) => {
+          delete w.password;
+        });
         let successObj = {
           success: true,
           message: 'Successfully retrieved all wholesalers.',
@@ -202,6 +206,7 @@ module.exports.getWholesalerById = function(id) {
         }
         reject(errorObj);
       } else if (wholesaler) {
+        delete wholesaler.password;
         let successObj = {
           success: true,
           message: 'Successfully retrieved wholesaler.',
@@ -234,6 +239,9 @@ module.exports.searchWholesaler = function(email, userName, phoneNumber) {
         }
         reject(errorObj);
       } else if (user.length > 0) {
+        user.forEach((u) => {
+          delete u.password;
+        });
         let successObj = {
           success: true,
           message: 'Successfully retrieved investor.',
@@ -326,6 +334,7 @@ module.exports.addInvestorConnection = function(investor, wholesalerID) {
           }
           reject(errorObj);
         } else if (user) {
+          delete user.password;
           let successObj = {
             success: true,
             message: 'Successfully invited user.',
@@ -367,6 +376,9 @@ module.exports.getAllInvestors = function() {
         }
         reject(errorObj);
       } else if (investors) {
+        investors.forEach((investor) => {
+          delete investor.password;
+        });
         let successObj = {
           success: true,
           message: 'Successfully retrieved all investors.',
@@ -399,6 +411,7 @@ module.exports.getInvestorById = function(id) {
         }
         reject(errorObj);
       } else if (investor) {
+        delete investor.password;
         let successObj = {
           success: true,
           message: 'Successfully retrieved investor.',
@@ -431,6 +444,9 @@ module.exports.searchInvestor = function(email, userName, phoneNumber) {
         }
         reject(errorObj);
       } else if (user.length > 0) {
+        user.forEach((u) => {
+          delete u.password;
+        })
         let successObj = {
           success: true,
           message: 'Successfully retrieved investor.',
@@ -483,6 +499,7 @@ module.exports.addWholesalerConnection = function(wholesaler, investorEmail, inv
           }
           reject(errorObj);
         } else if (user) {
+          delete user.password;
           let successObj = {
             success: true,
             message: 'Successfully invited user.',
@@ -513,7 +530,7 @@ module.exports.addWholesalerConnection = function(wholesaler, investorEmail, inv
 
 module.exports.getAllLenders = function() {
   return new Promise((resolve, reject) => {
-    User.find({ 'userType': 'Lender' }).exec((error, wholesalers) => {
+    User.find({ 'userType': 'Lender' }).exec((error, lenders) => {
       if (error) {
         let errorObj = {
           success: false,
@@ -521,11 +538,14 @@ module.exports.getAllLenders = function() {
           error: error
         }
         reject(errorObj);
-      } else if (wholesalers) {
+      } else if (lenders) {
+        lenders.forEach((lender) => {
+          delete lender.password;
+        });
         let successObj = {
           success: true,
           message: 'Successfully retrieved all lenders.',
-          data: wholesalers
+          data: lenders
         }
         resolve(successObj);
       } else {
@@ -549,21 +569,21 @@ module.exports.searchLender = function(email, userName, phoneNumber) {
       if (error) {
         let errorObj = {
           success: false,
-          message: 'Error searching for investor.',
+          message: 'Error searching for lender.',
           error: error
         }
         reject(errorObj);
       } else if (user.length > 0) {
         let successObj = {
           success: true,
-          message: 'Successfully retrieved investor.',
+          message: 'Successfully retrieved lender.',
           data: user
         }
         resolve(successObj);
       } else {
         let errorObj = {
           success: false,
-          message: 'Unable to find an investor with those search parameters.',
+          message: 'Unable to find a lender with those search parameters.',
           error: ''
         }
         reject(errorObj);
