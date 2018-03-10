@@ -15,7 +15,7 @@ import { InviteService } from '../services/invite.service';
 export class InviteLenderComponent implements OnInit {
 
   private currentUser: User;
-  private lender: User;
+  private newLender: User;
 
   constructor(private authService: AuthService,
               private inviteService: InviteService,
@@ -26,7 +26,7 @@ export class InviteLenderComponent implements OnInit {
 
   ngOnInit() {
     let user_id = this.authService.loggedInUser();
-    this.lender = {
+    this.newLender = {
       userType: 'Lender',
       userName: '',
       password: 'initialPassword',
@@ -53,8 +53,8 @@ export class InviteLenderComponent implements OnInit {
   }
 
   onSubmit() {
-    this.lender.userName = this.lender.firstName.toString() + this.lender.lastName.toString();
-    this.inviteService.inviteLender(this.lender)
+    this.newLender.userName = this.newLender.firstName.toString() + this.newLender.lastName.toString();
+    this.inviteService.inviteLender(this.newLender)
       .subscribe((response) => {
         this.router.navigate(['/dashboard']);
 
