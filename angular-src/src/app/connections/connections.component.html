@@ -199,6 +199,9 @@
             <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/invitelender']"><span class="menu-title">Invite Lender</span></a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/search']"><span class="menu-title">Search</span></a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/profile', authService.loggedInUser()]"><span class="menu-title">My Profile</span></a>
           </li>
           <li class="nav-item">
@@ -218,9 +221,9 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Email</th>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Email</th>
                         <th>Phone Number</th>
                         <th>City</th>
                         <th>State</th>
@@ -230,9 +233,9 @@
                     <tbody>
                       <tr *ngFor="let connection of connections; let i=index">
                         <td>{{ i + 1 }}</td>
-                        <td>{{ connection.email }}</td>
                         <td>{{ connection.firstName }}</td>
                         <td>{{ connection.lastName }}</td>
+                        <td>{{ connection.email }}</td>
                         <td>{{ connection.phoneNumber }}</td>
                         <td>{{ connection.city }}</td>
                         <td>{{ connection.state }}</td>
