@@ -29,6 +29,8 @@ export class UserProfileComponent implements OnInit {
       userName: '',
       email: '',
       phoneNumber: '',
+      city: '',
+      state: '',
       properties: [],
       minimumLoanAmount: '',
       maximumLoanAmount: '',

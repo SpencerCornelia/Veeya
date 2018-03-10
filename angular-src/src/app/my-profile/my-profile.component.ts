@@ -27,7 +27,9 @@ export class MyProfileComponent implements OnInit {
       lastName: '',
       email: '',
       password: '',
-      phoneNumber: ''
+      phoneNumber: '',
+      city: '',
+      state: ''
     }
   }
 
