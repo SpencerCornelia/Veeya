@@ -19,9 +19,10 @@ export class InviteInvestorComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private inviteService: InviteService,
-              private router: Router) {
-    this.getCurrentUser();
-  }
+              private router: Router)
+              {
+                this.getCurrentUser();
+              }
 
   ngOnInit() {
     let wholesalerID = this.authService.loggedInUser();
