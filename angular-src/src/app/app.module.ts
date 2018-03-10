@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AuthGuard } from './guards/auth.guard';
+import { EditPropertyGuard } from './guards/edit-property.guard';
 import { ProfileGuard } from './guards/profile.guard';
 import { RegisterGuard } from './guards/register.guard';
 import { RoleGuard } from './guards/role.guard';
@@ -101,6 +102,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     ValidateService,
     ViewPropertyService,
     AuthGuard,
+    EditPropertyGuard,
     ProfileGuard,
     RegisterGuard,
     RoleGuard,

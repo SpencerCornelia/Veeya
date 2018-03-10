@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { EditPropertyGuard } from './guards/edit-property.guard';
 import { ProfileGuard } from './guards/profile.guard';
 import { RegisterGuard } from './guards/register.guard';
 import { RoleGuard } from './guards/role.guard';
@@ -31,7 +32,7 @@ const APP_ROUTES: Routes = [
   { path: 'properties', component: ViewPropertiesComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'properties/property/:id', component: ViewPropertyComponent, canActivate:[AuthGuard] },
   { path: 'properties/addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
-  { path: 'properties/editproperty/:id', component: EditPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
+  { path: 'properties/editproperty/:id', component: EditPropertyComponent, canActivate:[EditPropertyGuard], data:{userType: 'Wholesaler'} },
   { path: 'inviteinvestor', component: InviteInvestorComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'invitelender', component: InviteLenderComponent, canActivate:[AuthGuard] },
   { path: 'invitewholesaler', component: InviteWholesalerComponent, canActivate:[RoleGuard], data:{userType: 'Investor' } },
