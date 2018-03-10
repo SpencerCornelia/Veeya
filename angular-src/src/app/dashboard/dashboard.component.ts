@@ -44,13 +44,8 @@ export class DashboardComponent implements OnInit {
     } else if (this.userType === 'Investor') {
       this.getInvestorProfileInfo();
     } else {
-      console.log("this.userType is not available.");
+      this.userType = 'Lender';
     }
-    this.pageTitle = 'Dashboard';
-  }
-
-  ngAfterViewInit() {
-
   }
 
   getWholesalerProfileInfo() {
