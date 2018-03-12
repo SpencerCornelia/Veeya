@@ -48,17 +48,18 @@ export class EditPropertyComponent implements OnInit {
       address: '',
       city: '',
       state: 'AL',
-      zipCode: 0,
-      purchasePrice: 0,
+      zipCode: '',
+      purchasePrice: '',
       bedrooms: 0,
       bathrooms: 0,
-      rehabCostMin: 0,
-      rehabCostMax: 0,
-      afterRepairValue: 0,
-      averageRent: 0,
-      squareFootage: 0,
+      rehabCostMin: '',
+      rehabCostMax: '',
+      afterRepairValue: '',
+      capRate: '',
+      averageRent: '',
+      squareFootage: '',
       propertyType: 'Single Family',
-      yearBuilt: 0,
+      yearBuilt: '',
       status: 'contractYes',
       comps: [
         {
@@ -86,7 +87,8 @@ export class EditPropertyComponent implements OnInit {
       email: '',
       phoneNumber: '',
       city: '',
-      state: ''
+      state: '',
+      URLs: {}
     }
 
     this.pageTitle = 'Edit Property';
