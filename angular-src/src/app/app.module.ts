@@ -14,9 +14,16 @@ import { EditPropertyGuard } from './guards/edit-property.guard';
 import { ProfileGuard } from './guards/profile.guard';
 import { RegisterGuard } from './guards/register.guard';
 import { RoleGuard } from './guards/role.guard';
+import { FilterAddressPipe } from './pipes/filterAddress.pipe';
+import { FilterCityPipe } from './pipes/filterCity.pipe';
 import { FilterEmailPipe } from './pipes/filterEmail.pipe';
 import { FilterFirstNamePipe } from './pipes/filterFirstName.pipe';
 import { FilterLastNamePipe } from './pipes/filterLastName.pipe';
+import { FilterPhoneNumberPipe } from './pipes/filterPhoneNumber.pipe';
+import { FilterPropertyTypePipe } from './pipes/filterPropertyType.pipe';
+import { FilterPurchasePricePipe } from './pipes/filterPurchasePrice.pipe';
+import { FilterStatePipe } from './pipes/filterState.pipe';
+import { FilterStatusPipe } from './pipes/filterStatus.pipe';
 import { FilterUsernamePipe } from './pipes/filterUsername.pipe';
 
 import { AppComponent } from './app.component';
@@ -60,9 +67,16 @@ import { ViewPropertyService } from './services/viewProperty.service';
     EditPropertyComponent,
     ConnectionsComponent,
     DashboardComponent,
+    FilterAddressPipe,
+    FilterCityPipe,
     FilterEmailPipe,
     FilterFirstNamePipe,
     FilterLastNamePipe,
+    FilterPhoneNumberPipe,
+    FilterPropertyTypePipe,
+    FilterPurchasePricePipe,
+    FilterStatePipe,
+    FilterStatusPipe,
     FilterUsernamePipe,
     LoginComponent,
     MyProfileComponent,
