@@ -8,7 +8,7 @@ import { DeletePropertyService } from '../services/deleteProperty.service';
 import { GetUserPropertiesService } from '../services/getUserProperties.service';
 import { EditPropertyService } from '../services/editProperty.service'
 import { Property } from '../models/Property';
-
+import { User } from '../models/User';
 
 @Component({
   selector: 'app-view-properties',
@@ -17,6 +17,7 @@ import { Property } from '../models/Property';
 })
 export class ViewPropertiesComponent implements OnInit {
 
+  private currentUser: User;
   private properties: Property[] = [];
 
   private wholesalerPropertiesListed: Property[] = [];
@@ -31,7 +32,10 @@ export class ViewPropertiesComponent implements OnInit {
               private deletePropertyService: DeletePropertyService,
               private getUserPropertiesService: GetUserPropertiesService,
               private editPropertyService: EditPropertyService,
-              private router: Router) { }
+              private router: Router)
+              {
+                this.getCurrentUser();
+              }
 
   ngOnInit() {
     let userType = this.authService.loggedInUserType();
@@ -60,6 +64,28 @@ export class ViewPropertiesComponent implements OnInit {
       });
 
     }
+
+    this.currentUser = {
+      userType: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
+      password: '',
+      email: '',
+      phoneNumber: '',
+      city: '',
+      state: '',
+      URLs: ''
+    }
+  }
+
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
+      .subscribe((response) => {
+        this.currentUser = response.data;
+      }, (error) => {
+
+      })
   }
 
   public getPropertiesForWholesaler() {
