@@ -35,7 +35,7 @@ export class UserService {
   }
 
   public getAllLenders() {
-    let URI = this.serverApi + "/lenders/all";
+    let URI = this.serverApi + "/lender/all";
     return this.http.get(URI)
       .map(res => res.json())
       .map(res => <User[]>res.data)
