@@ -59,7 +59,7 @@ export class AddPropertyComponent implements OnInit {
       squareFootage: '',
       propertyType: 'Single Family',
       yearBuilt: '',
-      status: 'contractYes',
+      status: 'Listed',
       comps: [
         {
           firstCompAddress: '',
