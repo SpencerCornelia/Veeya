@@ -11,16 +11,17 @@ import { UserService } from '../services/user.service';
 })
 export class MyProfileComponent implements OnInit {
 
-  private user: User;
+  private currentUser: User;
+  private edit: Boolean = false;
 
   constructor(private authService: AuthService,
-              private userService: UserService) { }
+              private userService: UserService)
+              {
+                this.getCurrentUser();
+              }
 
   ngOnInit() {
-    let user_id = this.authService.loggedInUser();
-    this.getUser(user_id);
-
-    this.user = {
+    this.currentUser = {
       userType: '',
       userName: '',
       firstName: '',
@@ -33,14 +34,21 @@ export class MyProfileComponent implements OnInit {
     }
   }
 
-  getUser(user_id) {
-    this.userService.getUserById(user_id)
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
       .subscribe((response) => {
-        this.user = response;
+        this.currentUser = response.data;
       }, (error) => {
 
       })
+  }
 
+  isDisabled() {
+    return !this.edit;
+  }
+
+  editProfile() {
+    this.edit = !this.edit;
   }
 
 }
