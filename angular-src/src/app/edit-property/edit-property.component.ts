@@ -180,6 +180,7 @@ export class EditPropertyComponent implements OnInit {
   deleteProperty() {
     let deleteConfirm = confirm("Are you sure you want to delete this property?");
     if (deleteConfirm) {
+      this.deletePropertyService.removePhotos(this.initialProperty.photos);
       this.deletePropertyService.deleteProperty(this.initialProperty._id)
         .subscribe((response) => {
           if (response.success) {
