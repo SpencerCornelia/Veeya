@@ -37,7 +37,8 @@ export class ConnectionsComponent implements OnInit {
       email: '',
       phoneNumber: '',
       city: '',
-      state: ''
+      state: '',
+      URLs: {}
     }
   }
 
