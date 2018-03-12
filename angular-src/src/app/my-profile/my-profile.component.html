@@ -114,16 +114,20 @@
                       </ul>
                       <div class="info-links">
                         <label>Personal Website</label>
-                        <a class="website" href="http://bootstrapdash.com/">
+                        <a class="website" target="_blank" href="">
                           <span>http://bootstrapdash.com/</span>
                         </a>
                         <label>Facebook</label>
-                        <a class="social-link" href="#">
+                        <a class="social-link" target="_blank" href="">
                           <span>https://www.facebook.com/johndoe</span>
                         </a>
                         <label>LinkedIn</label>
-                        <a class="social-link" href="#">
+                        <a class="social-link" target="_blank" href="">
                           <span>https://www.linkedin.com/johndoe</span>
+                        </a>
+                        <label>Bigger Pockets</label>
+                        <a class="social-link" target="_blank" href="">
+                          <span>https://www.biggerpockets.com/johndoe</span>
                         </a>
                       </div>
                     </div>
@@ -192,18 +196,23 @@
                           </div>
                           <div class="form-group">
                             <label for="website">Personal Website URL</label>
-                            <input type="text" class="form-control" id="website" placeholder="Change facebook url"
-                              [disabled]="isDisabled()">
+                            <input type="text" class="form-control" id="personalWebsiteURL" [(ngModel)]="currentUser.URLs.personal"
+                              name="personal" [disabled]="isDisabled()">
                           </div>
                           <div class="form-group">
                             <label for="website">Facebook URL</label>
-                            <input type="text" class="form-control" id="website" placeholder="Change facebook url"
-                              [disabled]="isDisabled()">
+                            <input type="text" class="form-control" id="facebookURL" [(ngModel)]="currentUser.URLs.facebook"
+                              name="facebook" [disabled]="isDisabled()">
                           </div>
                           <div class="form-group">
                             <label for="website">LinkedIn URL</label>
-                            <input type="text" class="form-control" id="website" placeholder="Change LinkedIn url"
-                              [disabled]="isDisabled()">
+                            <input type="text" class="form-control" id="linkedinURL" [(ngModel)]="currentUser.URLs.linkedin"
+                              name="linkedin" [disabled]="isDisabled()">
+                          </div>
+                          <div class="form-group">
+                            <label for="website">Bigger Pockets URL</label>
+                            <input type="text" class="form-control" id="biggerpocketsURL" [(ngModel)]="currentUser.URLs.biggerPockets"
+                              name="biggerPockets" [disabled]="isDisabled()">
                           </div>
                           <div class="form-group mt-5">
                             <button type="submit" class="btn btn-success mr-2">Update</button>
