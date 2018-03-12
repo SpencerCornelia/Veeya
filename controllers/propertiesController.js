@@ -16,6 +16,7 @@ router.get('/', (req,res) => {
     });
 });
 
+// GET HTTP for a property by ID
 router.get('/property/:uid', (req, res) => {
   property.getPropertyByID(req.params.uid)
     .then((response) => {
