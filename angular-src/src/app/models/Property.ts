@@ -11,6 +11,7 @@ export interface Property {
   rehabCostMin: Number,
   rehabCostMax: Number,
   afterRepairValue: Number,
+  capRate: Number,
   averageRent: Number,
   squareFootage: Number,
   propertyType: String,
