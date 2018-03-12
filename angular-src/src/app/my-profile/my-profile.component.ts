@@ -30,7 +30,13 @@ export class MyProfileComponent implements OnInit {
       password: '',
       phoneNumber: '',
       city: '',
-      state: ''
+      state: '',
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedin: '',
+        biggerPockets: ''
+      }
     }
   }
 
