@@ -20,4 +20,17 @@ export class DeletePropertyService {
       .map(res => res.json());
   }
 
+  public removePhotos(photos: Array<string>) {
+    photos.forEach((photo) => {
+      let deleteReference = firebase.storage().refFromURL(photo);
+      deleteReference.delete()
+        .then(() => {
+          // File deleted successfully
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+    })
+  }
+
 }
