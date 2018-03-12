@@ -1,5 +1,6 @@
 // Require mongoose package
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 require('mongoose-type-email');
 const config = require('../config/database');
 const db = mongoose.createConnection(config.database);
@@ -796,7 +797,7 @@ module.exports.getAllConnections = function(id) {
 
 module.exports.getAllUsers = function() {
   return new Promise((resolve, reject) => {
-    User.find().exec((error, users) => {
+    User.find({}, (error, users) => {
       if (error) {
         let errorObj = {
           success: false,
@@ -807,7 +808,7 @@ module.exports.getAllUsers = function() {
       } else if (users) {
         users.forEach((user) => {
           delete user.password;
-        })
+        });
         let successObj = {
           success: true,
           message: 'Successfully retrieved all users.',

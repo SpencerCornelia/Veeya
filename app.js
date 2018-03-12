@@ -56,7 +56,7 @@ app.use(function(req, res, next) {
 
 // This is the home page
 app.get('/', (req,res) => {
-  res.send("Home page");
+  res.send("index.html");
 });
 
 // Route all HTTP requests to investorController

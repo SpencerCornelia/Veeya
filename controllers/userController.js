@@ -3,7 +3,7 @@ const router = express.Router();
 
 const user = require('../models/user');
 
-// HTTP requests to /user/
+// HTTP requests to /user
 
 router.get('/:id', (req, res) => {
   user.getUserById(req.params.id)
