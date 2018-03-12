@@ -174,9 +174,9 @@
                         <th>Address</th>
                         <th>City</th>
                         <th>State</th>
+                        <th>Zip Code</th>
                         <th>Purchase Price</th>
                         <th>Property Type</th>
-                        <th>ARV</th>
                         <th>Gross Rent</th>
                         <th>Status</th>
                         <th>View</th>
@@ -188,9 +188,9 @@
                         <td>{{ property.address }}</td>
                         <td>{{ property.city }}</td>
                         <td>{{ property.state }}</td>
+                        <td>{{ property.zipCode }}</td>
                         <td>{{ property.purchasePrice }}</td>
                         <td>{{ property.propertyType }}</td>
-                        <td>{{ property.afterRepairValue }}</td>
                         <td>{{ property.averageRent }}</td>
                         <td>{{ property.status }}</td>
                         <td><a [routerLink]="['/properties/property/' + property._id]">View</a></td>

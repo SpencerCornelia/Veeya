@@ -44,6 +44,7 @@ export class SearchComponent implements OnInit {
       this.getAllProperties();
     } else if (this.user_type === 'Wholesaler') {
       this.getAllInvestors();
+      this.getAllProperties();
     } else if (this.user_type === 'Lender') {
       this.getAllWholesalers();
       this.getAllInvestors();
@@ -59,7 +60,8 @@ export class SearchComponent implements OnInit {
       email: '',
       phoneNumber: '',
       city: '',
-      state: ''
+      state: '',
+      URLs: {}
     }
   }
 
@@ -86,6 +88,7 @@ export class SearchComponent implements OnInit {
     this.getAllPropertiesService.getAllProperties()
       .subscribe((response) => {
         this.properties = response;
+        console.log("this.properties:", this.properties);
       }, (error) => {
 
       })
