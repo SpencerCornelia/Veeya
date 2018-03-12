@@ -124,7 +124,7 @@ module.exports.addProperty = (propertyBody) => {
     squareFootage: propertyBody.squareFootage,
     propertyType: propertyBody.propertyType,
     yearBuilt: propertyBody.yearBuilt,
-    status: 'listed',
+    status: propertyBody.status,
     comps: propertyBody.comps,
     photos: "to be added later"
     // need to figure out how to store photos in a CDN and then link that URL to photos array
