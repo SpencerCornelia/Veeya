@@ -183,15 +183,17 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let wholesaler of wholesalers | filterAddress: searchText | filterCity: searchText | filterState: searchText | filterPurchasePrice: searchText | filterPropertyType: searchText | filterStatus: searchText; let i=index;">
+                      <tr *ngFor="let property of properties | filterAddress: searchText | filterCity: searchText | filterState: searchText | filterPurchasePrice: searchText | filterPropertyType: searchText | filterStatus: searchText; let i=index;">
                         <td>{{ i + 1 }}</td>
-                        <td>{{ connection.firstName }}</td>
-                        <td>{{ connection.lastName }}</td>
-                        <td>{{ connection.email }}</td>
-                        <td>{{ connection.phoneNumber }}</td>
-                        <td>{{ connection.city }}</td>
-                        <td>{{ connection.state }}</td>
-                        <td><a [routerLink]="['/user/' + connection._id]">View</a></td>
+                        <td>{{ property.address }}</td>
+                        <td>{{ property.city }}</td>
+                        <td>{{ property.state }}</td>
+                        <td>{{ property.purchasePrice }}</td>
+                        <td>{{ property.propertyType }}</td>
+                        <td>{{ property.afterRepairValue }}</td>
+                        <td>{{ property.averageRent }}</td>
+                        <td>{{ property.status }}</td>
+                        <td><a [routerLink]="['/properties/property/' + property._id]">View</a></td>
                       </tr>
                     </tbody>
                   </table>
