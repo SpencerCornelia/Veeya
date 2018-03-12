@@ -1,3 +1,244 @@
-<p>
-  user-profile works!
-</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Veeya</title>
+  <!-- inject:css -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="/assets/images/favicon.png" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+        <a class="navbar-brand brand-logo" href="../../index.html"><img src="/assets/images/logo.svg" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="/assets/images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="icon-menu"></span>
+        </button>
+        <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
+          <li class="nav-item">
+            <a href="/assets/pages/apps/gallery.html" class="nav-link"><i class="mdi mdi-image-filter"></i>Gallery</a>
+          </li>
+          <li class="nav-item active">
+            <a href="../../pages/apps/email.html" class="nav-link"><i class="mdi mdi-email-outline"></i>Inbox</a>
+          </li>
+          <li class="nav-item">
+            <a href="../../pages/apps/calendar.html" class="nav-link"><i class="mdi mdi-calendar"></i>Calendar</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-settings d-none d-lg-block">
+            <a class="nav-link" href="#">
+              <img class="img-xs rounded-circle" src="/assets/images/faces/face4.jpg" alt="">
+            </a>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="icon-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:../../partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item nav-profile">
+            <div class="nav-link">
+              <div class="profile-image"> <img src="/assets/images/faces/face4.jpg" alt="image"/> <span class="online-status online"></span> </div>
+              <div class="profile-name">
+                <p class="name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
+                <p class="designation">{{ currentUser.userType }}</p>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item"> <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/dashboard']">
+            <span class="menu-title">Dashboard</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn() && authService.wholesalerUser()" [routerLink]="['/properties/addproperty']"><span class="menu-title">Add Property</span> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/properties']"><span class="menu-title">View Properties</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/connections']"><span class="menu-title">Connections</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn() && authService.wholesalerUser()" [routerLink]="['/inviteinvestor']"><span class="menu-title">Invite Investor</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/invitelender']"><span class="menu-title">Invite Lender</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/search']"><span class="menu-title">Search</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/profile', authService.loggedInUser()]"><span class="menu-title">My Profile</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn()" (click)="authService.logout()"><span class="menu-title">Logout</span></a>
+          </li>
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row user-profile">
+            <div class="col-lg-4 side-left d-flex align-items-stretch">
+              <div class="row">
+                <div class="col-12 grid-margin">
+                  <div class="card">
+                    <div class="card-body avatar">
+                      <h4 class="card-title">Info</h4>
+                      <img src="/assets/images/faces/face6.jpg" alt="">
+                      <p class="name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
+                      <p class="designation">-  {{ currentUser.userType }}  -</p>
+                      <a class="d-block text-center text-dark" href="#">{{ currentUser.email }}</a>
+                      <a class="d-block text-center text-dark" href="#">{{ currentUser.phoneNumber }}</a>
+                      <a class="d-block text-center text-dark" href="#">{{ currentUser.city }}, {{ currentUser.state }}</a>
+                    </div>
+                    <div class="connect-button-row">
+                      <button *ngIf="isConnected()" class="btn btn-inverse-success btn-rounded btn-fw connect-button">Connected</button>
+                      <button *ngIf="!isConnected()" class="btn btn-inverse-primary btn-rounded btn-fw connect-button">Connect</button>
+                    </div>
+                    <div class="card-body overview">
+                      <ul class="achivements">
+                        <li><p>{{ currentUser.connections.length }}</p><p>Connections</p></li>
+                        <li><p>0</p><p>Deals</p></li>
+                      </ul>
+                      <div class="info-links">
+                        <label>Personal Website</label>
+                        <a class="website" href="http://bootstrapdash.com/">
+                          <span>http://bootstrapdash.com/</span>
+                        </a>
+                        <label>Facebook</label>
+                        <a class="social-link" href="#">
+                          <span>https://www.facebook.com/johndoe</span>
+                        </a>
+                        <label>LinkedIn</label>
+                        <a class="social-link" href="#">
+                          <span>https://www.linkedin.com/johndoe</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-8 side-right stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="wrapper d-block d-sm-flex align-items-center justify-content-between">
+                    <h4 class="card-title mb-0">Details</h4>
+                    <ul class="nav nav-tabs tab-solid tab-solid-primary mb-0" id="myTab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-expanded="true">Info</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="deals-tab" data-toggle="tab" href="#deals" role="tab" aria-controls="deals">Deals</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="looking-for-tab" data-toggle="tab" href="#looking-for" role="tab" aria-controls="looking-for">Looking For</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="wrapper">
+                    <hr>
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
+                        <form>
+                          <div class="form-group">
+                            <label for="userName">Username</label>
+                            <input type="text" class="form-control" id="userName" [(ngModel)]="user.userName" name="userName" disabled>
+                          </div>
+                          <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" class="form-control" id="firstName" [(ngModel)]="user.firstName" name="firstName" disabled>
+                          </div>
+                          <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" [(ngModel)]="user.lastName" name="lastName" disabled>
+                          </div>
+                          <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" id="email" [(ngModel)]="user.email" name="email" disabled>
+                          </div>
+                          <div class="form-group">
+                            <label for="phoneNumber">Phone Number</label>
+                            <input type="text" class="form-control" id="phoneNumber" [(ngModel)]="user.phoneNumber" name="phoneNumber" disabled>
+                          </div>
+                          <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" class="form-control" id="city" [(ngModel)]="user.city" name="city" disabled>
+                          </div>
+                          <div class="form-group">
+                            <label for="state">State</label>
+                            <input type="text" class="form-control" id="state" [(ngModel)]="user.state" name="state" disabled>
+                          </div>
+                        </form>
+                      </div><!-- tab content ends -->
+                      <div class="tab-pane fade" id="deals" role="tabpanel" aria-labelledby="deals-tab">
+                        <div class="wrapper mb-5 mt-4">
+                          <span class="badge badge-warning text-white">Note : </span>
+                          <p class="d-inline ml-3 text-muted">Image size is limited to not greater than 1MB .</p>
+                        </div>
+                        <form action="#">
+                          <input type="file" class="dropify" data-max-file-size="1mb" data-default-file="/assets/images/faces/face6.jpg"/>
+                          <div class="form-group mt-5">
+                            <button type="submit" class="btn btn-success mr-2">Update</button>
+                            <button class="btn btn-outline-danger">Cancel</button>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="tab-pane fade" id="looking-for" role="tabpanel" aria-labelledby="looking-for-tab">
+                        <form action="#">
+                          <div class="form-group">
+                            <label for="change-password">Change password</label>
+                            <input type="password" class="form-control" id="change-password" placeholder="Enter you current password">
+                          </div>
+                          <div class="form-group">
+                            <input type="password" class="form-control" id="new-password" placeholder="Enter you new password">
+                          </div>
+                          <div class="form-group">
+                            <input type="password" class="form-control" id="new-password-confirm" placeholder="Confirm your new password">
+                          </div>
+                          <div class="form-group mt-5">
+                            <button type="submit" class="btn btn-success mr-2">Update</button>
+                            <button class="btn btn-outline-danger">Cancel</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid clearfix">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+</body>
+
+</html>

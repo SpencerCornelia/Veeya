@@ -13,12 +13,16 @@ import { UserService } from '../services/user.service';
 export class UserProfileComponent implements OnInit {
 
   private connected: Boolean;
+  private currentUser: User;
   private user: User;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute,
               private userService: UserService,
-              private authService: AuthService) { }
+              private authService: AuthService)
+              {
+                this.getCurrentUser();
+              }
 
   ngOnInit() {
     this.user = {
@@ -39,9 +43,30 @@ export class UserProfileComponent implements OnInit {
       profilePhoto: ''
     }
 
+    this.currentUser = {
+      userType: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      userName: '',
+      email: '',
+      phoneNumber: '',
+      city: '',
+      state: '',
+    }
+
     let user_id = this.activatedRoute.snapshot.params['id'];
     this.getUserInfo(user_id);
     this.searchInvestorEmailUsername('scornelia@shift4.com', 'scornelia3431');
+  }
+
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
+      .subscribe((response) => {
+        this.currentUser = response.data;
+      }, (error) => {
+
+      })
   }
 
   getUserInfo(userID) {
