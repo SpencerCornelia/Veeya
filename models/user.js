@@ -46,6 +46,9 @@ const UserSchema = mongoose.Schema({
   profilePhoto: {
     type: String
   },
+  URLs: [{
+    type: Object
+  }],
   minimumLoanAvailable: {
     type: String
   },
@@ -678,6 +681,7 @@ module.exports.addUserConnectionForLender = function(user, lenderID) {
 /*
 ===== USER GETTERS BEGIN =====
 */
+
 module.exports.getUserById = function(id) {
   return new Promise((resolve, reject) => {
     User.findById(id, (error, user) => {
@@ -825,11 +829,71 @@ module.exports.getAllUsers = function() {
       }
     })
   });
-}
+};
 
 /*
 ===== USER GETTERS END =====
 */
 
+/*
+===== USER SETTERS BEGIN =====
+*/
 
-
+module.exports.updateUserMyProfileInfo = function(userData) {
+  let id = userData._id;
+  return new Promise((resolve, reject) => {
+    User.findById(id, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error updating user. Please try again.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+        user.userName = userData.userName;
+        user.firstName = userData.firstName;
+        user.lastName = userData.lastName;
+        user.email = userData.email;
+        user.phoneNumber = userData.phoneNumber;
+        user.city = userData.city;
+        user.state = userData.state;
+        user.URLs.personal = userData.URLs.personal;
+        user.URLs.facebook = userData.URLs.facebook;
+        user.URLs.linkedin = userData.URLs.linkedin;
+        user.URLs.biggerPockets = userData.URLs.biggerPockets;
+        user.save((error, newUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error updating user. Please try again.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (newUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully updated user.',
+              data: newUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to update user. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        })
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to update user. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
