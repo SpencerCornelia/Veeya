@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
-import { GetUserPropertiesService } from '../services/getUserProperties.service';
+import { ViewPropertyService } from '../services/viewProperty.service';
 
 @Injectable()
 export class EditPropertyGuard implements CanActivate {
-  constructor(private authService: AuthService, private getUserPropertiesService: GetUserPropertiesService, private router: Router) {}
+  constructor(private authService: AuthService, private viewPropertyService: ViewPropertyService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
@@ -20,7 +20,7 @@ export class EditPropertyGuard implements CanActivate {
     if (currentUserType != userType || !loggedIn) {
       return false;
     } else {
-      if (this.checkProperties(userId, propertyId, loggedIn)) {
+      if (this.isWholesaler(userId, propertyId)) {
         return true;
       } else if (loggedIn) {
         this.router.navigate(['/dashboard']);
@@ -33,18 +33,17 @@ export class EditPropertyGuard implements CanActivate {
 
   }
 
-  checkProperties(userId, propertyId, loggedIn) {
-    let canAccess = false;
-    this.getUserPropertiesService.getWholesalerUserProperties(userId)
-      .subscribe((properties) => {
-        properties.forEach((property) => {
-          if (property.wholesaler_id === propertyId) {
-            canAccess = true;
-          }
-        });
+  isWholesaler(userId, propertyId) {
+    this.viewPropertyService.getPropertyById(propertyId)
+      .subscribe((property) => {
+        if (property.wholesaler_id === userId) {
+          return true;
+        } else {
+          return false;
+        }
+      }, (error) => {
+        return false;
       })
-
-      return canAccess;
   }
 
 }
