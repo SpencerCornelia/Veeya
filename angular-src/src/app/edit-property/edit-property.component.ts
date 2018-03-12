@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../models/User';
 
 import { AuthService } from '../services/auth.service';
+import { DeletePropertyService } from '../services/deleteProperty.service';
 import { EditPropertyService } from '../services/editProperty.service';
 import { PhotosService } from '../services/photos.service';
 import { ValidateService } from '../services/validate.service';
@@ -28,6 +29,7 @@ export class EditPropertyComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private route: ActivatedRoute,
+              private deletePropertyService: DeletePropertyService,
               private editPropertyService: EditPropertyService,
               private router: Router,
               private photosService: PhotosService,
@@ -173,6 +175,20 @@ export class EditPropertyComponent implements OnInit {
         // message = 'Successfully removed photo.'
       }
     });
+  }
+
+  deleteProperty() {
+    let deleteConfirm = confirm("Are you sure you want to delete this property?");
+    if (deleteConfirm) {
+      this.deletePropertyService.deleteProperty(this.initialProperty._id)
+        .subscribe((response) => {
+          if (response.success) {
+            this.router.navigate(['/dashboard']);
+          }
+        },(error) => {
+
+        })
+    }
   }
 
 }
