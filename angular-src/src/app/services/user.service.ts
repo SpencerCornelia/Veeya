@@ -34,6 +34,13 @@ export class UserService {
       .map(res => <User[]>res.data)
   }
 
+  public getAllLenders() {
+    let URI = this.serverApi + "/lenders/all";
+    return this.http.get(URI)
+      .map(res => res.json())
+      .map(res => <User[]>res.data)
+  }
+
   public getUserById(id):Observable<User> {
     let URI = this.serverApi + "/user/" + id;
     return this.http.get(URI)
