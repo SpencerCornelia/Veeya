@@ -48,6 +48,9 @@ const PropertySchema = mongoose.Schema({
   afterRepairValue: {
     type: Number
   },
+  capRate: {
+    type: Number
+  },
   averageRent: {
     type: Number
   },
