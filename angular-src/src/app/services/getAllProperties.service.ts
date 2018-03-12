@@ -16,7 +16,7 @@ export class GetAllPropertiesService {
     let URI = this.serverApi + "/properties";
     return this.http.get(URI)
       .map(res => res.json())
-      .map(res => <Property[]>res.properties);
+      .map(res => <Property[]>res.data);
   }
 
 }
