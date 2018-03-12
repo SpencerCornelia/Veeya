@@ -45,17 +45,18 @@ export class ViewPropertyComponent implements OnInit {
       address: '',
       city: '',
       state: '',
-      zipCode: 0,
-      purchasePrice: 0,
+      zipCode: '',
+      purchasePrice: '',
       bedrooms: 0,
       bathrooms: 0,
-      rehabCostMin: 0,
-      rehabCostMax: 0,
-      afterRepairValue: 0,
-      averageRent: 0,
-      squareFootage: 0,
+      rehabCostMin: '',
+      rehabCostMax: '',
+      afterRepairValue: '',
+      capRate: '',
+      averageRent: '',
+      squareFootage: '',
       propertyType: '',
-      yearBuilt: 0,
+      yearBuilt: '',
       status: '',
       comps: [
         {
@@ -83,7 +84,8 @@ export class ViewPropertyComponent implements OnInit {
       email: '',
       phoneNumber: '',
       city: '',
-      state: ''
+      state: '',
+      URLs: {}
     }
   }
 
