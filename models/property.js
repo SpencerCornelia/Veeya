@@ -24,11 +24,11 @@ const PropertySchema = mongoose.Schema({
     required: true
   },
   zipCode: {
-    type: Number,
+    type: String,
     required: true
   },
   purchasePrice: {
-    type: Number,
+    type: String,
     required: true
   },
   bedrooms: {
@@ -40,29 +40,29 @@ const PropertySchema = mongoose.Schema({
     required: true
   },
   rehabCostMin: {
-    type: Number
+    type: String
   },
   rehabCostMax: {
-    type: Number
+    type: String
   },
   afterRepairValue: {
-    type: Number
+    type: String
   },
   capRate: {
-    type: Number
+    type: String
   },
   averageRent: {
-    type: Number
+    type: String
   },
   squareFootage: {
-    type: Number
+    type: String
   },
   propertyType: {
     type: String,
     required: true
   },
   yearBuilt: {
-    type: Number
+    type: String
   },
   status: {
     type: String
