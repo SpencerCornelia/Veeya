@@ -12,6 +12,7 @@ export interface Property {
   afterRepairValue: String,
   HOA: String,
   propertyTaxes: String,
+  utilities: String,
   capRate: String,
   averageRent: String,
   squareFootage: String,

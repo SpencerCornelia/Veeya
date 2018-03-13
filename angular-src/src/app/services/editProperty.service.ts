@@ -38,6 +38,7 @@ export class EditPropertyService {
       expectedRehab: property.expectedRehab,
       HOA: property.HOA,
       propertyTaxes: property.propertyTaxes,
+      utilities: property.utilities,
       afterRepairValue: property.afterRepairValue,
       averageRent: property.averageRent,
       squareFootage: property.squareFootage,

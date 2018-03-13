@@ -54,6 +54,7 @@ export class AddPropertyComponent implements OnInit {
       expectedRehab: '',
       HOA: '',
       propertyTaxes: '',
+      utilities: '',
       afterRepairValue: '',
       capRate: '',
       averageRent: '',

@@ -53,6 +53,7 @@ export class ViewPropertyComponent implements OnInit {
       afterRepairValue: '',
       HOA: '',
       propertyTaxes: '',
+      utilities: '',
       capRate: '',
       averageRent: '',
       squareFootage: '',

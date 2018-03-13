@@ -29,6 +29,7 @@ export class AddPropertyService {
       afterRepairValue: property.afterRepairValue,
       HOA: property.HOA,
       propertyTaxes: property.propertyTaxes,
+      utilities: property.utilities,
       averageRent: property.averageRent,
       squareFootage: property.squareFootage,
       propertyType: property.propertyType,

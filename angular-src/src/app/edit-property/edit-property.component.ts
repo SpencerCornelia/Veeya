@@ -58,6 +58,7 @@ export class EditPropertyComponent implements OnInit {
       afterRepairValue: '',
       HOA: '',
       propertyTaxes: '',
+      utilities: '',
       capRate: '',
       averageRent: '',
       squareFootage: '',
