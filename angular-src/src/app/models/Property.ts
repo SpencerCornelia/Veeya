@@ -10,6 +10,8 @@ export interface Property {
   bathrooms: Number,
   expectedRehab: String,
   afterRepairValue: String,
+  HOA: String,
+  propertyTaxes: String,
   capRate: String,
   averageRent: String,
   squareFootage: String,

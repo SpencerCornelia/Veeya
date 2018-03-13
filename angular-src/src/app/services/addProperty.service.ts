@@ -27,6 +27,8 @@ export class AddPropertyService {
       bathrooms: property.bathrooms,
       expectedRehab: property.expectedRehab,
       afterRepairValue: property.afterRepairValue,
+      HOA: property.HOA,
+      propertyTaxes: property.propertyTaxes,
       averageRent: property.averageRent,
       squareFootage: property.squareFootage,
       propertyType: property.propertyType,

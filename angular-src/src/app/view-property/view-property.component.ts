@@ -51,6 +51,8 @@ export class ViewPropertyComponent implements OnInit {
       bathrooms: 0,
       expectedRehab: '',
       afterRepairValue: '',
+      HOA: '',
+      propertyTaxes: '',
       capRate: '',
       averageRent: '',
       squareFootage: '',
