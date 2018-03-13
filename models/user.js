@@ -597,6 +597,7 @@ module.exports.searchLender = function(email, userName, phoneNumber) {
 };
 
 
+
 /*
 ===== LENDER SETTERS BEGIN =====
 */
