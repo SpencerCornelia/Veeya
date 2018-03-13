@@ -91,15 +91,15 @@
         </ul>
       </nav>
       <!-- partial -->
-      <div class="main-panel">
+      <div class="main-panel" *ngIf="currentUser.userType=='Wholesaler'">
         <div class="content-wrapper">
           <div class="row grid-margin">
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">light Gallery</h4>
+                  <h4 class="card-title">Listed Properties</h4>
                   <p class="card-text">
-                    Click on any image to open in lightbox gallery
+                    Click on any image to view the property
                   </p>
                   <div id="lightgallery" class="row lightGallery">
                     <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
@@ -119,47 +119,19 @@
             <div class="col-lg-12">
               <div class="card px-3">
                 <div class="card-body">
-                  <h4 class="card-title">Without Thumbnails</h4>
-                  <div id="lightgallery-without-thumb" class="row lightGallery">
-                    <a href="../../images/samples/1280x768/9.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/9.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/10.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/10.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/11.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/11.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/12.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/12.jpg" alt="image small"></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="card px-3">
-                <div class="card-body">
-                  <h4 class="card-title">Video Gallery</h4>
-                  <div id="video-gallery" class="row lightGallery">
-                    <a class="image-tile col-xl-3 col-lg-3 col-md-3 col-md-4 col-6" href="https://www.youtube.com/watch?v=meBbDqAXago">
-                      <img src="/assets/images/lightbox/thumb-v-y-1.jpg" />
-                      <div class="demo-gallery-poster">
-                          <img src="/assets/images/lightbox/play-button.png">
-                      </div>
-                    </a>
-                    <a class="image-tile col-xl-3 col-lg-3 col-md-3 col-md-4 col-6" href="https://www.youtube.com/watch?v=Pq9yPrLWMyU">
-                      <img src="/assets/images/lightbox/thumb-v-y-2.jpg" />
-                      <div class="demo-gallery-poster">
-                          <img src="/assets/images/lightbox/play-button.png">
-                      </div>
-                    </a>
-                    <a class="image-tile col-xl-3 col-lg-3 col-md-3 col-md-4 col-6" href="https://vimeo.com/1084537">
-                      <img src="/assets/images/lightbox/thumb-v-v-1.jpg" />
-                      <div class="demo-gallery-poster">
-                          <img src="/assets/images/lightbox/play-button.png">
-                      </div>
-                    </a>
-                    <a class="image-tile col-xl-3 col-lg-3 col-md-3 col-md-4 col-6" href="https://vimeo.com/35451452">
-                      <img src="/assets/images/lightbox/thumb-v-v-2.jpg" />
-                      <div class="demo-gallery-poster">
-                          <img src="/assets/images/lightbox/play-button.png">
-                      </div>
-                    </a>
+                  <h4 class="card-title">Sold Properties</h4>
+                  <p class="card-text">
+                    Click on any image to view the property
+                  </p>
+                  <div id="lightgallery" class="row lightGallery">
+                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
                   </div>
                 </div>
               </div>
@@ -176,6 +148,148 @@
         </footer>
         <!-- partial -->
       </div>
+
+
+      <div class="main-panel" *ngIf="currentUser.userType=='Investor'">
+        <div class="content-wrapper">
+          <div class="row grid-margin">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Properties Listed by Connections</h4>
+                  <p class="card-text">
+                    Click on any image to view the property
+                  </p>
+                  <div id="lightgallery" class="row lightGallery">
+                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row grid-margin">
+            <div class="col-lg-12">
+              <div class="card px-3">
+                <div class="card-body">
+                  <h4 class="card-title">Properties Starred</h4>
+                  <p class="card-text">
+                    Click on any image to view the property
+                  </p>
+                  <div id="lightgallery" class="row lightGallery">
+                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card px-3">
+                <div class="card-body">
+                  <h4 class="card-title">Properties Bought</h4>
+                  <p class="card-text">
+                    Click on any image to view the property
+                  </p>
+                  <div id="lightgallery" class="row lightGallery">
+                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid clearfix">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+    </div>
+
+
+
+      <div class="main-panel" *ngIf="currentUser.userType=='Lender'">
+        <div class="content-wrapper">
+          <div class="row grid-margin">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Properties Listed by Connections</h4>
+                  <p class="card-text">
+                    Click on any image to view the property
+                  </p>
+                  <div id="lightgallery" class="row lightGallery">
+                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row grid-margin">
+            <div class="col-lg-12">
+              <div class="card px-3">
+                <div class="card-body">
+                  <h4 class="card-title">Properties Carrying the Note</h4>
+                  <p class="card-text">
+                    Click on any image to view the property
+                  </p>
+                  <div id="lightgallery" class="row lightGallery">
+                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
+                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid clearfix">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+
+    </div>
       <!-- main-panel ends -->
     </div>
     <!-- page-body-wrapper ends -->
