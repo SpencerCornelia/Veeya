@@ -68,13 +68,4 @@ export class DashboardComponent implements OnInit {
       })
   }
 
-  editProperty(property: Property) {
-    this.editPropertyService.getPropertyByID(property._id)
-      .subscribe((response) => {
-        this.router.navigate(['/properties/editproperty/' + property._id]);
-      }, (error) => {
-
-      })
-  }
-
 }

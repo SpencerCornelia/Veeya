@@ -52,15 +52,6 @@ export class InviteInvestorComponent implements OnInit {
       state: '',
       URLs: {}
     }
-
-    /*
-    --> this listens for changes to currentUser in auth.service.ts <--
-    this.authService.getCurrentUser()
-      .subscribe((user) => {
-        this.currentUser = user;
-      })
-    */
-
   }
 
   onSubmit() {
