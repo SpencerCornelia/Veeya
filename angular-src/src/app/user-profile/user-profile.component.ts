@@ -40,7 +40,8 @@ export class UserProfileComponent implements OnInit {
       maximumLoanAmount: '',
       connections: [],
       terms: [],
-      profilePhoto: ''
+      profilePhoto: '',
+      URLs: {}
     }
 
     this.currentUser = {
@@ -53,6 +54,7 @@ export class UserProfileComponent implements OnInit {
       phoneNumber: '',
       city: '',
       state: '',
+      URLs: {}
     }
 
     let user_id = this.activatedRoute.snapshot.params['id'];
