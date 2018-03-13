@@ -36,7 +36,8 @@ export class InviteLenderComponent implements OnInit {
       phoneNumber: '',
       user_id: user_id,
       city: '',
-      state: ''
+      state: '',
+      URLs: {}
     }
 
     this.currentUser = {
@@ -48,7 +49,8 @@ export class InviteLenderComponent implements OnInit {
       email: '',
       phoneNumber: '',
       city: '',
-      state: ''
+      state: '',
+      URLs: {}
     }
   }
 

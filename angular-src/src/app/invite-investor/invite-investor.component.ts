@@ -36,6 +36,7 @@ export class InviteInvestorComponent implements OnInit {
       phoneNumber: '',
       city: '',
       state: '',
+      URLs: {},
       wholesaler_id: wholesalerID
     }
 
@@ -48,7 +49,8 @@ export class InviteInvestorComponent implements OnInit {
       email: '',
       phoneNumber: '',
       city: '',
-      state: ''
+      state: '',
+      URLs: {}
     }
 
     /*
