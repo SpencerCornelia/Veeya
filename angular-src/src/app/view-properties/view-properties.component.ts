@@ -20,12 +20,15 @@ export class ViewPropertiesComponent implements OnInit {
   private currentUser: User;
   private properties: Property[] = [];
 
-  private wholesalerPropertiesListed: Property[] = [];
-  private wholesalerPropertiesSold: Property[] = [];
-
   private investorPropertiesBought: Property[] = [];
   private investorPropertiesConnected: Property[] = [];
   private investorPropertiesStarred: Property[] = [];
+
+  private lenderPropertiesBought: Property[] = [];
+  private lenderPropertiesConnected: Property[] = [];
+
+  private wholesalerPropertiesListed: Property[] = [];
+  private wholesalerPropertiesSold: Property[] = [];
 
   constructor(private authService: AuthService,
               private getPropertyService: GetAllPropertiesService,
@@ -41,28 +44,10 @@ export class ViewPropertiesComponent implements OnInit {
     let userType = this.authService.loggedInUserType();
     if (userType === 'Wholesaler') {
       this.getPropertiesForWholesaler();
-
-      this.properties.forEach((property, index) => {
-        if (property.status === 'Listed') {
-          this.wholesalerPropertiesListed.push(property);
-        } else if (property.status === 'Sold') {
-          this.wholesalerPropertiesSold.push(property);
-        }
-      });
-
     } else if (userType === 'Investor') {
       this.getPropertiesForInvestor();
-
-      this.properties.forEach((property, index) => {
-        if (property.status === 'Bought') {
-          this.investorPropertiesBought.push(property);
-        } else if (property.status === 'Connection') {
-          this.investorPropertiesConnected.push(property);
-        } else if (property.status === 'Starred') {
-          this.investorPropertiesStarred.push(property);
-        }
-      });
-
+    } else {
+      this.getPropertiesForLender();
     }
 
     this.currentUser = {
@@ -88,34 +73,60 @@ export class ViewPropertiesComponent implements OnInit {
       })
   }
 
-  public getPropertiesForWholesaler() {
+  getPropertiesForWholesaler() {
     let wholesalerID = this.authService.loggedInUser();
     // Get all properties for the wholesaler who is logged in
     this.getUserPropertiesService.getWholesalerUserProperties(wholesalerID)
-      .subscribe(response => this.properties = response)
+      .subscribe((response) => {
+        response.forEach((property) => {
+          if (property.status === 'Listed') {
+            this.wholesalerPropertiesListed.push(property);
+          } else if (property.status === 'Sold') {
+            this.wholesalerPropertiesSold.push(property);
+          }
+        });
+      }, (error) => {
+
+      })
   }
 
   viewProperty(property) {
-    console.log("property:", property)
     let propertyId = property.id;
     this.router.navigate(['/properties/property/', propertyId]);
   }
 
-  public getPropertiesForInvestor() {
+  getPropertiesForInvestor() {
     let investorID = this.authService.loggedInUser();
     this.getUserPropertiesService.getInvestorUserProperties(investorID)
-      .subscribe(response => this.properties = response)
+      .subscribe((response) => {
+        response.forEach((property) => {
+          if (property.status === 'Bought') {
+            this.investorPropertiesBought.push(property);
+          } else if (property.status === 'Connection') {
+            this.investorPropertiesConnected.push(property);
+          } else if (property.status === 'Starred') {
+            this.investorPropertiesStarred.push(property);
+          }
+        });
+      }, (error) => {
+
+      })
   }
 
-  public loadAllProperties() {
-    // Get all properties from server and update the properties property
-    this.getPropertyService.getAllProperties()
-      .subscribe(response => this.properties = response)
-  }
+  getPropertiesForLender() {
+    let lenderID = this.authService.loggedInUser();
+    this.getUserPropertiesService.getLenderUserProperties(lenderID)
+      .subscribe((response) => {
+        response.forEach((property) => {
+          if (property.status === 'Connection') {
+            this.lenderPropertiesConnected.push(property);
+          } else if (property.status === 'Bought') {
+            this.lenderPropertiesBought.push(property);
+          }
+        });
+      }, (error) => {
 
-  public deleteProperty(property: Property) {
-    this.deletePropertyService.deleteProperty(property._id)
-      .subscribe(response => this.properties = this.properties.filter(properties => properties !== property))
+      });
   }
 
 }
