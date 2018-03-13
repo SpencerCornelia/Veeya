@@ -49,6 +49,17 @@ router.get('/investor/:uid', (req, res) => {
     })
 });
 
+// GET HTTP to /properties/lender/:uid in order to get all properties for lender
+router.get('/lender/:uid', (req, res) => {
+  user.getPropertiesForUser(req.params.uid)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
 // POST HTTP to /properties/addproperty
 router.post('/addproperty', (req, res, next) => {
   property.addProperty(req.body)
