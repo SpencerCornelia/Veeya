@@ -39,10 +39,13 @@ const PropertySchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  rehabCostMin: {
+  expectedRehab: {
     type: String
   },
-  rehabCostMax: {
+  HOA: {
+    type: String
+  },
+  propertyTaxes: {
     type: String
   },
   afterRepairValue: {
@@ -73,7 +76,14 @@ const PropertySchema = mongoose.Schema({
   photos: [{
     type: String
   }]
-});
+},
+  {
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
+    }
+  }
+);
 
 const Property = module.exports = db.model('Property', PropertySchema);
 
@@ -117,9 +127,10 @@ module.exports.addProperty = (propertyBody) => {
     purchasePrice: propertyBody.purchasePrice,
     bedrooms: propertyBody.bedrooms,
     bathrooms: propertyBody.bathrooms,
-    rehabCostMin: propertyBody.rehabCostMin,
-    rehabCostMax: propertyBody.rehabCostMax,
+    expectedRehab: propertyBody.expectedRehab,
     afterRepairValue: propertyBody.afterRepairValue,
+    HOA: propertyBody.HOA,
+    propertyTaxes: propertyBody.propertyTaxes,
     averageRent: propertyBody.averageRent,
     squareFootage: propertyBody.squareFootage,
     propertyType: propertyBody.propertyType,
@@ -186,9 +197,10 @@ module.exports.editPropertyByID = (updatedProperty) => {
       property.purchasePrice = updatedProperty.purchasePrice;
       property.bedrooms = updatedProperty.bedrooms;
       property.bathrooms= updatedProperty.bathrooms;
-      property.rehabCostMin = updatedProperty.rehabCostMin;
-      property.rehabCostMax = updatedProperty.rehabCostMax;
+      property.expectedRehab = updatedProperty.expectedRehab;
       property.afterRepairValue = updatedProperty.afterRepairValue;
+      property.HOA = updatedProperty.HOA;
+      property.propertyTaxes = updatedProperty.propertyTaxes;
       property.averageRent = updatedProperty.averageRent;
       property.squareFootage = updatedProperty.squareFootage;
       property.propertyType = updatedProperty.propertyType;

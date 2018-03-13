@@ -56,7 +56,14 @@ const UserSchema = mongoose.Schema({
     type: String
   },
   terms : []
-});
+},
+  {
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
+    }
+  }
+);
 
 const User = module.exports = db.model('User', UserSchema);
 
@@ -333,7 +340,7 @@ module.exports.addInvestorConnection = function(investor, wholesalerID) {
         if (error) {
           let errorObj = {
             success: false,
-            message: 'Unable to update wholesaler.',
+            message: 'Error inviting investor.',
             error: error
           }
           reject(errorObj);
