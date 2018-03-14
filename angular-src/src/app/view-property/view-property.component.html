@@ -80,6 +80,9 @@
             <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/invitelender']"><span class="menu-title">Invite Lender</span></a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn() && authService.investorUser()" [routerLink]="['/investorWantedDeals']"><span class="menu-title">Wanted Deals</span></a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/search']"><span class="menu-title">Search</span></a>
           </li>
           <li class="nav-item">
@@ -257,7 +260,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">HOA</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.HOA" name="HOA" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.HOA" name="HOA" readonly />
                           </div>
                         </div>
                       </div>
@@ -265,7 +268,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Property Taxes</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.propertyTaxes" name="propertyTaxes" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.propertyTaxes" name="propertyTaxes" readonly />
                           </div>
                         </div>
                       </div>
@@ -273,7 +276,18 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Utilities</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.utilities" name="utilities" />
+                            <input type="text" class="form-control" [(ngModel)]="initialProperty.utilities" name="utilities" />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Seller Financing Available?</label>
+                          <div class="col-sm-9">
+                            <select type="text" class="form-control" [(ngModel)]="initialProperty.sellerFinancing" name="sellerFinancing">
+                              <option value="false">No</option>
+                              <option value="true">Yes</option>
+                            </select>
                           </div>
                         </div>
                       </div>

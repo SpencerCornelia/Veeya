@@ -80,6 +80,9 @@
             <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/invitelender']"><span class="menu-title">Invite Lender</span></a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" *ngIf="authService.loggedIn() && authService.investorUser()" [routerLink]="['/investorWantedDeals']"><span class="menu-title">Wanted Deals</span></a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/search']"><span class="menu-title">Search</span></a>
           </li>
           <li class="nav-item">
@@ -323,6 +326,17 @@
                           </div>
                         </div>
                       </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Seller Financing Available?</label>
+                          <div class="col-sm-9">
+                            <select type="text" class="form-control" [(ngModel)]="newProperty.sellerFinancing" name="sellerFinancing">
+                              <option value="false">No</option>
+                              <option value="true">Yes</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <p>
                       Comps
@@ -407,9 +421,10 @@
                       <label>No</label><input type="radio" name="contractStatus" [(ngModel)]="initialProperty.status" value="NoContract">
                     </div>
                     <div class="row submit-add-property-btn">
+                      <button type="submit" class="btn btn-success mr-2">Mark as Sold</button>
                       <button type="submit" class="btn btn-success mr-2">Submit</button>
-                      <button class="btn btn-light">Cancel</button>
-                      <button class="btn btn-inverse-danger btn-rounded btn-fw" (click)="deleteProperty()">Delete</button>
+                      <button type="button" class="btn btn-light">Cancel</button>
+                      <button type="submit" class="btn btn-inverse-danger btn-rounded btn-fw" (click)="deleteProperty()">Delete</button>
                     </div>
                   </form>
                 </div>

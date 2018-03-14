@@ -64,6 +64,7 @@ export class EditPropertyComponent implements OnInit {
       squareFootage: '',
       propertyType: 'Single Family',
       yearBuilt: '',
+      sellerFinancing: 'false',
       status: 'contractYes',
       comps: [
         {

@@ -25,7 +25,7 @@ export class AddPropertyComponent implements OnInit {
   private newProperty: Property;
   private photo: File;
   private photos: Array<File> = [];
-  private uploadedPhotos: Array<String> = [];
+  private uploadedPhotos: Array<string> = [];
 
   constructor(private authService: AuthService,
               private addPropertyService: AddPropertyService,
@@ -37,8 +37,8 @@ export class AddPropertyComponent implements OnInit {
               }
 
   ngOnInit() {
-    // document.getElementById('removePhotos').hidden = true;
-    // document.getElementById('uploadPhotos').hidden = true;
+    document.getElementById('removePhotos').hidden = true;
+    document.getElementById('uploadPhotos').hidden = true;
     let wholesalerID = this.authService.loggedInUser();
     let propertyComps = [];
     this.newProperty = {
@@ -62,6 +62,7 @@ export class AddPropertyComponent implements OnInit {
       propertyType: 'Single Family',
       yearBuilt: '',
       status: 'Listed',
+      sellerFinancing: 'false',
       comps: [
         {
           firstCompAddress: '',
@@ -103,24 +104,23 @@ export class AddPropertyComponent implements OnInit {
   }
 
   onSubmit() {
-
     this.photosService.getPropertyPhotoUrls(this.uploadedPhotos, (error, photos) => {
       if (error) {
         // error message = 'Error submitting form. Please try again.'
         return;
       } else {
         this.newProperty.photos = photos;
+        this.addPropertyService.addProperty(this.newProperty)
+          .subscribe((response) => {
+            if (response.success === true) {
+              this.router.navigate(['/dashboard']);
+            }
+          }, (error) => {
+
+          });
       }
     });
 
-    this.addPropertyService.addProperty(this.newProperty)
-      .subscribe((response) => {
-        if (response.success === true) {
-          this.router.navigate(['/dashboard']);
-        }
-      }, (error) => {
-
-      });
   }
 
   addPhoto(event) {
@@ -142,10 +142,15 @@ export class AddPropertyComponent implements OnInit {
   }
 
   uploadPhotos(event) {
+    document.getElementById('uploadPhotos').setAttribute('disabled', 'disabled');
     this.photosService.uploadPropertyPhotos(this.photos, (error, photos) => {
       if (error) {
         // error message = 'Error uploading photos. Please try again later.'
       } else {
+        let inputValue = (<HTMLInputElement>document.getElementById('imageInput'));
+        inputValue.value = "";
+        document.getElementById('removePhotos').hidden = true;
+        document.getElementById('uploadPhotos').hidden = true;
         this.uploadedPhotos = photos;
       }
     });
@@ -157,6 +162,8 @@ export class AddPropertyComponent implements OnInit {
     let inputValue = (<HTMLInputElement>document.getElementById('imageInput'));
     inputValue.value = "";
     inputValue.disabled = false;
+    document.getElementById('removePhotos').hidden = true;
+    document.getElementById('uploadPhotos').hidden = true;
   }
 
 }

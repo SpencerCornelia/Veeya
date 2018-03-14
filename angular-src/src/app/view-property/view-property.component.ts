@@ -59,6 +59,7 @@ export class ViewPropertyComponent implements OnInit {
       squareFootage: '',
       propertyType: '',
       yearBuilt: '',
+      sellerFinancing: '',
       status: '',
       comps: [
         {
