@@ -17,6 +17,7 @@ export class EditPropertyGuard implements CanActivate {
 
     let currentUserType = this.authService.loggedInUserType();
     let userType = route.data.userType;
+
     if (currentUserType != userType || !loggedIn) {
       return false;
     } else {
