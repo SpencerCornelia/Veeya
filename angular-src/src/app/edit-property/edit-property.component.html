@@ -457,6 +457,7 @@
                           <label>Under Contract?</label>
                           <div class="col-xs-3">
                             <select class="form-control" [(ngModel)]="initialProperty.status" name="status">
+                              <option value="Sold">Sold</option>
                               <option value="Listed">Yes</option>
                               <option value="NoContract">No</option>
                             </select>
@@ -465,10 +466,11 @@
                       </div>
                     </div>
                     <div class="row submit-add-property-btn">
-                      <button type="submit" class="btn btn-success mr-2">Mark as Sold</button>
+                      <button id="soldButton" type="button" class="btn btn-success mr-2" (click)="sold()">Mark as Sold</button>
+                      <button id="listedButton" type="button" class="btn btn-success mr-2" (click)="listed()">Mark as Listed</button>
                       <button type="submit" class="btn btn-success mr-2">Submit</button>
                       <button type="button" class="btn btn-light">Cancel</button>
-                      <button type="submit" class="btn btn-inverse-danger btn-rounded btn-fw" (click)="deleteProperty()">Delete</button>
+                      <button type="button" class="btn btn-inverse-danger btn-rounded btn-fw" (click)="deleteProperty()">Delete</button>
                     </div>
                   </form>
                 </div>
