@@ -42,13 +42,23 @@ const UserSchema = mongoose.Schema({
     type: String
   },
   properties: [],
-  connections: [],
+  connections: [{
+    type: Object
+  }],
   profilePhoto: {
     type: String
   },
-  URLs: [{
-    type: Object
-  }],
+  URLs: {
+    personal: {
+      type: String
+    },
+    facebook: {
+      type: String
+    },
+    linkedIn: {
+      type: String
+    }
+  },
   minimumLoanAvailable: {
     type: String
   },
@@ -107,7 +117,9 @@ module.exports.registerUser = function(userBody) {
               firstName: userBody.firstName,
               lastName: userBody.lastName,
               email: userBody.email,
-              phoneNumber: userBody.phoneNumber
+              phoneNumber: userBody.phoneNumber,
+              city: userBody.city,
+              state: userBody.state
             });
 
             newUser.save((error, savedUser) => {
