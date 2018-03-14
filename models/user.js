@@ -57,6 +57,9 @@ const UserSchema = mongoose.Schema({
     },
     linkedIn: {
       type: String
+    },
+    biggerPockets: {
+      type: String
     }
   },
   minimumLoanAvailable: {
@@ -119,7 +122,13 @@ module.exports.registerUser = function(userBody) {
               email: userBody.email,
               phoneNumber: userBody.phoneNumber,
               city: userBody.city,
-              state: userBody.state
+              state: userBody.state,
+              URLs: {
+                personal: '',
+                facebook: '',
+                linkedIn: '',
+                biggerPockets: ''
+              }
             });
 
             newUser.save((error, savedUser) => {
