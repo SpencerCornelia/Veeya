@@ -19,10 +19,9 @@ import { ValidateService } from '../services/validate.service';
 export class EditPropertyComponent implements OnInit {
 
   private currentUser: User;
-  private pageTitle: String;
   private photo: File;
   private testPhotos: Array<String> = [];
-  private photos: Array<String> = [];
+  private photos: Array<string> = [];
   private photosToAdd: Array<File> = [];
   private propertyID: string;
   private initialProperty: Property;
@@ -41,7 +40,8 @@ export class EditPropertyComponent implements OnInit {
   }
 
   ngOnInit() {
-    // document.getElementById('removePhotos').hidden = true;
+    document.getElementById('removePhotos').hidden = true;
+    document.getElementById('uploadPhotos').hidden = true;
     let wholesalerID = this.authService.loggedInUser();
 
     this.initialProperty = {
@@ -96,7 +96,6 @@ export class EditPropertyComponent implements OnInit {
       URLs: {}
     }
 
-    this.pageTitle = 'Edit Property';
     this.testPhotos = ["https://scontent.flas1-1.fna.fbcdn.net/v/t1.0-9/26993322_3918229670408_8250173985738273633_n.jpg?oh=6794919c8e47c6ba7d54143eb3c357a7&oe=5B43F786", "https://scontent.flas1-1.fna.fbcdn.net/v/t1.0-9/26993322_3918229670408_8250173985738273633_n.jpg?oh=6794919c8e47c6ba7d54143eb3c357a7&oe=5B43F786", "https://scontent.flas1-1.fna.fbcdn.net/v/t1.0-9/26993322_3918229670408_8250173985738273633_n.jpg?oh=6794919c8e47c6ba7d54143eb3c357a7&oe=5B43F786"];
   }
 
@@ -115,9 +114,9 @@ export class EditPropertyComponent implements OnInit {
         this.initialProperty = response.data;
         this.photos = this.initialProperty.photos;
         if (this.initialProperty.photos.length === 3) {
-          // let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
-          // inputButton.disabled = true;
-          // document.getElementById('uploadPhotos').hidden = true;
+          let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
+          inputButton.disabled = true;
+          document.getElementById('uploadPhotos').hidden = true;
         }
       }, (error) => {
 
@@ -151,19 +150,25 @@ export class EditPropertyComponent implements OnInit {
       this.photo = event.target.files[0];
       this.photosToAdd.push(this.photo);
       document.getElementById('selectedFiles').innerHTML += file.name + "</br>";
+
+      if (this.photos.length + this.photosToAdd.length === 3) {
+        let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
+        inputButton.disabled = true;
+      }
     }
 
-    if (this.photos.length + this.photosToAdd.length === 3) {
-      let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
-      inputButton.disabled = true;
-    }
   }
 
   uploadPhotos(event) {
+    document.getElementById('uploadPhotos').setAttribute('disabled', 'disabled');
     this.photosService.uploadPropertyPhotos(this.photosToAdd, (error, photos) => {
       if (error) {
 
       } else {
+        let inputValue = (<HTMLInputElement>document.getElementById('imageInput'));
+        inputValue.value = "";
+        document.getElementById('removePhotos').hidden = true;
+        document.getElementById('uploadPhotos').hidden = true;
         this.photos = photos;
         this.photosToAdd = [];
       }
