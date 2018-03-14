@@ -38,7 +38,7 @@
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item nav-settings d-none d-lg-block">
             <a class="nav-link" href="#">
-              <img class="img-xs rounded-circle" src="/assets/images/faces/face4.jpg" alt="">
+              <img class="img-xs rounded-circle" src="{{ currentUser.profilePhoto }}" alt="">
             </a>
           </li>
         </ul>
@@ -54,7 +54,9 @@
         <ul class="nav">
           <li class="nav-item nav-profile">
             <div class="nav-link">
-              <div class="profile-image"> <img src="/assets/images/faces/face4.jpg" alt="image"/> <span class="online-status online"></span> </div>
+              <div class="profile-image">
+                <img src="{{ currentUser.profilePhoto }}" alt="" />
+              </div>
               <div class="profile-name">
                 <p class="name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
                 <p class="designation">{{ currentUser.userType }}</p>
@@ -103,7 +105,7 @@
                   <div class="card">
                     <div class="card-body avatar">
                       <h4 class="card-title">Info</h4>
-                      <img src="/assets/images/faces/face6.jpg" alt="">
+                      <img src="{{ currentUser.profilePhoto }}" alt="">
                       <p class="name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
                       <p class="designation">-  {{ currentUser.userType }}  -</p>
                       <a class="d-block text-center text-dark" href="#">{{ currentUser.email }}</a>
@@ -228,8 +230,8 @@
                           <span class="badge badge-warning text-white">Note : </span>
                           <p class="d-inline ml-3 text-muted">Image size is limited to not greater than 1MB .</p>
                         </div>
-                        <form action="#">
-                          <input type="file" class="dropify" data-max-file-size="1mb" data-default-file="/assets/images/faces/face6.jpg" (change)="addProfileImage()" />
+                        <form (submit)="uploadProfilePhoto()">
+                          <input type="file" id="imageInput" class="dropify" data-max-file-size="1mb" data-default-file="/assets/images/faces/face6.jpg" (change)="addProfileImage($event)" />
                           <div class="form-group mt-5">
                             <button id="updatePhotoButton" type="submit" class="btn btn-success mr-2">Update</button>
                             <button class="btn btn-outline-danger">Cancel</button>
