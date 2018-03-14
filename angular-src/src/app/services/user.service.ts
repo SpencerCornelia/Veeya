@@ -68,6 +68,7 @@ export class UserService {
     let headers = new Headers;
     headers.append('Content-Type', 'application/json');
     let body = JSON.stringify({
+      _id: user._id,
       userName: user.userName,
       firstName: user.firstName,
       lastName: user.lastName,
@@ -82,9 +83,12 @@ export class UserService {
         biggerPockets: user.URLs.biggerPockets
       }
     });
-    return this.http.post(URI, body, { headers: headers })
+    return this.http.put(URI, body, { headers: headers })
       .map(res => res.json())
-      .map(res => res.data)
+      .map((response) => {
+        console.log("response:", response)
+        return response.data;
+      })
   }
 
 }

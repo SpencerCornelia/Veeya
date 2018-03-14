@@ -209,8 +209,8 @@
                           </div>
                           <div class="form-group">
                             <label for="website">LinkedIn URL</label>
-                            <input type="text" class="form-control" id="linkedinURL" [(ngModel)]="currentUser.URLs.linkedin"
-                              name="linkedin" [disabled]="isDisabled()">
+                            <input type="text" class="form-control" id="linkedInURL" [(ngModel)]="currentUser.URLs.linkedIn"
+                              name="linkedIn" [disabled]="isDisabled()">
                           </div>
                           <div class="form-group">
                             <label for="website">Bigger Pockets URL</label>
@@ -218,7 +218,7 @@
                               name="biggerPockets" [disabled]="isDisabled()">
                           </div>
                           <div class="form-group mt-5">
-                            <button type="submit" class="btn btn-success mr-2">Update</button>
+                            <button id="updateFormButton" type="submit" class="btn btn-success mr-2">Update</button>
                             <button class="btn btn-outline-danger">Cancel</button>
                           </div>
                         </form>
@@ -231,7 +231,7 @@
                         <form action="#">
                           <input type="file" class="dropify" data-max-file-size="1mb" data-default-file="/assets/images/faces/face6.jpg" (change)="addProfileImage()" />
                           <div class="form-group mt-5">
-                            <button type="submit" class="btn btn-success mr-2">Update</button>
+                            <button id="updatePhotoButton" type="submit" class="btn btn-success mr-2">Update</button>
                             <button class="btn btn-outline-danger">Cancel</button>
                           </div>
                         </form>
@@ -249,7 +249,7 @@
                             <input type="password" class="form-control" id="new-password-confirm" placeholder="Confirm your new password">
                           </div>
                           <div class="form-group mt-5">
-                            <button type="submit" class="btn btn-success mr-2">Update</button>
+                            <button id="updatePasswordButton" type="submit" class="btn btn-success mr-2">Update</button>
                             <button class="btn btn-outline-danger">Cancel</button>
                           </div>
                         </form>

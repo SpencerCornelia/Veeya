@@ -18,6 +18,7 @@ export class MyProfileComponent implements OnInit {
               private userService: UserService) { }
 
   ngOnInit() {
+    document.getElementById("updateFormButton").setAttribute('disabled', 'disabled');
     this.getCurrentUser();
     this.currentUser = {
       userType: '',
@@ -43,6 +44,7 @@ export class MyProfileComponent implements OnInit {
     this.userService.updateUserProfile(this.currentUser)
       .subscribe((response) => {
         this.currentUser = response;
+        document.getElementById("updateFormButton").setAttribute('disabled', 'disabled');
       }, (error) => {
 
       });
@@ -62,6 +64,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   editProfile() {
+    document.getElementById("updateFormButton").removeAttribute('disabled');
     this.edit = !this.edit;
   }
 
