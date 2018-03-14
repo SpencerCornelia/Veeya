@@ -119,6 +119,12 @@ export class EditPropertyComponent implements OnInit {
           inputButton.disabled = true;
           document.getElementById('uploadPhotos').hidden = true;
         }
+
+        if (this.initialProperty.status === "Listed") {
+          document.getElementById("listedButton").hidden = true;
+        } else if (this.initialProperty.status === "Sold") {
+          document.getElementById("soldButton").hidden = true;
+        }
       }, (error) => {
 
       });
@@ -184,6 +190,38 @@ export class EditPropertyComponent implements OnInit {
         // message = 'Successfully removed photo.'
       }
     });
+  }
+
+  sold() {
+    let soldConfirm = confirm("Are you sure you want to mark this property as sold?");
+    if (soldConfirm) {
+      this.initialProperty.status = "Sold";
+      this.editPropertyService.editProperty(this.initialProperty)
+        .subscribe((response) => {
+          if (response.success) {
+            document.getElementById("soldButton").hidden = true;
+            document.getElementById("listedButton").hidden = false;
+          }
+        }, (error) => {
+
+        });
+    }
+  }
+
+  listed() {
+    let listedConfirm = confirm("Are you sure you want to mark this property as listed?");
+    if (listedConfirm) {
+      this.initialProperty.status = "Listed";
+      this.editPropertyService.editProperty(this.initialProperty)
+        .subscribe((response) => {
+          if (response.success) {
+            document.getElementById("soldButton").hidden = false;
+            document.getElementById("listedButton").hidden = true;
+          }
+        }, (error) => {
+
+        });
+    }
   }
 
   deleteProperty() {
