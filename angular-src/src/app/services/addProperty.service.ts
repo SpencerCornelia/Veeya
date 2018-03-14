@@ -34,8 +34,10 @@ export class AddPropertyService {
       squareFootage: property.squareFootage,
       propertyType: property.propertyType,
       yearBuilt: property.yearBuilt,
+      sellerFinancing: property.sellerFinancing,
       status: property.status,
-      comps: property.comps
+      comps: property.comps,
+      photos: property.photos
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, {headers: headers})
