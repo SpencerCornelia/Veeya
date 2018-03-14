@@ -15,13 +15,15 @@ export class PhotosService {
   private formData: FormData = new FormData();
   private photos: Array<File> = [];
   private photoURLs: Array<String> = [];
-  private propertyPhotosFolder: any;
+  private profileImageFolder: string;
+  private propertyPhotosFolder: string;
   private user_id: String;
 
   constructor(private authService: AuthService,
               private storage: AngularFireStorage)
   {
     this.propertyPhotosFolder = 'property-photos';
+    this.profileImageFolder = 'profile-images';
     this.user_id = this.authService.loggedInUser();
   }
 
@@ -46,6 +48,20 @@ export class PhotosService {
           }
         });
     }
+  }
+
+  public uploadProfileImagePhoto(photo: File, callback) {
+    let storageRef = firebase.storage().ref();
+    let path = `${this.profileImageFolder}/${this.user_id}/` + photo.name;
+    let imageRef = storageRef.child(path);
+    imageRef.put(photo)
+      .then((snapshot) => {
+        if (snapshot.state !== 'success') {
+          callback(true);
+        } else {
+          callback(false, path);
+        }
+      });
   }
 
   public removePropertyPhoto(photoName: String, callback) {
@@ -79,6 +95,22 @@ export class PhotosService {
             callback(false, urls);
           }
         })
+    }
+  }
+
+  public getProfileImageUrl(photo: string, callback) {
+    let urls = [];
+    let storageRef = firebase.storage();
+    let path = `${this.profileImageFolder}/${this.user_id}/`;
+    let pathRef = storageRef.ref(photo);
+    pathRef.getDownloadURL()
+      .then((url) => {
+        callback(false, url)
+      })
+      .catch((error) => {
+        callback(true);
+        return;
+      })
     }
   }
 }
