@@ -59,6 +59,7 @@ export class AddPropertyComponent implements OnInit {
       capRate: '',
       averageRent: '',
       squareFootage: '',
+      insurance: '',
       propertyType: 'Single Family',
       yearBuilt: '',
       status: 'Listed',

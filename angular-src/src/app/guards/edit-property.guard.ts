@@ -10,6 +10,8 @@ export class EditPropertyGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
+    let canAccess = false;
+
     let propertyId = route.params.id;
 
     let loggedIn = this.authService.loggedIn();
@@ -20,30 +22,33 @@ export class EditPropertyGuard implements CanActivate {
 
     if (currentUserType != userType || !loggedIn) {
       return false;
-    } else {
-      if (this.isWholesaler(userId, propertyId)) {
-        return true;
-      } else if (loggedIn) {
-        this.router.navigate(['/dashboard']);
-        return false;
-      } else {
-        this.router.navigate(['/login']);
-        return false;
-      }
+    } else if (loggedIn) {
+      /*
+
+        this page needs work. I may not need to use this guard
+        if I use /editproperty as a child component of /view-properties
+
+      */
+      this.isWholesaler(userId, propertyId, (error, success) => {
+        if (success) {
+          canAccess = true;
+        }
+      })
     }
 
+    return false;
   }
 
-  isWholesaler(userId, propertyId) {
+  isWholesaler(userId, propertyId, callback) {
     this.viewPropertyService.getPropertyById(propertyId)
       .subscribe((property) => {
         if (property.wholesaler_id === userId) {
-          return true;
+          callback(false, true);
         } else {
-          return false;
+          callback(true);
         }
       }, (error) => {
-        return false;
+        callback(true);
       })
   }
 

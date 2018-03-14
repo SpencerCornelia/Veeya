@@ -37,6 +37,7 @@ export class AddPropertyService {
       yearBuilt: property.yearBuilt,
       sellerFinancing: property.sellerFinancing,
       status: property.status,
+      insurance: property.insurance,
       comps: property.comps,
       photos: property.photos
     });

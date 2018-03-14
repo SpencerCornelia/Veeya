@@ -33,7 +33,7 @@ const APP_ROUTES: Routes = [
   { path: 'properties', component: ViewPropertiesComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'properties/property/:id', component: ViewPropertyComponent, canActivate:[AuthGuard] },
   { path: 'properties/addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
-  { path: 'properties/editproperty/:id', component: EditPropertyComponent, canActivate:[EditPropertyGuard], data:{userType: 'Wholesaler'} },
+  { path: 'properties/editproperty/:id', component: EditPropertyComponent, canActivate:[AuthGuard], data:{userType: 'Wholesaler'} },
   { path: 'investorWantedDeals', component: InvestorWantedDealsComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
   { path: 'inviteinvestor', component: InviteInvestorComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'invitelender', component: InviteLenderComponent, canActivate:[AuthGuard] },

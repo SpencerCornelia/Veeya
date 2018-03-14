@@ -20,6 +20,7 @@ export interface Property {
   yearBuilt: String,
   status: String,
   sellerFinancing: String,
+  insurance: String,
   comps: Array<Object>,
   photos: Array<string>,
   property?: any,

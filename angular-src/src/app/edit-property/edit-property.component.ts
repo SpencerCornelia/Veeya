@@ -66,6 +66,7 @@ export class EditPropertyComponent implements OnInit {
       yearBuilt: '',
       sellerFinancing: 'false',
       status: 'contractYes',
+      insurance: '',
       comps: [
         {
           firstCompAddress: '',

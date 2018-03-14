@@ -46,6 +46,7 @@ export class EditPropertyService {
       yearBuilt: property.yearBuilt,
       status: property.status,
       sellerFinancing: property.sellerFinancing,
+      insurance: property.insurance,
       comps: property.comps,
       photos: property.photos
     });
