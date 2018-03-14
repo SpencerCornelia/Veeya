@@ -70,6 +70,12 @@ const PropertySchema = mongoose.Schema({
   status: {
     type: String
   },
+  sellerFinancing: {
+    type: String
+  },
+  utilities: {
+    type: String
+  },
   comps: [{
     type: Object
   }],
@@ -136,35 +142,39 @@ module.exports.addProperty = (propertyBody) => {
     propertyType: propertyBody.propertyType,
     yearBuilt: propertyBody.yearBuilt,
     status: propertyBody.status,
+    utilities: propertyBody.utilities,
+    sellerFinancing: propertyBody.sellerFinancing,
     comps: propertyBody.comps,
-    photos: "to be added later"
-    // need to figure out how to store photos in a CDN and then link that URL to photos array
-    //photos: req.body.photos
+    photos: propertyBody.photos
   });
 
   let wholesalerID = propertyBody.wholesaler_id;
 
   return new Promise((resolve, reject) => {
-    User.findOneAndUpdate(
-      { _id: wholesalerID },
-      { $push: { properties: newProperty }},
-      { safe: true, upsert: true, new: true },
-      function(error, user) {
-        if (error) {
-          let errorObj = {
-            success: false,
-            message: 'Error adding property.',
-            error: error
-          }
-          reject(errorObj);
+    User.findById(wholesalerID, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error adding property.',
+          error: error
         }
+        reject(errorObj);
+      } else if (user) {
+        user.properties.push(newProperty);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to save new property.',
+          error: ''
+        }
+        reject(errorObj);
       }
-    );
+    });
     newProperty.save((error, property) => {
       if (error) {
         let errorObj = {
           success: false,
-          message: 'Error saving property to wholesaler.',
+          message: 'Error saving property.',
           error: error
         }
         reject(errorObj);
@@ -178,7 +188,7 @@ module.exports.addProperty = (propertyBody) => {
       } else {
         let errorObj = {
           success: false,
-          message: 'Unable to save new property.',
+          message: 'Unable to save new property. Please try again.',
           error: ''
         }
         reject(errorObj);
@@ -205,7 +215,9 @@ module.exports.editPropertyByID = (updatedProperty) => {
       property.squareFootage = updatedProperty.squareFootage;
       property.propertyType = updatedProperty.propertyType;
       property.yearBuilt = updatedProperty.yearBuilt;
+      property.utilities = updatedProperty.utilities;
       property.status = updatedProperty.status;
+      property.sellerFinancing = updatedProperty.sellerFinancing;
       property.comps = updatedProperty.comps;
 
       property.save((error, property) => {
