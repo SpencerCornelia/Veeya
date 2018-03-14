@@ -66,10 +66,8 @@ export class PhotosService {
     let path = `${this.propertyPhotosFolder}/${this.user_id}/`;
     for (let i = 0; i < photos.length; i++) {
       let pathRef = storageRef.ref(photos[i]);
-      console.log("pathref:", pathRef)
       pathRef.getDownloadURL()
         .then((url) => {
-          console.log("received url from downloadURL()", url)
           urls.push(url);
         })
         .catch((error) => {
@@ -78,7 +76,6 @@ export class PhotosService {
         })
         .then(() => {
           if (i == (photos.length - 1)) {
-            console.log("urls before callback:", urls);
             callback(false, urls);
           }
         })
