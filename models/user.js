@@ -926,3 +926,35 @@ module.exports.updateUserMyProfileInfo = function(userData) {
     });
   });
 };
+
+module.exports.updateProfilePhoto = function(id, photoURL) {
+  return new Promise((resolve, reject) => {
+    User.findById(id, (error, user) => {
+      user.profilePhoto = photoURL;
+      user.save((error, user) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error updating user. Please try again.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (user) {
+          let successObj = {
+            success: true,
+            message: 'Successfully updated user profile photo.',
+            data: user
+          }
+          resolve(successObj);
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to save profile image. Please try again.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      })
+    });
+  });
+}
