@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
+import { AuthService } from './auth.service';
+
 import { User } from '../models/User';
 
 import 'rxjs/add/operator/map';
@@ -9,7 +11,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class UserService {
 
-  constructor(private http: Http) { }
+  constructor(private http: Http, private authService: AuthService) { }
 
   private serverApi = 'http://localhost:3000';
 
@@ -56,6 +58,31 @@ export class UserService {
         userName: username
       }
     })
+      .map(res => res.json())
+      .map(res => res.data)
+  }
+
+  public updateUserProfile(user: User) {
+    let userId = this.authService.loggedInUser();
+    let URI = this.serverApi + `/user/updateProfileInfo/${userId}`;
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    let body = JSON.stringify({
+      userName: user.userName,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      city: user.city,
+      state: user.state,
+      URLs: {
+        personal: user.URLs.personal,
+        facebook: user.URLs.facebook,
+        linkedIn: user.URLs.linkedIn,
+        biggerPockets: user.URLs.biggerPockets
+      }
+    });
+    return this.http.post(URI, body, { headers: headers })
       .map(res => res.json())
       .map(res => res.data)
   }
