@@ -94,7 +94,12 @@ export class EditPropertyComponent implements OnInit {
       phoneNumber: '',
       city: '',
       state: '',
-      URLs: {}
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedIn: '',
+        biggerPockets: ''
+      }
     }
 
     this.testPhotos = ["https://scontent.flas1-1.fna.fbcdn.net/v/t1.0-9/26993322_3918229670408_8250173985738273633_n.jpg?oh=6794919c8e47c6ba7d54143eb3c357a7&oe=5B43F786", "https://scontent.flas1-1.fna.fbcdn.net/v/t1.0-9/26993322_3918229670408_8250173985738273633_n.jpg?oh=6794919c8e47c6ba7d54143eb3c357a7&oe=5B43F786", "https://scontent.flas1-1.fna.fbcdn.net/v/t1.0-9/26993322_3918229670408_8250173985738273633_n.jpg?oh=6794919c8e47c6ba7d54143eb3c357a7&oe=5B43F786"];

@@ -37,7 +37,12 @@ export class InviteLenderComponent implements OnInit {
       user_id: user_id,
       city: '',
       state: '',
-      URLs: {}
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedIn: '',
+        biggerPockets: ''
+      }
     }
 
     this.currentUser = {
@@ -50,7 +55,12 @@ export class InviteLenderComponent implements OnInit {
       phoneNumber: '',
       city: '',
       state: '',
-      URLs: {}
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedIn: '',
+        biggerPockets: ''
+      }
     }
   }
 

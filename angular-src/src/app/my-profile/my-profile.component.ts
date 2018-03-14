@@ -15,12 +15,10 @@ export class MyProfileComponent implements OnInit {
   private edit: Boolean = false;
 
   constructor(private authService: AuthService,
-              private userService: UserService)
-              {
-                this.getCurrentUser();
-              }
+              private userService: UserService) { }
 
   ngOnInit() {
+    this.getCurrentUser();
     this.currentUser = {
       userType: '',
       userName: '',
@@ -31,13 +29,23 @@ export class MyProfileComponent implements OnInit {
       phoneNumber: '',
       city: '',
       state: '',
+      connections: [],
       URLs: {
         personal: '',
         facebook: '',
-        linkedin: '',
+        linkedIn: '',
         biggerPockets: ''
       }
     }
+  }
+
+  onSubmit() {
+    this.userService.updateUserProfile(this.currentUser)
+      .subscribe((response) => {
+        this.currentUser = response;
+      }, (error) => {
+
+      });
   }
 
   getCurrentUser() {
@@ -55,6 +63,10 @@ export class MyProfileComponent implements OnInit {
 
   editProfile() {
     this.edit = !this.edit;
+  }
+
+  addProfileImage() {
+    console.log("here")
   }
 
 }

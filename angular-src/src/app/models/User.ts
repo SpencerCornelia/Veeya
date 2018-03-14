@@ -18,5 +18,10 @@ export interface User {
   terms?: Array<any>,
   profilePhoto?: String,
   user_id?: String,
-  URLs: Object
+  URLs: {
+    personal: String,
+    facebook: String,
+    linkedIn: String,
+    biggerPockets: String
+  }
 }

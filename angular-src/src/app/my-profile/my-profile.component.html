@@ -117,20 +117,20 @@
                       </ul>
                       <div class="info-links">
                         <label>Personal Website</label>
-                        <a class="website" target="_blank" href="">
-                          <span>http://bootstrapdash.com/</span>
+                        <a class="website" target="_blank" href="{{ currentUser.URLs.personal }}">
+                          <span>{{ currentUser.URLs.personal }}</span>
                         </a>
                         <label>Facebook</label>
-                        <a class="social-link" target="_blank" href="">
-                          <span>https://www.facebook.com/johndoe</span>
+                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.facebook }}">
+                          <span>{{ currentUser.URLs.facebook }}</span>
                         </a>
                         <label>LinkedIn</label>
-                        <a class="social-link" target="_blank" href="">
-                          <span>https://www.linkedin.com/johndoe</span>
+                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.linkedIn }}">
+                          <span>{{ currentUser.URLs.linkedIn }}</span>
                         </a>
                         <label>Bigger Pockets</label>
-                        <a class="social-link" target="_blank" href="">
-                          <span>https://www.biggerpockets.com/johndoe</span>
+                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.biggerPockets }}">
+                          <span>{{ currentUser.URLs.biggerPockets }}</span>
                         </a>
                       </div>
                     </div>
@@ -159,9 +159,9 @@
                     <hr>
                     <div class="tab-content" id="myTabContent">
                       <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
-                        <form>
+                        <form (submit)="onSubmit()">
                           <div class="form-group">
-                            <button type="submit" class="btn btn-info mr-2" (click)="editProfile()">Edit</button>
+                            <button type="button" class="btn btn-info mr-2" (click)="editProfile()">Edit</button>
                           </div>
                           <div class="form-group">
                             <label for="userName">Username</label>
@@ -229,7 +229,7 @@
                           <p class="d-inline ml-3 text-muted">Image size is limited to not greater than 1MB .</p>
                         </div>
                         <form action="#">
-                          <input type="file" class="dropify" data-max-file-size="1mb" data-default-file="/assets/images/faces/face6.jpg"/>
+                          <input type="file" class="dropify" data-max-file-size="1mb" data-default-file="/assets/images/faces/face6.jpg" (change)="addProfileImage()" />
                           <div class="form-group mt-5">
                             <button type="submit" class="btn btn-success mr-2">Update</button>
                             <button class="btn btn-outline-danger">Cancel</button>

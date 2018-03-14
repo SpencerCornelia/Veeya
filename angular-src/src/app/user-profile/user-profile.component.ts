@@ -41,7 +41,12 @@ export class UserProfileComponent implements OnInit {
       connections: [],
       terms: [],
       profilePhoto: '',
-      URLs: {}
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedIn: '',
+        biggerPockets: ''
+      }
     }
 
     this.currentUser = {
@@ -54,7 +59,12 @@ export class UserProfileComponent implements OnInit {
       phoneNumber: '',
       city: '',
       state: '',
-      URLs: {}
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedIn: '',
+        biggerPockets: ''
+      }
     }
 
     let user_id = this.activatedRoute.snapshot.params['id'];

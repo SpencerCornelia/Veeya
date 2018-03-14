@@ -38,7 +38,12 @@ export class ConnectionsComponent implements OnInit {
       phoneNumber: '',
       city: '',
       state: '',
-      URLs: {}
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedIn: '',
+        biggerPockets: ''
+      }
     }
   }
 
