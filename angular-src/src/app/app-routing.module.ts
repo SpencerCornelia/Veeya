@@ -11,6 +11,7 @@ import { AddPropertyComponent } from './add-property/add-property.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditPropertyComponent } from './edit-property/edit-property.component';
+import { InvestorWantedDealsComponent } from './investor-wanted-deals/investor-wanted-deals.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 import { InviteLenderComponent } from './invite-lender/invite-lender.component';
 import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
@@ -33,6 +34,7 @@ const APP_ROUTES: Routes = [
   { path: 'properties/property/:id', component: ViewPropertyComponent, canActivate:[AuthGuard] },
   { path: 'properties/addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'properties/editproperty/:id', component: EditPropertyComponent, canActivate:[EditPropertyGuard], data:{userType: 'Wholesaler'} },
+  { path: 'investorWantedDeals', component: InvestorWantedDealsComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
   { path: 'inviteinvestor', component: InviteInvestorComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'invitelender', component: InviteLenderComponent, canActivate:[AuthGuard] },
   { path: 'invitewholesaler', component: InviteWholesalerComponent, canActivate:[RoleGuard], data:{userType: 'Investor' } },
