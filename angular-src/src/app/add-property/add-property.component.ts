@@ -152,6 +152,7 @@ export class AddPropertyComponent implements OnInit {
         document.getElementById('removePhotos').hidden = true;
         document.getElementById('uploadPhotos').hidden = true;
         this.uploadedPhotos = photos;
+        this.photos = [];
       }
     });
   }
