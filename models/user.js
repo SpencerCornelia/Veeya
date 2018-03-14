@@ -889,7 +889,7 @@ module.exports.updateUserMyProfileInfo = function(userData) {
         user.state = userData.state;
         user.URLs.personal = userData.URLs.personal;
         user.URLs.facebook = userData.URLs.facebook;
-        user.URLs.linkedin = userData.URLs.linkedin;
+        user.URLs.linkedIn = userData.URLs.linkedIn;
         user.URLs.biggerPockets = userData.URLs.biggerPockets;
         user.save((error, newUser) => {
           if (error) {
