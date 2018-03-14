@@ -45,7 +45,9 @@ export class EditPropertyService {
       propertyType: property.propertyType,
       yearBuilt: property.yearBuilt,
       status: property.status,
-      comps: property.comps
+      sellerFinancing: property.sellerFinancing,
+      comps: property.comps,
+      photos: property.photos
     });
     headers.append('Content-Type', 'application/json');
     return this.http.put(URI, body, {headers: headers})
