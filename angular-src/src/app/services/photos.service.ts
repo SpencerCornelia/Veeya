@@ -19,7 +19,8 @@ export class PhotosService {
   private user_id: String;
 
   constructor(private authService: AuthService,
-              private storage: AngularFireStorage) {
+              private storage: AngularFireStorage)
+  {
     this.propertyPhotosFolder = 'property-photos';
     this.user_id = this.authService.loggedInUser();
   }
@@ -35,13 +36,15 @@ export class PhotosService {
             this.error = true;
           } else {
             this.photoURLs.push(path);
+            if (i == (photos.length - 1)) {
+              if (!this.error) {
+                callback(false, this.photoURLs);
+              } else {
+                callback(true);
+              }
+            }
           }
-        })
-    }
-    if (!this.error) {
-      callback(false, this.photoURLs);
-    } else {
-      callback(true);
+        });
     }
   }
 
@@ -57,21 +60,28 @@ export class PhotosService {
       });
   }
 
-  public getPropertyPhotoUrls(photos: Array<String>, callback) {
+  public getPropertyPhotoUrls(photos: Array<string>, callback) {
     let urls = [];
     let storageRef = firebase.storage();
     let path = `${this.propertyPhotosFolder}/${this.user_id}/`;
     for (let i = 0; i < photos.length; i++) {
-      let pathRef = storageRef.ref(path + photos[i]);
+      let pathRef = storageRef.ref(photos[i]);
+      console.log("pathref:", pathRef)
       pathRef.getDownloadURL()
         .then((url) => {
+          console.log("received url from downloadURL()", url)
           urls.push(url);
         })
         .catch((error) => {
           callback(true);
           return;
         })
+        .then(() => {
+          if (i == (photos.length - 1)) {
+            console.log("urls before callback:", urls);
+            callback(false, urls);
+          }
+        })
     }
-    callback(false, urls);
   }
 }
