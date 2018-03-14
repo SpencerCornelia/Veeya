@@ -76,9 +76,7 @@ const PropertySchema = mongoose.Schema({
   utilities: {
     type: String
   },
-  comps: [{
-    type: Object
-  }],
+  comps: [],
   photos: [{
     type: String
   }]
@@ -124,33 +122,33 @@ module.exports.getAllProperties = (callback) => {
 }
 
 module.exports.addProperty = (propertyBody) => {
-  var newProperty = new Property({
-    wholesaler_id: propertyBody.wholesaler_id,
-    address: propertyBody.address,
-    city: propertyBody.city,
-    state: propertyBody.state,
-    zipCode: propertyBody.zipCode,
-    purchasePrice: propertyBody.purchasePrice,
-    bedrooms: propertyBody.bedrooms,
-    bathrooms: propertyBody.bathrooms,
-    expectedRehab: propertyBody.expectedRehab,
-    afterRepairValue: propertyBody.afterRepairValue,
-    HOA: propertyBody.HOA,
-    propertyTaxes: propertyBody.propertyTaxes,
-    averageRent: propertyBody.averageRent,
-    squareFootage: propertyBody.squareFootage,
-    propertyType: propertyBody.propertyType,
-    yearBuilt: propertyBody.yearBuilt,
-    status: propertyBody.status,
-    utilities: propertyBody.utilities,
-    sellerFinancing: propertyBody.sellerFinancing,
-    comps: propertyBody.comps,
-    photos: propertyBody.photos
-  });
-
-  let wholesalerID = propertyBody.wholesaler_id;
-
   return new Promise((resolve, reject) => {
+    var newProperty = new Property({
+      wholesaler_id: propertyBody.wholesaler_id,
+      address: propertyBody.address,
+      city: propertyBody.city,
+      state: propertyBody.state,
+      zipCode: propertyBody.zipCode,
+      purchasePrice: propertyBody.purchasePrice,
+      bedrooms: propertyBody.bedrooms,
+      bathrooms: propertyBody.bathrooms,
+      expectedRehab: propertyBody.expectedRehab,
+      afterRepairValue: propertyBody.afterRepairValue,
+      HOA: propertyBody.HOA,
+      propertyTaxes: propertyBody.propertyTaxes,
+      averageRent: propertyBody.averageRent,
+      squareFootage: propertyBody.squareFootage,
+      propertyType: propertyBody.propertyType,
+      yearBuilt: propertyBody.yearBuilt,
+      status: propertyBody.status,
+      utilities: propertyBody.utilities,
+      sellerFinancing: propertyBody.sellerFinancing,
+      comps: propertyBody.comps,
+      photos: propertyBody.photos
+    });
+
+    let wholesalerID = propertyBody.wholesaler_id;
+
     User.findById(wholesalerID, (error, user) => {
       if (error) {
         let errorObj = {
