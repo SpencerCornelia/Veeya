@@ -296,7 +296,7 @@ module.exports.searchWholesaler = function(email, userName, phoneNumber) {
 module.exports.updatePropertyForWholesaler = function(property) {
   return new Promise((resolve, reject) => {
     let index = 0;
-    User.findOne({_id: property.wholesaler}, (error, wholesaler) => {
+    User.findOne({ _id: property.wholesaler_id }, (error, wholesaler) => {
       if (error) {
         let errorObj = {
           success: false,
