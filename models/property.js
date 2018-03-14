@@ -76,6 +76,9 @@ const PropertySchema = mongoose.Schema({
   utilities: {
     type: String
   },
+  insurance: {
+    type: String
+  },
   comps: [],
   photos: [{
     type: String
@@ -142,6 +145,7 @@ module.exports.addProperty = (propertyBody) => {
       yearBuilt: propertyBody.yearBuilt,
       status: propertyBody.status,
       utilities: propertyBody.utilities,
+      insurance: propertyBody.insurance,
       sellerFinancing: propertyBody.sellerFinancing,
       comps: propertyBody.comps,
       photos: propertyBody.photos
@@ -214,6 +218,7 @@ module.exports.editPropertyByID = (updatedProperty) => {
       property.propertyType = updatedProperty.propertyType;
       property.yearBuilt = updatedProperty.yearBuilt;
       property.utilities = updatedProperty.utilities;
+      property.insurance = updatedProperty.insurance;
       property.status = updatedProperty.status;
       property.sellerFinancing = updatedProperty.sellerFinancing;
       property.comps = updatedProperty.comps;
