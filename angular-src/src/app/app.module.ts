@@ -31,6 +31,7 @@ import { AddPropertyComponent } from './add-property/add-property.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { EditPropertyComponent } from './edit-property/edit-property.component';
+import { InvestorWantedDealsComponent } from './investor-wanted-deals/investor-wanted-deals.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 import { InviteLenderComponent } from './invite-lender/invite-lender.component';
 import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
@@ -80,6 +81,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     FilterUsernamePipe,
     LoginComponent,
     MyProfileComponent,
+    InvestorWantedDealsComponent,
     InviteInvestorComponent,
     InviteLenderComponent,
     InviteWholesalerComponent,
