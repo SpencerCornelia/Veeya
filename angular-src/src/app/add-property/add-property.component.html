@@ -65,7 +65,7 @@
             <span class="menu-title">Dashboard</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn() && authService.wholesalerUser()" [routerLink]="['/properties/addproperty']"><span class="menu-title">Add Property</span> </a>
+            <a class="nav-link" *ngIf="authService.loggedIn() && authService.wholesalerUser()" [routerLink]="['/addproperty']"><span class="menu-title">Add Property</span> </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/properties']"><span class="menu-title">View Properties</span></a>
