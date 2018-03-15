@@ -86,7 +86,6 @@ export class UserService {
     return this.http.put(URI, body, { headers: headers })
       .map(res => res.json())
       .map((response) => {
-        console.log("response:", response)
         return response.data;
       })
   }
@@ -99,6 +98,21 @@ export class UserService {
     let body = JSON.stringify({
       _id: userId,
       photoURL: url
+    });
+    return this.http.put(URI, body, { headers: headers })
+      .map(res => res.json())
+      .map(res => res.data)
+  }
+
+  public updatePassword(currentPassword: String, newPassword: String) {
+    let userId = this.authService.loggedInUser();
+    let URI = this.serverApi + `/user/updatePassword/${userId}`;
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    let body = JSON.stringify({
+      _id: userId,
+      currentPassword: currentPassword,
+      newPassword: newPassword
     });
     return this.http.put(URI, body, { headers: headers })
       .map(res => res.json())
