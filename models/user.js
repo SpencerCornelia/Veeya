@@ -156,7 +156,7 @@ module.exports.registerUser = function(userBody) {
                 reject(errorObj);
               }
             });
-          })
+          });
         });
       }
     });
@@ -164,7 +164,11 @@ module.exports.registerUser = function(userBody) {
 };
 
 module.exports.comparePassword = function(attemptedPassword, userPassword, callback) {
+  console.log('attemptingPassword:', attemptedPassword)
+  console.log("userPassword:", userPassword)
   bcrypt.compare(attemptedPassword, userPassword, (error, isMatch) => {
+    console.log("error:", error)
+    console.log("isMatch:", isMatch)
     if (error) {
       callback(true, {
         success: false,
@@ -958,3 +962,66 @@ module.exports.updateProfilePhoto = function(id, photoURL) {
     });
   });
 }
+
+module.exports.updatePassword = function(passwordBody) {
+  return new Promise((resolve, reject) => {
+    User.findById(passwordBody._id, (error, user) => {
+      this.comparePassword(passwordBody.currentPassword, user.password, (error, success) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error updating password. Please try again.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (success) {
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(passwordBody.newPassword, salt, (error, hash) => {
+              if (error) {
+                let errorObj = {
+                  success: false,
+                  message: 'Error registering user.',
+                  error: error
+                }
+                reject(errorObj);
+              }
+              user.password = hash;
+              user.save((error, updatedUser) => {
+                if (error) {
+                  let errorObj = {
+                    success: false,
+                    message: 'Error updating password. Please try again.',
+                    error: error
+                  }
+                  reject(errorObj);
+                } else if (success) {
+                  delete updatedUser.password;
+                  let successObj = {
+                    success: true,
+                    message: 'Successfully updated password for user.',
+                    data: updatedUser
+                  }
+                  resolve(successObj);
+                } else {
+                  let errorObj = {
+                    success: false,
+                    message: 'Unable to update password. Please try again.',
+                    error: ''
+                  }
+                  reject(errorObj);
+                }
+              });
+            });
+          });
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to update password. Please try again.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      });
+    });
+  });
+};
