@@ -111,6 +111,5 @@ export class PhotosService {
         callback(true);
         return;
       })
-    }
-  }
+   }
 }
