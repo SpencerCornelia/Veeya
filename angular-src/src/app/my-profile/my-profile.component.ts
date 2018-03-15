@@ -15,6 +15,7 @@ export class MyProfileComponent implements OnInit {
 
   private currentUser: User;
   private edit: Boolean = false;
+  private password: any;
   private photo: File;
 
   constructor(private authService: AuthService,
@@ -44,6 +45,12 @@ export class MyProfileComponent implements OnInit {
         linkedIn: '',
         biggerPockets: ''
       }
+    }
+
+    this.password = {
+      current: '',
+      new: '',
+      newConfirm: ''
     }
   }
 
@@ -110,6 +117,26 @@ export class MyProfileComponent implements OnInit {
         });
       }
     });
+  }
+
+  updatePassword() {
+    document.getElementById("updatePasswordButton").setAttribute('disabled', 'disabled');
+    if (this.validateService.validatePassword(this.password.new, this.password.newConfirm)) {
+      this.userService.updatePassword(this.password.current, this.password.new)
+        .subscribe((response) => {
+          document.getElementById("updatePasswordButton").removeAttribute('disabled');
+          this.clearPasswordForm();
+        }, (error) => {
+          document.getElementById("updatePasswordButton").removeAttribute('disabled');
+          this.clearPasswordForm();
+        });
+    }
+  }
+
+  clearPasswordForm() {
+    this.password.current = '';
+    this.password.new = '';
+    this.password.newConfirm = '';
   }
 
 }

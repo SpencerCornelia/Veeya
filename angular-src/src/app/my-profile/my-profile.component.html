@@ -239,16 +239,19 @@
                         </form>
                       </div>
                       <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
-                        <form action="#">
+                        <form (submit)="updatePassword()">
                           <div class="form-group">
                             <label for="change-password">Change password</label>
-                            <input type="password" class="form-control" id="change-password" placeholder="Enter you current password">
+                            <input type="password" class="form-control" id="change-password" placeholder="Enter you current password"
+                              [(ngModel)]="password.current" name="current">
                           </div>
                           <div class="form-group">
-                            <input type="password" class="form-control" id="new-password" placeholder="Enter you new password">
+                            <input type="password" class="form-control" id="new-password" placeholder="Enter you new password"
+                              [(ngModel)]="password.new" name="new">
                           </div>
                           <div class="form-group">
-                            <input type="password" class="form-control" id="new-password-confirm" placeholder="Confirm your new password">
+                            <input type="password" class="form-control" id="new-password-confirm" placeholder="Confirm your new password"
+                              [(ngModel)]="password.newConfirm" name="newConfirm">
                           </div>
                           <div class="form-group mt-5">
                             <button id="updatePasswordButton" type="submit" class="btn btn-success mr-2">Update</button>
