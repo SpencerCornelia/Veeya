@@ -25,6 +25,16 @@ router.put('/updateProfileInfo/:id', (req, res) => {
     });
 });
 
+router.put('/updatePassword/:id', (req, res) => {
+  user.updatePassword(req.body)
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
 router.put('/updateProfilePhoto/:id', (req, res) => {
   user.updateProfilePhoto(req.params.id, req.body.photoURL)
     .then((response) => {
