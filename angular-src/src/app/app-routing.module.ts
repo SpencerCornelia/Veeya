@@ -24,43 +24,16 @@ import { ViewPropertiesComponent } from './view-properties/view-properties.compo
 import { ViewPropertyComponent } from './view-property/view-property.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
-// const APP_ROUTES: Routes = [
-//   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-//   { path: 'login', component: LoginComponent },
-//   { path: 'connections', component: ConnectionsComponent, canActivate:[AuthGuard] },
-//   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard] },
-//   { path: 'profile/:id', component: MyProfileComponent, canActivate:[ProfileGuard] },
-//   { path: 'properties', component: ViewPropertiesComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
-//   { path: 'properties/property/:id', component: ViewPropertyComponent, canActivate:[AuthGuard] },
-//   { path: 'properties/addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
-//   { path: 'properties/editproperty/:id', component: EditPropertyComponent, canActivate:[AuthGuard], data:{userType: 'Wholesaler'} },
-//   { path: 'investorWantedDeals', component: InvestorWantedDealsComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
-//   { path: 'inviteinvestor', component: InviteInvestorComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
-//   { path: 'invitelender', component: InviteLenderComponent, canActivate:[AuthGuard] },
-//   { path: 'invitewholesaler', component: InviteWholesalerComponent, canActivate:[RoleGuard], data:{userType: 'Investor' } },
-//   { path: 'register', component: RegisterComponent, canActivate:[RegisterGuard] },
-//   { path: 'search', component: SearchComponent, canActivate:[AuthGuard] },
-//   { path: 'user/:id', component: UserProfileComponent, canActivate:[AuthGuard] },
-//   { path: '**', component: PageNotFoundComponent }
-// ];
-
 const APP_ROUTES: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'connections', component: ConnectionsComponent, canActivate:[AuthGuard] },
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard] },
   { path: 'profile/:id', component: MyProfileComponent, canActivate:[ProfileGuard] },
-  { path: 'properties', component: ViewPropertiesComponent,
-    children: [
-      { path: '', canActivate:[RoleGuard], data:{userType: 'Wholesaler'}, pathMatch: 'full' },
-      { path: 'properties/:id', component: ViewPropertyComponent, canActivate:[AuthGuard],
-        children: [
-          { path: 'properties/:id/edit', component: EditPropertyComponent, canActivate:[AuthGuard], data:{userType: 'Wholesaler'} }
-        ]
-      }
-    ]
-  },
-  { path: 'addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
+  { path: 'properties', component: ViewPropertiesComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
+  { path: 'properties/property/:id', component: ViewPropertyComponent, canActivate:[AuthGuard] },
+  { path: 'properties/addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
+  { path: 'properties/editproperty/:id', component: EditPropertyComponent, canActivate:[AuthGuard], data:{userType: 'Wholesaler'} },
   { path: 'investorWantedDeals', component: InvestorWantedDealsComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
   { path: 'inviteinvestor', component: InviteInvestorComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'invitelender', component: InviteLenderComponent, canActivate:[AuthGuard] },
@@ -70,6 +43,7 @@ const APP_ROUTES: Routes = [
   { path: 'user/:id', component: UserProfileComponent, canActivate:[AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
 ];
+
 
 @NgModule({
   imports: [
