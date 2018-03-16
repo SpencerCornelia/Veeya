@@ -130,7 +130,7 @@
               </div>
             </div>
           </div>
-          <div class="row" *ngIf="currentTab=='Wholesalers' || currentTab=='Investors' || currentTab=='Lenders'">
+          <div class="row" *ngIf="currentTab=='Wholesalers'">
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -151,13 +151,83 @@
                     <tbody>
                       <tr *ngFor="let wholesaler of wholesalers | filterEmail: searchText | filterFirstName: searchText | filterLastName: searchText | filterUsername: searchText | filterCity: searchText | filterState: searchText; let i=index;">
                         <td>{{ i + 1 }}</td>
-                        <td>{{ connection.firstName }}</td>
-                        <td>{{ connection.lastName }}</td>
-                        <td>{{ connection.email }}</td>
-                        <td>{{ connection.phoneNumber }}</td>
-                        <td>{{ connection.city }}</td>
-                        <td>{{ connection.state }}</td>
-                        <td><a [routerLink]="['/user/' + connection._id]">View</a></td>
+                        <td>{{ wholesaler.firstName }}</td>
+                        <td>{{ wholesaler.lastName }}</td>
+                        <td>{{ wholesaler.email }}</td>
+                        <td>{{ wholesaler.phoneNumber }}</td>
+                        <td>{{ wholesaler.city }}</td>
+                        <td>{{ wholesaler.state }}</td>
+                        <td><a [routerLink]="['/user/' + wholesaler._id]">View</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="currentTab=='Investors'">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Search Results</h4>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Profile</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let investor of investors | filterEmail: searchText | filterFirstName: searchText | filterLastName: searchText | filterUsername: searchText | filterCity: searchText | filterState: searchText; let i=index;">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ investor.firstName }}</td>
+                        <td>{{ investor.lastName }}</td>
+                        <td>{{ investor.email }}</td>
+                        <td>{{ investor.phoneNumber }}</td>
+                        <td>{{ investor.city }}</td>
+                        <td>{{ investor.state }}</td>
+                        <td><a [routerLink]="['/user/' + investor._id]">View</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="currentTab=='Lenders'">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Search Results</h4>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Profile</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let lender of lenders | filterEmail: searchText | filterFirstName: searchText | filterLastName: searchText | filterUsername: searchText | filterCity: searchText | filterState: searchText; let i=index;">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ lender.firstName }}</td>
+                        <td>{{ lender.lastName }}</td>
+                        <td>{{ lender.email }}</td>
+                        <td>{{ lender.phoneNumber }}</td>
+                        <td>{{ lender.city }}</td>
+                        <td>{{ lender.state }}</td>
+                        <td><a [routerLink]="['/user/' + lender._id]">View</a></td>
                       </tr>
                     </tbody>
                   </table>
