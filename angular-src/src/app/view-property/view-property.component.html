@@ -99,28 +99,24 @@
         <div class="content-wrapper">
 
 
-          <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div id="viewPropertyCarousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img class="d-block w-100" src="/assets/images/carousel/banner_1.jpg" alt="First slide">
-                  </div>
-                  <div class="carousel-item">
-                    <img class="d-block w-100" src="/assets/images/carousel/banner_1.jpg" alt="Second slide">
-                  </div>
-                  <div class="carousel-item">
-                    <img class="d-block w-100" src="/assets/images/carousel/banner_1.jpg" alt="Third slide">
+          <div class="row" *ngIf="photos != []">
+            <div class="col-lg-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Property Photos</h4>
+                  <div class="row">
+                    <div *ngFor="let photo of property.photos">
+                      <div class="col-xs-4">
+                        <div class="card h-100" id="photoCard">
+                          <img id="propertyImage" src="{{ photo }}" />
+                          <div class="removePhoto" *ngIf="propertyOwner">
+                            <button type="button" class="btn btn-inverse-danger btn-rounded btn-fw">Delete</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <a class="carousel-control-prev" href="#viewPropertyCarousel" role="button" data-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#viewPropertyCarousel" role="button" data-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="sr-only">Next</span>
-                </a>
               </div>
             </div>
           </div>
@@ -366,13 +362,37 @@
                         </div>
                       </div>
                     </div>
+                    <p>
+                      <em>Please Upload Photos (up to 3 allowed)</em>
+                    </p>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="input-group mb-3">
+                            <div class="custom-file">
+                              <input type="file" class="custom-file-input" id="imageInput" (change)="addPhoto($event)">
+                              <label class="custom-file-label" for="imageInput">Choose file</label>
+                            </div>
+                          </div>
+                          <div *ngIf="property.photos.length == 3"><small>*If you wish to add another photo, please remove one first.</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group" *ngIf="propertyOwner">
+                      <div id="selectedFiles"></div>
+                      <button *ngIf="showUploadPhotosButton" class="btn btn-inverse-primary btn-rounded btn-fw" type="button" (click)="uploadPhotos()" id="uploadPhotos">
+                        Upload Photos</button>
+                      <button *ngIf="showRemovePhotosButton" class="btn btn-inverse-danger btn-rounded btn-fw" type="button" (click)="removePhotos()" id="removePhotos">Remove Photos</button>
+                    </div>
+                    <br />
                     <div class="buttons">
                       <div class="row edit-property-btn" *ngIf="propertyOwner">
-                        <button *ngIf="!editMode" id="editButton" type="button" class="btn btn-success mr-2" (click)="edit()">Edit Property</button>
-                        <button *ngIf="property.status!='Sold'" id="soldButton" type="button" class="btn btn-success mr-2" (click)="sold()">Mark as Sold</button>
-                        <button *ngIf="property.status!='Listed'" id="listedButton" type="button" class="btn btn-success mr-2" (click)="listed()">Mark as Listed</button>
-                        <button *ngIf="editMode" type="submit" class="btn btn-success mr-2">Submit</button>
-                        <button *ngIf="editMode" type="button" class="btn btn-light">Cancel</button>
+                        <button *ngIf="!editMode" id="editButton" type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="edit()">Edit Property</button>
+                        <button *ngIf="property.status!='Sold'" id="soldButton" type="button" class="btn btn-inverse-warning btn-rounded btn-fw" (click)="sold()">Mark as Sold</button>
+                        <button *ngIf="property.status!='Listed'" id="listedButton" type="button" class="btn btn-inverse-warning btn-rounded btn-fw" (click)="listed()">Mark as Listed</button>
+                        <button *ngIf="editMode" type="submit" class="btn btn-inverse-success btn-rounded btn-fw">Submit</button>
+                        <button *ngIf="editMode" type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="cancel()">Cancel</button>
                         <button type="button" class="btn btn-inverse-danger btn-rounded btn-fw" (click)="deleteProperty()">Delete</button>
                       </div>
                     </div>

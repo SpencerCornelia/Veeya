@@ -3,10 +3,6 @@
   height: 200px;
 }
 
-.stretch-card {
-  margin-left: 10%
-}
-
 .buttons {
   width: 100%;
 }
@@ -14,4 +10,24 @@
 .edit-property-btn {
   display: table;
   margin: 0 auto;
+}
+
+.removePhoto {
+  padding-top: 10px;
+  width: 100%;
+}
+
+.removePhoto button {
+  display: table;
+  margin: 0 auto;
+  width: 50%;
+}
+
+#propertyImage {
+  height: 140px;
+  max-width: 100%;
+}
+
+#photoCard {
+  margin-left: 10px;
 }

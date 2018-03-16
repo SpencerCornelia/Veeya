@@ -24,11 +24,13 @@ export class ViewPropertyComponent implements OnInit {
   private currentUser: User;
   private editMode: Boolean = false;
   private photo: File;
-  private photos: Array<string>;
   private photosToAdd: Array<File> = [];
   private propertyID: string;
   private propertyOwner: Boolean;
   private property: Property;
+  private photoURLsAdded: Array<string> = [];
+  private showUploadPhotosButton: Boolean = false;
+  private showRemovePhotosButton: Boolean = false;
 
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
@@ -136,8 +138,10 @@ export class ViewPropertyComponent implements OnInit {
       this.photo = event.target.files[0];
       this.photosToAdd.push(this.photo);
       document.getElementById('selectedFiles').innerHTML += file.name + "</br>";
+      this.showRemovePhotosButton = true;
+      this.showUploadPhotosButton = true;
 
-      if (this.photos.length + this.photosToAdd.length === 3) {
+      if (this.property.photos.length + this.photosToAdd.length === 3) {
         let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
         inputButton.disabled = true;
       }
@@ -147,16 +151,35 @@ export class ViewPropertyComponent implements OnInit {
 
   uploadPhotos(event) {
     document.getElementById('uploadPhotos').setAttribute('disabled', 'disabled');
-    this.photosService.uploadPropertyPhotos(this.photosToAdd, (error, photos) => {
+    document.getElementById('removePhotos').setAttribute('disabled', 'disabled');
+    this.photosService.uploadPropertyPhotos(this.photosToAdd, (error, photosUploaded) => {
       if (error) {
 
       } else {
         let inputValue = (<HTMLInputElement>document.getElementById('imageInput'));
         inputValue.value = "";
-        document.getElementById('removePhotos').hidden = true;
-        document.getElementById('uploadPhotos').hidden = true;
-        this.photos = photos;
+
+        this.showRemovePhotosButton = false;
+        this.showUploadPhotosButton = false;
+
         this.photosToAdd = [];
+
+        photosUploaded.forEach((photo) => {
+          this.photoURLsAdded.push(photo);
+        });
+
+        document.getElementById("selectedFiles").innerHTML = '';
+
+        this.photosService.getPropertyPhotoUrls(photosUploaded, (error, photos) => {
+          if (error) {
+            // error message
+            return;
+          } else {
+            photos.forEach((photo) => {
+              this.property.photos.push(photo);
+            });
+          }
+        });
       }
     })
   }
@@ -172,15 +195,6 @@ export class ViewPropertyComponent implements OnInit {
   }
 
   onSubmit() {
-    this.photosService.getPropertyPhotoUrls(this.photos, (error, photos) => {
-      if (error) {
-        // error message
-        return;
-      } else {
-        this.property.photos = photos;
-      }
-    });
-
     this.editPropertyService.editProperty(this.property)
       .subscribe((response) => {
         if (response.success) {
@@ -221,6 +235,10 @@ export class ViewPropertyComponent implements OnInit {
 
         });
     }
+  }
+
+  cancel() {
+    this.deletePropertyService.removePhotos(this.photoURLsAdded);
   }
 
   deleteProperty() {
