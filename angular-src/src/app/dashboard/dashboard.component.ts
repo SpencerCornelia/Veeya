@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { AppRoutingModule } from '../app-routing.module';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
 import { ProfileService } from '../services/profile.service';
 import { EditPropertyService } from '../services/editProperty.service';
+
 import { Property } from '../models/Property';
+import { User } from '../models/User';
 
-import * as $ from 'jquery';
-
-import { AppRoutingModule } from '../app-routing.module';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 })
 export class DashboardComponent implements OnInit {
 
-  private user: any;
+  private currentUser: User;
   private pageTitle: String;
   private properties: Property[] = [];
   private userID: String;
@@ -26,46 +26,68 @@ export class DashboardComponent implements OnInit {
   constructor(private authService: AuthService,
               private profileService: ProfileService,
               private editPropertyService: EditPropertyService,
-              private router: Router) { }
+              private router: Router)
+              {
+                this.getCurrentUser();
+              }
 
   ngOnInit() {
-    this.user = {
+    this.currentUser = {
+      userType: '',
       firstName: '',
       lastName: '',
       userName: '',
+      password: '',
       email: '',
       phoneNumber: '',
-      properties: this.properties
+      city: '',
+      state: '',
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedIn: '',
+        biggerPockets: ''
+      }
     }
-    this.userID = this.authService.loggedInUser();
-    this.userType = this.authService.loggedInUserType();
-    if (this.userType === 'Wholesaler') {
-      this.getWholesalerProfileInfo();
-    } else if (this.userType === 'Investor') {
-      this.getInvestorProfileInfo();
-    } else {
-      this.userType = 'Lender';
-    }
+
+    // this.userID = this.authService.loggedInUser();
+    // this.userType = this.authService.loggedInUserType();
+    // if (this.userType === 'Wholesaler') {
+    //   this.getWholesalerProfileInfo();
+    // } else if (this.userType === 'Investor') {
+    //   this.getInvestorProfileInfo();
+    // } else {
+    //   this.userType = 'Lender';
+    // }
   }
 
-  getWholesalerProfileInfo() {
-    this.profileService.getWholesalerProfileInfo(this.userID)
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
       .subscribe((response) => {
-        this.user = response[0];
-        this.properties = response[0].properties;
-      }, (error) => {
-
-      });
-  }
-
-  getInvestorProfileInfo() {
-    this.profileService.getInvestorProfileInfo(this.userID)
-      .subscribe((response) => {
-        this.user = response[0];
-        this.properties = response[0].properties;
+        this.currentUser = response.data;
       }, (error) => {
 
       })
   }
+
+  // getWholesalerProfileInfo() {
+  //   this.profileService.getWholesalerProfileInfo(this.userID)
+  //     .subscribe((response) => {
+  //       this.currentUser = response[0];
+  //       this.properties = response[0].properties;
+  //     }, (error) => {
+
+  //     });
+  // }
+
+  // getInvestorProfileInfo() {
+  //   this.profileService.getInvestorProfileInfo(this.userID)
+  //     .subscribe((response) => {
+  //       this.currentUser = response[0];
+  //       this.properties = response[0].properties;
+  //     }, (error) => {
+
+  //     })
+  // }
 
 }
