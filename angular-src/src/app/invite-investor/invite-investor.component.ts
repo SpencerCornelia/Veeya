@@ -19,10 +19,7 @@ export class InviteInvestorComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private inviteService: InviteService,
-              private router: Router)
-              {
-                this.getCurrentUser();
-              }
+              private router: Router) {}
 
   ngOnInit() {
     let wholesalerID = this.authService.loggedInUser();
@@ -44,24 +41,6 @@ export class InviteInvestorComponent implements OnInit {
       },
       wholesaler_id: wholesalerID
     }
-
-    this.currentUser = {
-      userType: '',
-      userName: '',
-      firstName: '',
-      lastName: '',
-      password: '',
-      email: '',
-      phoneNumber: '',
-      city: '',
-      state: '',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      }
-    }
   }
 
   onSubmit() {
@@ -75,13 +54,5 @@ export class InviteInvestorComponent implements OnInit {
       });
   }
 
-  getCurrentUser() {
-    this.authService.getLoggedInUser()
-      .subscribe((response) => {
-        this.currentUser = response.data;
-      }, (error) => {
-
-      })
-  }
 
 }

@@ -19,10 +19,7 @@ export class InviteLenderComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private inviteService: InviteService,
-              private router: Router)
-              {
-                this.getCurrentUser();
-              }
+              private router: Router) { }
 
   ngOnInit() {
     let user_id = this.authService.loggedInUser();
@@ -45,23 +42,6 @@ export class InviteLenderComponent implements OnInit {
       }
     }
 
-    this.currentUser = {
-      userType: '',
-      firstName: '',
-      lastName: '',
-      userName: '',
-      password: '',
-      email: '',
-      phoneNumber: '',
-      city: '',
-      state: '',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      }
-    }
   }
 
   onSubmit() {
@@ -74,15 +54,6 @@ export class InviteLenderComponent implements OnInit {
       (error) => {
 
       });
-  }
-
-  getCurrentUser() {
-    this.authService.getLoggedInUser()
-      .subscribe((response) => {
-        this.currentUser = response.data;
-      }, (error) => {
-
-      })
   }
 
 }
