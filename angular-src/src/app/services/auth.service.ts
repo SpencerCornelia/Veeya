@@ -151,7 +151,6 @@ import { Router } from '@angular/router';
 
 import { User } from '../models/User';
 
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -186,7 +185,6 @@ export class AuthService {
       .subscribe((response) => {
         this.storeUserData(response.token, response.user.id, response.user.user_type);
         this.router.navigate(['/dashboard']);
-        this.setCurrentUser(response.user);
       });
   }
 
@@ -206,7 +204,6 @@ export class AuthService {
       .subscribe((response) => {
         this.storeUserData(response.token, response.user._id, response.user.userType);
         this.router.navigate(['/dashboard']);
-        this.setCurrentUser(response.user);
       })
   }
 
@@ -287,10 +284,6 @@ export class AuthService {
 
   setRedirectUrl(url) {
     this.redirecturl = url;
-  }
-
-  setCurrentUser(user) {
-    // this.currentUser.next(user);
   }
 
   storeUserData(token, user_id, user_type) {
