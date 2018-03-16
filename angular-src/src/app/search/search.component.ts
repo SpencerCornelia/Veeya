@@ -82,7 +82,6 @@ export class SearchComponent implements OnInit {
   getAllWholesalers() {
     this.userService.getAllWholesalers()
       .subscribe((response) => {
-        console.log("this.wholesalers:", response)
         this.wholesalers = response;
       }, (error) => {
 
@@ -93,7 +92,6 @@ export class SearchComponent implements OnInit {
     this.getAllPropertiesService.getAllProperties()
       .subscribe((response) => {
         this.properties = response;
-        console.log("this.properties:", this.properties);
       }, (error) => {
 
       })
