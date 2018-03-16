@@ -5,15 +5,13 @@ import { ViewPropertiesComponent } from './view-properties.component';
 import { ViewPropertyComponent } from '../view-property/view-property.component';
 
 import { AuthGuard } from '../guards/auth.guard';
-import { RoleGuard } from '../guards/role.guard';
 
 
 const viewPropertiesRoutes: Routes = [
   {
     path: 'properties',
     component: ViewPropertiesComponent,
-    canActivate:[RoleGuard],
-    data:{ userType: 'Wholesaler' },
+    canActivate:[AuthGuard],
     children: [
       {
         path: 'view/:id',
