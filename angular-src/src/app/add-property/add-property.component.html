@@ -50,49 +50,7 @@
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:../../partials/_sidebar.html -->
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <li class="nav-item nav-profile">
-            <div class="nav-link">
-              <div class="profile-image"> <img src="/assets/images/faces/face4.jpg" alt="image"/> <span class="online-status online"></span> </div>
-              <div class="profile-name">
-                <p class="name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
-                <p class="designation">{{ currentUser.userType }}</p>
-              </div>
-            </div>
-          </li>
-          <li class="nav-item"> <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/dashboard']">
-            <span class="menu-title">Dashboard</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn() && authService.wholesalerUser()" [routerLink]="['/addproperty']"><span class="menu-title">Add Property</span> </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/properties']"><span class="menu-title">View Properties</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/connections']"><span class="menu-title">Connections</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn() && authService.wholesalerUser()" [routerLink]="['/inviteinvestor']"><span class="menu-title">Invite Investor</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/invitelender']"><span class="menu-title">Invite Lender</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/search']"><span class="menu-title">Search</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn() && authService.investorUser()" [routerLink]="['/investorWantedDeals']"><span class="menu-title">Wanted Deals</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/profile', authService.loggedInUser()]"><span class="menu-title">My Profile</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" (click)="authService.logout()"><span class="menu-title">Logout</span></a>
-          </li>
-        </ul>
-      </nav>
+      <app-sidebar></app-sidebar>
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
