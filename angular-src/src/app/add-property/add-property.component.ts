@@ -101,7 +101,7 @@ export class AddPropertyComponent implements OnInit {
   }
 
   getCurrentUser() {
-    this.authService.getLoggedInUser()
+    this.authService.getCurrentUser()
       .subscribe((response) => {
         this.currentUser = response.data;
       }, (error) => {
