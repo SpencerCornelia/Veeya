@@ -164,11 +164,7 @@ module.exports.registerUser = function(userBody) {
 };
 
 module.exports.comparePassword = function(attemptedPassword, userPassword, callback) {
-  console.log('attemptingPassword:', attemptedPassword)
-  console.log("userPassword:", userPassword)
   bcrypt.compare(attemptedPassword, userPassword, (error, isMatch) => {
-    console.log("error:", error)
-    console.log("isMatch:", isMatch)
     if (error) {
       callback(true, {
         success: false,
