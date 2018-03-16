@@ -8,6 +8,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { ViewPropertiesModule } from './view-properties/view-properties.module';
 
 import { AuthGuard } from './guards/auth.guard';
 import { EditPropertyGuard } from './guards/edit-property.guard';
@@ -30,7 +31,6 @@ import { AppComponent } from './app.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { EditPropertyComponent } from './edit-property/edit-property.component';
 import { InvestorWantedDealsComponent } from './investor-wanted-deals/investor-wanted-deals.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 import { InviteLenderComponent } from './invite-lender/invite-lender.component';
@@ -42,8 +42,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SearchComponent } from './search/search.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
-import { ViewPropertyComponent } from './view-property/view-property.component';
-import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
@@ -55,6 +53,7 @@ import { GetUserPropertiesService } from './services/getUserProperties.service';
 import { InviteService } from './services/invite.service';
 import { PhotosService } from './services/photos.service';
 import { ProfileService } from './services/profile.service';
+import { TogglePropertyService } from './services/toggleProperty.service';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserService } from './services/user.service';
 import { ValidateService } from './services/validate.service';
@@ -65,7 +64,6 @@ import { ViewPropertyService } from './services/viewProperty.service';
   declarations: [
     AppComponent,
     AddPropertyComponent,
-    EditPropertyComponent,
     ConnectionsComponent,
     DashboardComponent,
     FilterAddressPipe,
@@ -90,9 +88,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     SearchComponent,
     SidebarComponent,
     TopNavbarComponent,
-    UserProfileComponent,
-    ViewPropertiesComponent,
-    ViewPropertyComponent
+    UserProfileComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -101,6 +97,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     BrowserModule,
     FormsModule,
     HttpModule,
+    ViewPropertiesModule,
     AppRoutingModule
   ],
   providers: [
@@ -114,6 +111,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     InviteService,
     PhotosService,
     ProfileService,
+    TogglePropertyService,
     UserService,
     ValidateService,
     ViewPropertyService,
