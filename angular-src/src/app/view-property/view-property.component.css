@@ -6,3 +6,12 @@
 .stretch-card {
   margin-left: 10%
 }
+
+.buttons {
+  width: 100%;
+}
+
+.edit-property-btn {
+  display: table;
+  margin: 0 auto;
+}

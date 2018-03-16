@@ -57,8 +57,8 @@
             <div class="nav-link">
               <div class="profile-image"> <img src="/assets/images/faces/face4.jpg" alt="image"/> <span class="online-status online"></span> </div>
               <div class="profile-name">
-                <p class="name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
-                <p class="designation">{{ currentUser.userType }}</p>
+                <p class="name">{{ currentUser?.firstName }} {{ currentUser?.lastName }}</p>
+                <p class="designation">{{ currentUser?.userType }}</p>
               </div>
             </div>
           </li>
@@ -136,7 +136,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Street Address</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.address" name="address" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.address" name="address" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -146,7 +146,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">City</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.city" name="city" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.city" name="city" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -154,7 +154,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">State</label>
                           <div class="col-sm-6">
-                            <input type="text" class="form-control" [(ngModel)]="property.state" name="state" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.state" name="state" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -162,7 +162,7 @@
                         <div class="form-group row">
                           <label class="col-sm-5 col-form-label">Zip</label>
                           <div class="col-sm-7">
-                            <input type="text" class="form-control" [(ngModel)]="property.zipCode" name="zipCode" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.zipCode" name="zipCode" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -172,7 +172,7 @@
                         <div class="form-group row">
                           <label class="col-sm-4 col-form-label">Purchase Price</label>
                            <div class="col-sm-7">
-                            <input type="text" class="form-control" [(ngModel)]="property.purchasePrice" name="purchasePrice" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.purchasePrice" name="purchasePrice" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -180,7 +180,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Beds</label>
                           <div class="col-sm-4">
-                            <input type="text" class="form-control" [(ngModel)]="property.bedrooms" name="bedrooms" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.bedrooms" name="bedrooms" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -188,7 +188,7 @@
                         <div class="form-group row">
                           <label class="col-sm-4 col-form-label">Baths</label>
                           <div class="col-sm-4">
-                            <input type="text" class="form-control" [(ngModel)]="property.bathrooms" name="bathrooms" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.bathrooms" name="bathrooms" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -198,7 +198,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Expected Rehab</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.expectedRehab" name="expectedRehab" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.expectedRehab" name="expectedRehab" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -209,7 +209,7 @@
                           <label class="col-sm-3 col-form-label">After Repair Value (ARV)</label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" [(ngModel)]="property.afterRepairValue" name="afterRepairValue"
-                            readonly />
+                            [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -217,7 +217,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Gross Monthly Rent</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.averageRent" name="averageRent" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.averageRent" name="averageRent" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -227,7 +227,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Square Footage</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.squareFootage" name="squareFootage" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.squareFootage" name="squareFootage" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -235,7 +235,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Property Type</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.propertyType" name="propertyType" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.propertyType" name="propertyType" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -245,7 +245,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Year Built</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.yearBuilt" name="yearBuilt" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.yearBuilt" name="yearBuilt" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -253,7 +253,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Cap Rate</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.capRate" name="capRate" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.capRate" name="capRate" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -261,7 +261,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">HOA</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.HOA" name="HOA" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.HOA" name="HOA" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -269,7 +269,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Property Taxes</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.propertyTaxes" name="propertyTaxes" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.propertyTaxes" name="propertyTaxes" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -277,7 +277,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Utilities</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.utilities" name="utilities" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.utilities" name="utilities" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -285,7 +285,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Insurance</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.insurance" name="insurance" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.insurance" name="insurance" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -293,7 +293,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Seller Financing Available?</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.sellerFinancing" name="sellerFinancing" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.sellerFinancing" name="sellerFinancing" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -306,7 +306,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">First Comp Address</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.comps[0].firstCompAddress" name="firstCompAddress" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.comps[0].firstCompAddress" name="firstCompAddress" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -314,7 +314,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">First Comp Price</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.comps[0].firstCompPrice" name="firstCompPrice" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.comps[0].firstCompPrice" name="firstCompPrice" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -324,7 +324,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Second Comp Address</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.comps[1].secondCompAddress" name="secondCompAddress" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.comps[1].secondCompAddress" name="secondCompAddress" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -332,7 +332,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Second Comp Price</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.comps[1].secondCompPrice" name="secondCompPrice" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.comps[1].secondCompPrice" name="secondCompPrice" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -342,7 +342,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Third Comp Address</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.comps[2].thirdCompAddress" name="thirdCompAddress" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.comps[2].thirdCompAddress" name="thirdCompAddress" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -350,7 +350,8 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Third Comp Price</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="property.comps[2].thirdCompPrice" name="thirdCompPrice" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.comps[2].thirdCompPrice" name="thirdCompPrice"
+                              [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
@@ -360,16 +361,19 @@
                         <div class="col-4">
                           <label>Status of Property</label>
                           <div class="col-xs-3">
-                            <input type="text" class="form-control" [(ngModel)]="property.status" name="status" readonly />
+                            <input type="text" class="form-control" [(ngModel)]="property.status" name="status" [disabled]="!editMode" />
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-4">
-                          <button type="button">Edit Property</button>
-                        </div>
+                    <div class="buttons">
+                      <div class="row edit-property-btn" *ngIf="propertyOwner">
+                        <button *ngIf="!editMode" id="editButton" type="button" class="btn btn-success mr-2" (click)="edit()">Edit Property</button>
+                        <button *ngIf="property.status!='Sold'" id="soldButton" type="button" class="btn btn-success mr-2" (click)="sold()">Mark as Sold</button>
+                        <button *ngIf="property.status!='Listed'" id="listedButton" type="button" class="btn btn-success mr-2" (click)="listed()">Mark as Listed</button>
+                        <button *ngIf="editMode" type="submit" class="btn btn-success mr-2">Submit</button>
+                        <button *ngIf="editMode" type="button" class="btn btn-light">Cancel</button>
+                        <button type="button" class="btn btn-inverse-danger btn-rounded btn-fw" (click)="deleteProperty()">Delete</button>
                       </div>
                     </div>
                   </form>
