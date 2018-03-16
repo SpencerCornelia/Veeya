@@ -7,7 +7,6 @@ import { DeletePropertyService } from '../services/deleteProperty.service';
 import { EditPropertyService } from '../services/editProperty.service';
 import { GetAllPropertiesService } from '../services/getAllProperties.service';
 import { GetUserPropertiesService } from '../services/getUserProperties.service';
-import { TogglePropertyService } from '../services/toggleProperty.service';
 import { ViewPropertyService } from '../services/viewProperty.service';
 
 import { Property } from '../models/Property';
@@ -38,7 +37,6 @@ export class ViewPropertiesComponent implements OnInit {
               private deletePropertyService: DeletePropertyService,
               private getUserPropertiesService: GetUserPropertiesService,
               private editPropertyService: EditPropertyService,
-              private togglePropertyService: TogglePropertyService,
               private viewPropertyService: ViewPropertyService,
               private router: Router,
               private activatedRoute: ActivatedRoute)
@@ -47,7 +45,6 @@ export class ViewPropertiesComponent implements OnInit {
               }
 
   ngOnInit() {
-    this.togglePropertyService.setCurrentView("View-Properties");
     let userType = this.authService.loggedInUserType();
     if (userType === 'Wholesaler') {
       this.getPropertiesForWholesaler();
@@ -103,9 +100,8 @@ export class ViewPropertiesComponent implements OnInit {
 
   viewProperty(property) {
     this.viewPropertyService.setProperty(property);
-    this.togglePropertyService.setCurrentView("View-Property");
     let propertyId = property._id;
-    this.router.navigate(['/properties/view/', propertyId]);
+    this.router.navigate(['/view/', propertyId]);
   }
 
   getPropertiesForInvestor() {
