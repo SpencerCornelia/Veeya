@@ -9,7 +9,6 @@ import { AuthService } from '../services/auth.service';
 import { DeletePropertyService } from '../services/deleteProperty.service';
 import { EditPropertyService } from '../services/editProperty.service';
 import { PhotosService } from '../services/photos.service';
-import { TogglePropertyService } from '../services/toggleProperty.service';
 import { ValidateService } from '../services/validate.service';
 import { ViewPropertyService } from '../services/viewProperty.service';
 
@@ -39,7 +38,6 @@ export class ViewPropertyComponent implements OnInit {
               private viewPropertyService: ViewPropertyService,
               private router: Router,
               private photosService: PhotosService,
-              private togglePropertyService: TogglePropertyService,
               private validateService: ValidateService) {
     this.getCurrentUser();
     this.propertyID = route.snapshot.params['id'];
@@ -48,7 +46,7 @@ export class ViewPropertyComponent implements OnInit {
 
   ngOnInit() {
     let wholesalerID = this.authService.loggedInUser();
-
+    this.propertyOwner = this.confirmPropertyOwnership();
     this.property = {
       _id: 0,
       wholesaler_id: wholesalerID,
@@ -109,7 +107,7 @@ export class ViewPropertyComponent implements OnInit {
   }
 
   getCurrentUser() {
-    this.authService.getLoggedInUser()
+    this.authService.getCurrentUser()
       .subscribe((response) => {
         this.currentUser = response.data;
       }, (error) => {
@@ -212,14 +210,7 @@ export class ViewPropertyComponent implements OnInit {
   sold() {
     let soldConfirm = confirm("Are you sure you want to mark this property as sold?");
     if (soldConfirm) {
-      this.property.status = "Sold";
-      this.editPropertyService.editProperty(this.property)
-        .subscribe((response) => {
-          if (response.success) {
-          }
-        }, (error) => {
-
-        });
+      this.router.navigate(['/soldproperty']);
     }
   }
 
