@@ -8,7 +8,6 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { ViewPropertiesModule } from './view-properties/view-properties.module';
 
 import { AuthGuard } from './guards/auth.guard';
 import { EditPropertyGuard } from './guards/edit-property.guard';
@@ -40,8 +39,11 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SearchComponent } from './search/search.component';
+import { SoldPropertyComponent } from './sold-property/sold-property.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
+import { ViewPropertyComponent } from './view-property/view-property.component';
+import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
@@ -53,7 +55,6 @@ import { GetUserPropertiesService } from './services/getUserProperties.service';
 import { InviteService } from './services/invite.service';
 import { PhotosService } from './services/photos.service';
 import { ProfileService } from './services/profile.service';
-import { TogglePropertyService } from './services/toggleProperty.service';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserService } from './services/user.service';
 import { ValidateService } from './services/validate.service';
@@ -87,8 +88,11 @@ import { ViewPropertyService } from './services/viewProperty.service';
     RegisterComponent,
     SearchComponent,
     SidebarComponent,
+    SoldPropertyComponent,
     TopNavbarComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ViewPropertyComponent,
+    ViewPropertiesComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -97,7 +101,6 @@ import { ViewPropertyService } from './services/viewProperty.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    ViewPropertiesModule,
     AppRoutingModule
   ],
   providers: [
@@ -111,7 +114,6 @@ import { ViewPropertyService } from './services/viewProperty.service';
     InviteService,
     PhotosService,
     ProfileService,
-    TogglePropertyService,
     UserService,
     ValidateService,
     ViewPropertyService,
