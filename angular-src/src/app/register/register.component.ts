@@ -58,11 +58,12 @@ export class RegisterComponent implements OnInit {
       return false;
     }
 
+/*  STILL NEED TO IMPLEMENT VALIDATING PHONE NUMBER
     if (!this.validateService.validatePhoneNumber(this.newUser.phoneNumber)) {
       // error message = 'Please enter a valid phone number.'
       return false;
     }
-
+*/
     // register user
     this.authService.registerUser(this.newUser);
   }
