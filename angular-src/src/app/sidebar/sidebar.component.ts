@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
+import { User } from '../models/User';
+
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -9,10 +11,41 @@ import { Router } from '@angular/router';
 })
 export class SidebarComponent implements OnInit {
 
+  private currentUser: User;
+
   constructor(private authService: AuthService,
-              private router: Router) { }
+              private router: Router)
+            {
+              this.getCurrentUser();
+            }
 
   ngOnInit() {
+    this.currentUser = {
+      userType: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
+      password: '',
+      email: '',
+      phoneNumber: '',
+      city: '',
+      state: '',
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedIn: '',
+        biggerPockets: ''
+      }
+    }
+  }
+
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
+      .subscribe((response) => {
+        this.currentUser = response.data;
+      }, (error) => {
+
+      })
   }
 
   isInvestor() {
