@@ -3,10 +3,12 @@ import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
-import { GetAllPropertiesService } from '../services/getAllProperties.service';
 import { DeletePropertyService } from '../services/deleteProperty.service';
+import { EditPropertyService } from '../services/editProperty.service';
+import { GetAllPropertiesService } from '../services/getAllProperties.service';
 import { GetUserPropertiesService } from '../services/getUserProperties.service';
-import { EditPropertyService } from '../services/editProperty.service'
+import { ViewPropertyService } from '../services/viewProperty.service';
+
 import { Property } from '../models/Property';
 import { User } from '../models/User';
 
@@ -35,6 +37,7 @@ export class ViewPropertiesComponent implements OnInit {
               private deletePropertyService: DeletePropertyService,
               private getUserPropertiesService: GetUserPropertiesService,
               private editPropertyService: EditPropertyService,
+              private viewPropertyService: ViewPropertyService,
               private router: Router)
               {
                 this.getCurrentUser();
@@ -80,7 +83,6 @@ export class ViewPropertiesComponent implements OnInit {
 
   getPropertiesForWholesaler() {
     let wholesalerID = this.authService.loggedInUser();
-    // Get all properties for the wholesaler who is logged in
     this.getUserPropertiesService.getWholesalerUserProperties(wholesalerID)
       .subscribe((response) => {
         response.forEach((property) => {
@@ -96,7 +98,8 @@ export class ViewPropertiesComponent implements OnInit {
   }
 
   viewProperty(property) {
-    let propertyId = property.id;
+    this.viewPropertyService.setProperty(property);
+    let propertyId = property._id;
     this.router.navigate(['/properties/property/', propertyId]);
   }
 

@@ -35,49 +35,56 @@ export class ViewPropertyComponent implements OnInit {
               private validateService: ValidateService) {
     this.getCurrentUser();
     this.propertyID = route.snapshot.params['id'];
-    this.getProperty(this.propertyID);
+    // this.getProperty(this.propertyID);
   }
 
   ngOnInit() {
-    this.initialProperty = {
-      _id: 0,
-      wholesaler_id: '0',
-      address: '',
-      city: '',
-      state: '',
-      zipCode: '',
-      purchasePrice: '',
-      bedrooms: 0,
-      bathrooms: 0,
-      expectedRehab: '',
-      afterRepairValue: '',
-      HOA: '',
-      propertyTaxes: '',
-      utilities: '',
-      capRate: '',
-      averageRent: '',
-      squareFootage: '',
-      propertyType: '',
-      yearBuilt: '',
-      sellerFinancing: '',
-      insurance: '',
-      status: '',
-      comps: [
-        {
-          firstCompAddress: '',
-          firstCompPrice: ''
-        },
-        {
-          secondCompAddress: '',
-          secondCompPrice: ''
-        },
-        {
-          thirdCompAddress: '',
-          thirdCompPrice: ''
-        }
-      ],
-      photos: []
-    }
+    this.viewPropertyService.getProperty()
+      .subscribe((property) => {
+        this.initialProperty = property;
+      }, (error) => {
+        console.log("error:", error);
+      })
+
+    // this.initialProperty = {
+    //   _id: 0,
+    //   wholesaler_id: '',
+    //   address: '',
+    //   city: '',
+    //   state: 'AL',
+    //   zipCode: '',
+    //   purchasePrice: '',
+    //   bedrooms: 0,
+    //   bathrooms: 0,
+    //   expectedRehab: '',
+    //   HOA: '',
+    //   propertyTaxes: '',
+    //   utilities: '',
+    //   afterRepairValue: '',
+    //   capRate: '',
+    //   averageRent: '',
+    //   squareFootage: '',
+    //   insurance: '',
+    //   propertyType: 'Single Family',
+    //   yearBuilt: '',
+    //   status: 'Listed',
+    //   sellerFinancing: 'false',
+    //   comps: [
+    //     {
+    //       firstCompAddress: '',
+    //       firstCompPrice: ''
+    //     },
+    //     {
+    //       secondCompAddress: '',
+    //       secondCompPrice: ''
+    //     },
+    //     {
+    //       thirdCompAddress: '',
+    //       thirdCompPrice: ''
+    //     }
+    //   ],
+    //   photos: []
+    // }
 
     this.currentUser = {
       userType: '',

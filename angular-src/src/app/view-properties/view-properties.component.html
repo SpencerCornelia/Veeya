@@ -104,15 +104,8 @@
                   <p class="card-text">
                     Click on any image to view the property
                   </p>
-                  <div id="lightgallery" class="row lightGallery">
-                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
+                  <div id="lightgallery" class="row lightGallery" *ngFor="let listedProperty of wholesalerPropertiesListed">
+                    <a (click)="viewProperty(listedProperty)" class="image-tile" alt="image large"><img src="{{ listedProperty.photos[0] }}" alt="image small"></a>
                   </div>
                 </div>
               </div>
@@ -126,15 +119,8 @@
                   <p class="card-text">
                     Click on any image to view the property
                   </p>
-                  <div id="lightgallery" class="row lightGallery">
-                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
+                  <div id="lightgallery" class="row lightGallery" *ngFor="let soldProperty of wholesalerPropertiesSold">
+                    <a (click)="viewProperty(soldProperty)" class="image-tile" alt="image large"><img src="{{ soldProperty.photos[0] }}" alt="image small"></a>
                   </div>
                 </div>
               </div>
