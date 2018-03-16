@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ViewPropertiesComponent } from './view-properties.component';
 import { ViewPropertyComponent } from '../view-property/view-property.component';
-import { EditPropertyComponent } from '../edit-property/edit-property.component';
 
 import { AuthGuard } from '../guards/auth.guard';
 import { RoleGuard } from '../guards/role.guard';
@@ -19,15 +18,7 @@ const viewPropertiesRoutes: Routes = [
       {
         path: 'view/:id',
         component: ViewPropertyComponent,
-        canActivate:[AuthGuard],
-        children: [
-          {
-            path: 'edit',
-            component: EditPropertyComponent,
-            canActivate:[AuthGuard],
-            data:{ userType: 'Wholesaler' }
-          }
-        ]
+        canActivate:[AuthGuard]
       }
     ]
   }
