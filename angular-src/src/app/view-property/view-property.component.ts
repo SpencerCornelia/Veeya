@@ -20,7 +20,6 @@ import { ViewPropertyService } from '../services/viewProperty.service';
 })
 export class ViewPropertyComponent implements OnInit {
 
-  private currentUser: User;
   private editMode: Boolean = false;
   private photo: File;
   private photosToAdd: Array<File> = [];
@@ -38,8 +37,8 @@ export class ViewPropertyComponent implements OnInit {
               private viewPropertyService: ViewPropertyService,
               private router: Router,
               private photosService: PhotosService,
-              private validateService: ValidateService) {
-    this.getCurrentUser();
+              private validateService: ValidateService)
+  {
     this.propertyID = route.snapshot.params['id'];
     this.getProperty();
   }
@@ -87,32 +86,6 @@ export class ViewPropertyComponent implements OnInit {
       photos: []
     }
 
-    this.currentUser = {
-      userType: '',
-      firstName: '',
-      lastName: '',
-      userName: '',
-      password: '',
-      email: '',
-      phoneNumber: '',
-      city: '',
-      state: '',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      }
-    }
-  }
-
-  getCurrentUser() {
-    this.authService.getCurrentUser()
-      .subscribe((response) => {
-        this.currentUser = response.data;
-      }, (error) => {
-
-      })
   }
 
   getProperty() {

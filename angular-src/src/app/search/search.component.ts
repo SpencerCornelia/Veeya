@@ -14,7 +14,6 @@ import { User } from '../models/User';
 export class SearchComponent implements OnInit {
 
   private currentTab: String = "Wholesalers";
-  private currentUser: User;
   private lenders: Array<User> = [];
   private investors: Array<User> = [];
   private properties: Array<Property> = [];
@@ -30,10 +29,7 @@ export class SearchComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private getAllPropertiesService: GetAllPropertiesService,
-              private userService: UserService)
-              {
-                this.getCurrentUser();
-              }
+              private userService: UserService) { }
 
   ngOnInit() {
     this.user_id = this.authService.loggedInUser();
@@ -51,32 +47,6 @@ export class SearchComponent implements OnInit {
       this.getAllProperties();
     }
 
-    this.currentUser = {
-      userType: '',
-      firstName: '',
-      lastName: '',
-      userName: '',
-      password: '',
-      email: '',
-      phoneNumber: '',
-      city: '',
-      state: '',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      }
-    }
-  }
-
-  getCurrentUser() {
-    this.authService.getLoggedInUser()
-      .subscribe((response) => {
-        this.currentUser = response.data;
-      }, (error) => {
-
-      })
   }
 
   getAllWholesalers() {
