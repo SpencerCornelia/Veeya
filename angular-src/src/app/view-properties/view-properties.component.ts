@@ -19,6 +19,7 @@ import { User } from '../models/User';
 })
 export class ViewPropertiesComponent implements OnInit {
 
+  private currentUser: User;
   private properties: Property[] = [];
 
   private investorPropertiesBought: Property[] = [];
@@ -38,10 +39,14 @@ export class ViewPropertiesComponent implements OnInit {
               private editPropertyService: EditPropertyService,
               private viewPropertyService: ViewPropertyService,
               private router: Router,
-              private activatedRoute: ActivatedRoute) { }
+              private activatedRoute: ActivatedRoute)
+  {
+    this.getCurrentUser();
+  }
 
   ngOnInit() {
     let userType = this.authService.loggedInUserType();
+
     if (userType === 'Wholesaler') {
       this.getPropertiesForWholesaler();
     } else if (userType === 'Investor') {
@@ -50,6 +55,33 @@ export class ViewPropertiesComponent implements OnInit {
       this.getPropertiesForLender();
     }
 
+    this.currentUser = {
+      userType: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
+      password: '',
+      email: '',
+      phoneNumber: '',
+      city: '',
+      state: '',
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedIn: '',
+        biggerPockets: ''
+      }
+    }
+
+  }
+
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
+      .subscribe((response) => {
+        this.currentUser = response.data;
+      }, (error) => {
+
+      });
   }
 
   getPropertiesForWholesaler() {
@@ -69,7 +101,6 @@ export class ViewPropertiesComponent implements OnInit {
   }
 
   viewProperty(property) {
-    this.viewPropertyService.setProperty(property);
     let propertyId = property._id;
     this.router.navigate(['/view/', propertyId]);
   }
