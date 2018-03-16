@@ -21,7 +21,6 @@ import { ValidateService } from '../services/validate.service';
 export class AddPropertyComponent implements OnInit {
 
   private propertyComps: Array<Object>;
-  private currentUser: User;
   private newProperty: Property;
   private photo: File;
   private photos: Array<File> = [];
@@ -31,10 +30,7 @@ export class AddPropertyComponent implements OnInit {
               private addPropertyService: AddPropertyService,
               private photosService: PhotosService,
               private router: Router,
-              private validateService: ValidateService)
-              {
-                this.getCurrentUser();
-              }
+              private validateService: ValidateService) { }
 
   ngOnInit() {
     document.getElementById('removePhotos').hidden = true;
@@ -81,32 +77,6 @@ export class AddPropertyComponent implements OnInit {
       photos: []
     }
 
-    this.currentUser = {
-      userType: '',
-      firstName: '',
-      lastName: '',
-      userName: '',
-      password: '',
-      email: '',
-      phoneNumber: '',
-      city: '',
-      state: '',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      }
-    }
-  }
-
-  getCurrentUser() {
-    this.authService.getCurrentUser()
-      .subscribe((response) => {
-        this.currentUser = response.data;
-      }, (error) => {
-
-      })
   }
 
   onSubmit() {
