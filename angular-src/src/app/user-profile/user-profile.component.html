@@ -104,11 +104,11 @@
                     <div class="card-body avatar">
                       <h4 class="card-title">Info</h4>
                       <img src="/assets/images/faces/face6.jpg" alt="">
-                      <p class="name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
-                      <p class="designation">-  {{ currentUser.userType }}  -</p>
-                      <a class="d-block text-center text-dark" href="#">{{ currentUser.email }}</a>
-                      <a class="d-block text-center text-dark" href="#">{{ currentUser.phoneNumber }}</a>
-                      <a class="d-block text-center text-dark" href="#">{{ currentUser.city }}, {{ currentUser.state }}</a>
+                      <p class="name">{{ user.firstName }} {{ user.lastName }}</p>
+                      <p class="designation">-  {{ user.userType }}  -</p>
+                      <a class="d-block text-center text-dark" href="#">{{ user.email }}</a>
+                      <a class="d-block text-center text-dark" href="#">{{ user.phoneNumber }}</a>
+                      <a class="d-block text-center text-dark" href="#">{{ user.city }}, {{ user.state }}</a>
                     </div>
                     <div class="connect-button-row">
                       <button *ngIf="isConnected()" class="btn btn-inverse-success btn-rounded btn-fw connect-button">Connected</button>
@@ -116,7 +116,7 @@
                     </div>
                     <div class="card-body overview">
                       <ul class="achivements">
-                        <li><p>{{ currentUser.connections.length }}</p><p>Connections</p></li>
+                        <li><p>{{ user.connections.length }}</p><p>Connections</p></li>
                         <li><p>0</p><p>Deals</p></li>
                       </ul>
                       <div class="info-links">
