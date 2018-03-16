@@ -37,15 +37,14 @@ export class ViewPropertyComponent implements OnInit {
               private viewPropertyService: ViewPropertyService,
               private router: Router,
               private photosService: PhotosService,
-              private validateService: ValidateService)
-  {
-    this.propertyID = route.snapshot.params['id'];
-    this.getProperty();
-  }
+              private validateService: ValidateService) { }
 
   ngOnInit() {
+    this.propertyID = this.route.snapshot.params['id'];
+    this.getProperty(this.propertyID);
+
     let wholesalerID = this.authService.loggedInUser();
-    this.propertyOwner = this.confirmPropertyOwnership();
+
     this.property = {
       _id: 0,
       wholesaler_id: wholesalerID,
@@ -83,13 +82,13 @@ export class ViewPropertyComponent implements OnInit {
           thirdCompPrice: ''
         }
       ],
-      photos: []
+      photos: ['']
     }
 
   }
 
-  getProperty() {
-    this.viewPropertyService.getProperty()
+  getProperty(id) {
+    this.viewPropertyService.getPropertyById(id)
       .subscribe((response) => {
         this.property = response;
         this.propertyOwner = this.confirmPropertyOwnership();
