@@ -38,6 +38,7 @@ export class AuthService {
         return Observable.throw(error.json());
       })
       .subscribe((response) => {
+        this.currentUser = response.data;
         this.storeUserData(response.data.token, response.data._id, response.data.userType);
         this.router.navigate(['/dashboard']);
       });
@@ -57,11 +58,33 @@ export class AuthService {
         return Observable.throw(error.json());
       })
       .subscribe((response) => {
+        this.currentUser = response.data;
         this.storeUserData(response.token, response.user._id, response.user.userType);
         this.router.navigate(['/dashboard']);
       })
   }
 
+  getCurrentUser() {
+    if (this.currentUser) {
+      return Observable.of(this.currentUser);
+    } else if (this.observable) {
+      return this.observable;
+    } else {
+      let userId = this.loggedInUser();
+      let route = `http://localhost:3000/user/${userId}`;
+      this.observable = this.http.get(route)
+        .map((response) => {
+          this.observable = null;
+          this.currentUser = response.json();
+          return this.currentUser;
+        })
+        .catch((error) => {
+          return Observable.throw(error.json());
+        })
+        .share();
+        return this.observable;
+    }
+  }
 
   getLoggedInUser() {
     let userId = this.loggedInUser();
@@ -74,7 +97,6 @@ export class AuthService {
         return Observable.throw(error.json());
       })
   }
-
 
   /* GETTERS */
 
@@ -111,28 +133,6 @@ export class AuthService {
 
   getRedirectUrl() {
     return this.redirecturl;
-  }
-
-  getCurrentUser() {
-    if (this.currentUser) {
-      return Observable.of(this.currentUser);
-    } else if (this.observable) {
-      return this.observable;
-    } else {
-      let userId = this.loggedInUser();
-      let route = `http://localhost:3000/user/${userId}`;
-      this.observable = this.http.get(route)
-        .map((response) => {
-          this.observable = null;
-          this.currentUser = response.json();
-          return this.currentUser;
-        })
-        .catch((error) => {
-          return Observable.throw(error.json());
-        })
-        .share();
-        return this.observable;
-    }
   }
 
   /* SETTERS */

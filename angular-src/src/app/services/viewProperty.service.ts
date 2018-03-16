@@ -13,7 +13,7 @@ export class ViewPropertyService {
 
   constructor(private http: Http) { }
 
-  private selectedProperty = new ReplaySubject<Property>(1);
+  private selectedProperty = new BehaviorSubject<Property>(null);
   private serverApi = 'http://localhost:3000/properties';
 
   public getPropertyById(propertyId: String):Observable<Property> {
