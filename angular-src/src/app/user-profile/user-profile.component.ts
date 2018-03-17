@@ -59,6 +59,13 @@ export class UserProfileComponent implements OnInit {
       }, (error) => {
 
       })
+
+    this.userService.increaseProfileViews(userID)
+      .subscribe((response) => {
+        this.user.profileViews = response.profileViews;
+      }, (error) => {
+
+      });
   }
 
   isConnected() {
