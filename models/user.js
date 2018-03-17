@@ -123,6 +123,7 @@ module.exports.registerUser = function(userBody) {
               phoneNumber: userBody.phoneNumber,
               city: userBody.city,
               state: userBody.state,
+              profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
               URLs: {
                 personal: '',
                 facebook: '',
