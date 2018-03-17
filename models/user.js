@@ -48,6 +48,10 @@ const UserSchema = mongoose.Schema({
   profilePhoto: {
     type: String
   },
+  profileViews: {
+    type: Number,
+    default: 0
+  },
   URLs: {
     personal: {
       type: String
@@ -123,6 +127,7 @@ module.exports.registerUser = function(userBody) {
               phoneNumber: userBody.phoneNumber,
               city: userBody.city,
               state: userBody.state,
+              profileViews: 0,
               profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
               URLs: {
                 personal: '',
@@ -935,6 +940,38 @@ module.exports.getAllUsers = function() {
 /*
 ===== USER SETTERS BEGIN =====
 */
+
+module.exports.increaseViewCount = function(userId) {
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, user) => {
+      user.profileViews = user.profileViews + 1;
+      user.save((error, newUser) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error updating user. Please try again.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (newUser) {
+          let successObj = {
+            success: true,
+            message: 'Successfully increased view count.',
+            data: newUser
+          }
+          resolve(successObj);
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Error updating user. Please try again.',
+            error: error
+          }
+          reject(errorObj);
+        }
+      });
+    });
+  });
+};
 
 module.exports.updateUserMyProfileInfo = function(userData) {
   let id = userData._id;
