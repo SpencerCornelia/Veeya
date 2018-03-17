@@ -119,4 +119,16 @@ export class UserService {
       .map(res => res.data)
   }
 
+  public increaseProfileViews(userId: string) {
+    let URI = this.serverApi + "/user/increaseViews";
+    let headers = new Headers;
+    let body = JSON.stringify({
+      id: userId
+    });
+    headers.append('Content-Type', 'application/json');
+    return this.http.put(URI, body, { headers: headers })
+      .map(res => res.json())
+      .map(res => res.data)
+  }
+
 }
