@@ -9,7 +9,7 @@ At the moment, investors looking to invest out of state have many difficulties f
 
 Currently, investors need to rely on being on a buyers list, which amounts to essentially an email spam list.  This application will provide a user interface for all potential deals the investor will be sent.  Having all of the details and pertinent photos of the properties will allow for better, easier, and quicker decision making for the investor.
 
-Later iterations and features:
+# Future iterations and features:
 - User being able to upload necessary loan documents for easier loan-approval process between investor and lender
 - Investors creating a syndication
 - Investors placing an ad for the exact property they are looking for
