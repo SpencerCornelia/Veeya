@@ -17,6 +17,7 @@ export interface User {
   connections?: Array<any>,
   terms?: Array<any>,
   profilePhoto?: String,
+  profileViews?: Number,
   user_id?: String,
   URLs: {
     personal: String,
