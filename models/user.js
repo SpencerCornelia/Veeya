@@ -399,7 +399,7 @@ module.exports.propertySold = function(body) {
       } else if (wholesaler) {
         wholesaler.properties.forEach((property) => {
           if (property._id === body.property._id) {
-            property.status = 'Sold';
+            property.status = 'Sold-Pending';
           }
         });
         wholesaler.save((error, success) => {
@@ -424,7 +424,7 @@ module.exports.propertySold = function(body) {
     });
 
     User.findById(body.investor._id, (error, investor) => {
-      body.property.status = 'Bought';
+      body.property.status = 'Bought-Pending';
       investor.properties[investor.properties.length] = body.property;
       investor.save((error, savedInvestor) => {
         if (error) {
