@@ -182,7 +182,8 @@ export class ViewPropertyComponent implements OnInit {
   sold() {
     let soldConfirm = confirm("Are you sure you want to mark this property as sold?");
     if (soldConfirm) {
-      this.router.navigate(['/soldproperty']);
+      this.viewPropertyService.setSoldProperty(this.property);
+      this.router.navigate(['/soldproperty/', this.property._id]);
     }
   }
 
