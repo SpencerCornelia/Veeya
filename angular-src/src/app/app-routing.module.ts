@@ -37,7 +37,7 @@ const APP_ROUTES: Routes = [
   { path: 'properties', component: ViewPropertiesComponent, canActivate:[AuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate:[RegisterGuard] },
   { path: 'search', component: SearchComponent, canActivate:[AuthGuard] },
-  { path: 'soldproperty', component: SoldPropertyComponent, canActivate:[AuthGuard] },
+  { path: 'soldproperty/:id', component: SoldPropertyComponent, canActivate:[AuthGuard] },
   { path: 'user/:id', component: UserProfileComponent, canActivate:[AuthGuard] },
   { path: 'view/:id', component: ViewPropertyComponent, canActivate:[AuthGuard] },
   { path: '**', component: PageNotFoundComponent }

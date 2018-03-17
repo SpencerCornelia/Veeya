@@ -55,6 +55,7 @@ import { GetUserPropertiesService } from './services/getUserProperties.service';
 import { InviteService } from './services/invite.service';
 import { PhotosService } from './services/photos.service';
 import { ProfileService } from './services/profile.service';
+import { SoldPropertyService } from './services/soldProperty.service';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserService } from './services/user.service';
 import { ValidateService } from './services/validate.service';
@@ -114,6 +115,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     InviteService,
     PhotosService,
     ProfileService,
+    SoldPropertyService,
     UserService,
     ValidateService,
     ViewPropertyService,
