@@ -386,6 +386,73 @@ module.exports.addInvestorConnection = function(investor, wholesalerID) {
   })
 };
 
+module.exports.propertySold = function(body) {
+  return new Promise((resolve, reject) => {
+    User.findById(body.wholesalerId, (error, wholesaler) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error completing property sale process. Please try again.',
+          error: error
+        }
+        reject(errorObj)
+      } else if (wholesaler) {
+        wholesaler.properties.forEach((property) => {
+          if (property._id === body.property._id) {
+            property.status = 'Sold';
+          }
+        });
+        wholesaler.save((error, success) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error completing property sale process. Please try again.',
+              error: error
+            }
+            reject(errorObj);
+          }
+        });
+
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Error completing property sale process. Please try again.',
+          error: error
+        }
+        reject(errorObj);
+      }
+    });
+
+    User.findById(body.investor._id, (error, investor) => {
+      body.property.status = 'Bought';
+      investor.properties[investor.properties.length] = body.property;
+      investor.save((error, savedInvestor) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error completing property sale process. Please try again.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (savedInvestor) {
+          let successObj = {
+            success: true,
+            message: 'Successfully completed sale of property.'
+          }
+          resolve(successObj);
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Error completing property sale process. Please try again.',
+            error: error
+          }
+          reject(errorObj);
+        }
+      });
+    });
+  });
+};
+
 /*
 ===== WHOLESALER SETTERS END =====
 */
