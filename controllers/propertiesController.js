@@ -98,7 +98,20 @@ router.put('/editproperty/:id', (req, res, next) => {
     .catch((error) => {
       res.status(500).json(error);
     });
+});
 
+// POST HTTP request to mark a property as sold
+router.post('/soldproperty', (req, res) => {
+  user.propertySold(req.body)
+    .then((response) => {
+      return property.updatePropertyAfterSale(req.body.property._id)
+    })
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 // DELETE HTTP request for deleting a property
