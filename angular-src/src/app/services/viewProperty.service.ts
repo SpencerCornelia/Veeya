@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { Property } from '../models/Property';
 
 import 'rxjs/add/operator/map';
 
+
 @Injectable()
 export class ViewPropertyService {
+
+  private soldProperty = new BehaviorSubject<Property>(null);
 
   constructor(private http: Http) { }
 
@@ -18,6 +22,14 @@ export class ViewPropertyService {
     return this.http.get(URI)
       .map(res => res.json())
       .map(res => <Property>res.data);
+  }
+
+  public setSoldProperty(property: Property) {
+    this.soldProperty.next(property);
+  }
+
+  public getSoldProperty() {
+    return this.soldProperty.asObservable();
   }
 
 }
