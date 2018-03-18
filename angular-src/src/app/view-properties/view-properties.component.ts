@@ -91,6 +91,7 @@ export class ViewPropertiesComponent implements OnInit {
     this.getUserPropertiesService.getWholesalerUserProperties(wholesalerID)
       .subscribe((response) => {
         response.forEach((property) => {
+          console.log("property for user:", property)
           if (property.status === 'Listed') {
             this.wholesalerPropertiesListed.push(property);
           } else if (property.status === 'Sold') {
