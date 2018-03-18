@@ -323,9 +323,15 @@ module.exports.getPropertiesForWholesaler = function(wholesalerId) {
         reject(errorObj);
       } else if (wholesaler) {
         let properties = [];
-        properties.concat(wholesaler.wholesalerListedProperties);
-        properties.concat(wholesaler.wholesalerSoldProperties);
-        properties.concat(wholesaler.wholesalerSoldPendingProperties);
+        wholesaler.wholesalerListedProperties.forEach((property) => {
+          properties.push(property);
+        });
+        wholesaler.wholesalerSoldProperties.forEach((property) => {
+          properties.push(property);
+        });
+        wholesaler.wholesalerSoldPendingProperties.forEach((property) => {
+          properties.push(property);
+        });
         let successObj = {
           success: true,
           message: 'Successfully retrieved properties for user.',
@@ -354,6 +360,38 @@ module.exports.getPropertiesForWholesaler = function(wholesalerId) {
 /*
 ===== WHOLESALER SETTERS BEGIN =====
 */
+
+module.exports.addWholesalerListing = function(propertyId, wholesalerId) {
+  return new Promise((resolve, reject) => {
+    User.findById(wholesalerId, (error, wholesaler) => {
+      wholesaler.wholesalerListedProperties.push(propertyId);
+      wholesaler.save((error, newWholesaler) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error adding a listing for user.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (newWholesaler) {
+          let successObj = {
+            success: true,
+            message: 'Successfully added listing for user.',
+            data: newWholesaler
+          }
+          resolve(successObj);
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to add listing for user.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      });
+    });
+  });
+};
 
 module.exports.addInvestorConnection = function(investor, wholesalerID) {
   return new Promise((resolve, reject) => {
