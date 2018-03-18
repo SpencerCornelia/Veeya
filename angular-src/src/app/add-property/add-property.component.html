@@ -74,6 +74,7 @@
                               name="address"
                               minlength="5"
                               maxlength="50"
+                              pattern="^[a-zA-Z0-9,.!? ]*$"
                               required
                             />
                           </div>
@@ -316,7 +317,7 @@
                               [(ngModel)]="newProperty.yearBuilt"
                               #yearBuilt="ngModel"
                               name="yearBuilt"
-                              pattern="[0-9]"
+                              pattern="^[0-9]*$"
                             />
                           </div>
                         </div>
@@ -329,7 +330,7 @@
                               [(ngModel)]="newProperty.capRate"
                               #capRate="ngModel"
                               name="capRate"
-                              pattern="[^-?\$?[0-9]*\.?([0-9]{2})?%?$]"
+                              pattern="[^-?\$?[0-9]*\.?([0-9]{2})?%]"
                               placeholder="%"
                             />
                           </div>
@@ -395,7 +396,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Seller Financing Available?</label>
                           <div class="col-sm-9">
-                            <select type="text" class="form-control" [(ngModel)]="newProperty.sellerFinancing" name="sellerFinancing">
+                            <select type="text" class="form-control" [(ngModel)]="newProperty.sellerFinancing" name="sellerFinancing" #sellerFinancing="ngModel">
                               <option value="false">No</option>
                               <option value="true">Yes</option>
                             </select>
@@ -416,7 +417,7 @@
                               [(ngModel)]="newProperty.comps[0].firstCompAddress"
                               #firstCompAddress="ngModel"
                               name="firstCompAddress"
-                              pattern="[a-zA-Z][0-9]"
+                              pattern="^[a-zA-Z0-9,.!? ]*$"
                             />
                           </div>
                         </div>
@@ -444,7 +445,7 @@
                               [(ngModel)]="newProperty.comps[1].secondCompAddress"
                               #secondCompAddress="ngModel"
                               name="secondCompAddress"
-                              pattern="[a-zA-Z][0-9]"
+                              pattern="^[a-zA-Z0-9,.!? ]*$"
                             />
                           </div>
                         </div>
@@ -472,7 +473,7 @@
                               [(ngModel)]="newProperty.comps[2].thirdCompAddress"
                               #thirdCompAddress="ngModel"
                               name="thirdCompAddress"
-                              pattern="[a-zA-Z][0-9]"
+                              pattern="^[a-zA-Z0-9,.!? ]*$"
                             />
                           </div>
                         </div>

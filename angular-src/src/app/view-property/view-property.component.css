@@ -31,3 +31,12 @@
 #photoCard {
   margin-left: 10px;
 }
+
+.required-field:after {
+  content: " *";
+  color: red;
+}
+
+#submitBtn:disabled {
+  cursor: not-allowed;
+}
