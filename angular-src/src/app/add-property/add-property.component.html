@@ -61,14 +61,21 @@
                   <h4 class="card-title">Add New Property</h4>
                   <form (ngSubmit)="onSubmit()" class="form-sample">
                     <p class="card-description">
-                      *Required
+                      <span class="required-field">Required</span>
                     </p>
                     <div class="row">
                       <div class="col-md-8">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Street Address</label>
+                          <label class="required-field col-sm-3 col-form-label">Street Address</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.address" name="address" />
+                            <input id="addressInput" type="text" class="form-control" [(ngModel)]="newProperty.address"
+                              name="address"
+                              required
+                              pattern="[a-zA-Z0-9\s]"
+                              minlength="5"
+                              maxlength="50"
+                              #address="ngModel"
+                            />
                           </div>
                         </div>
                       </div>
@@ -399,7 +406,7 @@
                       </div>
                     </div>
                     <div class="row submit-add-property-btn">
-                      <button type="submit" class="btn btn-success mr-2">Submit</button>
+                      <button id="submitBtn" type="submit" class="btn btn-success mr-2" disabled="!validForm">Submit</button>
                       <button class="btn btn-light">Cancel</button>
                     </div>
                   </form>

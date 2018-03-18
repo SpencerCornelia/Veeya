@@ -12,6 +12,7 @@ import { AddPropertyService } from '../services/addProperty.service';
 import { PhotosService } from '../services/photos.service';
 import { ValidateService } from '../services/validate.service';
 
+declare var $: any;
 
 @Component({
   selector: 'app-add-property',
@@ -25,6 +26,7 @@ export class AddPropertyComponent implements OnInit {
   private photo: File;
   private photos: Array<File> = [];
   private uploadedPhotos: Array<string> = [];
+  private validForm: Boolean = false;
 
   constructor(private authService: AuthService,
               private addPropertyService: AddPropertyService,
@@ -141,6 +143,10 @@ export class AddPropertyComponent implements OnInit {
     inputValue.disabled = false;
     document.getElementById('removePhotos').hidden = true;
     document.getElementById('uploadPhotos').hidden = true;
+  }
+
+  addressValidate(e) {
+
   }
 
 }

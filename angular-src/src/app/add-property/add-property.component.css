@@ -1,3 +1,16 @@
 .submit-add-property-btn {
   margin-left: 40%;
 }
+
+.form-control.ng-invalid.ng-touched {
+  border: 2px solid red;
+}
+
+#submitBtn:disabled {
+  cursor: not-allowed;
+}
+
+.required-field:after {
+  content: " *";
+  color: red;
+}
