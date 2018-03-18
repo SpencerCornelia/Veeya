@@ -153,47 +153,41 @@ module.exports.addProperty = (propertyBody) => {
 
     let wholesalerID = propertyBody.wholesaler_id;
 
-    User.findById(wholesalerID, (error, user) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error adding property.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (user) {
-        user.properties.push(newProperty);
-      } else {
-        let errorObj = {
-          success: false,
-          message: 'Unable to save new property.',
-          error: ''
-        }
-        reject(errorObj);
-      }
-    });
-    newProperty.save((error, property) => {
-      if (error) {
+    newProperty.save((errorSaving, savedProperty) => {
+      if (errorSaving) {
         let errorObj = {
           success: false,
           message: 'Error saving property.',
           error: error
         }
         reject(errorObj);
-      } else if (property) {
-        let successObj = {
-          success: true,
-          message: 'Successfully saved new property.',
-          data: property
-        }
-        resolve(successObj);
-      } else {
-        let errorObj = {
-          success: false,
-          message: 'Unable to save new property. Please try again.',
-          error: ''
-        }
-        reject(errorObj);
+      } else if (savedProperty) {
+        User.findById(wholesalerID, (error, user) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error adding property.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (user) {
+            let id = savedProperty._id.str;
+            user.wholesalerListedProperties.push(id);
+            let successObj = {
+              success: true,
+              message: 'Successfully added property.',
+              data: savedProperty
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to save new property.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
       }
     });
   });
@@ -249,8 +243,10 @@ module.exports.editPropertyByID = (updatedProperty) => {
       });
     });
   });
-}
+};
 
+
+// get individual property by ID
 module.exports.getPropertyByID = (id) => {
   return new Promise((resolve, reject) => {
     Property.findById(id, (error, property) => {
@@ -280,6 +276,46 @@ module.exports.getPropertyByID = (id) => {
   });
 };
 
+
+// get multiple properties by ID
+module.exports.getPropertiesById = function(propertyIDs) {
+  return new Promise((resolve, reject) => {
+    let properties = [];
+    propertyIDs.forEach((id, index) => {
+      Property.findById(id, (error, property) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error retrieving properties.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (property) {
+          properties.push(property);
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to retrieve properties.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      });
+
+      if (index == propertyIDs.length-1) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved all properties',
+          data: properties
+        }
+        resolve(successObj);
+      }
+
+    });
+  });
+};
+
+
 module.exports.updatePropertyAfterSale = function(propertyId) {
   return new Promise((resolve, reject) => {
     Property.findById(propertyId, (error, property) => {
@@ -295,7 +331,8 @@ module.exports.updatePropertyAfterSale = function(propertyId) {
         } else if (newProperty) {
           let successObj = {
             success: true,
-            message: 'Successfully updated property.'
+            message: 'Successfully updated property.',
+            data: newProperty
           }
           resolve(successObj);
         } else {
