@@ -14,12 +14,10 @@ export class SoldPropertyService {
 
   private serverApi = 'http://localhost:3000/properties';
 
-  public soldProperty(investor: User, wholesalerID: string, property: Property) {
+  public soldProperty(property: Property) {
     let URI = this.serverApi + "/soldproperty";
     let headers = new Headers;
     let body = JSON.stringify({
-      investor: investor,
-      wholesalerId: wholesalerID,
       property: property
     });
     headers.append('Content-Type', 'application/json');
