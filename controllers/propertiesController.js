@@ -29,9 +29,19 @@ router.get('/property/:uid', (req, res) => {
 
 // GET HTTP for /properties for a wholesaler. uid = wholesalerID
 router.get('/wholesaler/:uid', (req, res) => {
-  user.getPropertiesForUser(req.params.uid)
+  user.getPropertiesForWholesaler(req.params.uid)
     .then((response) => {
-      res.status(200).json(response);
+      return response.json();
+    })
+    .then((response) => {
+      return properties.getPropertiesById(response.data)
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(200).json(response);
+      } else {
+        res.status(500).json(error);
+      }
     })
     .catch((error) => {
       res.status(500).json(error);
@@ -40,9 +50,19 @@ router.get('/wholesaler/:uid', (req, res) => {
 
 // GET HTTP for /properties for an investor. uid = investorID
 router.get('/investor/:uid', (req, res) => {
-  user.getPropertiesForUser(req.params.uid)
+  user.getPropertiesForInvestor(req.params.uid)
     .then((response) => {
-      res.status(200).json(response);
+      return response.json();
+    })
+    .then((response) => {
+      return properties.getPropertiesById(response.data);
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(200).json(response);
+      } else {
+        res.status(500).json(response);
+      }
     })
     .catch((error) => {
       res.status(500).json(error);
@@ -51,9 +71,19 @@ router.get('/investor/:uid', (req, res) => {
 
 // GET HTTP to /properties/lender/:uid in order to get all properties for lender
 router.get('/lender/:uid', (req, res) => {
-  user.getPropertiesForUser(req.params.uid)
+  user.getPropertiesForLender(req.params.uid)
     .then((response) => {
-      res.status(200).json(response);
+      return response.json();
+    })
+    .then((response) => {
+      return properties.getPropertiesById(response.data);
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(200).json(response);
+      } else {
+        res.status(500).json(response);
+      }
     })
     .catch((error) => {
       res.status(500).json(error);
@@ -71,27 +101,11 @@ router.post('/addproperty', (req, res, next) => {
     });
 });
 
-// GET HTTP to /properties/id to see a specific property
-router.get('/editproperty/:id', (req, res, next) => {
-  let id = req.params.id;
-
-  property.getPropertyByID(id)
-    .then((response) => {
-      res.status(200).json(response);
-    })
-    .catch((error) => {
-      res.status(500).json(error);
-    });
-});
-
 // PUT HTTP request to edit a property and UPDATE. ID = wholesalerID
 router.put('/editproperty/:id', (req, res, next) => {
   let id = req.params.id;
 
-  user.updatePropertyForWholesaler(req.body)
-    .then((response) => {
-      return property.editPropertyByID(req.body)
-    })
+  property.editPropertyByID(req.body)
     .then((response) => {
       res.status(201).json(response);
     })
@@ -102,10 +116,7 @@ router.put('/editproperty/:id', (req, res, next) => {
 
 // POST HTTP request to mark a property as sold
 router.post('/soldproperty', (req, res) => {
-  user.propertySold(req.body)
-    .then((response) => {
-      return property.updatePropertyAfterSale(req.body.property._id)
-    })
+  property.updatePropertyAfterSale(req.body.property._id)
     .then((response) => {
       res.status(201).json(response);
     })
