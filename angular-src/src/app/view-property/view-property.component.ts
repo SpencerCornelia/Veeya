@@ -67,7 +67,7 @@ export class ViewPropertyComponent implements OnInit {
       propertyType: 'Single Family',
       yearBuilt: '',
       status: 'Listed',
-      sellerFinancing: 'false',
+      sellerFinancing: 'no',
       comps: [
         {
           firstCompAddress: '',
