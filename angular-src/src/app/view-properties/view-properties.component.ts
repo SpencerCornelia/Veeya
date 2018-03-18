@@ -136,7 +136,7 @@ export class ViewPropertiesComponent implements OnInit {
         response.forEach((property) => {
           if (property.status === 'Connection') {
             this.lenderPropertiesConnected.push(property);
-          } else if (property.status === 'Bought') {
+          } else if (property.status === 'Loaned') {
             this.lenderPropertiesBought.push(property);
           }
         });
