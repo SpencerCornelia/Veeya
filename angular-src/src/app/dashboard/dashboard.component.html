@@ -151,7 +151,7 @@
           </li>
           <li class="nav-item nav-settings d-none d-lg-block">
             <a class="nav-link" href="#">
-              <img class="img-xs rounded-circle" src="../assets/images/faces/face4.jpg" alt="">
+              <img class="img-xs rounded-circle" src="{{ currentUser.profilePhoto }}" alt="">
             </a>
           </li>
         </ul>
@@ -167,7 +167,7 @@
         <ul class="nav">
           <li class="nav-item nav-profile">
             <div class="nav-link">
-              <div class="profile-image"> <img src="/assets/images/faces/face4.jpg" alt="image"/> <span class="online-status online"></span> </div>
+              <div class="profile-image"> <img src="{{ currentUser.profilePhoto }}" alt="image"/> <span class="online-status online"></span> </div>
               <div class="profile-name">
                 <p class="name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
                 <p class="designation">{{ currentUser.userType }}</p>
