@@ -1,15 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const passportJWT = require('passport-jwt');
-const jwt = require('jsonwebtoken');
 
 const user = require('../models/user');
 const property = require('../models/property');
 
 
 // GET HTTP to /investor
-router.get('/all', (req,res) => {
+router.get('/all', function(req,res) {
   user.getAllInvestors()
     .then((response) => {
       res.status(200).json(response);

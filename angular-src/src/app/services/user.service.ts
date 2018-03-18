@@ -24,7 +24,9 @@ export class UserService {
 
   public getAllInvestors() {
     let URI = this.serverApi + "/investor/all";
-    return this.http.get(URI)
+    let headers = new Headers();
+    headers.append('Authorization', this.authService.loggedInUserToken());
+    return this.http.get(URI, { headers: headers })
       .map(res => res.json())
       .map(res => <User[]>res.data)
   }

@@ -32,7 +32,7 @@ router.post('/', (req, res, next) => {
           res.status(201).json({
             success: true,
             message: 'Successfully logged in. Welcome back ' + response.data.firstName + '!',
-            token: 'JWT ' + token,
+            token: 'jwt ' + token,
             user: response.data
           });
         } else {
