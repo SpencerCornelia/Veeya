@@ -23,6 +23,7 @@ export class ViewPropertiesComponent implements OnInit {
   private properties: Property[] = [];
 
   private investorPropertiesBought: Property[] = [];
+  private investorPropertiesBoughtPending: Property[] = [];
   private investorPropertiesConnected: Property[] = [];
   private investorPropertiesStarred: Property[] = [];
 
@@ -31,6 +32,7 @@ export class ViewPropertiesComponent implements OnInit {
 
   private wholesalerPropertiesListed: Property[] = [];
   private wholesalerPropertiesSold: Property[] = [];
+  private wholesalerPropertiesSoldPending: Property[] = [];
 
   constructor(private authService: AuthService,
               private getPropertyService: GetAllPropertiesService,
@@ -93,6 +95,8 @@ export class ViewPropertiesComponent implements OnInit {
             this.wholesalerPropertiesListed.push(property);
           } else if (property.status === 'Sold') {
             this.wholesalerPropertiesSold.push(property);
+          } else if (property.status === 'Sold-Pending') {
+            this.wholesalerPropertiesSoldPending.push(property);
           }
         });
       }, (error) => {
@@ -116,6 +120,8 @@ export class ViewPropertiesComponent implements OnInit {
             this.investorPropertiesConnected.push(property);
           } else if (property.status === 'Starred') {
             this.investorPropertiesStarred.push(property);
+          } else if (property.status === 'Bought-Pending') {
+            this.investorPropertiesBoughtPending.push(property);
           }
         });
       }, (error) => {
