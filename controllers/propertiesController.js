@@ -31,10 +31,10 @@ router.get('/property/:uid', (req, res) => {
 router.get('/wholesaler/:uid', (req, res) => {
   user.getPropertiesForWholesaler(req.params.uid)
     .then((response) => {
-      return response.json();
+      return response;
     })
     .then((response) => {
-      return properties.getPropertiesById(response.data)
+      return property.getPropertiesById(response.data)
     })
     .then((response) => {
       if (response.success) {
@@ -52,7 +52,7 @@ router.get('/wholesaler/:uid', (req, res) => {
 router.get('/investor/:uid', (req, res) => {
   user.getPropertiesForInvestor(req.params.uid)
     .then((response) => {
-      return response.json();
+      return response;
     })
     .then((response) => {
       return properties.getPropertiesById(response.data);
@@ -73,7 +73,7 @@ router.get('/investor/:uid', (req, res) => {
 router.get('/lender/:uid', (req, res) => {
   user.getPropertiesForLender(req.params.uid)
     .then((response) => {
-      return response.json();
+      return response;
     })
     .then((response) => {
       return properties.getPropertiesById(response.data);
@@ -94,7 +94,17 @@ router.get('/lender/:uid', (req, res) => {
 router.post('/addproperty', (req, res, next) => {
   property.addProperty(req.body)
     .then((response) => {
-      res.status(201).json(response);
+      return response;
+    })
+    .then((response) => {
+      return user.addWholesalerListing(response.data._id, req.body.wholesaler_id);
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(201).json(response);
+      } else {
+        res.status(500).json(response);
+      }
     })
     .catch((error) => {
       res.status(500).json(error);
