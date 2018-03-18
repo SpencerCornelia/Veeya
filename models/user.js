@@ -324,8 +324,8 @@ module.exports.getPropertiesForWholesaler = function(wholesalerId) {
       } else if (wholesaler) {
         let properties = [];
         properties.concat(wholesaler.wholesalerListedProperties);
-        properties.concat(wholesalerSoldProperties);
-        properties.concat(wholesalerSoldPendingProperties);
+        properties.concat(wholesaler.wholesalerSoldProperties);
+        properties.concat(wholesaler.wholesalerSoldPendingProperties);
         let successObj = {
           success: true,
           message: 'Successfully retrieved properties for user.',
