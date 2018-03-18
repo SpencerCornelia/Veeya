@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.newUser = {
-      userType: 'Investor',
+      userType: 'Wholesaler',
       userName: '',
       firstName: '',
       lastName: '',
