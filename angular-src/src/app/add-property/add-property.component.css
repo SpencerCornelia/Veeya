@@ -6,6 +6,10 @@
   border: 2px solid red;
 }
 
+.form-control.ng-valid.ng-touched {
+  border: 2px solid green;
+}
+
 #submitBtn:disabled {
   cursor: not-allowed;
 }

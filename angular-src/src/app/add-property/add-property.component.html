@@ -59,7 +59,7 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Add New Property</h4>
-                  <form (ngSubmit)="onSubmit()" class="form-sample">
+                  <form (ngSubmit)="onSubmit()" class="form-sample" #form="ngForm">
                     <p class="card-description">
                       <span class="required-field">Required</span>
                     </p>
@@ -68,13 +68,13 @@
                         <div class="form-group row">
                           <label class="required-field col-sm-3 col-form-label">Street Address</label>
                           <div class="col-sm-9">
-                            <input id="addressInput" type="text" class="form-control" [(ngModel)]="newProperty.address"
+                            <input id="addressInput" type="text" class="form-control"
+                              [(ngModel)]="newProperty.address"
+                              #address="ngModel"
                               name="address"
-                              required
-                              pattern="[a-zA-Z0-9\s]"
                               minlength="5"
                               maxlength="50"
-                              #address="ngModel"
+                              required
                             />
                           </div>
                         </div>
@@ -83,9 +83,17 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">City</label>
+                          <label class="required-field col-sm-3 col-form-label">City</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.city" name="city" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.city"
+                              #city="ngModel"
+                              name="city"
+                              pattern="^[a-zA-Z ]*$"
+                              minlength="3"
+                              maxlength="30"
+                              required
+                            />
                           </div>
                         </div>
                       </div>
@@ -93,7 +101,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">State</label>
                           <div class="col-sm-6">
-                            <select [(ngModel)]="newProperty.state" name="state" class="form-control">
+                            <select [(ngModel)]="newProperty.state" #state="ngModel" name="state" class="form-control">
                               <option value="AL">Alabama</option>
                               <option value="AK">Alaska</option>
                               <option value="AZ">Arizona</option>
@@ -151,9 +159,17 @@
                       </div>
                       <div class="col-md-2">
                         <div class="form-group row">
-                          <label class="col-sm-5 col-form-label">Zip</label>
+                          <label class="required-field col-sm-5 col-form-label">Zip</label>
                           <div class="col-sm-7">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.zipCode" name="zipCode" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.zipCode"
+                              #zipCode="ngModel"
+                              name="zipCode"
+                              pattern="^[0-9]*$"
+                              minlength="5"
+                              maxlength="10"
+                              required
+                            />
                           </div>
                         </div>
                       </div>
@@ -161,9 +177,18 @@
                     <div class="row">
                       <div class="col-md-5">
                         <div class="form-group row">
-                          <label class="col-sm-4 col-form-label">Purchase Price</label>
+                          <label class="required-field col-sm-4 col-form-label">Purchase Price</label>
                            <div class="col-sm-7">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.purchasePrice" name="purchasePrice" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.purchasePrice"
+                              #purchasePrice="ngModel"
+                              name="purchasePrice"
+                              minlength="5"
+                              maxlength="10"
+                              pattern="^[0-9]*$"
+                              placeholder="Ex: 225000"
+                              required
+                            />
                           </div>
                         </div>
                       </div>
@@ -171,7 +196,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Beds</label>
                           <div class="col-sm-4">
-                            <select [(ngModel)]="newProperty.bedrooms" name="bedrooms" class="form-control">
+                            <select [(ngModel)]="newProperty.bedrooms" #bedrooms="ngModel" name="bedrooms" class="form-control">
                               <option value="0">0</option>
                               <option value="1">1</option>
                               <option value="2">2</option>
@@ -186,7 +211,7 @@
                         <div class="form-group row">
                           <label class="col-sm-4 col-form-label">Baths</label>
                           <div class="col-sm-4">
-                            <select [(ngModel)]="newProperty.bathrooms" name="bathrooms" class="form-control">
+                            <select [(ngModel)]="newProperty.bathrooms" #bathrooms="ngModel" name="bathrooms" class="form-control">
                               <option value="0">0</option>
                               <option value="1">1</option>
                               <option value="2">2</option>
@@ -203,7 +228,15 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Expected Rehab Cost</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.expectedRehab" name="expectedRehab" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.expectedRehab"
+                              #expectedRehab="ngModel"
+                              name="expectedRehab"
+                              minlength="3"
+                              maxlength="10"
+                              placeholder="Ex: 3000"
+                              pattern="^[0-9]*$"
+                            />
                           </div>
                         </div>
                       </div>
@@ -213,7 +246,15 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">After Repair Value (ARV)</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.afterRepairValue" name="afterRepairValue"/>
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.afterRepairValue"
+                              #afterRepairValue="ngModel"
+                              name="afterRepairValue"
+                              minlength="5"
+                              maxlength="10"
+                              placeholder="250000"
+                              pattern="^[0-9]*$"
+                            />
                           </div>
                         </div>
                       </div>
@@ -221,7 +262,14 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Gross Monthly Rent</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.averageRent" name="averageRent"/>
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.averageRent"
+                              #averageRent="ngModel"
+                              name="averageRent"
+                              minlength="3"
+                              maxlength="6"
+                              pattern="^[0-9]*$"
+                            />
                           </div>
                         </div>
                       </div>
@@ -231,7 +279,14 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Square Footage</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.squareFootage" name="squareFootage" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.squareFootage"
+                              #squareFootage="ngModel"
+                              name="squareFootage"
+                              minlength="3"
+                              maxlength="6"
+                              pattern="^[0-9]*$"
+                            />
                           </div>
                         </div>
                       </div>
@@ -239,7 +294,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Property Type</label>
                           <div class="col-sm-9">
-                            <select [(ngModel)]="newProperty.propertyType" name="propertyType" class="form-control">
+                            <select [(ngModel)]="newProperty.propertyType" #propertyType="ngModel" name="propertyType" class="form-control">
                               <option value="Single Family">Single Family Home</option>
                               <option value="Condo">Condo</option>
                               <option value="Duplex">Multifamily: Duplex</option>
@@ -257,7 +312,12 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Year Built</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.yearBuilt" name="yearBuilt" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.yearBuilt"
+                              #yearBuilt="ngModel"
+                              name="yearBuilt"
+                              pattern="[0-9]"
+                            />
                           </div>
                         </div>
                       </div>
@@ -265,7 +325,13 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Cap Rate</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.capRate" name="capRate" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.capRate"
+                              #capRate="ngModel"
+                              name="capRate"
+                              pattern="[^-?\$?[0-9]*\.?([0-9]{2})?%?$]"
+                              placeholder="%"
+                            />
                           </div>
                         </div>
                       </div>
@@ -273,7 +339,13 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">HOA</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.HOA" name="HOA" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.HOA"
+                              #HOA="ngModel"
+                              name="HOA"
+                              pattern="^[0-9]*$"
+                              placeholder="monthly"
+                            />
                           </div>
                         </div>
                       </div>
@@ -281,7 +353,13 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Property Taxes</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.propertyTaxes" name="propertyTaxes" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.propertyTaxes"
+                              #propertyTaxes="ngModel"
+                              name="propertyTaxes"
+                              pattern="^[0-9]*$"
+                              placeholder="monthly"
+                            />
                           </div>
                         </div>
                       </div>
@@ -289,7 +367,13 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Utilities</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.utilities" name="utilities" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.utilities"
+                              #utilities="ngModel"
+                              name="utilities"
+                              pattern="^[0-9]*$"
+                              placeholder="monthly"
+                            />
                           </div>
                         </div>
                       </div>
@@ -297,7 +381,13 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Insurance</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.insurance" name="insurance" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.insurance"
+                              #insurance="ngModel"
+                              name="insurance"
+                              pattern="^[0-9]*$"
+                              placeholder="monthly"
+                            />
                           </div>
                         </div>
                       </div>
@@ -322,7 +412,12 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">First Comp Address</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[0].firstCompAddress" name="firstCompAddress" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.comps[0].firstCompAddress"
+                              #firstCompAddress="ngModel"
+                              name="firstCompAddress"
+                              pattern="[a-zA-Z][0-9]"
+                            />
                           </div>
                         </div>
                       </div>
@@ -330,7 +425,12 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">First Comp Price</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[0].firstCompPrice" name="firstCompPrice" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.comps[0].firstCompPrice"
+                              #firstCompPrice="ngModel"
+                              name="firstCompPrice"
+                              pattern="^[0-9]*$"
+                            />
                           </div>
                         </div>
                       </div>
@@ -340,7 +440,12 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Second Comp Address</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[1].secondCompAddress" name="secondCompAddress" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.comps[1].secondCompAddress"
+                              #secondCompAddress="ngModel"
+                              name="secondCompAddress"
+                              pattern="[a-zA-Z][0-9]"
+                            />
                           </div>
                         </div>
                       </div>
@@ -348,7 +453,12 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Second Comp Price</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[1].secondCompPrice" name="secondCompPrice" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.comps[1].secondCompPrice"
+                              #secondCompPrice="ngModel"
+                              name="secondCompPrice"
+                              pattern="^[0-9]*$"
+                            />
                           </div>
                         </div>
                       </div>
@@ -358,7 +468,12 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Third Comp Address</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[2].thirdCompAddress" name="thirdCompAddress" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.comps[2].thirdCompAddress"
+                              #thirdCompAddress="ngModel"
+                              name="thirdCompAddress"
+                              pattern="[a-zA-Z][0-9]"
+                            />
                           </div>
                         </div>
                       </div>
@@ -366,14 +481,19 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Third Comp Price</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" [(ngModel)]="newProperty.comps[2].thirdCompPrice" name="thirdCompPrice" />
+                            <input type="text" class="form-control"
+                              [(ngModel)]="newProperty.comps[2].thirdCompPrice"
+                              #thirdCompPrice="ngModel"
+                              name="thirdCompPrice"
+                              pattern="^[0-9]*$"
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
                     <br />
                     <p>
-                      <em>Please Upload Photos (up to 3 allowed)</em>
+                      <em class="required-field">Please Upload Photos (up to 3 allowed)</em>
                     </p>
                     <div class="form-group">
                       <div class="row">
@@ -397,7 +517,7 @@
                         <div class="col-4">
                           <label>Under Contract?</label>
                           <div class="col-xs-3">
-                            <select class="form-control" [(ngModel)]="newProperty.status" name="status">
+                            <select class="form-control" [(ngModel)]="newProperty.status" name="status" #status="ngModel">
                               <option value="Listed">Yes</option>
                               <option value="NoContract">No</option>
                             </select>
@@ -406,7 +526,7 @@
                       </div>
                     </div>
                     <div class="row submit-add-property-btn">
-                      <button id="submitBtn" type="submit" class="btn btn-success mr-2" disabled="!validForm">Submit</button>
+                      <button id="submitBtn" type="submit" class="btn btn-success mr-2" [disabled]="form.invalid">Submit</button>
                       <button class="btn btn-light">Cancel</button>
                     </div>
                   </form>
