@@ -84,6 +84,9 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">View Property</h4>
+                  <p class="card-description">
+                      <span class="required-field">Required</span>
+                  </p>
                   <form (ngSubmit)="onSubmit()" class="form-sample" #form="ngForm">
                     <div class="row">
                       <div class="col-md-8">
@@ -345,7 +348,7 @@
                               [disabled]="!editMode"
                               *ngIf="!editMode"
                             />
-                            <select [(ngModel)]="property.propertyType" #propertyType="ngModel" name="propertyType" class="form-control">
+                            <select *ngIf="editMode" [(ngModel)]="property.propertyType" #propertyType="ngModel" name="propertyType" class="form-control">
                               <option value="Single Family">Single Family Home</option>
                               <option value="Condo">Condo</option>
                               <option value="Duplex">Multifamily: Duplex</option>
@@ -454,9 +457,9 @@
                               #sellerFinancing="ngModel"
                               *ngIf="!editMode"
                             />
-                            <select type="text" class="form-control" [(ngModel)]="newProperty.sellerFinancing" name="sellerFinancing" #sellerFinancing="ngModel" *ngIf="editMode">
-                              <option value="false">No</option>
-                              <option value="true">Yes</option>
+                            <select type="text" class="form-control" [(ngModel)]="property.sellerFinancing" name="sellerFinancing" #sellerFinancing="ngModel" *ngIf="editMode">
+                              <option value="no">No</option>
+                              <option value="yes">Yes</option>
                             </select>
                           </div>
                         </div>
@@ -567,7 +570,7 @@
                               #status="ngModel"
                               *ngIf="!editMode"
                             />
-                            <select *ngIf="editMode" class="form-control" [(ngModel)]="newProperty.status" name="status" #status="ngModel">
+                            <select *ngIf="editMode" class="form-control" [(ngModel)]="property.status" name="status" #status="ngModel">
                               <option value="Listed">Yes</option>
                               <option value="NoContract">No</option>
                             </select>
