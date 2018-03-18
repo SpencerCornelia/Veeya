@@ -61,7 +61,7 @@ export class AddPropertyComponent implements OnInit {
       propertyType: 'Single Family',
       yearBuilt: '',
       status: 'Listed',
-      sellerFinancing: 'false',
+      sellerFinancing: 'no',
       comps: [
         {
           firstCompAddress: '',
@@ -143,10 +143,6 @@ export class AddPropertyComponent implements OnInit {
     inputValue.disabled = false;
     document.getElementById('removePhotos').hidden = true;
     document.getElementById('uploadPhotos').hidden = true;
-  }
-
-  addressValidate(e) {
-
   }
 
 }
