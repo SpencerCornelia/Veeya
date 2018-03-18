@@ -35,7 +35,7 @@ export class RegisterComponent implements OnInit {
       email: '',
       phoneNumber: '',
       city: '',
-      state: ''
+      state: 'AL'
     }
   }
 

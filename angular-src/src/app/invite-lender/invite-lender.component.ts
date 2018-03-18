@@ -33,7 +33,7 @@ export class InviteLenderComponent implements OnInit {
       phoneNumber: '',
       user_id: user_id,
       city: '',
-      state: '',
+      state: 'AL',
       URLs: {
         personal: '',
         facebook: '',

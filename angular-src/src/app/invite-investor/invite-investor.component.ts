@@ -32,7 +32,7 @@ export class InviteInvestorComponent implements OnInit {
       email: '',
       phoneNumber: '',
       city: '',
-      state: '',
+      state: 'AL',
       URLs: {
         personal: '',
         facebook: '',

@@ -22,63 +22,155 @@
               <h2>Register</h2>
               <h4 class="font-weight-light">Hello! let's get started</h4>
               <form class="pt-4">
-                <form (ngSubmit)="onRegisterSubmit()">
+                <form (ngSubmit)="onRegisterSubmit()" #form="ngForm">
                   <div class="form-group">
                     <label for="Username">Username</label>
-                    <input type="text" class="form-control" id="username" aria-describedby="usernameHelp" placeholder=""
-                        [(ngModel)]="newUser.userName" name="userName">
-                    <i class="mdi mdi-account"></i>
+                    <input type="text" class="form-control" id="username"
+                      placeholder="Username"
+                      [(ngModel)]="newUser.userName"
+                      name="userName"
+                      #userName="ngModel"
+                      minlength="3"
+                      maxlength="30"
+                      pattern="^[a-zA-Z ]+$"
+                      required
+                    />
                   </div>
                   <div class="form-group">
                     <label for="First Name">First Name</label>
-                    <input type="text" class="form-control" id="firstName" aria-describedby="firstNameHelp" placeholder=""
-                        [(ngModel)]="newUser.firstName" name="firstName">
-                    <i class="mdi mdi-account"></i>
+                    <input type="text" class="form-control" id="firstName"
+                      placeholder="First Name"
+                      [(ngModel)]="newUser.firstName"
+                      name="firstName"
+                      #firstName="ngModel"
+                      pattern="^[a-zA-Z ]+$"
+                      required
+                    />
                   </div>
                   <div class="form-group">
                     <label for="Last Name">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" aria-describedby="lastNameHelp" placeholder=""
-                        [(ngModel)]="newUser.lastName" name="lastName">
-                    <i class="mdi mdi-account"></i>
+                    <input type="text" class="form-control" id="lastName"
+                      placeholder="Last Name"
+                      [(ngModel)]="newUser.lastName"
+                      name="lastName"
+                      #lastName="ngModel"
+                      pattern="^[a-zA-Z ]+$"
+                      required
+                    />
                   </div>
                   <div class="form-group">
                     <label for="Password">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder=""
-                        [(ngModel)]="newUser.password" name="password">
-                    <i class="mdi mdi-eye"></i>
+                    <input type="password" class="form-control" id="password"
+                      placeholder="Password"
+                      [(ngModel)]="newUser.password"
+                      name="password"
+                      minlength="5"
+                      maxlength="30"
+                      required
+                    />
                   </div>
                   <div class="form-group">
                     <label for="Confirm Password">Confirm Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword2" placeholder=""
-                        [(ngModel)]="newUser.passwordConfirm" name="passwordConfirm">
-                    <i class="mdi mdi-eye"></i>
+                    <input type="password" class="form-control" id="passwordConfirm"
+                      placeholder="Confirm Password"
+                      [(ngModel)]="newUser.passwordConfirm"
+                      name="passwordConfirm"
+                      #passwordConfirm="ngModel"
+                      required
+                    />
                   </div>
                   <div class="form-group">
                     <label for="Email">Email</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder=""
-                        [(ngModel)]="newUser.email" name="email">
-                    <i class="mdi mdi-account"></i>
+                    <input type="email" class="form-control" id="email"
+                      placeholder="Email"
+                      [(ngModel)]="newUser.email"
+                      name="email"
+                      #email="ngModel"
+                      pattern="^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$"
+                      required
+                    />
                   </div>
                   <div class="form-group">
                     <label for="Phone Number">Phone Number</label>
-                    <input type="text" class="form-control" id="phoneNumber" aria-describedby="phoneNumberHelp" placeholder=""
-                        [(ngModel)]="newUser.phoneNumber" name="phoneNumber">
-                    <i class="mdi mdi-account"></i>
+                    <input type="text" class="form-control" id="phoneNumber"
+                      placeholder="XXX-XXX-XXXX   or   +1 XXX-XXX-XXXX"
+                      [(ngModel)]="newUser.phoneNumber"
+                      name="phoneNumber"
+                      #phoneNumber="ngModel"
+                      pattern="^(\+0?1\s)?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$"
+                      required
+                    />
                   </div>
                   <div class="form-group">
                     <label for="city">City</label>
-                    <input type="text" class="form-control" id="city" aria-describedby="cityHelp" placeholder=""
-                        [(ngModel)]="newUser.city" name="city">
-                    <i class="mdi mdi-account"></i>
+                    <input type="text" class="form-control" id="city"
+                      placeholder="City"
+                      [(ngModel)]="newUser.city"
+                      name="city"
+                      minlength="3"
+                      maxlength="30"
+                      pattern="^[a-zA-Z ]*$"
+                      required
+                    />
                   </div>
                   <div class="form-group">
                     <label for="state">State</label>
-                    <input type="text" class="form-control" id="state" aria-describedby="stateHelp" placeholder=""
-                        [(ngModel)]="newUser.state" name="state">
-                    <i class="mdi mdi-account"></i>
+                    <select [(ngModel)]="newUser.state" #state="ngModel" name="state" class="form-control" required>
+                        <option value="AL">Alabama</option>
+                        <option value="AK">Alaska</option>
+                        <option value="AZ">Arizona</option>
+                        <option value="AR">Arkansas</option>
+                        <option value="CA">California</option>
+                        <option value="CO">Colorado</option>
+                        <option value="CT">Connecticut</option>
+                        <option value="DE">Delaware</option>
+                        <option value="DC">District Of Columbia</option>
+                        <option value="FL">Florida</option>
+                        <option value="GA">Georgia</option>
+                        <option value="HI">Hawaii</option>
+                        <option value="ID">Idaho</option>
+                        <option value="IL">Illinois</option>
+                        <option value="IN">Indiana</option>
+                        <option value="IA">Iowa</option>
+                        <option value="KS">Kansas</option>
+                        <option value="KY">Kentucky</option>
+                        <option value="LA">Louisiana</option>
+                        <option value="ME">Maine</option>
+                        <option value="MD">Maryland</option>
+                        <option value="MA">Massachusetts</option>
+                        <option value="MI">Michigan</option>
+                        <option value="MN">Minnesota</option>
+                        <option value="MS">Mississippi</option>
+                        <option value="MO">Missouri</option>
+                        <option value="MT">Montana</option>
+                        <option value="NE">Nebraska</option>
+                        <option value="NV">Nevada</option>
+                        <option value="NH">New Hampshire</option>
+                        <option value="NJ">New Jersey</option>
+                        <option value="NM">New Mexico</option>
+                        <option value="NY">New York</option>
+                        <option value="NC">North Carolina</option>
+                        <option value="ND">North Dakota</option>
+                        <option value="OH">Ohio</option>
+                        <option value="OK">Oklahoma</option>
+                        <option value="OR">Oregon</option>
+                        <option value="PA">Pennsylvania</option>
+                        <option value="RI">Rhode Island</option>
+                        <option value="SC">South Carolina</option>
+                        <option value="SD">South Dakota</option>
+                        <option value="TN">Tennessee</option>
+                        <option value="TX">Texas</option>
+                        <option value="UT">Utah</option>
+                        <option value="VT">Vermont</option>
+                        <option value="VA">Virginia</option>
+                        <option value="WA">Washington</option>
+                        <option value="WV">West Virginia</option>
+                        <option value="WI">Wisconsin</option>
+                        <option value="WY">Wyoming</option>
+                      </select>
                   </div>
                   <div class="mt-5">
-                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium">Register</button>
+                    <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium" [disabled]="form.invalid">Register</button>
                   </div>
                   <div class="mt-2 text-center">
                     <a [routerLink]="['/login']" class="auth-link text-black">Already have an account? <span class="font-weight-medium">Sign in</span></a>

@@ -6,6 +6,8 @@ import { PhotosService } from '../services/photos.service';
 import { UserService } from '../services/user.service';
 import { ValidateService } from '../services/validate.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-my-profile',
   templateUrl: './my-profile.component.html',
@@ -24,7 +26,6 @@ export class MyProfileComponent implements OnInit {
               private validateService: ValidateService) { }
 
   ngOnInit() {
-    document.getElementById("updateFormButton").setAttribute('disabled', 'disabled');
     document.getElementById("updatePhotoButton").setAttribute('disabled', 'disabled');
     this.getCurrentUser();
     this.currentUser = {
@@ -36,7 +37,7 @@ export class MyProfileComponent implements OnInit {
       password: '',
       phoneNumber: '',
       city: '',
-      state: '',
+      state: 'AL',
       profilePhoto: '',
       connections: [],
       URLs: {
@@ -58,7 +59,6 @@ export class MyProfileComponent implements OnInit {
     this.userService.updateUserProfile(this.currentUser)
       .subscribe((response) => {
         this.currentUser = response;
-        document.getElementById("updateFormButton").setAttribute('disabled', 'disabled');
       }, (error) => {
 
       });
@@ -78,7 +78,6 @@ export class MyProfileComponent implements OnInit {
   }
 
   editProfile() {
-    document.getElementById("updateFormButton").removeAttribute('disabled');
     this.edit = !this.edit;
   }
 
@@ -120,14 +119,11 @@ export class MyProfileComponent implements OnInit {
   }
 
   updatePassword() {
-    document.getElementById("updatePasswordButton").setAttribute('disabled', 'disabled');
     if (this.validateService.validatePassword(this.password.new, this.password.newConfirm)) {
       this.userService.updatePassword(this.password.current, this.password.new)
         .subscribe((response) => {
-          document.getElementById("updatePasswordButton").removeAttribute('disabled');
           this.clearPasswordForm();
         }, (error) => {
-          document.getElementById("updatePasswordButton").removeAttribute('disabled');
           this.clearPasswordForm();
         });
     }

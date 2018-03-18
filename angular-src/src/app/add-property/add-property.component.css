@@ -3,14 +3,18 @@
 }
 
 .form-control.ng-invalid.ng-touched {
-  border: 2px solid red;
+  border: 1px solid red;
 }
 
 .form-control.ng-valid.ng-touched {
-  border: 2px solid green;
+  border: 1px solid green;
 }
 
 #submitBtn:disabled {
+  cursor: not-allowed;
+}
+
+#updateBtn:disabled {
   cursor: not-allowed;
 }
 
