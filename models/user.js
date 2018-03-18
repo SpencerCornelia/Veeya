@@ -7,6 +7,9 @@ const db = mongoose.createConnection(config.database);
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+const jwt = require('jsonwebtoken');
+const keys = require('../config/keys.js');
+
 const UserSchema = mongoose.Schema({
   userType: {
     type: String,
@@ -43,11 +46,11 @@ const UserSchema = mongoose.Schema({
   },
   investorBoughtProperties: [],
   investorBoughtPendingProperties: [],
-  investorConnectedProperties: [],
   investorStarredProperties: [],
   wholesalerListedProperties: [],
   wholesalerSoldProperties: [],
   wholesalerSoldPendingProperties: [],
+  lenderLoanedProperties: [],
   connections: [{
     type: Object
   }],
@@ -144,6 +147,9 @@ module.exports.registerUser = function(userBody) {
             });
 
             newUser.save((error, savedUser) => {
+              const token = jwt.sign(savedUser.toJSON(), keys.secret, {
+                expiresIn: 604800
+              });
               if (error) {
                 let errorObj = {
                   success: false,
@@ -156,7 +162,8 @@ module.exports.registerUser = function(userBody) {
                 let investorObj = {
                   success: true,
                   message: 'Successfully registered user.',
-                  data: savedUser
+                  data: savedUser,
+                  token: 'JWT ' + token
                 }
                 resolve(investorObj);
               } else {
@@ -304,6 +311,40 @@ module.exports.searchWholesaler = function(email, userName, phoneNumber) {
   });
 };
 
+module.exports.getPropertiesForWholesaler = function(wholesalerId) {
+  return new Promise((resolve, reject) => {
+    User.findById(wholesalerId, (error, wholesaler) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving properties for user.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (wholesaler) {
+        let properties = [];
+        properties.concat(wholesaler.wholesalerListedProperties);
+        properties.concat(wholesalerSoldProperties);
+        properties.concat(wholesalerSoldPendingProperties);
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved properties for user.',
+          data: properties
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve properties for user.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+
 /*
 ===== WHOLESALER GETTERS END =====
 */
@@ -313,55 +354,6 @@ module.exports.searchWholesaler = function(email, userName, phoneNumber) {
 /*
 ===== WHOLESALER SETTERS BEGIN =====
 */
-
-module.exports.updatePropertyForWholesaler = function(property) {
-  return new Promise((resolve, reject) => {
-    let index = 0;
-    User.findOne({ _id: property.wholesaler_id }, (error, wholesaler) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error finding wholesaler.',
-          error: error
-        }
-        reject(errorObj)
-      } else {
-        var prop = wholesaler.properties.forEach((p, i) => {
-          if(p._id == property._id) {
-            index = i;
-          }
-        });
-        wholesaler.properties[index] = property;
-        wholesaler.markModified('properties');
-        wholesaler.save(function(error, wholesaler) {
-          if (error) {
-            let errorObj = {
-              success: false,
-              message: 'Error saving wholesaler.',
-              error: error
-            }
-            reject(error);
-            return;
-          } else if (wholesaler) {
-            let successObj = {
-              success: true,
-              message: 'Successfully updated wholesaler.',
-              data: property
-            }
-            resolve(successObj);
-          } else {
-            let errorObj = {
-              success: false,
-              message: 'Unable to save wholesaler.',
-              error: ''
-            }
-            reject(errorObj);
-          }
-        });
-      }
-    });
-  });
-};
 
 module.exports.addInvestorConnection = function(investor, wholesalerID) {
   return new Promise((resolve, reject) => {
@@ -398,72 +390,6 @@ module.exports.addInvestorConnection = function(investor, wholesalerID) {
   })
 };
 
-module.exports.propertySold = function(body) {
-  return new Promise((resolve, reject) => {
-    User.findById(body.wholesalerId, (error, wholesaler) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error completing property sale process. Please try again.',
-          error: error
-        }
-        reject(errorObj)
-      } else if (wholesaler) {
-        wholesaler.properties.forEach((property) => {
-          if (property._id === body.property._id) {
-            property.status = 'Sold-Pending';
-          }
-        });
-        wholesaler.save((error, success) => {
-          if (error) {
-            let errorObj = {
-              success: false,
-              message: 'Error completing property sale process. Please try again.',
-              error: error
-            }
-            reject(errorObj);
-          }
-        });
-
-      } else {
-        let errorObj = {
-          success: false,
-          message: 'Error completing property sale process. Please try again.',
-          error: error
-        }
-        reject(errorObj);
-      }
-    });
-
-    User.findById(body.investor._id, (error, investor) => {
-      body.property.status = 'Bought-Pending';
-      investor.properties[investor.properties.length] = body.property;
-      investor.save((error, savedInvestor) => {
-        if (error) {
-          let errorObj = {
-            success: false,
-            message: 'Error completing property sale process. Please try again.',
-            error: error
-          }
-          reject(errorObj);
-        } else if (savedInvestor) {
-          let successObj = {
-            success: true,
-            message: 'Successfully completed sale of property.'
-          }
-          resolve(successObj);
-        } else {
-          let errorObj = {
-            success: false,
-            message: 'Error completing property sale process. Please try again.',
-            error: error
-          }
-          reject(errorObj);
-        }
-      });
-    });
-  });
-};
 
 /*
 ===== WHOLESALER SETTERS END =====
@@ -575,6 +501,40 @@ module.exports.searchInvestor = function(email, userName, phoneNumber) {
     })
   });
 };
+
+module.exports.getPropertiesForInvestor = function(investorId) {
+  return new Promise((resolve, reject) => {
+    User.findById(investorId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving properties for user.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        let properties = [];
+        properties.concat(investor.investorBoughtProperties);
+        properties.concat(investor.investorBoughtPendingProperties);
+        properties.concat(investor.investorStarredProperties);
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved properties for user.',
+          data: properties
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve properties for user.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
 
 /*
 ===== INVESTOR GETTERS END =====
@@ -785,6 +745,42 @@ module.exports.addUserConnectionForLender = function(user, lenderID) {
   });
 };
 
+module.exports.getPropertiesForLender = function(lenderId) {
+  return new Promise((resolve, reject) => {
+    User.findById(lenderId, (error, lender) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving properties for user.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (lender) {
+        let properties = [];
+        properties.concat(lender.lenderLoanedProperties);
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved all properties for user.',
+          data: properties
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve properties for user.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+/*
+===== LENDER SETTERS END =====
+*/
+
+
 
 /*
 ===== USER GETTERS BEGIN =====
@@ -846,35 +842,6 @@ module.exports.getUserByEmail = function(email) {
         reject(errorObj);
       }
     });
-  });
-};
-
-module.exports.getPropertiesForUser = function(id) {
-  return new Promise((resolve, reject) => {
-    User.findById(id, (error, user) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error retrieving properties for user.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (user) {
-        let successObj = {
-          success: true,
-          message: 'Successfully retrieved properties for user.',
-          data: user.properties
-        }
-        resolve(successObj);
-      } else {
-        let errorObj = {
-          success: false,
-          message: 'Unable to retrieve properties for user.',
-          error: ''
-        }
-        reject(errorObj);
-      }
-    })
   });
 };
 
