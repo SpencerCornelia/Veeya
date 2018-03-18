@@ -20274,13 +20274,13 @@ dl {
   text-align: center;
   color: #1991EB; }
 
-.user-profile .side-left .card .overview .achivements {
+.user-profile .side-left .card .overview .achievements {
   padding-left: 0px;
   display: -webkit-flex;
   display: flex;
   -webkit-justify-content: center;
   justify-content: center; }
-  .user-profile .side-left .card .overview .achivements li {
+  .user-profile .side-left .card .overview .achievements li {
     width: 33.333%;
     display: -webkit-flex;
     display: flex;
@@ -20290,13 +20290,13 @@ dl {
     align-items: center;
     -webkit-flex-direction: column;
     flex-direction: column; }
-    .user-profile .side-left .card .overview .achivements li p {
+    .user-profile .side-left .card .overview .achievements li p {
       text-align: center;
       margin-bottom: 0;
       font-weight: 600;
       font-size: 1.4rem;
       color: #424964; }
-      .user-profile .side-left .card .overview .achivements li p:last-child {
+      .user-profile .side-left .card .overview .achievements li p:last-child {
         font-weight: 500;
         font-size: 0.9rem; }
 

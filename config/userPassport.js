@@ -6,7 +6,7 @@ const keys = require('./keys.js');
 
 module.exports = function(passport) {
   let opts = {};
-  opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
+  opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('JWT');
   opts.secretOrKey = keys.secret;
 
   passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
