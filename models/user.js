@@ -41,7 +41,13 @@ const UserSchema = mongoose.Schema({
   state: {
     type: String
   },
-  properties: [],
+  investorBoughtProperties: [],
+  investorBoughtPendingProperties: [],
+  investorConnectedProperties: [],
+  investorStarredProperties: [],
+  wholesalerListedProperties: [],
+  wholesalerSoldProperties: [],
+  wholesalerSoldPendingProperties: [],
   connections: [{
     type: Object
   }],
