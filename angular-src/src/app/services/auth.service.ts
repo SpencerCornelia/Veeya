@@ -39,7 +39,7 @@ export class AuthService {
       })
       .subscribe((response) => {
         this.currentUser = response.data;
-        this.storeUserData(response.data.token, response.data._id, response.data.userType);
+        this.storeUserData(response.token, response.data._id, response.data.userType);
         this.router.navigate(['/dashboard']);
       });
   }
