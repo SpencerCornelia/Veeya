@@ -16,18 +16,16 @@ router.get('/all', (req, res) => {
 });
 
 router.post('/invitelender', (req,res) => {
-  let inviteeId = req.body.invitee_id;
-  let lenderID = '';
+  let userId = req.body.invitee_id;
+  let lenderId = '';
 
   user.registerUser(req.body)
     .then((lender) => {
-      lenderID = lender.data._id;
-      delete lender.data.password;
-      return user.addLenderConnection(lender.data, inviteeId);
+      lenderId = String(lender.data._id);
+      return user.addLenderConnection(lenderId, userId);
     })
     .then((updatedUser) => {
-      delete updatedUser.data.password;
-      return user.addUserConnectionForLender(updatedUser.data, lenderID);
+      return user.addUserConnectionForLender(userId, lenderId);
     })
     .then((response) => {
       if (response.success) {

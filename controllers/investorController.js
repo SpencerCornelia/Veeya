@@ -43,17 +43,19 @@ router.get('/:uid', (req, res) => {
 
 // POST HTTP to /investor/inviteinvestor
 router.post('/inviteinvestor', (req, res, next) => {
+  console.log("req.body:", req.body)
   let wholesalerID = req.body.wholesaler_id;
-  let investorEmail = '';
+  let investorId = '';
   user.registerUser(req.body)
     .then((investor) => {
+      investorId = String(investor.data._id);
       investorEmail = investor.data.email
       delete investor.data.password;
-      return user.addInvestorConnection(investor.data._id, wholesalerID);
+      return user.addInvestorConnection(investorId, wholesalerID);
     })
     .then((wholesaler) => {
       delete wholesaler.data.password;
-      return user.addWholesalerConnection(wholesaler.data._id, investorEmail);
+      return user.addWholesalerConnection(wholesalerID, investorId);
     })
     .then((response) => {
       if (response.success) {
