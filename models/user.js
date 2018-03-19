@@ -51,9 +51,7 @@ const UserSchema = mongoose.Schema({
   wholesalerSoldProperties: [],
   wholesalerSoldPendingProperties: [],
   lenderLoanedProperties: [],
-  connections: [{
-    type: Object
-  }],
+  connections: [],
   profilePhoto: {
     type: String
   },
@@ -396,6 +394,8 @@ module.exports.addWholesalerListing = function(propertyId, wholesalerId) {
 module.exports.addInvestorConnection = function(investorId, wholesalerId) {
   return new Promise((resolve, reject) => {
     User.findById(wholesalerId, (error, wholesaler) => {
+      console.log("error:", error)
+      console.log("wholesaler:", wholesaler)
       if (error) {
         let errorObj = {
           success: false,
@@ -405,7 +405,10 @@ module.exports.addInvestorConnection = function(investorId, wholesalerId) {
         reject(errorObj);
       } else if (wholesaler) {
         wholesaler.connections.push(investorId);
+        console.log("wholesaler.connections:", wholesaler.connections)
         wholesaler.save((error, newWholesaler) => {
+          console.log("error2:", error)
+          console.log("newWholesaler:", newWholesaler)
           if (error) {
             let errorObj = {
               success: false,
@@ -593,7 +596,7 @@ module.exports.getPropertiesForInvestor = function(investorId) {
 ===== INVESTOR SETTERS BEGIN =====
 */
 
-module.exports.addWholesalerConnection = function(wholesalerId, investorEmail, investorId) {
+module.exports.addWholesalerConnection = function(wholesalerId, investorId) {
   return new Promise((resolve, reject) => {
     User.findById(investorId, (error, investor) => {
       if (error) {
@@ -720,79 +723,101 @@ module.exports.searchLender = function(email, userName, phoneNumber) {
 ===== LENDER SETTERS BEGIN =====
 */
 
-module.exports.addLenderConnection = function(user, user_id) {
-  let query = {};
-  let ObjectId = mongoose.Types.ObjectId;
-  query["_id"] = new ObjectId(user_id);
-
+module.exports.addLenderConnection = function(lenderId, userId) {
   return new Promise((resolve, reject) => {
-    User.findOneAndUpdate(
-      query,
-      { $push: { connections: user } },
-      { safe: true, upsert: true, new: true },
-      function(error, updatedUser) {
-        if (error) {
-          let errorObj = {
-            success: false,
-            message: 'Error updating user.',
-            error: error
-          }
-          reject(errorObj);
-        } else if (user) {
-          let successObj = {
-            success: true,
-            message: 'Successfully invited user.',
-            data: updatedUser
-          }
-          resolve(successObj);
-        } else {
-          let errorObj = {
-            success: false,
-            message: 'Unable to update user.',
-            error: ''
-          }
-          reject(errorObj);
+    User.findById(userId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error updating user.',
+          error: error
         }
+        reject(errorObj);
+      } else if (user) {
+        user.connections.push(lenderId);
+        user.save((error, savedUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error updating user.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully added connection.',
+              data: savedUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to invite user. Please try again',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Error updating user.',
+          error: error
+        }
+        reject(errorObj);
       }
-    );
+    });
   });
 };
 
-module.exports.addUserConnectionForLender = function(user, lenderID) {
-  let query = {};
-  let ObjectId = mongoose.Types.ObjectId;
-  query["_id"] = new ObjectId(lenderID);
-
+module.exports.addUserConnectionForLender = function(userId, lenderId) {
   return new Promise((resolve, reject) => {
-    User.findOneAndUpdate(
-      query,
-      { $push: { connections: user } },
-      { safe: true, upsert: true, new: true },
-      function(error, updatedUser) {
-        if (error) {
-          let errorObj = {
-            success: false,
-            message: 'Error updating user.',
-            error: error
-          }
-          reject(errorObj);
-        } else if (user) {
-          let successObj = {
-            success: true,
-            message: 'Successfully invited user.',
-            data: updatedUser
-          }
-          resolve(successObj);
-        } else {
-          let errorObj = {
-            success: false,
-            message: 'Unable to update user.',
-            error: ''
-          }
-          reject(errorObj);
+    User.findById(lenderId, (error, lender) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error adding connection for user.',
+          error: error
         }
+        reject(errorObj);
+      } else if (lender) {
+        lender.connections.push(userId);
+        lender.save((error, newLender) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error adding connection for user.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (newLender) {
+            let successObj = {
+              success: true,
+              message: 'Successfully added connection for user.',
+              data: newLender
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to add connection for user.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Unable to add connection for user. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
       }
-    );
+      }
+    });
   });
 };
 
@@ -1150,3 +1175,12 @@ module.exports.updatePassword = function(passwordBody) {
     });
   });
 };
+
+
+/*
+===== VALIDATION =====
+*/
+
+let validateRegisterUser = function(data) {
+
+}
