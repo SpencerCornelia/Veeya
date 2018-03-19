@@ -393,39 +393,47 @@ module.exports.addWholesalerListing = function(propertyId, wholesalerId) {
   });
 };
 
-module.exports.addInvestorConnection = function(investor, wholesalerID) {
+module.exports.addInvestorConnection = function(investorId, wholesalerId) {
   return new Promise((resolve, reject) => {
-    User.findOneAndUpdate(
-      { _id: wholesalerID },
-      { $push: { connections: investor }},
-      {safe: true, upsert: true, new: true},
-      function(error, user) {
-        if (error) {
-          let errorObj = {
-            success: false,
-            message: 'Error inviting investor.',
-            error: error
-          }
-          reject(errorObj);
-        } else if (user) {
-          delete user.password;
-          let successObj = {
-            success: true,
-            message: 'Successfully invited user.',
-            data: user
-          }
-          resolve(successObj);
-        } else {
-          let errorObj = {
-            success: false,
-            message: 'Unable to add investor as a connection.',
-            error: ''
-          }
-          reject(errorObj);
+    User.findById(wholesalerId, (error, wholesaler) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error inviting user.',
+          error: error
         }
+        reject(errorObj);
+      } else if (wholesaler) {
+        wholesaler.connections.push(investorId);
+        wholesaler.save((error, newWholesaler) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error inviting user.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (newWholesaler) {
+            let successObj = {
+              success: true,
+              message: 'Successfully added user.',
+              data: newWholesaler
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to invite user. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+
       }
-    );
-  })
+    });
+  });
 };
 
 
@@ -585,46 +593,51 @@ module.exports.getPropertiesForInvestor = function(investorId) {
 ===== INVESTOR SETTERS BEGIN =====
 */
 
-module.exports.addWholesalerConnection = function(wholesaler, investorEmail, investorID) {
-  let query = {};
-  let ObjectId = mongoose.Types.ObjectId;
-
-  if (investorID) {
-    query["_id"] = new ObjectId(investorID);
-  } else {
-    query["email"] = investorEmail;
-  }
+module.exports.addWholesalerConnection = function(wholesalerId, investorEmail, investorId) {
   return new Promise((resolve, reject) => {
-    User.findOneAndUpdate(
-      query,
-      { $push: { connections: wholesaler } },
-      { safe: true, upsert: true, new: true },
-      function(error, user) {
-        if (error) {
-          let errorObj = {
-            success: false,
-            message: 'Error updating user.',
-            error: error
-          }
-          reject(errorObj);
-        } else if (user) {
-          delete user.password;
-          let successObj = {
-            success: true,
-            message: 'Successfully invited user.',
-            data: user
-          }
-          resolve(successObj);
-        } else {
-          let errorObj = {
-            success: false,
-            message: 'Unable to update user.',
-            error: ''
-          }
-          reject(errorObj);
+    User.findById(investorId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error inviting user.',
+          error: error
         }
+        reject(errorObj);
+      } else if (investor) {
+        investor.connections.push(wholesalerId);
+        investor.save((error, newInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error inviting user.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (newInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully invited wholesaler.',
+              data: newInvestor
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to invite user.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to invite user. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
       }
-    );
+    });
   });
 };
 
