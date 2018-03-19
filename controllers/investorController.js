@@ -47,16 +47,13 @@ router.post('/inviteinvestor', (req, res, next) => {
   let investorEmail = '';
   user.registerUser(req.body)
     .then((investor) => {
-      return investor;
-    })
-    .then((investor) => {
       investorEmail = investor.data.email
       delete investor.data.password;
-      return user.addInvestorConnection(investor.data, wholesalerID);
+      return user.addInvestorConnection(investor.data._id, wholesalerID);
     })
     .then((wholesaler) => {
       delete wholesaler.data.password;
-      return user.addWholesalerConnection(wholesaler.data, investorEmail);
+      return user.addWholesalerConnection(wholesaler.data._id, investorEmail);
     })
     .then((response) => {
       if (response.success) {

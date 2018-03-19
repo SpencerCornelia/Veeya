@@ -34,11 +34,11 @@ router.post('/invitewholesaler', (req, res) => {
     .then((wholesaler) => {
       wholesalerID = wholesaler.data._id;
       delete wholesaler.data.password;
-      return user.addWholesalerConnection(wholesaler.data, false, investorID);
+      return user.addWholesalerConnection(wholesalerID, false, investorID);
     })
     .then((investor) => {
       delete investor.data.password;
-      return user.addInvestorConnection(investor.data, wholesalerID);
+      return user.addInvestorConnection(investor.data._id, wholesalerID);
     })
     .then((response) => {
       if (response.success) {
