@@ -45,6 +45,7 @@ import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 
+import { AddConnectionService } from './services/addConnection.service';
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
 import { DeletePropertyService } from './services/deleteProperty.service';
@@ -105,6 +106,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     AppRoutingModule
   ],
   providers: [
+    AddConnectionService,
     AuthService,
     AddPropertyService,
     DeletePropertyService,
