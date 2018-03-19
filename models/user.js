@@ -52,6 +52,8 @@ const UserSchema = mongoose.Schema({
   wholesalerSoldPendingProperties: [],
   lenderLoanedProperties: [],
   connections: [],
+  pendingIncomingConnectionRequests: [],
+  pendingOutgoingConnectionRequests: [],
   profilePhoto: {
     type: String
   },
@@ -946,6 +948,41 @@ module.exports.getAllConnections = function(id) {
         }
         reject(errorObj);
       }
+    });
+  });
+};
+
+module.exports.getAllConnectionsByIDs = function(IDs) {
+  return new Promise((resolve, reject) => {
+    let connections = [];
+    IDs.forEach((id, index) => {
+      User.findById(id, (error, user) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error getting connections for user.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (user) {
+          connections.push(user);
+          if (index === IDs.length-1) {
+            let successObj = {
+              success: true,
+              message: 'Successfully retrieved all connections.',
+              data: connections
+            }
+            resolve(successObj);
+          }
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to retrieve connections for user. Please try again.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      });
     });
   });
 };

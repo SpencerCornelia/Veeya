@@ -79,7 +79,15 @@ router.get('/connections/:uid', (req,res) => {
   let user_id = req.params.uid;
   user.getAllConnections(user_id)
     .then((response) => {
-      res.status(200).json(response);
+      let idArray = response.data;
+      return user.getAllConnectionsByIDs(idArray);
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(200).json(response);
+      } else {
+        res.status(500).json(response);
+      }
     })
     .catch((error) => {
       res.status(500).json(error);
