@@ -25,6 +25,8 @@ export class InviteService {
       lastName: user.lastName,
       email: user.email,
       phoneNumber: user.phoneNumber,
+      city: user.city,
+      state: user.state,
       wholesaler_id: user.wholesaler_id
     });
     headers.append('Content-Type', 'application/json');
@@ -49,6 +51,8 @@ export class InviteService {
       lastName: user.lastName,
       email: user.email,
       phoneNumber: user.phoneNumber,
+      city: user.city,
+      state: user.state,
       investor_id: user.investor_id
     });
     headers.append('Content-Type', 'application/json');
@@ -73,6 +77,8 @@ export class InviteService {
       lastName: user.lastName,
       email: user.email,
       phoneNumber: user.phoneNumber,
+      city: user.city,
+      state: user.state,
       invitee_id: user.user_id
     });
     headers.append('Content-Type', 'application/json');
