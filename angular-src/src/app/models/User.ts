@@ -24,5 +24,7 @@ export interface User {
     facebook: String,
     linkedIn: String,
     biggerPockets: String
-  }
+  },
+  pendingIncomingConnectionRequests?: Array<string>,
+  pendingOutgoingConnectionRequests?: Array<string>
 }
