@@ -63,7 +63,7 @@
                   <p class="card-description">
                     <span class="required-field">Required</span>
                   </p>
-                  <form class="forms-sample" #form="ngForm">
+                  <form class="forms-sample" #form="ngForm" (submit)="onSubmit()">
                     <div class="form-group">
                       <label for="firstName" class="required-field">First Name</label>
                       <input type="text" class="form-control" id="firstName"
