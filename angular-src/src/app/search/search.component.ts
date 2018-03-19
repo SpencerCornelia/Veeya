@@ -37,9 +37,11 @@ export class SearchComponent implements OnInit {
 
     if (this.user_type === 'Investor') {
       this.getAllWholesalers();
+      this.getAllLenders();
       this.getAllProperties();
     } else if (this.user_type === 'Wholesaler') {
       this.getAllInvestors();
+      this.getAllLenders();
       this.getAllProperties();
     } else if (this.user_type === 'Lender') {
       this.getAllWholesalers();
