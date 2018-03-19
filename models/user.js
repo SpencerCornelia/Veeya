@@ -1213,6 +1213,101 @@ module.exports.updatePassword = function(passwordBody) {
   });
 };
 
+module.exports.addOutgoingConnectionRequest = function(currentUserId, connectedUserId) {
+  return new Promise((resolve, reject) => {
+    User.findById(currentUserId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error adding connection request.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+        user.pendingOutgoingConnectionRequests.push(connectedUserId);
+        user.save((error, newUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error sending connection request. Please try again.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (newUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully sent connection request.',
+              data: newUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to send connection request. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to send connection request. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.addIncomingConnectionRequest = function(currentUserId, connectedUserId) {
+  return new Promise((resolve, reject) => {
+    User.findById(connectedUserId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error adding connection request.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+        user.pendingIncomingConnectionRequests.push(currentUserId);
+        user.save((error, newUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error sending connection request. Please try again.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (newUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully sent connection request.',
+              data: newUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to send connection request. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to send connection request. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
 
 /*
 ===== VALIDATION =====

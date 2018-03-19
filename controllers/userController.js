@@ -75,7 +75,7 @@ router.get('/all/wholesalers', (req, res) => {
     });
 });
 
-router.get('/connections/:uid', (req,res) => {
+router.get('/connections/:uid', (req, res) => {
   let user_id = req.params.uid;
   user.getAllConnections(user_id)
     .then((response) => {
@@ -90,6 +90,24 @@ router.get('/connections/:uid', (req,res) => {
       }
     })
     .catch((error) => {
+      res.status(500).json(error);
+    })
+});
+
+router.post('/addconnection', (req, res) => {
+  user.addOutgoingConnectionRequest(req.body.currentUserId, req.body.connectionUserId)
+    .then((response) => {
+      return user.addIncomingConnectionRequest(req.body.currentUserId, req.body.connectionUserId);
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(201).json(response);
+      } else {
+        res.status(500).json(response);
+      }
+    })
+    .catch((error) => {
+      console.log("error catch:", error)
       res.status(500).json(error);
     })
 });
