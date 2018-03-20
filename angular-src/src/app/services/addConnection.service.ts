@@ -26,4 +26,17 @@ export class AddConnectionService {
       .map(res => <User[]>res.data);
   }
 
+  public acceptConnection(userId: String, connectionUserId: string):Observable<any> {
+    let URI = this.serverApi + "/user/acceptconnection";
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    let body = JSON.stringify({
+      userId: userId,
+      connectionUserId: connectionUserId
+    });
+    return this.http.post(URI, body, { headers: headers })
+      .map(res => res.json())
+      .map(res => <Object>res.data)
+  }
+
 }
