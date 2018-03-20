@@ -94,6 +94,29 @@ router.get('/connections/:uid', (req, res) => {
     })
 });
 
+router.get('/pendingconnections/:id', (req, res) => {
+  let userId = req.params.id;
+  user.getPendingConnections(userId)
+    .then((response) => {
+      let idArray = response.data;
+      if (idArray.length == 0) {
+        return res.status(200).json(response);
+      } else {
+        return user.getAllConnectionsByIDs(idArray);
+      }
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(200).json(response);
+      } else {
+        res.status(500).json(response);
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
 router.post('/addconnection', (req, res) => {
   user.addOutgoingConnectionRequest(req.body.currentUserId, req.body.connectionUserId)
     .then((response) => {
@@ -110,6 +133,34 @@ router.post('/addconnection', (req, res) => {
       console.log("error catch:", error)
       res.status(500).json(error);
     })
+});
+
+router.post('/acceptconnection', (req, res) => {
+  let responseObj = {
+    success: true,
+    message: 'Successfully added connection.',
+    data: {
+      currentUser: {},
+      connectionUser: {}
+    }
+  }
+  console.log("req.body:", req.body)
+  user.acceptConnectionCurrentUser(req.body)
+    .then((response) => {
+      responseObj.data.currentUser = response.data
+      return user.acceptConnectionConnectedUser(req.body)
+    })
+    .then((response) => {
+      if (response.success) {
+        responseObj.data.connectionUser = response.data;
+        res.status(201).json(responseObj);
+      } else {
+        res.status(500).json(response);
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
 });
 
 router.put('/increaseViews', (req, res) => {
