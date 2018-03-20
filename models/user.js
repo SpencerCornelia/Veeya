@@ -1372,7 +1372,7 @@ module.exports.acceptConnectionCurrentUser = function(body) {
             let successObj = {
               success: true,
               message: 'Successfully added connection.',
-              data: currentUser
+              data: savedCurrentUser
             }
             resolve(successObj);
           } else {
@@ -1438,6 +1438,115 @@ module.exports.acceptConnectionConnectedUser = function(body) {
             let errorObj = {
               success: false,
               message: 'Unable to completing connection request. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      }
+    });
+  });
+};
+
+module.exports.denyConnectionCurrentUser = function(body) {
+  let userId = body.userId;
+  let connectionUserId = body.connectionUserId;
+
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, currentUser) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error denying connection request. Please try again.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (currentUser) {
+        let newIncoming = [];
+        for (let i = 0; i < currentUser.pendingIncomingConnectionRequests.length; i++) {
+          if (!currentUser.pendingIncomingConnectionRequests[i] == connectionUserId) {
+            newIncoming.push(currentUser.pendingIncomingConnectionRequests[i]);
+          }
+        }
+
+        currentUser.pendingIncomingConnectionRequests = newIncoming;
+        currentUser.save((error, savedCurrentUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error denying connection request. Please try again.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedCurrentUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully denied connection request.',
+              data: savedCurrentUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to deny connection request. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to deny connection request. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.denyConnectionConnectedUser = function(body) {
+  let userId = body.userId;
+  let connectionUserId = body.connectionUserId;
+
+  return new Promise((resolve, reject) => {
+    User.findById(connectionUserId, (error, connectedUser) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error denying connection request. Please try again.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (connectedUser) {
+        let newOutgoing = [];
+        for (let i = 0; i < connectedUser.pendingOutgoingConnectionRequests.length; i++) {
+          if (!connectedUser.pendingOutgoingConnectionRequests[i] == userId) {
+            newOutgoing.push(currentUser.pendingOutgoingConnectionRequests[i]);
+          }
+        }
+
+        connectedUser.pendingOutgoingConnectionRequests = newOutgoing;
+        connectedUser.save((error, savedConnectedUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error denying connection request. Please try again.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedConnectedUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully denied connection request.',
+              data: savedConnectedUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to deny connection request. Please try again.',
               error: ''
             }
             reject(errorObj);
