@@ -17,7 +17,7 @@ router.post('/', (req, res, next) => {
         if (error) {
           return res.status(500).json({
             success: false,
-            message: 'Error logging in. Please try again.',
+            message: 'Incorrect login info entered. Please try again.',
             error: error
           });
         }
