@@ -144,11 +144,39 @@ router.post('/acceptconnection', (req, res) => {
       connectionUser: {}
     }
   }
-  console.log("req.body:", req.body)
+
   user.acceptConnectionCurrentUser(req.body)
     .then((response) => {
-      responseObj.data.currentUser = response.data
+      responseObj.data.currentUser = response.data;
       return user.acceptConnectionConnectedUser(req.body)
+    })
+    .then((response) => {
+      if (response.success) {
+        responseObj.data.connectionUser = response.data;
+        res.status(201).json(responseObj);
+      } else {
+        res.status(500).json(response);
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
+router.post('/denyconnection', (req, res) => {
+  let responseObj = {
+    success: true,
+    message: 'Successfully denied connection request.',
+    data: {
+      currentUser: {},
+      connectionUser: {}
+    }
+  }
+
+  user.denyConnectionCurrentUser(req.body)
+    .then((response) => {
+      responseObj.data.currentUser = response.data;
+      return user.denyConnectionConnectedUser(req.body)
     })
     .then((response) => {
       if (response.success) {
