@@ -396,8 +396,6 @@ module.exports.addWholesalerListing = function(propertyId, wholesalerId) {
 module.exports.addInvestorConnection = function(investorId, wholesalerId) {
   return new Promise((resolve, reject) => {
     User.findById(wholesalerId, (error, wholesaler) => {
-      console.log("error:", error)
-      console.log("wholesaler:", wholesaler)
       if (error) {
         let errorObj = {
           success: false,
@@ -407,10 +405,7 @@ module.exports.addInvestorConnection = function(investorId, wholesalerId) {
         reject(errorObj);
       } else if (wholesaler) {
         wholesaler.connections.push(investorId);
-        console.log("wholesaler.connections:", wholesaler.connections)
         wholesaler.save((error, newWholesaler) => {
-          console.log("error2:", error)
-          console.log("newWholesaler:", newWholesaler)
           if (error) {
             let errorObj = {
               success: false,
@@ -435,7 +430,12 @@ module.exports.addInvestorConnection = function(investorId, wholesalerId) {
           }
         });
       } else {
-
+        let errorObj = {
+          success: false,
+          message: 'Unable to add connection. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
       }
     });
   });
@@ -987,6 +987,35 @@ module.exports.getAllConnectionsByIDs = function(IDs) {
   });
 };
 
+module.exports.getPendingConnections = function(userId) {
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving connections for user.',
+          error: error
+        }
+        resolve(errorObj);
+      } else if (user) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved user connections.',
+          data: user.pendingIncomingConnectionRequests
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve connections for user.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
 module.exports.getAllUsers = function() {
   return new Promise((resolve, reject) => {
     User.find({}, (error, users) => {
@@ -1304,6 +1333,116 @@ module.exports.addIncomingConnectionRequest = function(currentUserId, connectedU
           error: ''
         }
         reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.acceptConnectionCurrentUser = function(body) {
+  let userId = body.userId;
+  let connectionUserId = body.connectionUserId;
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, currentUser) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error accepting connection request. Please try again.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (currentUser) {
+        let newIncoming = [];
+        for (let i = 0; i < currentUser.pendingIncomingConnectionRequests.length; i++) {
+          if (!currentUser.pendingIncomingConnectionRequests[i] == connectionUserId) {
+            newIncoming.push(currentUser.pendingIncomingConnectionRequests[i]);
+          }
+        }
+
+        currentUser.connections.push(connectionUserId);
+        currentUser.pendingIncomingConnectionRequests = newIncoming;
+        currentUser.save((error, savedCurrentUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error accepting connection request. Please try again.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedCurrentUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully added connection.',
+              data: currentUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to complete connection request. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to complete connection request. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.acceptConnectionConnectedUser = function(body) {
+  let userId = body.userId;
+  let connectionUserId = body.connectionUserId;
+
+  return new Promise((resolve, reject) => {
+    User.findById(connectionUserId, (error, connectedUser) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error accepting connection request. Please try again.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (connectedUser) {
+        let newOutgoing = [];
+        for (let i = 0; i < connectedUser.pendingOutgoingConnectionRequests.length; i++) {
+          if (!connectedUser.pendingOutgoingConnectionRequests[i] == userId) {
+            newOutgoing.push(currentUser.pendingOutgoingConnectionRequests[i]);
+          }
+        }
+
+        connectedUser.connections.push(userId);
+        connectedUser.pendingOutgoingConnectionRequests = newOutgoing;
+        connectedUser.save((error, savedConnectedUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error accepting connection request. Please try again.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedConnectedUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully added connection.',
+              data: savedConnectedUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to completing connection request. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
       }
     });
   });
