@@ -16,6 +16,7 @@ declare var $: any;
 export class MyProfileComponent implements OnInit {
 
   private currentUser: User;
+  private defaultProfilePhoto: string = 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed';
   private edit: Boolean = false;
   private password: any;
   private photo: File;
@@ -95,23 +96,29 @@ export class MyProfileComponent implements OnInit {
   uploadProfilePhoto() {
     this.photosService.uploadProfileImagePhoto(this.photo, (error, photo) => {
       if (error) {
-        // error message = 'Error uploading photos. Please try again later.'
+        // error message = 'Error uploading photo. Please try again.'
       } else {
         let inputValue = (<HTMLInputElement>document.getElementById('imageInput'));
         inputValue.value = "";
         this.photosService.getProfileImageUrl(photo, (error, firebasePhoto) => {
           if (error) {
-            // error message = 'Error submitting form. Please try again.'
+            // error message = 'Error uploading photo. Please try again.'
             return;
           } else {
-            this.userService.updateUserProfilePhoto(firebasePhoto)
-              .subscribe((response) => {
-                this.currentUser.profilePhoto = firebasePhoto;
-                // this.currentUser.profilePhoto is the valid URL
-                // get response, console log it and set this.currentUser.profilePhoto to
-              }, (error) => {
+            if (this.currentUser.profilePhoto != this.defaultProfilePhoto) {
+              this.photosService.removePropertyPhoto(this.currentUser.profilePhoto, (error, success) => {
+                if (error) {
 
-              })
+                } else {
+                  this.userService.updateUserProfilePhoto(firebasePhoto)
+                    .subscribe((response) => {
+                      this.currentUser.profilePhoto = firebasePhoto;
+                    }, (error) => {
+
+                    });
+                }
+              });
+            }
           }
         });
       }
