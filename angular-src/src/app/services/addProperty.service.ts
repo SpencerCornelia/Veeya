@@ -25,15 +25,21 @@ export class AddPropertyService {
       purchasePrice: property.purchasePrice,
       bedrooms: property.bedrooms,
       bathrooms: property.bathrooms,
-      rehabCostMin: property.rehabCostMin,
-      rehabCostMax: property.rehabCostMax,
+      expectedRehab: property.expectedRehab,
       afterRepairValue: property.afterRepairValue,
+      HOA: property.HOA,
+      capRate: property.capRate,
+      propertyTaxes: property.propertyTaxes,
+      utilities: property.utilities,
       averageRent: property.averageRent,
       squareFootage: property.squareFootage,
       propertyType: property.propertyType,
       yearBuilt: property.yearBuilt,
+      sellerFinancing: property.sellerFinancing,
       status: property.status,
-      comps: property.comps
+      insurance: property.insurance,
+      comps: property.comps,
+      photos: property.photos
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, {headers: headers})

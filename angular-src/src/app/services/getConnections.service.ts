@@ -14,10 +14,17 @@ export class GetConnectionsService {
   private serverApi = 'http://localhost:3000';
 
   public getConnectionsForUser(userId: String):Observable<User[]> {
-    let URI = this.serverApi + "/user/connections/" + userId;
+    let URI = this.serverApi + `/user/connections/${userId}`;
     return this.http.get(URI)
       .map(res => res.json())
       .map(res => <User[]>res.data);
+  }
+
+  public getPendingConnections(userId: String):Observable<User[]> {
+    let URI = this.serverApi + `/user/pendingconnections/${userId}`;
+    return this.http.get(URI)
+      .map(res => res.json())
+      .map(res => <User[]>res.data)
   }
 
 }

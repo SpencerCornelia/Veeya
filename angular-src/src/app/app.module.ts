@@ -6,22 +6,31 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppRoutingModule } from './app-routing.module';
-import { FlashMessagesModule } from 'angular2-flash-messages';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AuthGuard } from './guards/auth.guard';
+import { EditPropertyGuard } from './guards/edit-property.guard';
 import { ProfileGuard } from './guards/profile.guard';
+import { RegisterGuard } from './guards/register.guard';
 import { RoleGuard } from './guards/role.guard';
+import { FilterAddressPipe } from './pipes/filterAddress.pipe';
+import { FilterCityPipe } from './pipes/filterCity.pipe';
 import { FilterEmailPipe } from './pipes/filterEmail.pipe';
 import { FilterFirstNamePipe } from './pipes/filterFirstName.pipe';
 import { FilterLastNamePipe } from './pipes/filterLastName.pipe';
+import { FilterPhoneNumberPipe } from './pipes/filterPhoneNumber.pipe';
+import { FilterPropertyTypePipe } from './pipes/filterPropertyType.pipe';
+import { FilterPurchasePricePipe } from './pipes/filterPurchasePrice.pipe';
+import { FilterStatePipe } from './pipes/filterState.pipe';
+import { FilterStatusPipe } from './pipes/filterStatus.pipe';
 import { FilterUsernamePipe } from './pipes/filterUsername.pipe';
 
 import { AppComponent } from './app.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
+import { ConnectionsComponent } from './connections/connections.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { EditPropertyComponent } from './edit-property/edit-property.component';
+import { InvestorWantedDealsComponent } from './investor-wanted-deals/investor-wanted-deals.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 import { InviteLenderComponent } from './invite-lender/invite-lender.component';
 import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
@@ -30,14 +39,15 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SearchComponent } from './search/search.component';
+import { SoldPropertyComponent } from './sold-property/sold-property.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 
+import { AddConnectionService } from './services/addConnection.service';
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
-import { ConnectionsComponent } from './connections/connections.component';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { EditPropertyService } from './services/editProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
@@ -46,6 +56,7 @@ import { GetUserPropertiesService } from './services/getUserProperties.service';
 import { InviteService } from './services/invite.service';
 import { PhotosService } from './services/photos.service';
 import { ProfileService } from './services/profile.service';
+import { SoldPropertyService } from './services/soldProperty.service';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserService } from './services/user.service';
 import { ValidateService } from './services/validate.service';
@@ -56,15 +67,22 @@ import { ViewPropertyService } from './services/viewProperty.service';
   declarations: [
     AppComponent,
     AddPropertyComponent,
-    EditPropertyComponent,
     ConnectionsComponent,
     DashboardComponent,
+    FilterAddressPipe,
+    FilterCityPipe,
     FilterEmailPipe,
     FilterFirstNamePipe,
     FilterLastNamePipe,
+    FilterPhoneNumberPipe,
+    FilterPropertyTypePipe,
+    FilterPurchasePricePipe,
+    FilterStatePipe,
+    FilterStatusPipe,
     FilterUsernamePipe,
     LoginComponent,
     MyProfileComponent,
+    InvestorWantedDealsComponent,
     InviteInvestorComponent,
     InviteLenderComponent,
     InviteWholesalerComponent,
@@ -72,24 +90,25 @@ import { ViewPropertyService } from './services/viewProperty.service';
     RegisterComponent,
     SearchComponent,
     SidebarComponent,
+    SoldPropertyComponent,
     TopNavbarComponent,
     UserProfileComponent,
-    ViewPropertiesComponent,
-    ViewPropertyComponent
+    ViewPropertyComponent,
+    ViewPropertiesComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
     AngularFontAwesomeModule,
-    AppRoutingModule,
     BrowserModule,
     FormsModule,
     HttpModule,
-    FlashMessagesModule.forRoot()
+    AppRoutingModule
   ],
   providers: [
-    AddPropertyService,
+    AddConnectionService,
     AuthService,
+    AddPropertyService,
     DeletePropertyService,
     EditPropertyService,
     GetAllPropertiesService,
@@ -98,11 +117,14 @@ import { ViewPropertyService } from './services/viewProperty.service';
     InviteService,
     PhotosService,
     ProfileService,
+    SoldPropertyService,
     UserService,
     ValidateService,
     ViewPropertyService,
     AuthGuard,
+    EditPropertyGuard,
     ProfileGuard,
+    RegisterGuard,
     RoleGuard,
     Title
   ],

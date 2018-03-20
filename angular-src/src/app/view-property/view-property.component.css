@@ -1,0 +1,42 @@
+.item img {
+  width: 200px;
+  height: 200px;
+}
+
+.buttons {
+  width: 100%;
+}
+
+.edit-property-btn {
+  display: table;
+  margin: 0 auto;
+}
+
+.removePhoto {
+  padding-top: 10px;
+  width: 100%;
+}
+
+.removePhoto button {
+  display: table;
+  margin: 0 auto;
+  width: 50%;
+}
+
+#propertyImage {
+  height: 140px;
+  max-width: 100%;
+}
+
+#photoCard {
+  margin-left: 10px;
+}
+
+.required-field:after {
+  content: " *";
+  color: red;
+}
+
+#submitBtn:disabled {
+  cursor: not-allowed;
+}

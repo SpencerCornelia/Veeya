@@ -13,12 +13,19 @@ import { User } from '../models/User';
 })
 export class SearchComponent implements OnInit {
 
+  private currentTab: String = "Wholesalers";
+  private lenders: Array<User> = [];
   private investors: Array<User> = [];
   private properties: Array<Property> = [];
   private users: Array<User> = [];
   private wholesalers: Array<User> = [];
   private user_id: String;
   private user_type: String;
+
+  private investorsTab: String = 'false';
+  private lendersTab: String = 'false';
+  private propertiesTab: String = 'false';
+  private wholesalersTab: String = 'true';
 
   constructor(private authService: AuthService,
               private getAllPropertiesService: GetAllPropertiesService,
@@ -30,12 +37,18 @@ export class SearchComponent implements OnInit {
 
     if (this.user_type === 'Investor') {
       this.getAllWholesalers();
+      this.getAllLenders();
       this.getAllProperties();
     } else if (this.user_type === 'Wholesaler') {
       this.getAllInvestors();
+      this.getAllLenders();
+      this.getAllProperties();
     } else if (this.user_type === 'Lender') {
-      this.getAllUsers();
+      this.getAllWholesalers();
+      this.getAllInvestors();
+      this.getAllProperties();
     }
+
   }
 
   getAllWholesalers() {
@@ -65,13 +78,29 @@ export class SearchComponent implements OnInit {
       })
   }
 
-  getAllUsers() {
-    this.userService.getAllUsers()
+  getAllLenders() {
+    this.userService.getAllLenders()
       .subscribe((response) => {
-        this.users = response;
+        this.lenders = response;
       }, (error) => {
 
       })
+  }
+
+  changeTab(tab) {
+    if (this.currentTab === "Wholesalers") {
+      this.wholesalersTab = 'false';
+      this.currentTab = tab;
+    } else if (this.currentTab === "Investors") {
+      this.investorsTab = 'false';
+      this.currentTab = tab;
+    } else if (this.currentTab === "Lenders") {
+      this.lendersTab = 'false';
+      this.currentTab = tab;
+    } else {
+      this.propertiesTab = 'false';
+      this.currentTab = tab;
+    }
   }
 
 }

@@ -1,11 +1,24 @@
-.wrapper {
-  height: 100%;
-  background-color: #E0E0E0;
+.submit-add-property-btn {
+  margin-left: 40%;
 }
 
-.form-wrapper {
-  width: 100%;
-  position: absolute;
-  padding-left: 250px;
-  height: 100vh;
+.form-control.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+.form-control.ng-valid.ng-touched {
+  border: 1px solid green;
+}
+
+#submitBtn:disabled {
+  cursor: not-allowed;
+}
+
+#updateBtn:disabled {
+  cursor: not-allowed;
+}
+
+.required-field:after {
+  content: " *";
+  color: red;
 }

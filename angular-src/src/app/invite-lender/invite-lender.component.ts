@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { User } from '../models/User';
 import { AuthService } from '../services/auth.service';
 import { InviteService } from '../services/invite.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-invite-lender',
@@ -15,16 +14,16 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class InviteLenderComponent implements OnInit {
 
-  private lender: User;
+  private currentUser: User;
+  private newLender: User;
 
   constructor(private authService: AuthService,
               private inviteService: InviteService,
-              private router: Router,
-              private flashMessage: FlashMessagesService) { }
+              private router: Router) { }
 
   ngOnInit() {
     let user_id = this.authService.loggedInUser();
-    this.lender = {
+    this.newLender = {
       userType: 'Lender',
       userName: '',
       password: 'initialPassword',
@@ -32,25 +31,28 @@ export class InviteLenderComponent implements OnInit {
       lastName: '',
       email: '',
       phoneNumber: '',
-      user_id: user_id
+      user_id: user_id,
+      city: '',
+      state: 'AL',
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedIn: '',
+        biggerPockets: ''
+      }
     }
+
   }
 
-  public onSubmit() {
-    this.lender.userName = this.lender.firstName.toString() + this.lender.lastName.toString();
-    this.inviteService.inviteLender(this.lender)
+  onSubmit() {
+    this.newLender.userName = this.newLender.firstName.toString() + this.newLender.lastName.toString();
+    this.inviteService.inviteLender(this.newLender)
       .subscribe((response) => {
         this.router.navigate(['/dashboard']);
-        this.flashMessage.show(response.message, {
-          cssClass: 'alert-success',
-          timeout: 3000
-        });
+
       },
       (error) => {
-        this.flashMessage.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        });
+
       });
   }
 

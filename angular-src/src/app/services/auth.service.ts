@@ -2,17 +2,26 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { tokenNotExpired } from 'angular2-jwt';
+import { Router } from '@angular/router';
+
+import { User } from '../models/User';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/share';
 
 @Injectable()
 export class AuthService {
-  authToken: any;
-  user_id: any;
 
-  constructor(private http: Http) { }
+  public authToken: any;
+  public currentUser: User;
+  private observable: Observable<any>;
+  public redirecturl: String = '';
+  private user_id: any;
+
+  constructor(private http: Http, private router: Router) { }
 
   registerUser(user) {
     let route= "http://localhost:3000/register";
@@ -27,6 +36,11 @@ export class AuthService {
       })
       .catch((error) => {
         return Observable.throw(error.json());
+      })
+      .subscribe((response) => {
+        this.currentUser = response.data;
+        this.storeUserData(response.token, response.data._id, response.data.userType);
+        this.router.navigate(['/dashboard']);
       });
   }
 
@@ -42,8 +56,49 @@ export class AuthService {
       })
       .catch((error)  => {
         return Observable.throw(error.json());
-      });
+      })
+      .subscribe((response) => {
+        this.currentUser = response.data;
+        this.storeUserData(response.token, response.user._id, response.user.userType);
+        this.router.navigate(['/dashboard']);
+      })
   }
+
+  getCurrentUser() {
+    if (this.currentUser) {
+      return Observable.of(this.currentUser);
+    } else if (this.observable) {
+      return this.observable;
+    } else {
+      let userId = this.loggedInUser();
+      let route = `http://localhost:3000/user/${userId}`;
+      this.observable = this.http.get(route)
+        .map((response) => {
+          this.observable = null;
+          this.currentUser = response.json();
+          return this.currentUser;
+        })
+        .catch((error) => {
+          return Observable.throw(error.json());
+        })
+        .share();
+        return this.observable;
+    }
+  }
+
+  getLoggedInUser() {
+    let userId = this.loggedInUser();
+    let route = `http://localhost:3000/user/${userId}`;
+    return this.http.get(route)
+      .map((response) => {
+        return response.json();
+      })
+      .catch((error) => {
+        return Observable.throw(error.json());
+      })
+  }
+
+  /* GETTERS */
 
   investorUser() {
     let userType = this.loggedInUserType();
@@ -76,6 +131,16 @@ export class AuthService {
     return tokenNotExpired('id_token');
   }
 
+  getRedirectUrl() {
+    return this.redirecturl;
+  }
+
+  /* SETTERS */
+
+  setRedirectUrl(url) {
+    this.redirecturl = url;
+  }
+
   storeUserData(token, user_id, user_type) {
     localStorage.setItem('id_token', token);
     localStorage.setItem('user_id', user_id);
@@ -88,5 +153,6 @@ export class AuthService {
     this.authToken = null;
     this.user_id = null;
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

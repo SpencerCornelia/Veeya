@@ -1,119 +1,176 @@
-<div class="wrapper">
-  <div class="sidebar-wrapper">
-    <app-sidebar></app-sidebar>
-  </div>
-  <div class="navbar-wrapper">
-    <app-top-navbar></app-top-navbar>
-  </div>
+<!DOCTYPE html>
+<html lang="en">
 
-  <div class="connections-wrapper">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Veeya</title>
+  <!-- inject:css -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="/assets/images/favicon.png" />
+</head>
 
-    <div class="container" id="content">
-      <div class="row">
-        <div class="col-xs-12">
-
-
-          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-            <li class="nav-item">
-              <a class="nav-link active" id="pills-view-tab" data-toggle="pill" href="#pills-view" role="tab" aria-controls="pills-view" aria-selected="true">View All Connections</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" id="pills-search-tab" data-toggle="pill" href="#pills-search" role="tab" aria-controls="pills-search" aria-selected="false">Search For New Connections</a>
-            </li>
-          </ul>
-
-
-          <!-- View All Connections table -->
-          <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-view" role="tabpanel" aria-labelledby="pills-view-tab">
-              <form>
-                <input id="searchInput" [(ngModel)]="searchText" name="searchText" placeholder="Search your connections.." />
-              </form>
-              <table class="table-responsive">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">City</th>
-                    <th scope="col">State</th>
-                    <th scope="col">Profile</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let connection of connections | filterEmail : searchText; let i=index">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ connection.email }}</td>
-                    <td>{{ connection.firstName }}</td>
-                    <td>{{ connection.lastName }}</td>
-                    <td>{{ connection.userName }}</td>
-                    <td>{{ connection.phoneNumber }}</td>
-                    <td>{{ connection.city }}</td>
-                    <td>{{ connection.state }}</td>
-                    <td><a [routerLink]="['/user/' + connection._id]">View</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Search For New Connections Form -->
-            <div class="tab-pane fade" id="pills-search" role="tabpanel" aria-labelledby="pills-search-tab">
-              <form class="form-inline">
-                <div class="form-group">
-                  <input [(ngModel)]="searchText" name="searchText" type="text" class="form-control" id="email" aria-describedby="emailInput" placeholder="Filter by Email" />
-                </div>
-                <div class="form-group">
-                  <input [(ngModel)]="searchUsername" name="userName" type="text" class="form-control" id="username" placeholder="Filter by Username" />
-                </div>
-                <div class="form-group">
-                  <input [(ngModel)]="searchFirstName" name="firstName" type="text" class="form-control" id="firstName" placeholder="Filter by First Name" />
-                </div>
-                <div class="form-group">
-                  <input [(ngModel)]="searchLastName" name="lastName" type="text" class="form-control" id="lastName" placeholder="Filter by Last Name" />
-                </div>
-              </form>
-              <table class="table-responsive">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">City</th>
-                    <th scope="col">State</th>
-                    <th scope="col">Profile</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let user of users | filterEmail : searchText | filterUsername : searchUsername | filterFirstName : searchFirstName | filterLastName : searchLastName; let i=index">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.firstName }}</td>
-                    <td>{{ user.lastName }}</td>
-                    <td>{{ user.userName }}</td>
-                    <td>{{ user.phoneNumber }}</td>
-                    <td>{{ user.city }}</td>
-                    <td>{{ user.state }}</td>
-                    <td><a [routerLink]="['/user/' + user._id]">View</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- End New Connections Form -->
-
-
-
-
-
-
-        </div>
+<body>
+  <div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+        <a class="navbar-brand brand-logo" href="../../index.html"><img src="/assets/images/logo.svg" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="/assets/images/logo-mini.svg" alt="logo"/></a>
       </div>
-    </div>
-  </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="icon-menu"></span>
+        </button>
+        <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
+          <li class="nav-item">
+            <a href="/assets/pages/apps/gallery.html" class="nav-link"><i class="mdi mdi-image-filter"></i>Gallery</a>
+          </li>
+          <li class="nav-item active">
+            <a href="../../pages/apps/email.html" class="nav-link"><i class="mdi mdi-email-outline"></i>Inbox</a>
+          </li>
+          <li class="nav-item">
+            <a href="../../pages/apps/calendar.html" class="nav-link"><i class="mdi mdi-calendar"></i>Calendar</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-settings d-none d-lg-block">
+            <a class="nav-link" href="#">
+              <img class="img-xs rounded-circle" src="/assets/images/faces/face4.jpg" alt="">
+            </a>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="icon-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:../../partials/_sidebar.html -->
+      <app-sidebar></app-sidebar>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
 
-</div>
+          <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4>Connection Requests</h4>
+                  <h6 *ngIf="!pendingConnections">No connection requests at this time. Time to network!</h6>
+                  <div class="col-md-4 grid-margin stretch-card" *ngFor="let connection of pendingConnectionsArray">
+                    <div class="card text-center">
+                      <div class="card-body">
+                        <img src="{{ connection.profilePhoto }}" class="img-lg rounded-circle mb-2"/>
+                        <h4>{{ connection.firstName }} {{ connection.lastName }}</h4>
+                        <p class="text-muted">{{ connection.userType }}</p>
+                        <button class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4" (click)="acceptRequest(connection)">Accept</button>
+                        <button class="btn btn-inverse-danger btn-rounded btn-sm mt-3 mb-4" (click)="denyRequest(connection)">Deny</button>
+                        <div class="border-top pt-3">
+                          <div class="row">
+                            <div class="col-4">
+                              <h6>{{ connection.profileViews }}</h6>
+                              <p>Views</p>
+                            </div>
+                            <div class="col-4">
+                              <h6>{{ connection.connections.length }}</h6>
+                              <p>Connections</p>
+                            </div>
+                            <div class="col-4">
+                              <h6 *ngIf="connection.userType=='Wholesaler'">{{ connection.wholesalerSoldProperties.length }}</h6>
+                              <h6 *ngIf="connection.userType=='Investor'">{{ connection.investorBoughtProperties.length }}</h6>
+                              <h6 *ngIf="connection.userType=='Lender'">{{ connection.lenderLoanedProperties.length }}</h6>
+                              <p>Deals</p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Current Connections</h4>
+                  <h6 *ngIf="connections.length==0">Click <button class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4"
+                      [routerLink]="['/search']">here</button> to use the Search functionality to find users to connect with.
+                    </h6>
+                  <table class="table" *ngIf="connections.length > 0">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Profile</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let connection of connections; let i=index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ connection.firstName }}</td>
+                        <td>{{ connection.lastName }}</td>
+                        <td>{{ connection.email }}</td>
+                        <td>{{ connection.phoneNumber }}</td>
+                        <td>{{ connection.city }}</td>
+                        <td>{{ connection.state }}</td>
+                        <td><a [routerLink]="['/user/' + connection._id]">View</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid clearfix">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <!-- plugins:js -->
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="/node_modules/typeahead.js/dist/typeahead.bundle.min.js"></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="/assets/js/off-canvas.js"></script>
+  <script src="/assets/js/hoverable-collapse.js"></script>
+  <script src="/assets/js/misc.js"></script>
+  <script src="/assets/js/settings.js"></script>
+  <script src="/assets/js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="/assets/js/file-upload.js"></script>
+  <script src="/assets/js/typeahead.js"></script>
+  <!-- End custom js for this page-->
+</body>
+
+</html>

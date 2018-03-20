@@ -4,8 +4,9 @@ const router = express.Router();
 const user = require('../models/user');
 const property = require('../models/property');
 
+
 // GET HTTP to /investor
-router.get('/all', (req,res) => {
+router.get('/all', function(req,res) {
   user.getAllInvestors()
     .then((response) => {
       res.status(200).json(response);
@@ -42,20 +43,19 @@ router.get('/:uid', (req, res) => {
 
 // POST HTTP to /investor/inviteinvestor
 router.post('/inviteinvestor', (req, res, next) => {
+  console.log("req.body:", req.body)
   let wholesalerID = req.body.wholesaler_id;
-  let investorEmail = '';
+  let investorId = '';
   user.registerUser(req.body)
     .then((investor) => {
-      return investor;
-    })
-    .then((investor) => {
+      investorId = String(investor.data._id);
       investorEmail = investor.data.email
       delete investor.data.password;
-      return user.addInvestorConnection(investor.data, wholesalerID);
+      return user.addInvestorConnection(investorId, wholesalerID);
     })
     .then((wholesaler) => {
       delete wholesaler.data.password;
-      return user.addWholesalerConnection(wholesaler.data, investorEmail);
+      return user.addWholesalerConnection(wholesalerID, investorId);
     })
     .then((response) => {
       if (response.success) {

@@ -5,7 +5,6 @@ import { AngularFireStorage } from 'angularfire2/storage';
 import * as firebase from 'firebase';
 
 import { AuthService } from './auth.service';
-import { FlashMessagesService } from 'angular2-flash-messages';
 
 import 'rxjs/add/operator/map';
 
@@ -16,11 +15,15 @@ export class PhotosService {
   private formData: FormData = new FormData();
   private photos: Array<File> = [];
   private photoURLs: Array<String> = [];
-  private propertyPhotosFolder: any;
+  private profileImageFolder: string;
+  private propertyPhotosFolder: string;
   private user_id: String;
 
-  constructor(private authService: AuthService, private storage: AngularFireStorage, private flashMessages: FlashMessagesService) {
+  constructor(private authService: AuthService,
+              private storage: AngularFireStorage)
+  {
     this.propertyPhotosFolder = 'property-photos';
+    this.profileImageFolder = 'profile-images';
     this.user_id = this.authService.loggedInUser();
   }
 
@@ -35,14 +38,30 @@ export class PhotosService {
             this.error = true;
           } else {
             this.photoURLs.push(path);
+            if (i == (photos.length - 1)) {
+              if (!this.error) {
+                callback(false, this.photoURLs);
+              } else {
+                callback(true);
+              }
+            }
           }
-        })
+        });
     }
-    if (!this.error) {
-      callback(false, this.photoURLs);
-    } else {
-      callback(true);
-    }
+  }
+
+  public uploadProfileImagePhoto(photo: File, callback) {
+    let storageRef = firebase.storage().ref();
+    let path = `${this.profileImageFolder}/${this.user_id}/` + photo.name;
+    let imageRef = storageRef.child(path);
+    imageRef.put(photo)
+      .then((snapshot) => {
+        if (snapshot.state !== 'success') {
+          callback(true);
+        } else {
+          callback(false, path);
+        }
+      });
   }
 
   public removePropertyPhoto(photoName: String, callback) {
@@ -57,12 +76,12 @@ export class PhotosService {
       });
   }
 
-  public getPropertyPhotoUrls(photos: Array<String>, callback) {
+  public getPropertyPhotoUrls(photos: Array<string>, callback) {
     let urls = [];
     let storageRef = firebase.storage();
     let path = `${this.propertyPhotosFolder}/${this.user_id}/`;
     for (let i = 0; i < photos.length; i++) {
-      let pathRef = storageRef.ref(path + photos[i]);
+      let pathRef = storageRef.ref(photos[i]);
       pathRef.getDownloadURL()
         .then((url) => {
           urls.push(url);
@@ -71,7 +90,26 @@ export class PhotosService {
           callback(true);
           return;
         })
+        .then(() => {
+          if (i == (photos.length - 1)) {
+            callback(false, urls);
+          }
+        })
     }
-    callback(false, urls);
   }
+
+  public getProfileImageUrl(photo: string, callback) {
+    let urls = [];
+    let storageRef = firebase.storage();
+    let path = `${this.profileImageFolder}/${this.user_id}/`;
+    let pathRef = storageRef.ref(photo);
+    pathRef.getDownloadURL()
+      .then((url) => {
+        callback(false, url)
+      })
+      .catch((error) => {
+        callback(true);
+        return;
+      })
+   }
 }

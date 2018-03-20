@@ -24,11 +24,11 @@ const PropertySchema = mongoose.Schema({
     required: true
   },
   zipCode: {
-    type: Number,
+    type: String,
     required: true
   },
   purchasePrice: {
-    type: Number,
+    type: String,
     required: true
   },
   bedrooms: {
@@ -39,40 +39,58 @@ const PropertySchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  rehabCostMin: {
-    type: Number
+  expectedRehab: {
+    type: String
   },
-  rehabCostMax: {
-    type: Number
+  HOA: {
+    type: String
+  },
+  propertyTaxes: {
+    type: String
   },
   afterRepairValue: {
-    type: Number
+    type: String
+  },
+  capRate: {
+    type: String
   },
   averageRent: {
-    type: Number
+    type: String
   },
   squareFootage: {
-    type: Number
+    type: String
   },
   propertyType: {
     type: String,
     required: true
   },
   yearBuilt: {
-    type: Number
+    type: String
   },
   status: {
     type: String
   },
-  comps: [{
-    type: Number
-  }],
-  // someone mentioned online to store photos in a CDN and store URL reference here
-  // something like Cloudinary looks like it'll work
+  sellerFinancing: {
+    type: String
+  },
+  utilities: {
+    type: String
+  },
+  insurance: {
+    type: String
+  },
+  comps: [],
   photos: [{
     type: String
   }]
-});
+},
+  {
+    timestamps: {
+      createdAt: 'created_at',
+      updatedAt: 'updated_at'
+    }
+  }
+);
 
 const Property = module.exports = db.model('Property', PropertySchema);
 
@@ -107,60 +125,45 @@ module.exports.getAllProperties = (callback) => {
 }
 
 module.exports.addProperty = (propertyBody) => {
-  var newProperty = new Property({
-    wholesaler_id: propertyBody.wholesaler_id,
-    address: propertyBody.address,
-    city: propertyBody.city,
-    state: propertyBody.state,
-    zipCode: propertyBody.zipCode,
-    purchasePrice: propertyBody.purchasePrice,
-    bedrooms: propertyBody.bedrooms,
-    bathrooms: propertyBody.bathrooms,
-    rehabCostMin: propertyBody.rehabCostMin,
-    rehabCostMax: propertyBody.rehabCostMax,
-    afterRepairValue: propertyBody.afterRepairValue,
-    averageRent: propertyBody.averageRent,
-    squareFootage: propertyBody.squareFootage,
-    propertyType: propertyBody.propertyType,
-    yearBuilt: propertyBody.yearBuilt,
-    status: 'listed',
-    comps: propertyBody.comps,
-    photos: "to be added later"
-    // need to figure out how to store photos in a CDN and then link that URL to photos array
-    //photos: req.body.photos
-  });
-
-  let wholesalerID = propertyBody.wholesaler_id;
-
   return new Promise((resolve, reject) => {
-    User.findOneAndUpdate(
-      { _id: wholesalerID },
-      { $push: { properties: newProperty }},
-      { safe: true, upsert: true, new: true },
-      function(error, user) {
-        if (error) {
-          let errorObj = {
-            success: false,
-            message: 'Error adding property.',
-            error: error
-          }
-          reject(errorObj);
-        }
-      }
-    );
-    newProperty.save((error, property) => {
-      if (error) {
+    var newProperty = new Property({
+      wholesaler_id: propertyBody.wholesaler_id,
+      address: propertyBody.address,
+      city: propertyBody.city,
+      state: propertyBody.state,
+      zipCode: propertyBody.zipCode,
+      purchasePrice: propertyBody.purchasePrice,
+      bedrooms: propertyBody.bedrooms,
+      bathrooms: propertyBody.bathrooms,
+      expectedRehab: propertyBody.expectedRehab,
+      afterRepairValue: propertyBody.afterRepairValue,
+      HOA: propertyBody.HOA,
+      propertyTaxes: propertyBody.propertyTaxes,
+      averageRent: propertyBody.averageRent,
+      squareFootage: propertyBody.squareFootage,
+      propertyType: propertyBody.propertyType,
+      yearBuilt: propertyBody.yearBuilt,
+      status: propertyBody.status,
+      utilities: propertyBody.utilities,
+      insurance: propertyBody.insurance,
+      sellerFinancing: propertyBody.sellerFinancing,
+      comps: propertyBody.comps,
+      photos: propertyBody.photos
+    });
+
+    newProperty.save((errorSaving, savedProperty) => {
+      if (errorSaving) {
         let errorObj = {
           success: false,
-          message: 'Error saving property to wholesaler.',
+          message: 'Error saving property.',
           error: error
         }
         reject(errorObj);
-      } else if (property) {
+      } else if (savedProperty) {
         let successObj = {
           success: true,
           message: 'Successfully saved new property.',
-          data: property
+          data: savedProperty
         }
         resolve(successObj);
       } else {
@@ -185,14 +188,18 @@ module.exports.editPropertyByID = (updatedProperty) => {
       property.purchasePrice = updatedProperty.purchasePrice;
       property.bedrooms = updatedProperty.bedrooms;
       property.bathrooms= updatedProperty.bathrooms;
-      property.rehabCostMin = updatedProperty.rehabCostMin;
-      property.rehabCostMax = updatedProperty.rehabCostMax;
+      property.expectedRehab = updatedProperty.expectedRehab;
       property.afterRepairValue = updatedProperty.afterRepairValue;
+      property.HOA = updatedProperty.HOA;
+      property.propertyTaxes = updatedProperty.propertyTaxes;
       property.averageRent = updatedProperty.averageRent;
       property.squareFootage = updatedProperty.squareFootage;
       property.propertyType = updatedProperty.propertyType;
       property.yearBuilt = updatedProperty.yearBuilt;
+      property.utilities = updatedProperty.utilities;
+      property.insurance = updatedProperty.insurance;
       property.status = updatedProperty.status;
+      property.sellerFinancing = updatedProperty.sellerFinancing;
       property.comps = updatedProperty.comps;
 
       property.save((error, property) => {
@@ -221,8 +228,10 @@ module.exports.editPropertyByID = (updatedProperty) => {
       });
     });
   });
-}
+};
 
+
+// get individual property by ID
 module.exports.getPropertyByID = (id) => {
   return new Promise((resolve, reject) => {
     Property.findById(id, (error, property) => {
@@ -250,7 +259,88 @@ module.exports.getPropertyByID = (id) => {
       }
     });
   });
-}
+};
+
+
+// get multiple properties by ID
+module.exports.getPropertiesById = function(propertyIDs) {
+  return new Promise((resolve, reject) => {
+    if (propertyIDs == []) {
+      let returnObj = {
+        success: true,
+        message: "User does not have any properties.",
+        error: ''
+      }
+      resolve(returnObj);
+    } else {
+      let properties = [];
+      propertyIDs.forEach((id, index) => {
+        Property.findById(id, (error, property) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error retrieving properties.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (property) {
+            properties.push(property);
+
+            if (index == propertyIDs.length-1) {
+              let successObj = {
+                success: true,
+                message: 'Successfully retrieved all properties',
+                data: properties
+              }
+              resolve(successObj);
+            }
+
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to retrieve properties.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      });
+    }
+  });
+};
+
+
+module.exports.updatePropertyAfterSale = function(propertyId) {
+  return new Promise((resolve, reject) => {
+    Property.findById(propertyId, (error, property) => {
+      property.status = 'Sold';
+      property.save((error, newProperty) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error updating property.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (newProperty) {
+          let successObj = {
+            success: true,
+            message: 'Successfully updated property.',
+            data: newProperty
+          }
+          resolve(successObj);
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to update property',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      });
+    });
+  });
+};
 
 module.exports.deletePropertyById = (id) => {
   return new Promise((resolve, reject) => {

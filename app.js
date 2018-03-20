@@ -39,25 +39,20 @@ app.use(bodyParser.json());
 // Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
-require('./config/wholesalerPassport.js')(passport);
-require('./config/investorPassport.js')(passport);
+require('./config/userPassport.js')(passport);
 
-// express.static is a built in middleware function to serve static files.
-// We are telling express server public folder is the place to look for the static files
-app.use(express.static(path.join(__dirname, 'public')));
+// serves index.html located here. All files in front-end will need to have a route from this location.
+app.use(express.static(path.join(__dirname, '/angular-src')));
+app.use(express.static(path.join(__dirname, '/angular-src/src/')));
 
 // Set headers
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, DELETE, OPTIONS, PATCH');
   next();
 });
 
-// This is the home page
-app.get('/', (req,res) => {
-  res.send("Home page");
-});
 
 // Route all HTTP requests to investorController
 app.use('/investor', investorController);
@@ -80,11 +75,6 @@ app.use('/user', userController);
 // Route all HTTP requests to wholesalerController
 app.use('/wholesaler', wholesalerController);
 
-
-// Route for 404. Looks like app-routing.ts handles the variable ('**') route instead of this
-app.get('*', function(req, res, next) {
-  res.status(404).send("Sorry but that page does not exist");
-});
 
 //Listen to port 3000
 app.listen(port, () => {

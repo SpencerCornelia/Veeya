@@ -1,0 +1,24 @@
+.required-field:after {
+  content: " *";
+  color: red;
+}
+
+#submitBtn:disabled {
+  cursor: not-allowed;
+}
+
+#updateBtn:disabled {
+  cursor: not-allowed;
+}
+
+#updatePhotoButton:disabled {
+  cursor: not-allowed;
+}
+
+.form-control.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+.form-control.ng-valid.ng-touched {
+  border: 1px solid green;
+}

@@ -30,6 +30,10 @@ export class ValidateService {
     return regex.test(email);
   }
 
+  validatePhoneNumber(phoneNumber) {
+    // add validation
+  }
+
   validateLogin(user) {
     if (!user.email || !user.password) {
       return false;

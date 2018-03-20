@@ -7,6 +7,8 @@ export interface User {
   userName: String,
   email: String,
   phoneNumber: String,
+  city: String,
+  state: String,
   investor_id?: String,
   wholesaler_id?: String,
   properties?: Array<any>,
@@ -15,5 +17,14 @@ export interface User {
   connections?: Array<any>,
   terms?: Array<any>,
   profilePhoto?: String,
-  user_id?: String
+  profileViews?: Number,
+  user_id?: String,
+  URLs: {
+    personal: String,
+    facebook: String,
+    linkedIn: String,
+    biggerPockets: String
+  },
+  pendingIncomingConnectionRequests?: Array<string>,
+  pendingOutgoingConnectionRequests?: Array<string>
 }

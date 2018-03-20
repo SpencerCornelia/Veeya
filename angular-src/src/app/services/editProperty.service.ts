@@ -35,15 +35,20 @@ export class EditPropertyService {
       purchasePrice: property.purchasePrice,
       bedrooms: property.bedrooms,
       bathrooms: property.bathrooms,
-      rehabCostMin: property.rehabCostMin,
-      rehabCostMax: property.rehabCostMax,
+      expectedRehab: property.expectedRehab,
+      HOA: property.HOA,
+      propertyTaxes: property.propertyTaxes,
+      utilities: property.utilities,
       afterRepairValue: property.afterRepairValue,
       averageRent: property.averageRent,
       squareFootage: property.squareFootage,
       propertyType: property.propertyType,
       yearBuilt: property.yearBuilt,
       status: property.status,
-      comps: property.comps
+      sellerFinancing: property.sellerFinancing,
+      insurance: property.insurance,
+      comps: property.comps,
+      photos: property.photos
     });
     headers.append('Content-Type', 'application/json');
     return this.http.put(URI, body, {headers: headers})

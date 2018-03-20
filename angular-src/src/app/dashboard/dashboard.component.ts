@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { AppRoutingModule } from '../app-routing.module';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
 import { ProfileService } from '../services/profile.service';
 import { EditPropertyService } from '../services/editProperty.service';
+
 import { Property } from '../models/Property';
+import { User } from '../models/User';
 
-import * as $ from 'jquery';
-
-import { AppRoutingModule } from '../app-routing.module';
-import { Router } from '@angular/router';
-import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +17,7 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class DashboardComponent implements OnInit {
 
-  private user: any;
+  private currentUser: User;
   private pageTitle: String;
   private properties: Property[] = [];
   private userID: String;
@@ -26,71 +25,69 @@ export class DashboardComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private profileService: ProfileService,
-              private flashMessageService: FlashMessagesService,
               private editPropertyService: EditPropertyService,
-              private router: Router) { }
+              private router: Router)
+              {
+                this.getCurrentUser();
+              }
 
   ngOnInit() {
-    this.user = {
+    this.currentUser = {
+      userType: '',
       firstName: '',
       lastName: '',
       userName: '',
+      password: '',
       email: '',
       phoneNumber: '',
-      properties: this.properties
+      city: '',
+      state: '',
+      URLs: {
+        personal: '',
+        facebook: '',
+        linkedIn: '',
+        biggerPockets: ''
+      }
     }
-    this.userID = this.authService.loggedInUser();
-    this.userType = this.authService.loggedInUserType();
-    if (this.userType === 'Wholesaler') {
-      this.getWholesalerProfileInfo();
-    } else if (this.userType === 'Investor') {
-      this.getInvestorProfileInfo();
-    } else {
-      console.log("this.userType is not available.");
-    }
-    this.pageTitle = 'Dashboard';
+
+    // this.userID = this.authService.loggedInUser();
+    // this.userType = this.authService.loggedInUserType();
+    // if (this.userType === 'Wholesaler') {
+    //   this.getWholesalerProfileInfo();
+    // } else if (this.userType === 'Investor') {
+    //   this.getInvestorProfileInfo();
+    // } else {
+    //   this.userType = 'Lender';
+    // }
   }
 
-  ngAfterViewInit() {
-
-  }
-
-  getWholesalerProfileInfo() {
-    this.profileService.getWholesalerProfileInfo(this.userID)
+  getCurrentUser() {
+    this.authService.getLoggedInUser()
       .subscribe((response) => {
-        this.user = response[0];
-        this.properties = response[0].properties;
+        this.currentUser = response.data;
       }, (error) => {
-        this.flashMessageService.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        })
-      });
-  }
 
-  getInvestorProfileInfo() {
-    this.profileService.getInvestorProfileInfo(this.userID)
-      .subscribe((response) => {
-        this.user = response[0];
-        this.properties = response[0].properties;
-      }, (error) => {
-        this.flashMessageService.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        })
       })
   }
 
-  editProperty(property: Property) {
-    this.editPropertyService.getPropertyByID(property._id)
-      .subscribe((response) => {
-        this.router.navigate(['/properties/editproperty/' + property._id]);
-      }, (error) => {
-        this.flashMessageService.show(error.message, {
-          cssClass: 'alert-danger',
-          timeout: 3000
-        })
-      })
-  }
+  // getWholesalerProfileInfo() {
+  //   this.profileService.getWholesalerProfileInfo(this.userID)
+  //     .subscribe((response) => {
+  //       this.currentUser = response[0];
+  //       this.properties = response[0].properties;
+  //     }, (error) => {
+
+  //     });
+  // }
+
+  // getInvestorProfileInfo() {
+  //   this.profileService.getInvestorProfileInfo(this.userID)
+  //     .subscribe((response) => {
+  //       this.currentUser = response[0];
+  //       this.properties = response[0].properties;
+  //     }, (error) => {
+
+  //     })
+  // }
 
 }

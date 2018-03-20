@@ -16,9 +16,9 @@ router.post('/', (req, res, next) => {
       User.comparePassword(password, response.data.password, (error, isMatchResponse) => {
         if (error) {
           return res.status(500).json({
-            success: isMatchResponse.success,
-            message: isMatchResponse.message,
-            error: isMatchResponse.error
+            success: false,
+            message: 'Incorrect login info entered. Please try again.',
+            error: error
           });
         }
 
@@ -27,20 +27,18 @@ router.post('/', (req, res, next) => {
             expiresIn: 604800
           });
 
+          delete response.data.password;
+
           res.status(201).json({
-            success: isMatchResponse.success,
+            success: true,
             message: 'Successfully logged in. Welcome back ' + response.data.firstName + '!',
             token: 'JWT ' + token,
-            user: {
-              id: response.data._id,
-              firstName: response.data.firstName,
-              user_type: response.data.userType
-            }
+            user: response.data
           });
         } else {
           return res.status(500).json({
-            success: isMatchResponse.success,
-            message: isMatchResponse.message
+            success: false,
+            message: 'Unable to login. Please try again.'
           });
         }
       });
