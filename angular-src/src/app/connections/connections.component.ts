@@ -71,8 +71,21 @@ export class ConnectionsComponent implements OnInit {
       })
   }
 
-  denyRequest() {
+  denyRequest(connection) {
+    let connectionId = connection._id;
+    this.addConnectionService.denyConnection(this.user_id, connectionId)
+      .subscribe((response) => {
+        if (this.pendingConnectionsArray.length == 1) {
+          this.pendingConnections = false;
+          this.pendingConnectionsArray = [];
+        } else {
+          this.pendingConnectionsArray.filter((connection) => {
+            return connection._id != response.connectionUser._id;
+          });
+        }
+      }, (error) => {
 
+      })
   }
 
 }
