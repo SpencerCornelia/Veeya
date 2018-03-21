@@ -73,7 +73,7 @@ export class SoldPropertyComponent implements OnInit {
           this.selectedInvestor = investor;
           $("#soldModal").modal('show');
           $("#soldConfirm").on('click', function() {
-            that.soldPropertyService.soldProperty(that.property)
+            that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
               .subscribe((response) => {
                 $("#soldModal").modal('hide');
                 that.router.navigate(['/dashboard']);
@@ -88,7 +88,7 @@ export class SoldPropertyComponent implements OnInit {
       this.selectedInvestor = investor;
       $("#soldModal").modal('show');
       $("#soldConfirm").on('click', function() {
-        that.soldPropertyService.soldProperty(that.property)
+        that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
           .subscribe((response) => {
             $("#soldModal").modal('hide');
             that.router.navigate(['/dashboard']);
