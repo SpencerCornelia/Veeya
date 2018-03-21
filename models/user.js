@@ -98,58 +98,29 @@ const User = module.exports = db.model('User', UserSchema);
 */
 
 module.exports.registerUser = function(userBody) {
-  return new Promise((resolve, reject) => {
-    User.findOne({ 'email': userBody.email }, (error, user) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error registering user.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (user) {
-        let userObj = {
-          success: false,
-          message: 'Email already exists. If you are attempting to login using this email, please head to login page. '
-            + 'If you are attempting to invite a user, please request a connection with the user using our Add Connection feature.',
-          error: ''
-        }
-        reject(userObj)
-      } else {
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(userBody.password, salt, (error, hash) => {
-            if (error) {
-              let errorObj = {
-                success: false,
-                message: 'Error registering user.',
-                error: error
-              }
-              reject(errorObj);
-            }
-            let newUser = new User({
-              userType: userBody.userType,
-              userName: userBody.userName,
-              password: hash,
-              firstName: userBody.firstName,
-              lastName: userBody.lastName,
-              email: userBody.email,
-              phoneNumber: userBody.phoneNumber,
-              city: userBody.city,
-              state: userBody.state,
-              profileViews: 0,
-              profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
-              URLs: {
-                personal: '',
-                facebook: '',
-                linkedIn: '',
-                biggerPockets: ''
-              }
-            });
+  let validated = validateRegisterUser(userBody);
 
-            newUser.save((error, savedUser) => {
-              const token = jwt.sign(savedUser.toJSON(), keys.secret, {
-                expiresIn: 604800
-              });
+  if (validated) {
+    return new Promise((resolve, reject) => {
+      User.findOne({ 'email': userBody.email }, (error, user) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error registering user.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (user) {
+          let userObj = {
+            success: false,
+            message: 'Email already exists. If you are attempting to login using this email, please head to login page. '
+              + 'If you are attempting to invite a user, please request a connection with the user using our Add Connection feature.',
+            error: ''
+          }
+          reject(userObj)
+        } else {
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(userBody.password, salt, (error, hash) => {
               if (error) {
                 let errorObj = {
                   success: false,
@@ -157,29 +128,71 @@ module.exports.registerUser = function(userBody) {
                   error: error
                 }
                 reject(errorObj);
-              } else if (savedUser) {
-                delete savedUser.password;
-                let investorObj = {
-                  success: true,
-                  message: 'Successfully registered user.',
-                  data: savedUser,
-                  token: 'JWT ' + token
-                }
-                resolve(investorObj);
-              } else {
-                let errorObj = {
-                  success: false,
-                  message: 'Unable to save user.',
-                  error: ''
-                }
-                reject(errorObj);
               }
+              let newUser = new User({
+                userType: userBody.userType,
+                userName: userBody.userName,
+                password: hash,
+                firstName: userBody.firstName,
+                lastName: userBody.lastName,
+                email: userBody.email,
+                phoneNumber: userBody.phoneNumber,
+                city: userBody.city,
+                state: userBody.state,
+                profileViews: 0,
+                profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
+                URLs: {
+                  personal: '',
+                  facebook: '',
+                  linkedIn: '',
+                  biggerPockets: ''
+                }
+              });
+
+              newUser.save((error, savedUser) => {
+                const token = jwt.sign(savedUser.toJSON(), keys.secret, {
+                  expiresIn: 604800
+                });
+                if (error) {
+                  let errorObj = {
+                    success: false,
+                    message: 'Error registering user.',
+                    error: error
+                  }
+                  reject(errorObj);
+                } else if (savedUser) {
+                  delete savedUser.password;
+                  let investorObj = {
+                    success: true,
+                    message: 'Successfully registered user.',
+                    data: savedUser,
+                    token: 'JWT ' + token
+                  }
+                  resolve(investorObj);
+                } else {
+                  let errorObj = {
+                    success: false,
+                    message: 'Unable to save user.',
+                    error: ''
+                  }
+                  reject(errorObj);
+                }
+              });
             });
           });
-        });
-      }
+        }
+      });
     });
-  });
+  } else {
+    return new Promise((resolve, reject) => {
+      let errorObj = {
+        success: false,
+        message: 'New user inputs are not valid. Please try again.',
+        error: ''
+      }
+      reject(errorObj);
+    })
+  }
 };
 
 module.exports.comparePassword = function(attemptedPassword, userPassword, callback) {
@@ -1829,5 +1842,29 @@ module.exports.denyConnectionConnectedUser = function(body) {
 */
 
 let validateRegisterUser = function(data) {
+  let userNamePattern = new RegExp("^[a-zA-Z0-9-]+");
+  let firstNamePattern = new RegExp("^[a-zA-Z ]+$");
+  let lastNamePattern = new RegExp("^[a-zA-Z ]+$");
+  let passwordPattern = data.password.length >= 5 && data.password.length <= 30;
+  let emailPattern = new RegExp("^(([^<>()\\[\\]\\.,;:\\s@']+(\\.[^<>()\\[\\]\\.,;:\\s@']+)*)|('.+'))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
+  let phoneNumberPattern = new RegExp("^(\\+0?1\\s)?\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$");
+  let cityPattern = new RegExp("^[a-zA-Z ]*$");
+  let statePattern = data.state.length == 2;
+  let userTypePattern = false;
+  if (data.userType == 'Wholesaler' || data.userType == 'Investor' || data.userType == 'Lender') {
+    userTypePattern = true;
+  }
 
-}
+  if (userNamePattern.test(data.userName) && firstNamePattern.test(data.firstName) && lastNamePattern.test(data.lastName)
+    && passwordPattern && emailPattern.test(data.email) && phoneNumberPattern.test(data.phoneNumber) && cityPattern.test(data.city)
+    && statePattern && userTypePattern) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+
+
+
+
