@@ -683,15 +683,42 @@ module.exports.getPropertiesForInvestor = function(investorId) {
         reject(errorObj);
       } else if (investor) {
         let properties = [];
-        properties.concat(investor.investorBoughtProperties);
-        properties.concat(investor.investorBoughtPendingProperties);
-        properties.concat(investor.investorStarredProperties);
-        let successObj = {
-          success: true,
-          message: 'Successfully retrieved properties for user.',
-          data: properties
-        }
-        resolve(successObj);
+
+        investor.investorBoughtProperties.forEach((property) => {
+          properties.push(property);
+        });
+        investor.investorBoughtPendingProperties.forEach((property) => {
+          properties.push(property);
+        });
+        investor.investorStarredProperties.forEach((property) => {
+          properties.push(property);
+        });
+
+        investor.save((error, updatedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error retrieving properties for user.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully retrieved properties for user.',
+              data: properties
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to retrieve properties for user.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+
       } else {
         let errorObj = {
           success: false,
@@ -844,6 +871,7 @@ module.exports.updateInvestorBoughtProperties = function(investorId, propertyId)
           }
         }
 
+        investor.investorBoughtPendingProperties = newBoughtPending;
         investor.investorBoughtProperties.push(propertyId);
 
         investor.save((error, updatedInvestor) => {
