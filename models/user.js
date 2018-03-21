@@ -441,6 +441,124 @@ module.exports.addInvestorConnection = function(investorId, wholesalerId) {
   });
 };
 
+module.exports.updateWholesalerSoldPendingProperties = function(wholesalerId, propertyId, deny) {
+  return new Promise((resolve, reject) => {
+    User.findById(wholesalerId, (error, wholesaler) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error found with marking property as pending sale.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (wholesaler) {
+        let newListed = [];
+
+        for (let i = 0; i < wholesaler.wholesalerListedProperties.length; i++) {
+          if (propertyId != wholesaler.wholesalerListedProperties[i]) {
+            newListed.push(wholesaler.wholesalerListedProperties[i]);
+          }
+        }
+
+        wholesaler.wholesalerListedProperties = newListed;
+        if (!deny) {
+          wholesaler.wholesalerSoldPendingProperties.push(propertyId);
+        }
+        wholesaler.save((error, updatedWholesaler) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error marking property as pending sale.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedWholesaler) {
+            let successObj = {
+              success: true,
+              message: 'Successfully updated wholesaler.',
+              data: updatedWholesaler
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to mark property as pending sale.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to mark property as pending sale. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.updateWholesalerSoldProperties = function(wholesalerId, propertyId) {
+  return new Promise((resolve, reject) => {
+    User.findById(wholesalerId, (error, wholesaler) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error found with marking property as sold.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (wholesaler) {
+        let newSoldPending = [];
+
+        for (let i = 0; i < wholesaler.wholesalerSoldPendingProperties.length; i++) {
+          if (propertyId != wholesaler.wholesalerSoldPendingProperties[i]) {
+            newSoldPending.push(wholesaler.wholesalerSoldPendingProperties[i]);
+          }
+        }
+
+        wholesaler.wholesalerSoldPendingProperties = newSoldPending;
+        wholesaler.wholesalerSoldProperties.push(propertyId);
+        wholesaler.save((error, updatedWholesaler) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error marking property as sold.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedWholesaler) {
+            let successObj = {
+              success: true,
+              message: 'Successfully updated wholesaler.',
+              data: updatedWholesaler
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to mark property as sold.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to mark property as sold. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
 
 /*
 ===== WHOLESALER SETTERS END =====
@@ -646,6 +764,125 @@ module.exports.addWholesalerConnection = function(wholesalerId, investorId) {
   });
 };
 
+module.exports.updateInvestorBoughtPendingProperties = function(investorId, propertyId, deny) {
+  return new Promise((resolve, reject) => {
+    User.findById(investorId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error found with marking property as pending sale.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+
+        if (deny) {
+          let newBoughtPending = [];
+          for (let i = 0; i < investor.investorBoughtPendingProperties.length; i++) {
+            if (propertyId != investor.investorBoughtPendingProperties[i]) {
+              newBoughtPending.push(investor.investorBoughtPendingProperties[i]);
+            }
+          }
+          investor.investorBoughtPendingProperties = newBoughtPending;
+        } else {
+          investor.investorBoughtPendingProperties.push(propertyId);
+        }
+
+        investor.save((error, updatedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error marking property as pending sale.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully marked property as pending sale.',
+              data: updatedInvestor
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to mark property as pending sale.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to mark property as pending sale. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.updateInvestorBoughtProperties = function(investorId, propertyId) {
+  return new Promise((resolve, reject) => {
+    User.findById(investorId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error found with marking property as sold.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        let newBoughtPending = [];
+
+        for (let i = 0; i < investor.investorBoughtPendingProperties.length; i++) {
+          if (propertyId != investor.investorBoughtPendingProperties[i]) {
+            newBoughtPending.push(investor.investorBoughtPendingProperties[i]);
+          }
+        }
+
+        investor.investorBoughtProperties.push(propertyId);
+
+        investor.save((error, updatedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error marking property as sold.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully marked property as sold.',
+              data: updatedInvestor
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to mark property as sold.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to mark property as sold. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
 /*
 ===== INVESTOR SETTERS END =====
 */
@@ -835,7 +1072,9 @@ module.exports.getPropertiesForLender = function(lenderId) {
         reject(errorObj);
       } else if (lender) {
         let properties = [];
-        properties.concat(lender.lenderLoanedProperties);
+        lender.lenderLoanedProperties.forEach((property) => {
+          properties.push(property);
+        });
         let successObj = {
           success: true,
           message: 'Successfully retrieved all properties for user.',
