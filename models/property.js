@@ -310,7 +310,39 @@ module.exports.getPropertiesById = function(propertyIDs) {
 };
 
 
-module.exports.updatePropertyAfterSale = function(propertyId) {
+module.exports.updatePropertySoldPending = function(propertyId) {
+  return new Promise((resolve, reject) => {
+    Property.findById(propertyId, (error, property) => {
+      property.status = 'Sold-Pending';
+      property.save((error, newProperty) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error updating property.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (newProperty) {
+          let successObj = {
+            success: true,
+            message: 'Successfully updated property.',
+            data: newProperty
+          }
+          resolve(successObj);
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to update property',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      });
+    });
+  });
+};
+
+module.exports.updatePropertySoldAccepted = function(propertyId) {
   return new Promise((resolve, reject) => {
     Property.findById(propertyId, (error, property) => {
       property.status = 'Sold';
