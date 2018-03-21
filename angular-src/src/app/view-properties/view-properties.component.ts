@@ -7,6 +7,7 @@ import { DeletePropertyService } from '../services/deleteProperty.service';
 import { EditPropertyService } from '../services/editProperty.service';
 import { GetAllPropertiesService } from '../services/getAllProperties.service';
 import { GetUserPropertiesService } from '../services/getUserProperties.service';
+import { SoldPropertyService } from '../services/soldProperty.service';
 import { ViewPropertyService } from '../services/viewProperty.service';
 
 import { Property } from '../models/Property';
@@ -39,6 +40,7 @@ export class ViewPropertiesComponent implements OnInit {
               private deletePropertyService: DeletePropertyService,
               private getUserPropertiesService: GetUserPropertiesService,
               private editPropertyService: EditPropertyService,
+              private soldPropertyService: SoldPropertyService,
               private viewPropertyService: ViewPropertyService,
               private router: Router,
               private activatedRoute: ActivatedRoute)
@@ -91,7 +93,6 @@ export class ViewPropertiesComponent implements OnInit {
     this.getUserPropertiesService.getWholesalerUserProperties(wholesalerID)
       .subscribe((response) => {
         response.forEach((property) => {
-          console.log("property for user:", property)
           if (property.status === 'Listed') {
             this.wholesalerPropertiesListed.push(property);
           } else if (property.status === 'Sold') {
@@ -121,7 +122,7 @@ export class ViewPropertiesComponent implements OnInit {
             this.investorPropertiesConnected.push(property);
           } else if (property.status === 'Starred') {
             this.investorPropertiesStarred.push(property);
-          } else if (property.status === 'Bought-Pending') {
+          } else if (property.status === 'Sold-Pending') {
             this.investorPropertiesBoughtPending.push(property);
           }
         });
@@ -144,6 +145,22 @@ export class ViewPropertiesComponent implements OnInit {
       }, (error) => {
 
       });
+  }
+
+  acceptSold(property) {
+    this.soldPropertyService.acceptSoldProperty(property, this.currentUser._id)
+      .subscribe((response) => {
+        this.investorPropertiesBoughtPending = this.investorPropertiesBoughtPending.filter((p) => {
+          return p._id != property._id;
+        });
+        this.investorPropertiesBought.push(property);
+      }, (error) => {
+
+      })
+  }
+
+  denySold() {
+
   }
 
 }
