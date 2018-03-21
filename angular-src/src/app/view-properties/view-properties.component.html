@@ -64,7 +64,9 @@
                     Click on any image to view the property
                   </p>
                   <div id="lightgallery" class="row lightGallery" *ngFor="let listedProperty of wholesalerPropertiesListed">
-                    <a (click)="viewProperty(listedProperty)" class="image-tile" alt="image large"><img src="{{ listedProperty.photos[0] }}" alt="image small"></a>
+                    <a (click)="viewProperty(listedProperty)" class="image-tile" alt="image large">
+                      <img src="{{ listedProperty.photos[0] }}" alt="image small">
+                    </a>
                   </div>
                 </div>
               </div>
@@ -79,7 +81,26 @@
                     Click on any image to view the property
                   </p>
                   <div id="lightgallery" class="row lightGallery" *ngFor="let soldProperty of wholesalerPropertiesSold">
-                    <a (click)="viewProperty(soldProperty)" class="image-tile" alt="image large"><img src="{{ soldProperty.photos[0] }}" alt="image small"></a>
+                    <a (click)="viewProperty(soldProperty)" class="image-tile" alt="image large">
+                      <img src="{{ soldProperty.photos[0] }}" alt="image small">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row grid-margin">
+            <div class="col-lg-12">
+              <div class="card px-3">
+                <div class="card-body">
+                  <h4 class="card-title">Sold Properties Awaiting Confirmation</h4>
+                  <p class="card-text">
+                    Click on any image to view the property
+                  </p>
+                  <div id="lightgallery" class="row lightGallery" *ngFor="let property of wholesalerPropertiesSoldPending">
+                    <a (click)="viewProperty(property)" class="image-tile" alt="image large">
+                      <img src="{{ property.photos[0] }}" alt="image small">
+                    </a>
                   </div>
                 </div>
               </div>
@@ -100,6 +121,29 @@
 
       <div class="main-panel" *ngIf="currentUser.userType=='Investor'">
         <div class="content-wrapper">
+
+          <div class="row" *ngIf="investorPropertiesBoughtPending.length>0">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4>Awaiting Your Approval</h4>
+                  <div class="col-md-4 grid-margin stretch-card" *ngFor="let property of investorPropertiesBoughtPending">
+                    <div class="card text-center">
+                      <div class="card-body">
+                        <img src="{{ property.photos[0] }}" class="img-lg rounded-circle mb-2"/>
+                        <h4>{{ property.address }}</h4>
+                        <h4>{{ property.city }}, {{ property.state }} {{ property.zipCode }}</h4>
+                        <p class="text-muted">{{ connection.userType }}</p>
+                        <button class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4" (click)="acceptSold(property)">Accept</button>
+                        <button class="btn btn-inverse-danger btn-rounded btn-sm mt-3 mb-4" (click)="denySold(property)">Deny</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="row grid-margin">
             <div class="col-lg-12">
               <div class="card">
@@ -109,14 +153,9 @@
                     Click on any image to view the property
                   </p>
                   <div id="lightgallery" class="row lightGallery">
-                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
+                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large">
+                      <img src="/assets/images/samples/300x300/1.jpg" alt="image small">
+                    </a>
                   </div>
                 </div>
               </div>
@@ -131,14 +170,9 @@
                     Click on any image to view the property
                   </p>
                   <div id="lightgallery" class="row lightGallery">
-                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
+                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large">
+                      <img src="/assets/images/samples/300x300/1.jpg" alt="image small">
+                    </a>
                   </div>
                 </div>
             </div>
@@ -152,14 +186,9 @@
                     Click on any image to view the property
                   </p>
                   <div id="lightgallery" class="row lightGallery">
-                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
+                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large">
+                      <img src="/assets/images/samples/300x300/1.jpg" alt="image small">
+                    </a>
                   </div>
                 </div>
               </div>
@@ -183,28 +212,6 @@
         <div class="content-wrapper">
           <div class="row grid-margin">
             <div class="col-lg-12">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Properties Listed by Connections</h4>
-                  <p class="card-text">
-                    Click on any image to view the property
-                  </p>
-                  <div id="lightgallery" class="row lightGallery">
-                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row grid-margin">
-            <div class="col-lg-12">
               <div class="card px-3">
                 <div class="card-body">
                   <h4 class="card-title">Properties Carrying the Note</h4>
@@ -212,14 +219,9 @@
                     Click on any image to view the property
                   </p>
                   <div id="lightgallery" class="row lightGallery">
-                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/1.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/2.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/2.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/3.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/3.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/4.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/4.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/5.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/5.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/6.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/6.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/7.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/7.jpg" alt="image small"></a>
-                    <a href="../../images/samples/1280x768/8.jpg" class="image-tile" alt="image large"><img src="/assets/images/samples/300x300/8.jpg" alt="image small"></a>
+                    <a href="/assets/images/samples/1280x768/1.jpg" class="image-tile" alt="image large">
+                      <img src="/assets/images/samples/300x300/1.jpg" alt="image small">
+                    </a>
                   </div>
                 </div>
               </div>

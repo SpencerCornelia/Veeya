@@ -41,6 +41,7 @@ export class SoldPropertyService {
       property: property,
       investorId: investorId
     });
+    headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, { headers: headers })
       .map((response) => {
         return response.json();
@@ -60,6 +61,7 @@ export class SoldPropertyService {
       property: property,
       investorId: investorId
     });
+    headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, { headers: headers })
       .map((response) => {
         return response.json();
