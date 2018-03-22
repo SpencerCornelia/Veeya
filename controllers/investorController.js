@@ -43,7 +43,6 @@ router.get('/:uid', (req, res) => {
 
 // POST HTTP to /investor/inviteinvestor
 router.post('/inviteinvestor', (req, res, next) => {
-  console.log("req.body:", req.body)
   let wholesalerID = req.body.wholesaler_id;
   let investorId = '';
   user.registerUser(req.body)
