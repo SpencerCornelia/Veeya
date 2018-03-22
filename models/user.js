@@ -1863,8 +1863,3 @@ let validateRegisterUser = function(data) {
     return false;
   }
 };
-
-
-
-
-
