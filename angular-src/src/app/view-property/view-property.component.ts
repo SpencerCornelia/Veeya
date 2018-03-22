@@ -20,6 +20,7 @@ import { ViewPropertyService } from '../services/viewProperty.service';
 })
 export class ViewPropertyComponent implements OnInit {
 
+  private currentUserType: string;
   private editMode: Boolean = false;
   private photo: File;
   private photosToAdd: Array<File> = [];
@@ -40,6 +41,7 @@ export class ViewPropertyComponent implements OnInit {
               private validateService: ValidateService) { }
 
   ngOnInit() {
+    this.currentUserType = this.authService.loggedInUserType();
     this.propertyID = this.route.snapshot.params['id'];
     this.getProperty(this.propertyID);
 
