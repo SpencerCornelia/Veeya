@@ -616,6 +616,9 @@
                     </div>
                     <br />
                     <div class="buttons">
+                      <div class="row edit-property-btn" *ngIf="currentUserType=='Investor'">
+                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="customizeProperty()">Customize Property</button>
+                      </div>
                       <div class="row edit-property-btn" *ngIf="propertyOwner">
                         <button *ngIf="!editMode" id="editButton" type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="edit()">Edit Property</button>
                         <button *ngIf="property.status!='Sold'" id="soldButton" type="button" class="btn btn-inverse-warning btn-rounded btn-fw" (click)="sold()">Mark as Sold</button>

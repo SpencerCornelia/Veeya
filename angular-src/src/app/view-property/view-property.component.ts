@@ -6,6 +6,7 @@ import { Property } from '../models/Property';
 import { User } from '../models/User';
 
 import { AuthService } from '../services/auth.service';
+import { CustomizePropertyService } from '../services/customizeProperty.service';
 import { DeletePropertyService } from '../services/deleteProperty.service';
 import { EditPropertyService } from '../services/editProperty.service';
 import { PhotosService } from '../services/photos.service';
@@ -33,6 +34,7 @@ export class ViewPropertyComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private authService: AuthService,
+              private customizePropertyService: CustomizePropertyService,
               private deletePropertyService: DeletePropertyService,
               private editPropertyService: EditPropertyService,
               private viewPropertyService: ViewPropertyService,
@@ -220,6 +222,11 @@ export class ViewPropertyComponent implements OnInit {
 
         })
     }
+  }
+
+  customizeProperty() {
+    this.customizePropertyService.setProperty(this.property);
+    this.router.navigate(['/customizeproperty/', this.property._id]);
   }
 }
 
