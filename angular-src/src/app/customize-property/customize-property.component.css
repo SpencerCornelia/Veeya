@@ -1,0 +1,8 @@
+.required-field {
+  font-size: 12px;
+}
+
+.required-field:after {
+  content: " *";
+  color: red;
+}

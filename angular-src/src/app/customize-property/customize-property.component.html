@@ -56,18 +56,16 @@
       <div class="main-panel">
         <div class="content-wrapper">
 
-
-          <div class="row" *ngIf="property.photos !== undefined">
-            <div class="col-lg-12 grid-margin">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Property Photos</h4>
-                  <div class="row">
-                    <div *ngFor="let photo of property.photos">
-                      <div class="col-xs-4">
-                        <div class="card h-100" id="photoCard">
-                          <img id="propertyImage" src="{{ photo }}" />
-                        </div>
+        <div class="row" *ngIf="property.photos !== undefined">
+          <div class="col-lg-12 grid-margin">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Property Photos</h4>
+                <div class="row">
+                  <div *ngFor="let photo of property.photos">
+                    <div class="col-xs-4">
+                      <div class="card h-100" id="photoCard">
+                        <img id="propertyImage" src="{{ photo }}" />
                       </div>
                     </div>
                   </div>
@@ -75,8 +73,294 @@
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="row">
+
+        <div class="row">
+          <div class="col-md-6 d-flex align-items-stretch grid-margin">
+            <div class="row flex-grow">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Income</h4>
+                    <h6 class="required-field card-description"><em>Monthly</em></h6>
+                    <form class="forms-sample">
+                      <div class="form-group">
+                        <label for="averageRent">Gross Rent</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <div class="form-group" id="extraIncome">
+                      </div>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="addExtraIncome()">Add Extra Income</button>
+                      </div>
+                      <h4 class="card-title">Fixed Expenses</h4>
+                      <div class="form-group">
+                        <label for="expectedRehab">Total Expected Rehab Costs</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <h6 class="required-field card-description"><em>Monthly</em></h6>
+                      <div class="form-group">
+                        <label for="propertyTaxes">Property Taxes</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="insurance">Insurance</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="hoa">HOA</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="utilities">Utilities</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="addExtraFixedExpense()">Add Extra Fixed Expense</button>
+                      </div>
+                      <h4 class="card-title">Variable Expenses</h4>
+
+                      <div class="form-group">
+                        <label for="vacancy">Vacancy</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                          </div>
+                        <input type="text" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="propertyManagement">Property Management</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                          </div>
+                        <input type="text" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="capEx">Capital Expenditures</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                          </div>
+                        <input type="text" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="smallRepairs">Small Repairs</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                          </div>
+                        <input type="text" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="addExtraVariableExpense()">Add Extra Variable Expense</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+
+
+
+
+          <div class="col-md-6 d-flex align-items-stretch grid-margin">
+            <div class="row flex-grow">
+              <div class="col-12">
+<div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">Income</h4>
+                    <h6 class="required-field card-description"><em>Monthly</em></h6>
+                    <form class="forms-sample">
+                      <div class="form-group">
+                        <label for="averageRent">Gross Rent</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <div class="form-group" id="extraIncome">
+                      </div>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="addExtraIncome()">Add Extra Income</button>
+                      </div>
+                      <h4 class="card-title">Fixed Expenses</h4>
+                      <div class="form-group">
+                        <label for="expectedRehab">Total Expected Rehab Costs</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <h6 class="required-field card-description"><em>Monthly</em></h6>
+                      <div class="form-group">
+                        <label for="propertyTaxes">Property Taxes</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="insurance">Insurance</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="hoa">HOA</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="utilities">Utilities</label>
+                        <input type="text" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="addExtraFixedExpense()">Add Extra Fixed Expense</button>
+                      </div>
+                      <h4 class="card-title">Variable Expenses</h4>
+
+                      <div class="form-group">
+                        <label for="vacancy">Vacancy</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                          </div>
+                        <input type="text" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="propertyManagement">Property Management</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                          </div>
+                        <input type="text" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="capEx">Capital Expenditures</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                          </div>
+                        <input type="text" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="smallRepairs">Small Repairs</label>
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text">%</span>
+                          </div>
+                        <input type="text" class="form-control">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="addExtraVariableExpense()">Add Extra Variable Expense</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+</div>
+</div>
+</div>
+
+
+
+
+
+              </div>
+            </div>
+          </div>
+
+
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Loan Terms</h4>
+                  <form class="forms-sample">
+                    <div class="form-group">
+                      <label for="exampleInputName1">Purchase Price</label>
+                      <input type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail3">Length of Loan</label>
+                      <div class="col-sm-6">
+                        <select class="form-control">
+                          <option>1</option>
+                          <option>2</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword4">Amortization Period</label>
+                      <div class="col-sm-6">
+                        <select class="form-control">
+                          <option>1</option>
+                          <option>2</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="balloonPayment">Balloon Payment at Year..</label>
+                      <div class="col-sm-6">
+                        <select class="form-control">
+                          <option>N/A</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputCity1">Interest Rate</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleTextarea1">Closing Costs</label>
+                      <input type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label for="pmi">PMI</label>
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">%</span>
+                        </div>
+                        <input type="text" class="form-control">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+
+
+        <!-- partial:../../partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid clearfix">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+</body>
+
+</html>
+
+
+
+
+
+
+          <!-- <div class="row">
             <div class="col-12 grid-margin">
               <div class="card">
                 <div class="card-body">
@@ -124,10 +408,6 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">State</label>
                           <div class="col-sm-6">
-                            <input type="text" class="form-control"
-                              [(ngModel)]="property.state"
-                              name="state"
-                            />
                             <select [(ngModel)]="property.state" #state="ngModel" name="state" class="form-control">
                               <option value="AL">Alabama</option>
                               <option value="AK">Alaska</option>
@@ -222,11 +502,6 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Beds</label>
                           <div class="col-sm-4">
-                            <input type="text" class="form-control"
-                              [(ngModel)]="property.bedrooms"
-                              name="bedrooms"
-                              #bedrooms="ngModel"
-                            />
                             <select [(ngModel)]="property.bedrooms" #bedrooms="ngModel" name="bedrooms" class="form-control">
                               <option value="0">0</option>
                               <option value="1">1</option>
@@ -242,11 +517,6 @@
                         <div class="form-group row">
                           <label class="col-sm-4 col-form-label">Baths</label>
                           <div class="col-sm-4">
-                            <input type="text" class="form-control"
-                              [(ngModel)]="property.bathrooms"
-                              name="bathrooms"
-                              #bathrooms="ngModel"
-                            />
                             <select [(ngModel)]="property.bathrooms" #bathrooms="ngModel" name="bathrooms" class="form-control">
                               <option value="0">0</option>
                               <option value="1">1</option>
@@ -325,10 +595,6 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Property Type</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control"
-                              [(ngModel)]="property.propertyType"
-                              name="propertyType"
-                            />
                             <select [(ngModel)]="property.propertyType" #propertyType="ngModel" name="propertyType" class="form-control">
                               <option value="Single Family">Single Family Home</option>
                               <option value="Condo">Condo</option>
@@ -432,11 +698,6 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Seller Financing Available?</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control"
-                              [(ngModel)]="property.sellerFinancing"
-                              name="sellerFinancing"
-                              #sellerFinancing="ngModel"
-                            />
                             <select type="text" class="form-control" [(ngModel)]="property.sellerFinancing" name="sellerFinancing" #sellerFinancing="ngModel">
                               <option value="no">No</option>
                               <option value="yes">Yes</option>
@@ -538,24 +799,6 @@
                         </div>
                       </div>
                     </div>
-                    <div class="form-group">
-                      <div class="row">
-                        <div class="col-4">
-                          <label>Status of Property</label>
-                          <div class="col-xs-3">
-                            <input type="text" class="form-control"
-                              [(ngModel)]="property.status"
-                              name="status"
-                              #status="ngModel"
-                            />
-                            <select class="form-control" [(ngModel)]="property.status" name="status" #status="ngModel">
-                              <option value="Listed">Yes</option>
-                              <option value="NoContract">No</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
 
                     <br />
                     <div class="buttons">
@@ -568,23 +811,6 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.html -->
-        <footer class="footer">
-          <div class="container-fluid clearfix">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
-          </div>
-        </footer>
-        <!-- partial -->
-      </div>
-      <!-- main-panel ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-</body>
 
-</html>
+
+          </div> -->
