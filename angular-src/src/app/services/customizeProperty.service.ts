@@ -9,6 +9,8 @@ import 'rxjs/add/operator/map';
 export class CustomizePropertyService {
 
   private property = new ReplaySubject(1);
+  private customizedProperty: Property;
+  private customizedPropertyExists: boolean = false;
 
   constructor() { }
 
@@ -18,6 +20,15 @@ export class CustomizePropertyService {
 
   public getProperty() {
     return this.property.asObservable();
+  }
+
+  public setCustomizedProperty(property: Property) {
+    this.customizedProperty = property;
+    this.customizedPropertyExists = true;
+  }
+
+  public getCustomizedProperty() {
+    return this.customizedPropertyExists ? this.customizedProperty : false;
   }
 
 }
