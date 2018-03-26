@@ -51,6 +51,7 @@ import { AuthService } from './services/auth.service';
 import { CustomizePropertyService } from './services/customizeProperty.service';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { EditPropertyService } from './services/editProperty.service';
+import { GenerateReportComponent } from './generate-report/generate-report.component';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
 import { GetConnectionsService } from './services/getConnections.service';
 import { GetUserPropertiesService } from './services/getUserProperties.service';
@@ -82,6 +83,7 @@ import { CustomizePropertyComponent } from './customize-property/customize-prope
     FilterStatePipe,
     FilterStatusPipe,
     FilterUsernamePipe,
+    GenerateReportComponent,
     LoginComponent,
     MyProfileComponent,
     InvestorWantedDealsComponent,
