@@ -10,7 +10,7 @@ export class CustomizePropertyService {
 
   private property = new ReplaySubject(1);
   private customizedProperty: Property;
-  private customizedPropertyExists: boolean = false;
+  public customizedPropertyExists: boolean = false;
 
   constructor() { }
 
@@ -28,7 +28,7 @@ export class CustomizePropertyService {
   }
 
   public getCustomizedProperty() {
-    return this.customizedPropertyExists ? this.customizedProperty : false;
+    return this.customizedProperty;
   }
 
 }
