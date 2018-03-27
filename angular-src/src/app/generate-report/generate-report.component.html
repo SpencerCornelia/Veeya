@@ -1,3 +1,381 @@
-<p>
-  generate-report works!
-</p>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Star Admin Premium Bootstrap Admin Dashboard Template</title>
+  <!-- inject:css -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="images/favicon.png" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <div class="container-fluid page-body-wrapper">
+      <div class="main-panel" id="main-panel-generate-report">
+        <div class="content-wrapper">
+
+          <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+              <div><button class="btn btn-inverse-primary btn-rounded btn-fw" [disabled]="this.firstYear">Previous Year</button></div>
+              <p class="current-year-title">2018</p>
+              <div><button class="btn btn-inverse-primary btn-rounded btn-fw" [disabled]="this.lastYear">Next Year</button></div>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+              <div class="card card-statistics">
+                <div class="card-body">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <i class="mdi mdi-cube text-danger icon-lg"></i>
+                    </div>
+                    <div class="float-right">
+                      <p class="card-text text-right">Cash on Cash Return</p>
+                      <div class="fluid-container">
+                        <h3 class="card-title font-weight-bold text-right mb-0">5%</h3>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="text-muted mt-3">
+                    <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i>Cash return in Year 1
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+              <div class="card card-statistics">
+                <div class="card-body">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <i class="mdi mdi-receipt text-warning icon-lg"></i>
+                    </div>
+                    <div class="float-right">
+                      <p class="card-text text-right">Equity Built</p>
+                      <div class="fluid-container">
+                        <h3 class="card-title font-weight-bold text-right mb-0">$3455</h3>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="text-muted mt-3">
+                    <i class="mdi mdi-bookmark-outline mr-1" aria-hidden="true"></i>Equity built in Year 1
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+              <div class="card card-statistics">
+                <div class="card-body">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <i class="mdi mdi-poll-box text-teal icon-lg"></i>
+                    </div>
+                    <div class="float-right">
+                      <p class="card-text text-right">Net Worth Growth</p>
+                      <div class="fluid-container">
+                        <h3 class="card-title font-weight-bold text-right mb-0">$5693</h3>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="text-muted mt-3">
+                    <i class="mdi mdi-calendar mr-1" aria-hidden="true"></i>Growth in net worth in Year 1
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
+              <div class="card card-statistics">
+                <div class="card-body">
+                  <div class="clearfix">
+                    <div class="float-left">
+                      <i class="mdi mdi-account-location text-info icon-lg"></i>
+                    </div>
+                    <div class="float-right">
+                      <p class="card-text text-right">Real Return</p>
+                      <div class="fluid-container">
+                        <h3 class="card-title font-weight-bold text-right mb-0">246%</h3>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="text-muted mt-3">
+                    <i class="mdi mdi-reload mr-1" aria-hidden="true"></i>Internal Rate of Return in Year 1
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title mb-4">Monthly Numbers</h5>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Category</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Income</th>
+                          <th scope="col">Expense</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">Income</th>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <td>Gross Rent</td>
+                          <td class="text-success number">2500</td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <td>Laundry</td>
+                          <td class="text-success number">125</td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <td>Total Income</td>
+                          <td></td>
+                          <td></td>
+                          <td class="text-success number">2625</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Fixed Expenses</th>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <td>Mortgage</td>
+                          <td></td>
+                          <td class="text-danger number">500</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <td>Utilities</td>
+                          <td></td>
+                          <td class="text-danger number">100</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <td>Total Fixed Expenses</td>
+                          <td></td>
+                          <td></td>
+                          <td class="text-danger number">100</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Variable Expenses</th>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <td>Water</td>
+                          <td></td>
+                          <td class="text-danger number">500</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <td>Gas</td>
+                          <td></td>
+                          <td class="text-danger number">800</td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th></th>
+                          <td>Total Variable Expenses</td>
+                          <td></td>
+                          <td></td>
+                          <td class="text-danger number">1300</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Net Monthly Cashflow</th>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td class="text-success number"><em><strong>1225</strong></em></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title mb-4">Yearly Numbers</h5>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Category</th>
+                          <th scope="col">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">Net Operating Income</th>
+                          <td>5000</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Equity Built</th>
+                          <td>3420</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Depreciation</th>
+                          <td>8345</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Income Saved from Taxes</th>
+                          <td>1000</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Appreciation</th>
+                          <td>5200</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Total Return in Dollars</th>
+                          <td>10025</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Real Return</th>
+                          <td scope="row" class="text-success"><em><strong>47%</strong></em></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title mb-4">Amortization Schedule</h5>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Month</th>
+                          <th scope="col">Payment</th>
+                          <th scope="col">Principal Paid</th>
+                          <th scope="col">Interest Paid</th>
+                          <th scope="col">Balance Remaining</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row">March 2018</th>
+                          <td>$1,288.37</td>
+                          <td>$288.37</td>
+                          <td>$1000</td>
+                          <td>$23712.63</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">April 2018</th>
+                          <td>$1,288.37</td>
+                          <td>$288.37</td>
+                          <td>$1000</td>
+                          <td>$23712.63</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">May 2018</th>
+                          <td>$1,288.37</td>
+                          <td>$288.37</td>
+                          <td>$1000</td>
+                          <td>$23712.63</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">June 2018</th>
+                          <td>$1,288.37</td>
+                          <td>$288.37</td>
+                          <td>$1000</td>
+                          <td>$23712.63</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Yearly Totals</th>
+                          <td><strong>$15298.89</strong></td>
+                          <td><strong>$3420.65</strong></td>
+                          <td><strong>$12000</strong></td>
+                          <td><strong>$226000.12</strong></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+          <div class="container-fluid clearfix">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
+          </div>
+        </footer>
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+
+  <!-- plugins:js -->
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="node_modules/raphael/raphael.min.js"></script>
+  <script src="node_modules/morris.js/morris.min.js"></script>
+  <script src="node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
+  <script src="node_modules/chartist/dist/chartist.min.js"></script>
+  <script src="node_modules/chart.js/dist/Chart.min.js"></script>
+  <script src="node_modules/jvectormap/jquery-jvectormap.min.js"></script>
+  <script src="node_modules/jvectormap/tests/assets/jquery-jvectormap-world-mill-en.js"></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="js/off-canvas.js"></script>
+  <script src="js/hoverable-collapse.js"></script>
+  <script src="js/misc.js"></script>
+  <script src="js/settings.js"></script>
+  <script src="js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="js/dashboard.js"></script>
+  <!-- End custom js for this page-->
+</body>
+
+</html>
