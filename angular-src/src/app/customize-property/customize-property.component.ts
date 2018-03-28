@@ -16,6 +16,11 @@ declare var $: any;
 })
 export class CustomizePropertyComponent implements OnInit {
 
+  private equityForYear: any;
+  private totalPrincipalPaid: any;
+  private totalInterestPaid: any;
+  private principalPaid: any;
+  private interestPaid: any;
   private insurance: any;
   private propertyTaxes: any;
   private utilities: any;
@@ -39,6 +44,7 @@ export class CustomizePropertyComponent implements OnInit {
   private cashFlow: any;
   private totalReturnDollars: any;
   private totalReturnPercent: any;
+  private newExtraIncome: any;
 
   private balloonPayment: Boolean;
   private property: any;
@@ -54,9 +60,6 @@ export class CustomizePropertyComponent implements OnInit {
   private amortizationPayments: any;
   private appreciation: any;
   private equityBuilt: any;
-  private extraIncomes: Array<any> = [];
-  private extraFixedExpenses: Array<any> = [];
-  private extraVariableExpenses: Array<any> = [];
   private monthlyNumbers: any;
 
   constructor(private customizePropertyService: CustomizePropertyService, private router: Router) { }
@@ -144,9 +147,12 @@ export class CustomizePropertyComponent implements OnInit {
       expenseAmount: ''
     }
 
+    this.property.extraIncomes = [];
+    this.property.extraFixedExpenses = [];
+    this.property.extraVariableExpenses = [];
     this.property.amortizationPayments = {};
     this.property.appreciationNumbers = {};
-    this.property.equityBuilt = {};
+    this.property.equityBuiltNumbers = {};
     this.property.monthlyNumbers = {};
     this.property.insuranceNumbers = {};
     this.property.propertyTaxesNumbers = {};
@@ -168,6 +174,9 @@ export class CustomizePropertyComponent implements OnInit {
     this.property.cashFlowNumbers = {};
     this.property.depreciationNumbers = {};
     this.property.totalEquityBuiltNumbers = {};
+    this.property.totalReturnDollarsNumbers = {};
+    this.property.utilitiesNumbers = {};
+    this.property.propertyManagementNumbers = {};
 
   }
 
@@ -191,7 +200,7 @@ export class CustomizePropertyComponent implements OnInit {
 
     newIncome.incomeName = $("#incomeName").val();
     newIncome.incomeAmount = $("#incomeAmount").val();
-    this.extraIncomes.push(newIncome);
+    this.property.extraIncomes.push(newIncome);
     this.incomeAdded = true;
     $("#extraIncomeModal").modal('hide');
   }
@@ -204,7 +213,7 @@ export class CustomizePropertyComponent implements OnInit {
 
     newFixedExpense.expenseName = $("#fixedExpenseName").val();
     newFixedExpense.expenseAmount = $("#fixedExpenseAmount").val();
-    this.extraFixedExpenses.push(newFixedExpense);
+    this.property.extraFixedExpenses.push(newFixedExpense);
     this.fixedExpenseAdded = true;
     $("#fixedExpenseModal").modal('hide');
   }
@@ -217,7 +226,7 @@ export class CustomizePropertyComponent implements OnInit {
 
     newVariableExpense.expenseName = $("#variableExpenseName").val();
     newVariableExpense.expenseAmount = $("#variableExpenseAmount").val();
-    this.extraVariableExpenses.push(newVariableExpense);
+    this.property.extraVariableExpenses.push(newVariableExpense);
     this.variableExpenseAdded = true;
     $("#variableExpenseModal").modal('hide');
   }
@@ -240,15 +249,14 @@ export class CustomizePropertyComponent implements OnInit {
       this.property.averageRent = parseInt(this.property.averageRent);
 
 
-      if (this.extraIncomes.length > 0) {
-        this.extraIncomes.forEach((income, index) => {
+      if (this.property.extraIncomes.length > 0) {
+        this.property.extraIncomes.forEach((income, index) => {
           income["incomeAmount"] = this.cleanseString(income["incomeAmount"]);
-          this.extraIncomes[index] = {
+          this.property.extraIncomes[index] = {
             incomeName: income["incomeName"],
             incomeAmount: parseInt(income["incomeAmount"])
           }
         });
-        this.property.extraIncomes = this.extraIncomes;
       } else {
         this.property.extraIncomes = {};
       }
@@ -274,15 +282,15 @@ export class CustomizePropertyComponent implements OnInit {
       this.property.utilities = parseInt(this.property.utilities);
 
 
-      if (this.extraFixedExpenses) {
-        this.extraFixedExpenses.forEach((expense, index) => {
+      if (this.property.extraFixedExpenses) {
+        this.property.extraFixedExpenses.forEach((expense, index) => {
           expense["expenseAmount"] = this.cleanseString(expense["expenseAmount"]);
-          this.extraFixedExpenses[index] = {
+          this.property.extraFixedExpenses[index] = {
             expenseName: expense["expenseName"],
             expenseAmount: parseInt(expense["expenseAmount"])
           }
         });
-        this.property.extraFixedExpenses = this.extraFixedExpenses;
+        this.property.extraFixedExpenses = this.property.extraFixedExpenses;
       } else {
         this.property.extraFixedExpenses = {};
       }
@@ -308,15 +316,15 @@ export class CustomizePropertyComponent implements OnInit {
       this.property.smallRepairs = this.property.smallRepairs/100;
 
 
-      if (this.extraVariableExpenses) {
-        this.extraVariableExpenses.forEach((expense, index) => {
+      if (this.property.extraVariableExpenses) {
+        this.property.extraVariableExpenses.forEach((expense, index) => {
           expense["expenseAmount"] = this.cleanseString(expense["expenseAmount"]);
-          this.extraVariableExpenses[index] = {
+          this.property.extraVariableExpenses[index] = {
             expenseName: expense["expenseName"],
             expenseAmount: parseFloat(expense["expenseAmount"])/100
           }
         });
-        this.property.extraVariableExpenses = this.extraVariableExpenses;
+        this.property.extraVariableExpenses = this.property.extraVariableExpenses;
       } else {
         this.property.extraVariableExpenses = {};
       }
@@ -399,7 +407,7 @@ export class CustomizePropertyComponent implements OnInit {
       this.property.propertyValue = parseFloat(this.property.propertyValue).toFixed(2);
       this.property.propertyValue = parseFloat(this.property.propertyValue);
 
-
+      this.equityForYear = 0;
       this.property.totalEquityBuilt = this.property.propertyValue - this.property.purchasePrice + this.property.downPayment;
 
       let principalRemaining = this.property.principalLoanAmount;
@@ -411,8 +419,8 @@ export class CustomizePropertyComponent implements OnInit {
       let currentMonth = months[month];
       let currentYear = newDate.getFullYear();
 
-      let totalInterestPaid = 0;
-      let totalPrincipalPaid = this.property.downPayment;
+      this.totalInterestPaid = 0;
+      this.totalPrincipalPaid = this.property.downPayment;
 
       let numerator = rate * this.property.principalLoanAmount * (Math.pow(1+rate, this.property.numberOfPayments));
       let denominator = (Math.pow(1+rate, this.property.numberOfPayments) - 1);
@@ -443,15 +451,24 @@ export class CustomizePropertyComponent implements OnInit {
         }
 
 
-        let intPaid = principalRemaining * rate;
-        let interestString = Number(intPaid).toFixed(2);
-        let interestPaid = parseFloat(interestString);
-        totalInterestPaid = totalInterestPaid + interestPaid;
+        this.interestPaid = principalRemaining * rate;
+        this.interestPaid = Number.parseFloat(this.interestPaid).toFixed(2);
+        this.interestPaid = parseFloat(this.interestPaid);
+        this.totalInterestPaid = this.totalInterestPaid + this.interestPaid;
+        this.totalInterestPaid = Number.parseFloat(this.totalInterestPaid).toFixed(2);
+        this.totalInterestPaid = parseFloat(this.totalInterestPaid);
 
-        let principalInitial = this.property.monthlyPayment - interestPaid - this.property.PMIAmount;
-        let principalString = Number(principalInitial).toFixed(2);
-        let principalPaid = parseFloat(principalString);
-        totalPrincipalPaid = totalPrincipalPaid + principalPaid;
+
+        this.principalPaid = this.property.monthlyPayment - this.interestPaid - this.property.PMIAmount;
+        this.principalPaid = Number.parseFloat(this.principalPaid).toFixed(2);
+        this.principalPaid = parseFloat(this.principalPaid);
+        this.totalPrincipalPaid = this.totalPrincipalPaid + this.principalPaid;
+        this.totalPrincipalPaid = Number.parseFloat(this.totalPrincipalPaid).toFixed(2);
+        this.totalPrincipalPaid = parseFloat(this.totalPrincipalPaid);
+
+
+        this.equityForYear = this.equityForYear + this.principalPaid;
+
 
         let pmiPay = ((this.property.PMI * this.property.principalLoanAmount)/12).toFixed(2);
         let pmiPaid = parseFloat(pmiPay);
@@ -460,22 +477,28 @@ export class CustomizePropertyComponent implements OnInit {
           month: currentMonth,
           year: currentYear,
           payment: this.property.monthlyPayment,
-          interestPaid: interestPaid,
-          principalPaid: principalPaid,
+          interestPaid: this.interestPaid,
+          principalPaid: this.principalPaid,
           pmiPaid: pmiPaid,
-          totalInterestPaid: totalInterestPaid,
-          totalPrincipalPaid: totalPrincipalPaid,
+          totalInterestPaid: this.totalInterestPaid,
+          totalPrincipalPaid: this.totalPrincipalPaid,
           balance: principalRemaining
         }
 
 
-        principalRemaining = principalRemaining - principalPaid;
+        principalRemaining = principalRemaining - this.principalPaid;
+
+        principalRemaining = parseFloat(parseFloat(principalRemaining).toFixed(2));
         paymentsRemaining = paymentsRemaining - 1;
 
 
         payments.push(payPeriod);
         if (currentMonth == 'December' || i == this.property.numberOfPayments) {
-          this.property.equityBuilt[currentYear] = this.property.totalEquityBuilt;
+          this.equityBuilt = this.equityForYear;
+          this.equityBuilt = parseFloat(this.equityBuilt).toFixed(2);
+          this.equityBuilt = parseFloat(this.equityBuilt);
+          this.property.equityBuiltNumbers[currentYear] = this.equityBuilt;
+          this.equityForYear = 0;
 
 
           this.property.propertyValue = this.property.propertyValue + (this.property.propertyValue * this.property.propertyAppreciation);
@@ -483,7 +506,7 @@ export class CustomizePropertyComponent implements OnInit {
           this.property.propertyValue = parseFloat(this.property.propertyValue);
 
 
-          this.property.totalEquityBuilt += principalPaid + (this.property.propertyValue - this.property.purchasePrice);
+          this.property.totalEquityBuilt += this.principalPaid + (this.property.propertyValue - this.property.purchasePrice);
           this.property.totalEquityBuilt = parseFloat(this.property.totalEquityBuilt).toFixed(2);
           this.property.totalEquityBuilt = parseFloat(this.property.totalEquityBuilt);
           this.property.totalEquityBuiltNumbers[currentYear] = this.property.totalEquityBuilt;
@@ -495,7 +518,6 @@ export class CustomizePropertyComponent implements OnInit {
 
           this.property.previousYearValue = this.property.propertyValue;
           this.property.previousYearValue = parseFloat(parseFloat(this.property.propertyValue).toFixed(2));
-          // this.property.previousYearValue = parseFloat(this.property.propertyValue);
 
           this.property.amortizationPayments[currentYear] = payments;
           payments = [];
@@ -523,10 +545,11 @@ export class CustomizePropertyComponent implements OnInit {
   calculations() {
     return new Promise((resolve, reject) => {
       let numbers = [];
-      //let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+      let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
       let newDate = new Date();
-      //let month = newDate.getMonth();
-      //let currentMonth = months[month];
+      let month = newDate.getMonth();
+      let currentMonth = months[month];
       let currentYear = newDate.getFullYear();
 
 
@@ -596,14 +619,14 @@ export class CustomizePropertyComponent implements OnInit {
             this.totalExtraFixedExpenses += expense.expenseAmount;
           });
         }
-        this.totalFixedExpense = this.propertyTaxes + this.insurance + this.HOA + this.utilities;
+        this.totalFixedExpense = this.propertyTaxes + this.insurance + this.HOA + this.utilities + this.property.monthlyPayment;
         this.totalFixedExpense = parseFloat(parseFloat(this.totalFixedExpense).toFixed(2));
 
 
         this.totalExtraVariableExpenses = 0;
         if (this.variableExpenseAdded) {
           this.property.extraVariableExpenses.forEach((expense) => {
-            this.totalExtraVariableExpenses += expense.expenseAmount;
+            this.totalExtraVariableExpenses += (expense.expenseAmount * this.property.averageRent[currentYear]);
           });
         }
         if (this.totalExtraVariableExpenses > 0) {
@@ -636,7 +659,7 @@ export class CustomizePropertyComponent implements OnInit {
                                     (this.smallRepairs);
 
 
-        this.totalExpenses = this.PITI + this.totalFixedExpense + this.totalExtraFixedExpenses +
+        this.totalExpenses = this.totalFixedExpense + this.totalExtraFixedExpenses +
                              this.totalVariableExpense + this.totalExtraVariableExpenses;
         this.totalExpenses = parseFloat(parseFloat(this.totalExpenses).toFixed(2));
 
@@ -666,17 +689,20 @@ export class CustomizePropertyComponent implements OnInit {
 
 
         this.cashFlow = this.totalIncome - this.totalExpenses;
+        this.cashFlow = parseFloat(parseFloat(this.cashFlow).toFixed(2));
 
 
-        this.totalReturnDollars = this.cashFlow + this.property.equityBuilt[currentYear] + this.property.depreciation +
+        this.totalReturnDollars = this.netOperatingIncome + this.property.equityBuiltNumbers[currentYear] +
                                     this.incomeSavedTaxes + this.property.appreciationNumbers[currentYear];
+        this.totalReturnDollars = parseFloat(parseFloat(this.totalReturnDollars).toFixed(2));
 
 
-        this.totalReturnPercent = this.totalReturnDollars / (this.property.downPayment + this.property.closingCosts);
+        this.totalReturnPercent = (this.totalReturnDollars / (this.property.downPayment + this.property.closingCosts)) * 100;
         this.totalReturnPercent = Number.parseFloat(this.totalReturnPercent).toFixed(2);
         this.totalReturnPercent = parseFloat(this.totalReturnPercent);
 
-        if (i % 12 == 0 || i == this.property.numberOfPayments) {
+
+        if (currentMonth == 'December' || i == this.property.numberOfPayments) {
           this.property.insuranceNumbers[currentYear] = this.insurance;
           this.property.propertyTaxesNumbers[currentYear] = this.propertyTaxes;
           this.property.averageRentNumbers[currentYear] = this.averageRent;
@@ -696,7 +722,21 @@ export class CustomizePropertyComponent implements OnInit {
           this.property.depreciationNumbers[currentYear] = this.property.depreciation;
           this.property.cashFlowNumbers[currentYear] = this.cashFlow;
           this.property.totalReturnPercentNumbers[currentYear] = this.totalReturnPercent;
+          this.property.totalReturnDollarsNumbers[currentYear] = this.totalReturnDollars;
+          this.property.utilitiesNumbers[currentYear] = this.utilities;
+          this.property.propertyManagementNumbers[currentYear] = this.propertyManagement;
 
+        }
+
+        if (month == 11) {
+          month = 0;
+          currentMonth = months[month];
+        } else {
+          month++;
+          currentMonth = months[month];
+        }
+
+        if (currentMonth == "January") {
           currentYear++;
         }
 
