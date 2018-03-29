@@ -33,9 +33,9 @@ export class GenerateReportComponent implements OnInit {
   private cashOnCashReturn: any;
   private depreciation: any;
   private equityBuilt: any;
-  private extraFixedExpenses: any;
-  private extraIncomes: any;
-  private extraVariableExpenses: any;
+  private extraIncomes: Array<any> = [];
+  private extraFixedExpenses: Array<any> = [];
+  private extraVariableExpenses: Array<any> = [];
   private incomeSavedTaxes: any;
   private insurance: any;
   private monthlyPayment: any;
@@ -99,14 +99,13 @@ export class GenerateReportComponent implements OnInit {
     this.cashOnCashReturn = this.property.cashOnCashReturnNumbers[year];
     this.depreciation = this.property.depreciationNumbers[year];
     this.equityBuilt = this.property.equityBuiltNumbers[year];
-    // this.extraFixedExpenses = this.property.extraFixedExpenses || [];
-    // this.extraVariableExpenses = this.property.extraVariableExpenses || [];
-    this.extraIncomes = this.property.extraIncomes;
-    this.extraFixedExpenses;
-    this.extraVariableExpenses;
+    this.getExtraIncomes(this.property.extraIncomesNumbers[year]);
+    this.getExtraFixedExpenses(this.property.extraFixedExpensesNumbers[year]);
+    this.getExtraVariableExpenses(this.property.extraVariableExpensesNumbers[year]);
     this.incomeSavedTaxes = this.property.incomeSavedTaxesNumbers[year];
     this.insurance = this.property.insuranceNumbers[year];
     this.monthlyPayment = this.property.monthlyPayment;
+    this.netOperatingIncome = this.property.netOperatingIncomeNumbers[year];
     this.propertyManagement = this.property.propertyManagementNumbers[year];
     this.propertyTax = this.property.propertyTaxesNumbers[year];
     this.smallRepairs = this.property.smallRepairsNumbers[year];
@@ -123,7 +122,6 @@ export class GenerateReportComponent implements OnInit {
     this.vacancy = this.property.vacancyNumbers[year];
 
 
-    this.netOperatingIncome = this.property.cashFlowNumbers[year] * 12;
 
     this.yearlyTotals["totalPayments"] = 0;
     this.yearlyTotals["totalPrincipal"] = 0;
@@ -151,6 +149,34 @@ export class GenerateReportComponent implements OnInit {
     this.currentYear = this.currentYear + 1;
     this.checkYear();
     this.setNumbers(this.currentYear);
+  }
+
+  getExtraIncomes(incomes) {
+    for (let key in incomes) {
+      this.extraIncomes.push({
+        incomeName: incomes[key]["incomeName"],
+        incomeAmount: incomes[key]["incomeAmount"]
+      });
+    }
+  }
+
+  getExtraFixedExpenses(expenses) {
+    for (let key in expenses) {
+      this.extraFixedExpenses.push({
+        expenseName: expenses[key]["expenseName"],
+        expenseAmount: expenses[key]["expenseAmount"]
+      });
+    }
+  }
+
+  getExtraVariableExpenses(expenses) {
+    for (let key in expenses) {
+      this.extraVariableExpenses.push({
+        expenseName: expenses[key]["expenseName"],
+        percent: expenses[key]["percent"],
+        expenseAmount: expenses[key]["expenseAmount"]
+      });
+    }
   }
 
 }
