@@ -200,6 +200,13 @@
                           <td class="text-danger">$ {{ utilities }}</td>
                           <td></td>
                         </tr>
+                        <tr *ngFor="let expense of extraFixedExpenses">
+                          <th></th>
+                          <td>{{ expense.expenseName }}</td>
+                          <td></td>
+                          <td class="text-danger">$ {{ expense.expenseAmount  }}</td>
+                          <td></td>
+                        </tr>
                         <tr>
                           <th></th>
                           <td>Total Fixed Expense</td>
@@ -240,6 +247,13 @@
                           <td>Small Repairs</td>
                           <td></td>
                           <td class="text-danger">$ {{ smallRepairs }}</td>
+                          <td></td>
+                        </tr>
+                        <tr *ngFor="let expense of extraVariableExpenses">
+                          <th></th>
+                          <td>{{ expense.expenseName }}</td>
+                          <td></td>
+                          <td class="text-danger">$ {{ expense.expenseAmount }}</td>
                           <td></td>
                         </tr>
                         <tr>
@@ -358,8 +372,6 @@
                           <td><strong>$ {{ yearlyTotals["totalPayments"] }}</strong></td>
                           <td><strong>$ {{ yearlyTotals["totalPrincipal"] }}</strong></td>
                           <td><strong>$ {{ yearlyTotals["totalInterest"] }}</strong></td>
-                          <td *ngIf="!finalPaymentYear"><strong>$ {{ yearlyTotals["balance"] }}</strong></td>
-                          <td *ngIf="finalPaymentYear"><strong>$ 0</strong></td>
                         </tr>
                       </tbody>
                     </table>
