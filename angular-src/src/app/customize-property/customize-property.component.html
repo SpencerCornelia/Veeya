@@ -126,7 +126,6 @@
                             [(ngModel)]="income.incomeAmount"
                             name="{{ income.incomeName }}"
                             #extraIncome="ngModel"
-                            minlength="2"
                             maxlength="10"
                             pattern="^[0-9]*$"
                             required
@@ -338,10 +337,10 @@
                           <label for="{{ expense.expenseName }}">{{ expense.expenseName }}</label>
                           <div class="input-group">
                             <div class="input-group-prepend">
-                              <span class="input-group-text">$</span>
+                              <span class="input-group-text">%</span>
                             </div>
                           <input type="text" class="form-control"
-                            [(ngModel)]="expense.expenseAmount"
+                            [(ngModel)]="expense.percent"
                             name="{{ expense.expenseName }}"
                             #extraVariableExpense="ngModel"
                             maxlength="10"
@@ -749,10 +748,10 @@
                           <div class="input-group-prepend">
                             <span class="input-group-text">%</span>
                           </div>
-                        <input type="text" class="form-control" id="variableExpenseAmount"
-                          #variableExpenseAmount="ngModel"
-                          name="variableExpenseAmount"
-                          [(ngModel)]="newVariableExpense.expenseAmount"
+                        <input type="text" class="form-control" id="variableExpensePercent"
+                          #variableExpensePercent="ngModel"
+                          name="variableExpensePercent"
+                          [(ngModel)]="newVariableExpense.percent"
                           maxlength="10"
                           pattern="^[1-9]\d*(\.\d+)?$"
                           required
