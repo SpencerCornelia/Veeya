@@ -16,7 +16,9 @@ declare var $: any;
 })
 export class CustomizePropertyComponent implements OnInit {
 
+  private dollarAmount: any;
   private equityForYear: any;
+  private inflatedVariableExpense: any;
   private totalPrincipalPaid: any;
   private totalInterestPaid: any;
   private principalPaid: any;
@@ -26,7 +28,7 @@ export class CustomizePropertyComponent implements OnInit {
   private utilities: any;
   private averageRent: any;
   private PITI: any;
-  private totalIncome: any;
+  private totalExtraIncome: any;
   private totalExtraFixedExpenses: any;
   private totalExtraVariableExpenses: any;
   private HOA: any;
@@ -37,6 +39,7 @@ export class CustomizePropertyComponent implements OnInit {
   private totalVariableExpense: any = 0;
   private totalFixedExpense: any = 0;
   private totalExpenses: any;
+  private totalIncome: any;
   private netOperatingIncome: any;
   private cashOnCashReturn: any;
   private depreciation: any;
@@ -56,6 +59,10 @@ export class CustomizePropertyComponent implements OnInit {
   private newIncome: any;
   private newFixedExpense: any;
   private newVariableExpense: any;
+
+  private extraIncomes: Array<any> = [];
+  private extraFixedExpenses: Array<any> = [];
+  private extraVariableExpenses: Array<any> = [];
 
   private amortizationPayments: any;
   private appreciation: any;
@@ -147,9 +154,9 @@ export class CustomizePropertyComponent implements OnInit {
       expenseAmount: ''
     }
 
-    this.property.extraIncomes = [];
-    this.property.extraFixedExpenses = [];
-    this.property.extraVariableExpenses = [];
+    this.property.extraIncomesNumbers = {};
+    this.property.extraFixedExpensesNumbers = {};
+    this.property.extraVariableExpensesNumbers = {};
     this.property.amortizationPayments = {};
     this.property.appreciationNumbers = {};
     this.property.equityBuiltNumbers = {};
@@ -177,6 +184,7 @@ export class CustomizePropertyComponent implements OnInit {
     this.property.totalReturnDollarsNumbers = {};
     this.property.utilitiesNumbers = {};
     this.property.propertyManagementNumbers = {};
+    this.property.netOperatingIncomeNumbers = {};
 
   }
 
@@ -200,8 +208,10 @@ export class CustomizePropertyComponent implements OnInit {
 
     newIncome.incomeName = $("#incomeName").val();
     newIncome.incomeAmount = $("#incomeAmount").val();
-    this.property.extraIncomes.push(newIncome);
+    this.extraIncomes.push(newIncome);
     this.incomeAdded = true;
+    $("#incomeName").val("");
+    $("#incomeAmount").val("");
     $("#extraIncomeModal").modal('hide');
   }
 
@@ -213,21 +223,26 @@ export class CustomizePropertyComponent implements OnInit {
 
     newFixedExpense.expenseName = $("#fixedExpenseName").val();
     newFixedExpense.expenseAmount = $("#fixedExpenseAmount").val();
-    this.property.extraFixedExpenses.push(newFixedExpense);
+    this.extraFixedExpenses.push(newFixedExpense);
     this.fixedExpenseAdded = true;
+    $("#fixedExpenseName").val("");
+    $("#fixedExpenseAmount").val("");
     $("#fixedExpenseModal").modal('hide');
   }
 
   addExtraVariableExpense() {
     let newVariableExpense = {
       expenseName: "",
+      percent: "",
       expenseAmount: ""
     }
 
     newVariableExpense.expenseName = $("#variableExpenseName").val();
-    newVariableExpense.expenseAmount = $("#variableExpenseAmount").val();
-    this.property.extraVariableExpenses.push(newVariableExpense);
+    newVariableExpense.percent = $("#variableExpensePercent").val();
+    this.extraVariableExpenses.push(newVariableExpense);
     this.variableExpenseAdded = true;
+    $("#variableExpenseName").val("");
+    $("#variableExpensePercent").val("");
     $("#variableExpenseModal").modal('hide');
   }
 
@@ -249,16 +264,14 @@ export class CustomizePropertyComponent implements OnInit {
       this.property.averageRent = parseInt(this.property.averageRent);
 
 
-      if (this.property.extraIncomes.length > 0) {
-        this.property.extraIncomes.forEach((income, index) => {
+      if (this.extraIncomes.length > 0) {
+        this.extraIncomes.forEach((income, index) => {
           income["incomeAmount"] = this.cleanseString(income["incomeAmount"]);
-          this.property.extraIncomes[index] = {
+          this.extraIncomes[index] = {
             incomeName: income["incomeName"],
             incomeAmount: parseInt(income["incomeAmount"])
           }
         });
-      } else {
-        this.property.extraIncomes = {};
       }
 
 
@@ -282,17 +295,14 @@ export class CustomizePropertyComponent implements OnInit {
       this.property.utilities = parseInt(this.property.utilities);
 
 
-      if (this.property.extraFixedExpenses) {
-        this.property.extraFixedExpenses.forEach((expense, index) => {
+      if (this.extraFixedExpenses) {
+        this.extraFixedExpenses.forEach((expense, index) => {
           expense["expenseAmount"] = this.cleanseString(expense["expenseAmount"]);
-          this.property.extraFixedExpenses[index] = {
+          this.extraFixedExpenses[index] = {
             expenseName: expense["expenseName"],
             expenseAmount: parseInt(expense["expenseAmount"])
           }
         });
-        this.property.extraFixedExpenses = this.property.extraFixedExpenses;
-      } else {
-        this.property.extraFixedExpenses = {};
       }
 
 
@@ -316,17 +326,16 @@ export class CustomizePropertyComponent implements OnInit {
       this.property.smallRepairs = this.property.smallRepairs/100;
 
 
-      if (this.property.extraVariableExpenses) {
-        this.property.extraVariableExpenses.forEach((expense, index) => {
-          expense["expenseAmount"] = this.cleanseString(expense["expenseAmount"]);
-          this.property.extraVariableExpenses[index] = {
+      if (this.extraVariableExpenses) {
+        this.extraVariableExpenses.forEach((expense, index) => {
+          expense["percent"] = this.cleanseString(expense["percent"]);
+          let percent = expense["percent"] / 100;
+          this.extraVariableExpenses[index] = {
             expenseName: expense["expenseName"],
-            expenseAmount: parseFloat(expense["expenseAmount"])/100
+            percent: percent,
+            expenseAmount: ""
           }
         });
-        this.property.extraVariableExpenses = this.property.extraVariableExpenses;
-      } else {
-        this.property.extraVariableExpenses = {};
       }
 
 
@@ -580,6 +589,65 @@ export class CustomizePropertyComponent implements OnInit {
           this.HOA = parseFloat(this.HOA).toFixed(2);
           this.HOA = parseFloat(this.HOA);
 
+
+          this.totalExtraIncome = 0;
+          if (this.incomeAdded) {
+            this.extraIncomes.forEach((income, index) => {
+              if (index == 0) {
+                this.property.extraIncomesNumbers[currentYear] = {};
+              }
+              let inflatedIncome = income.incomeAmount + (income.incomeAmount * (this.property.inflation/12));
+              inflatedIncome = parseFloat(inflatedIncome).toFixed(2);
+              inflatedIncome = parseFloat(inflatedIncome);
+              this.totalExtraIncome += inflatedIncome;
+              income.incomeAmount = inflatedIncome;
+              this.property.extraIncomesNumbers[currentYear][index] = {
+                incomeName: income.incomeName,
+                incomeAmount: income.incomeAmount
+              }
+            });
+          }
+
+
+          this.totalExtraFixedExpenses = 0;
+          if (this.fixedExpenseAdded) {
+            this.extraFixedExpenses.forEach((expense, index) => {
+              if (index == 0) {
+                this.property.extraFixedExpensesNumbers[currentYear] = {};
+              }
+              let inflatedExpense = expense.expenseAmount + (expense.expenseAmount * (this.property.inflation/12));
+              inflatedExpense = parseFloat(inflatedExpense).toFixed(2);
+              inflatedExpense = parseFloat(inflatedExpense);
+              this.totalExtraFixedExpenses += inflatedExpense;
+              expense.expenseAmount = inflatedExpense;
+              this.property.extraFixedExpensesNumbers[currentYear][index] = {
+                expenseName: expense.expenseName,
+                expenseAmount: expense.expenseAmount
+              }
+            });
+          }
+
+
+          this.totalExtraVariableExpenses = 0;
+          if (this.variableExpenseAdded) {
+            this.extraVariableExpenses.forEach((expense, index) => {
+              if (index == 0) {
+                this.property.extraVariableExpensesNumbers[currentYear] = {};
+              }
+              let dollarAmount = expense.percent * this.averageRent;
+              this.inflatedVariableExpense = dollarAmount + (dollarAmount * (this.property.inflation/12));
+              this.inflatedVariableExpense = Number.parseFloat(this.inflatedVariableExpense).toFixed(2);
+              this.inflatedVariableExpense = parseFloat(this.inflatedVariableExpense);
+              this.totalExtraVariableExpenses += this.inflatedVariableExpense;
+              expense.expenseAmount = this.inflatedVariableExpense;
+              this.property.extraVariableExpensesNumbers[currentYear][index] = {
+                expenseName: expense.expenseName,
+                percent: expense.percent,
+                expenseAmount: expense.expenseAmount
+              }
+            });
+          }
+
         } else {
           this.insurance = this.property.insurance;
           this.insurance = parseFloat(this.insurance).toFixed(2);
@@ -598,40 +666,70 @@ export class CustomizePropertyComponent implements OnInit {
           this.averageRent = parseFloat(this.averageRent);
 
           this.HOA = this.property.HOA;
+          this.HOA = parseFloat(this.HOA).toFixed(2);
+          this.HOA = parseFloat(this.HOA);
+
+
+          this.totalExtraIncome = 0;
+          if (this.incomeAdded) {
+            this.property.extraIncomesNumbers[currentYear] = {};
+            this.extraIncomes.forEach((income, index) => {
+              this.totalExtraIncome += income.incomeAmount;
+              this.property.extraIncomesNumbers[currentYear][index] = {
+                incomeName: income.incomeName,
+                incomeAmount: income.incomeAmount
+              }
+            });
+          }
+
+
+          this.totalExtraFixedExpenses = 0;
+          if (this.fixedExpenseAdded) {
+            this.property.extraFixedExpensesNumbers[currentYear] = {};
+            this.extraFixedExpenses.forEach((expense, index) => {
+              this.totalExtraFixedExpenses += expense.expenseAmount;
+              this.property.extraFixedExpensesNumbers[currentYear][index] = {
+                expenseName: expense.expenseName,
+                expenseAmount: expense.expenseAmount
+              }
+            });
+          }
+
+
+          this.totalExtraVariableExpenses = 0;
+          if (this.variableExpenseAdded) {
+            this.property.extraVariableExpensesNumbers[currentYear] = {};
+            this.extraVariableExpenses.forEach((expense, index) => {
+              let percent = expense.percent / 100;
+              this.dollarAmount = percent * this.averageRent;
+              this.dollarAmount = parseFloat(this.dollarAmount).toFixed(2);
+              this.dollarAmount = parseFloat(this.dollarAmount);
+              this.totalExtraVariableExpenses += this.dollarAmount;
+              expense.expenseAmount = this.dollarAmount;
+              this.property.extraVariableExpensesNumbers[currentYear][index] = {
+                expenseName: expense.expenseName,
+                percent: expense.percent,
+                expenseAmount: expense.expenseAmount
+              }
+            });
+          }
+
         }
+
+        this.totalIncome = this.averageRent + this.totalExtraIncome;
+        this.totalIncome = parseFloat(this.totalIncome).toFixed(2);
+        this.totalIncome = parseFloat(this.totalIncome);
 
 
         this.PITI = this.property.monthlyPayment + this.insurance + this.propertyTaxes;
         this.PITI = parseFloat(this.PITI).toFixed(2);
         this.PITI = parseFloat(this.PITI);
 
-        this.totalIncome = 0;
-        if (this.incomeAdded) {
-          this.property.extraIncomes.forEach((income) => {
-            this.totalIncome += income.incomeAmount;
-          });
-        }
-        this.totalIncome += this.averageRent;
 
-        this.totalExtraFixedExpenses = 0;
-        if (this.fixedExpenseAdded) {
-          this.property.extraFixedExpenses.forEach((expense) => {
-            this.totalExtraFixedExpenses += expense.expenseAmount;
-          });
-        }
-        this.totalFixedExpense = this.propertyTaxes + this.insurance + this.HOA + this.utilities + this.property.monthlyPayment;
+        this.totalFixedExpense = this.propertyTaxes + this.insurance + this.HOA + this.utilities +
+                                 this.property.monthlyPayment + this.totalExtraFixedExpenses;
         this.totalFixedExpense = parseFloat(parseFloat(this.totalFixedExpense).toFixed(2));
 
-
-        this.totalExtraVariableExpenses = 0;
-        if (this.variableExpenseAdded) {
-          this.property.extraVariableExpenses.forEach((expense) => {
-            this.totalExtraVariableExpenses += (expense.expenseAmount * this.property.averageRent[currentYear]);
-          });
-        }
-        if (this.totalExtraVariableExpenses > 0) {
-          this.totalExtraVariableExpenses = parseFloat(parseFloat(this.totalExtraVariableExpenses).toFixed(2));
-        }
 
         this.capEx = this.property.capEx * this.averageRent;
         this.capEx = Number.parseFloat(this.capEx).toFixed(2);
@@ -653,10 +751,11 @@ export class CustomizePropertyComponent implements OnInit {
         this.propertyManagement = parseFloat(this.propertyManagement);
 
 
-        this.totalVariableExpense = (this.vacancy) +
-                                    (this.propertyManagement) +
-                                    (this.capEx) +
-                                    (this.smallRepairs);
+        this.totalVariableExpense = this.vacancy +
+                                    this.propertyManagement +
+                                    this.capEx +
+                                    this.smallRepairs +
+                                    this.totalExtraVariableExpenses;
 
 
         this.totalExpenses = this.totalFixedExpense + this.totalExtraFixedExpenses +
@@ -665,7 +764,8 @@ export class CustomizePropertyComponent implements OnInit {
 
 
         this.netOperatingIncome = (this.totalIncome - this.totalExpenses) * 12;
-
+        this.netOperatingIncome = parseFloat(this.netOperatingIncome).toFixed(2);
+        this.netOperatingIncome = parseFloat(this.netOperatingIncome);
 
 
         this.cashOnCashReturn = (this.netOperatingIncome / this.property.downPayment) * 100;
@@ -689,7 +789,8 @@ export class CustomizePropertyComponent implements OnInit {
 
 
         this.cashFlow = this.totalIncome - this.totalExpenses;
-        this.cashFlow = parseFloat(parseFloat(this.cashFlow).toFixed(2));
+        this.cashFlow = parseFloat(this.cashFlow).toFixed(2);
+        this.cashFlow = parseFloat(this.cashFlow);
 
 
         this.totalReturnDollars = this.netOperatingIncome + this.property.equityBuiltNumbers[currentYear] +
@@ -700,6 +801,7 @@ export class CustomizePropertyComponent implements OnInit {
         this.totalReturnPercent = (this.totalReturnDollars / (this.property.downPayment + this.property.closingCosts)) * 100;
         this.totalReturnPercent = Number.parseFloat(this.totalReturnPercent).toFixed(2);
         this.totalReturnPercent = parseFloat(this.totalReturnPercent);
+
 
 
         if (currentMonth == 'December' || i == this.property.numberOfPayments) {
@@ -725,6 +827,7 @@ export class CustomizePropertyComponent implements OnInit {
           this.property.totalReturnDollarsNumbers[currentYear] = this.totalReturnDollars;
           this.property.utilitiesNumbers[currentYear] = this.utilities;
           this.property.propertyManagementNumbers[currentYear] = this.propertyManagement;
+          this.property.netOperatingIncomeNumbers[currentYear] = this.netOperatingIncome;
 
         }
 
