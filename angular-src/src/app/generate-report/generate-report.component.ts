@@ -40,6 +40,7 @@ export class GenerateReportComponent implements OnInit {
   private insurance: any;
   private monthlyPayment: any;
   private netOperatingIncome: any;
+  private pmiAmount: any;
   private propertyManagement: any;
   private propertyTax: any;
   private smallRepairs: any;
@@ -106,6 +107,7 @@ export class GenerateReportComponent implements OnInit {
     this.insurance = this.property.insuranceNumbers[year];
     this.monthlyPayment = this.property.monthlyPayment;
     this.netOperatingIncome = this.property.netOperatingIncomeNumbers[year];
+    this.pmiAmount = this.property.PMIAmountNumbers[year];
     this.propertyManagement = this.property.propertyManagementNumbers[year];
     this.propertyTax = this.property.propertyTaxesNumbers[year];
     this.smallRepairs = this.property.smallRepairsNumbers[year];
@@ -137,6 +139,8 @@ export class GenerateReportComponent implements OnInit {
     this.yearlyTotals["totalPrincipal"] = parseFloat(this.yearlyTotals["totalPrincipal"]);
     this.yearlyTotals["totalInterest"] = Number.parseFloat(this.yearlyTotals["totalInterest"]).toFixed(2);
     this.yearlyTotals["totalInterest"] = parseFloat(this.yearlyTotals["totalInterest"]);
+    this.yearlyTotals["totalPayments"] = Number.parseFloat(this.yearlyTotals["totalPayments"]).toFixed(2);
+    this.yearlyTotals["totalPayments"] = parseFloat(this.yearlyTotals["totalPayments"]);
   }
 
   previousYear() {
