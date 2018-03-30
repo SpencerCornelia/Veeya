@@ -7,8 +7,10 @@ import { RegisterGuard } from './guards/register.guard';
 import { RoleGuard } from './guards/role.guard';
 
 import { AddPropertyComponent } from './add-property/add-property.component';
+import { CustomizePropertyComponent } from './customize-property/customize-property.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { GenerateReportComponent } from './generate-report/generate-report.component';
 import { InvestorWantedDealsComponent } from './investor-wanted-deals/investor-wanted-deals.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 import { InviteLenderComponent } from './invite-lender/invite-lender.component';
@@ -25,15 +27,17 @@ import { ViewPropertiesComponent } from './view-properties/view-properties.compo
 
 const APP_ROUTES: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'connections', component: ConnectionsComponent, canActivate:[AuthGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard] },
-  { path: 'profile/:id', component: MyProfileComponent, canActivate:[ProfileGuard] },
   { path: 'addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
+  { path: 'connections', component: ConnectionsComponent, canActivate:[AuthGuard] },
+  { path: 'customizeproperty/:id', component: CustomizePropertyComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
+  { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard] },
+  { path: 'generateReport/:id', component: GenerateReportComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
   { path: 'investorWantedDeals', component: InvestorWantedDealsComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
   { path: 'inviteinvestor', component: InviteInvestorComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'invitelender', component: InviteLenderComponent, canActivate:[AuthGuard] },
   { path: 'invitewholesaler', component: InviteWholesalerComponent, canActivate:[RoleGuard], data:{userType: 'Investor' } },
+  { path: 'login', component: LoginComponent },
+  { path: 'profile/:id', component: MyProfileComponent, canActivate:[ProfileGuard] },
   { path: 'properties', component: ViewPropertiesComponent, canActivate:[AuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate:[RegisterGuard] },
   { path: 'search', component: SearchComponent, canActivate:[AuthGuard] },

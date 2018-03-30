@@ -98,58 +98,29 @@ const User = module.exports = db.model('User', UserSchema);
 */
 
 module.exports.registerUser = function(userBody) {
-  return new Promise((resolve, reject) => {
-    User.findOne({ 'email': userBody.email }, (error, user) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error registering user.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (user) {
-        let userObj = {
-          success: false,
-          message: 'Email already exists. If you are attempting to login using this email, please head to login page. '
-            + 'If you are attempting to invite a user, please request a connection with the user using our Add Connection feature.',
-          error: ''
-        }
-        reject(userObj)
-      } else {
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(userBody.password, salt, (error, hash) => {
-            if (error) {
-              let errorObj = {
-                success: false,
-                message: 'Error registering user.',
-                error: error
-              }
-              reject(errorObj);
-            }
-            let newUser = new User({
-              userType: userBody.userType,
-              userName: userBody.userName,
-              password: hash,
-              firstName: userBody.firstName,
-              lastName: userBody.lastName,
-              email: userBody.email,
-              phoneNumber: userBody.phoneNumber,
-              city: userBody.city,
-              state: userBody.state,
-              profileViews: 0,
-              profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
-              URLs: {
-                personal: '',
-                facebook: '',
-                linkedIn: '',
-                biggerPockets: ''
-              }
-            });
+  let validated = validateRegisterUser(userBody);
 
-            newUser.save((error, savedUser) => {
-              const token = jwt.sign(savedUser.toJSON(), keys.secret, {
-                expiresIn: 604800
-              });
+  if (validated) {
+    return new Promise((resolve, reject) => {
+      User.findOne({ 'email': userBody.email }, (error, user) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error registering user.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (user) {
+          let userObj = {
+            success: false,
+            message: 'Email already exists. If you are attempting to login using this email, please head to login page. '
+              + 'If you are attempting to invite a user, please request a connection with the user using our Add Connection feature.',
+            error: ''
+          }
+          reject(userObj)
+        } else {
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(userBody.password, salt, (error, hash) => {
               if (error) {
                 let errorObj = {
                   success: false,
@@ -157,29 +128,71 @@ module.exports.registerUser = function(userBody) {
                   error: error
                 }
                 reject(errorObj);
-              } else if (savedUser) {
-                delete savedUser.password;
-                let investorObj = {
-                  success: true,
-                  message: 'Successfully registered user.',
-                  data: savedUser,
-                  token: 'JWT ' + token
-                }
-                resolve(investorObj);
-              } else {
-                let errorObj = {
-                  success: false,
-                  message: 'Unable to save user.',
-                  error: ''
-                }
-                reject(errorObj);
               }
+              let newUser = new User({
+                userType: userBody.userType,
+                userName: userBody.userName,
+                password: hash,
+                firstName: userBody.firstName,
+                lastName: userBody.lastName,
+                email: userBody.email,
+                phoneNumber: userBody.phoneNumber,
+                city: userBody.city,
+                state: userBody.state,
+                profileViews: 0,
+                profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
+                URLs: {
+                  personal: '',
+                  facebook: '',
+                  linkedIn: '',
+                  biggerPockets: ''
+                }
+              });
+
+              newUser.save((error, savedUser) => {
+                const token = jwt.sign(savedUser.toJSON(), keys.secret, {
+                  expiresIn: 604800
+                });
+                if (error) {
+                  let errorObj = {
+                    success: false,
+                    message: 'Error registering user.',
+                    error: error
+                  }
+                  reject(errorObj);
+                } else if (savedUser) {
+                  delete savedUser.password;
+                  let investorObj = {
+                    success: true,
+                    message: 'Successfully registered user.',
+                    data: savedUser,
+                    token: 'JWT ' + token
+                  }
+                  resolve(investorObj);
+                } else {
+                  let errorObj = {
+                    success: false,
+                    message: 'Unable to save user.',
+                    error: ''
+                  }
+                  reject(errorObj);
+                }
+              });
             });
           });
-        });
-      }
+        }
+      });
     });
-  });
+  } else {
+    return new Promise((resolve, reject) => {
+      let errorObj = {
+        success: false,
+        message: 'New user inputs are not valid. Please try again.',
+        error: ''
+      }
+      reject(errorObj);
+    })
+  }
 };
 
 module.exports.comparePassword = function(attemptedPassword, userPassword, callback) {
@@ -441,6 +454,124 @@ module.exports.addInvestorConnection = function(investorId, wholesalerId) {
   });
 };
 
+module.exports.updateWholesalerSoldPendingProperties = function(wholesalerId, propertyId, deny) {
+  return new Promise((resolve, reject) => {
+    User.findById(wholesalerId, (error, wholesaler) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error found with marking property as pending sale.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (wholesaler) {
+        let newListed = [];
+
+        for (let i = 0; i < wholesaler.wholesalerListedProperties.length; i++) {
+          if (propertyId != wholesaler.wholesalerListedProperties[i]) {
+            newListed.push(wholesaler.wholesalerListedProperties[i]);
+          }
+        }
+
+        wholesaler.wholesalerListedProperties = newListed;
+        if (!deny) {
+          wholesaler.wholesalerSoldPendingProperties.push(propertyId);
+        }
+        wholesaler.save((error, updatedWholesaler) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error marking property as pending sale.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedWholesaler) {
+            let successObj = {
+              success: true,
+              message: 'Successfully updated wholesaler.',
+              data: updatedWholesaler
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to mark property as pending sale.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to mark property as pending sale. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.updateWholesalerSoldProperties = function(wholesalerId, propertyId) {
+  return new Promise((resolve, reject) => {
+    User.findById(wholesalerId, (error, wholesaler) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error found with marking property as sold.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (wholesaler) {
+        let newSoldPending = [];
+
+        for (let i = 0; i < wholesaler.wholesalerSoldPendingProperties.length; i++) {
+          if (propertyId != wholesaler.wholesalerSoldPendingProperties[i]) {
+            newSoldPending.push(wholesaler.wholesalerSoldPendingProperties[i]);
+          }
+        }
+
+        wholesaler.wholesalerSoldPendingProperties = newSoldPending;
+        wholesaler.wholesalerSoldProperties.push(propertyId);
+        wholesaler.save((error, updatedWholesaler) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error marking property as sold.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedWholesaler) {
+            let successObj = {
+              success: true,
+              message: 'Successfully updated wholesaler.',
+              data: updatedWholesaler
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to mark property as sold.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to mark property as sold. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
 
 /*
 ===== WHOLESALER SETTERS END =====
@@ -565,15 +696,42 @@ module.exports.getPropertiesForInvestor = function(investorId) {
         reject(errorObj);
       } else if (investor) {
         let properties = [];
-        properties.concat(investor.investorBoughtProperties);
-        properties.concat(investor.investorBoughtPendingProperties);
-        properties.concat(investor.investorStarredProperties);
-        let successObj = {
-          success: true,
-          message: 'Successfully retrieved properties for user.',
-          data: properties
-        }
-        resolve(successObj);
+
+        investor.investorBoughtProperties.forEach((property) => {
+          properties.push(property);
+        });
+        investor.investorBoughtPendingProperties.forEach((property) => {
+          properties.push(property);
+        });
+        investor.investorStarredProperties.forEach((property) => {
+          properties.push(property);
+        });
+
+        investor.save((error, updatedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error retrieving properties for user.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully retrieved properties for user.',
+              data: properties
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to retrieve properties for user.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+
       } else {
         let errorObj = {
           success: false,
@@ -638,6 +796,126 @@ module.exports.addWholesalerConnection = function(wholesalerId, investorId) {
         let errorObj = {
           success: false,
           message: 'Unable to invite user. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.updateInvestorBoughtPendingProperties = function(investorId, propertyId, deny) {
+  return new Promise((resolve, reject) => {
+    User.findById(investorId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error found with marking property as pending sale.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+
+        if (deny) {
+          let newBoughtPending = [];
+          for (let i = 0; i < investor.investorBoughtPendingProperties.length; i++) {
+            if (propertyId != investor.investorBoughtPendingProperties[i]) {
+              newBoughtPending.push(investor.investorBoughtPendingProperties[i]);
+            }
+          }
+          investor.investorBoughtPendingProperties = newBoughtPending;
+        } else {
+          investor.investorBoughtPendingProperties.push(propertyId);
+        }
+
+        investor.save((error, updatedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error marking property as pending sale.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully marked property as pending sale.',
+              data: updatedInvestor
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to mark property as pending sale.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to mark property as pending sale. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.updateInvestorBoughtProperties = function(investorId, propertyId) {
+  return new Promise((resolve, reject) => {
+    User.findById(investorId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error found with marking property as sold.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        let newBoughtPending = [];
+
+        for (let i = 0; i < investor.investorBoughtPendingProperties.length; i++) {
+          if (propertyId != investor.investorBoughtPendingProperties[i]) {
+            newBoughtPending.push(investor.investorBoughtPendingProperties[i]);
+          }
+        }
+
+        investor.investorBoughtPendingProperties = newBoughtPending;
+        investor.investorBoughtProperties.push(propertyId);
+
+        investor.save((error, updatedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error marking property as sold.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully marked property as sold.',
+              data: updatedInvestor
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to mark property as sold.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to mark property as sold. Please try again.',
           error: ''
         }
         reject(errorObj);
@@ -835,7 +1113,9 @@ module.exports.getPropertiesForLender = function(lenderId) {
         reject(errorObj);
       } else if (lender) {
         let properties = [];
-        properties.concat(lender.lenderLoanedProperties);
+        lender.lenderLoanedProperties.forEach((property) => {
+          properties.push(property);
+        });
         let successObj = {
           success: true,
           message: 'Successfully retrieved all properties for user.',
@@ -1562,5 +1842,24 @@ module.exports.denyConnectionConnectedUser = function(body) {
 */
 
 let validateRegisterUser = function(data) {
+  let userNamePattern = new RegExp("^[a-zA-Z0-9-]+");
+  let firstNamePattern = new RegExp("^[a-zA-Z ]+$");
+  let lastNamePattern = new RegExp("^[a-zA-Z ]+$");
+  let passwordPattern = data.password.length >= 5 && data.password.length <= 30;
+  let emailPattern = new RegExp("^(([^<>()\\[\\]\\.,;:\\s@']+(\\.[^<>()\\[\\]\\.,;:\\s@']+)*)|('.+'))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
+  let phoneNumberPattern = new RegExp("^(\\+0?1\\s)?\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$");
+  let cityPattern = new RegExp("^[a-zA-Z ]*$");
+  let statePattern = data.state.length == 2;
+  let userTypePattern = false;
+  if (data.userType == 'Wholesaler' || data.userType == 'Investor' || data.userType == 'Lender') {
+    userTypePattern = true;
+  }
 
-}
+  if (userNamePattern.test(data.userName) && firstNamePattern.test(data.firstName) && lastNamePattern.test(data.lastName)
+    && passwordPattern && emailPattern.test(data.email) && phoneNumberPattern.test(data.phoneNumber) && cityPattern.test(data.city)
+    && statePattern && userTypePattern) {
+    return true;
+  } else {
+    return false;
+  }
+};

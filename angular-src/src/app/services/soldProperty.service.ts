@@ -14,19 +14,63 @@ export class SoldPropertyService {
 
   private serverApi = 'http://localhost:3000/properties';
 
-  public soldProperty(property: Property) {
-    let URI = this.serverApi + "/soldproperty";
+  public soldPropertyPending(property: Property, investorId: Number) {
+    let URI = this.serverApi + "/soldpropertypending";
     let headers = new Headers;
     let body = JSON.stringify({
-      property: property
+      property: property,
+      investorId: investorId
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, {headers: headers})
       .map((response) => {
         return response.json();
       })
+      .map((response) => {
+        return response.data;
+      })
       .catch((error) => {
         return Observable.throw(error.json());
       });
+  }
+
+  public acceptSoldProperty(property: Property, investorId: Number) {
+    let URI = this.serverApi + "/soldpropertyaccepted";
+    let headers = new Headers;
+    let body = JSON.stringify({
+      property: property,
+      investorId: investorId
+    });
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(URI, body, { headers: headers })
+      .map((response) => {
+        return response.json();
+      })
+      .map((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return Observable.throw(error.json())
+      })
+  }
+
+  public denySoldProperty(property: Property, investorId: Number) {
+    let URI = this.serverApi + "/denysoldproperty";
+    let headers = new Headers;
+    let body = JSON.stringify({
+      property: property,
+      investorId: investorId
+    });
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(URI, body, { headers: headers })
+      .map((response) => {
+        return response.json();
+      })
+      .map((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        return Observable.throw(error.json())
+      })
   }
 }

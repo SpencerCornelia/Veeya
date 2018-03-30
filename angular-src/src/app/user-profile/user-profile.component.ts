@@ -18,6 +18,7 @@ export class UserProfileComponent implements OnInit {
   private connectionSent: Boolean = false;
   private notConnected: Boolean = true;
   private disableConnectButton: Boolean = false;
+  private numberOfDeals: any = 0;
   private user: User;
   private user_id: string;
 
@@ -62,6 +63,7 @@ export class UserProfileComponent implements OnInit {
     this.userService.getUserById(userID)
       .subscribe((response) => {
         this.user = response;
+        this.determineNumberOfDeals(this.user);
         this.isConnected();
       }, (error) => {
 
@@ -77,9 +79,10 @@ export class UserProfileComponent implements OnInit {
 
   isConnected() {
     this.user.connections.forEach((user) => {
-      if (this.user_id === this.authService.loggedInUser()) {
+      if (this.user_id === this.currentUser) {
         this.connected = true;
         this.notConnected = false;
+        return;
       }
     });
     this.user.pendingIncomingConnectionRequests.forEach((userId) => {
@@ -100,6 +103,16 @@ export class UserProfileComponent implements OnInit {
       }, (error) => {
 
       });
+  }
+
+  determineNumberOfDeals(user) {
+    if (user.userType == 'Wholesaler') {
+      this.numberOfDeals = user.wholesalerSoldProperties.length;
+    } else if (user.userType == 'Investor') {
+      this.numberOfDeals = user.investorBoughtProperties.length;
+    } else {
+      this.numberOfDeals = user.lenderLoanedProperties.length;
+    }
   }
 
 }

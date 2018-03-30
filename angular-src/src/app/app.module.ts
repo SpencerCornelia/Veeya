@@ -48,8 +48,10 @@ import { ViewPropertiesComponent } from './view-properties/view-properties.compo
 import { AddConnectionService } from './services/addConnection.service';
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
+import { CustomizePropertyService } from './services/customizeProperty.service';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { EditPropertyService } from './services/editProperty.service';
+import { GenerateReportComponent } from './generate-report/generate-report.component';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
 import { GetConnectionsService } from './services/getConnections.service';
 import { GetUserPropertiesService } from './services/getUserProperties.service';
@@ -61,6 +63,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserService } from './services/user.service';
 import { ValidateService } from './services/validate.service';
 import { ViewPropertyService } from './services/viewProperty.service';
+import { CustomizePropertyComponent } from './customize-property/customize-property.component';
 
 
 @NgModule({
@@ -80,6 +83,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     FilterStatePipe,
     FilterStatusPipe,
     FilterUsernamePipe,
+    GenerateReportComponent,
     LoginComponent,
     MyProfileComponent,
     InvestorWantedDealsComponent,
@@ -94,7 +98,8 @@ import { ViewPropertyService } from './services/viewProperty.service';
     TopNavbarComponent,
     UserProfileComponent,
     ViewPropertyComponent,
-    ViewPropertiesComponent
+    ViewPropertiesComponent,
+    CustomizePropertyComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
@@ -109,6 +114,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     AddConnectionService,
     AuthService,
     AddPropertyService,
+    CustomizePropertyService,
     DeletePropertyService,
     EditPropertyService,
     GetAllPropertiesService,

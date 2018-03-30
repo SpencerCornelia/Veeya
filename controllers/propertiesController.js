@@ -55,7 +55,7 @@ router.get('/investor/:uid', (req, res) => {
       return response;
     })
     .then((response) => {
-      return properties.getPropertiesById(response.data);
+      return property.getPropertiesById(response.data);
     })
     .then((response) => {
       if (response.success) {
@@ -76,7 +76,7 @@ router.get('/lender/:uid', (req, res) => {
       return response;
     })
     .then((response) => {
-      return properties.getPropertiesById(response.data);
+      return property.getPropertiesById(response.data);
     })
     .then((response) => {
       if (response.success) {
@@ -124,15 +124,74 @@ router.put('/editproperty/:id', (req, res, next) => {
     });
 });
 
-// POST HTTP request to mark a property as sold
-router.post('/soldproperty', (req, res) => {
-  property.updatePropertyAfterSale(req.body.property._id)
+// POST HTTP request to mark a property as sold-pending
+router.post('/soldpropertypending', (req, res) => {
+  let propertyId = req.body.property._id;
+  let wholesalerId = req.body.property.wholesaler_id;
+  let investorId = req.body.investorId;
+  property.updatePropertySoldPending(propertyId)
     .then((response) => {
-      res.status(201).json(response);
+      return user.updateWholesalerSoldPendingProperties(wholesalerId, propertyId, false,);
+    })
+    .then((response) => {
+      return user.updateInvestorBoughtPendingProperties(investorId, propertyId, false);
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(201).json(response);
+      } else {
+        res.status(500).json(response);
+      }
     })
     .catch((error) => {
       res.status(500).json(error);
     });
+});
+
+router.post('/soldpropertyaccepted', (req, res) => {
+  let propertyId = req.body.property._id;
+  let wholesalerId = req.body.property.wholesaler_id;
+  let investorId = req.body.investorId;
+  property.updatePropertySoldAccepted(propertyId)
+    .then((response) => {
+      return user.updateWholesalerSoldProperties(wholesalerId, propertyId);
+    })
+    .then((response) => {
+      return user.updateInvestorBoughtProperties(investorId, propertyId);
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(201).json(response);
+      } else {
+        res.status(500).json(response);
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
+router.post('/denysoldproperty', (req, res) => {
+  let propertyId = req.body.property._id;
+  let wholesalerId = req.body.property.wholesaler_id;
+  let investorId = req.body.investorId;
+  property.updatePropertyDenySold(propertyId)
+    .then((response) => {
+      return user.updateWholesalerSoldPendingProperties(wholesalerId, propertyId, true);
+    })
+    .then((response) => {
+      return user.updateInvestorBoughtPendingProperties(investorId, propertyId, true);
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(201).json(response);
+      } else {
+        res.status(500).json(response);
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    })
 });
 
 // DELETE HTTP request for deleting a property
