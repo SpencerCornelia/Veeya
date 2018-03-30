@@ -28,6 +28,9 @@ export class GenerateReportComponent implements OnInit {
   private amortizationPayments: any;
   private appreciation: any;
   private averageRent: any;
+  private balloonPayment: any;
+  private balloonPaymentYear: any;
+  private balloonPaymentBalance: any;
   private capEx: any;
   private cashFlow: any;
   private cashOnCashReturn: any;
@@ -68,8 +71,8 @@ export class GenerateReportComponent implements OnInit {
 
     if (this.customizePropertyService.customizedPropertyExists) {
       this.property = this.customizePropertyService.getCustomizedProperty();
-      this.setLastYear();
       this.setNumbers(this.currentYear)
+      this.setLastYear();
       console.log("property:", this.property)
     } else {
       // get ID from route
@@ -83,6 +86,10 @@ export class GenerateReportComponent implements OnInit {
   }
 
   setLastYear() {
+    if (this.balloonPayment) {
+      this.finalPaymentYear = this.currentYear + this.balloonPaymentYear;
+      return;
+    }
     this.finalPaymentYear = (this.property.numberOfPayments / 12) + this.currentYear;
     if (this.currentMonth == 'January') {
       this.finalPaymentYear = this.finalPaymentYear - 1;
@@ -95,6 +102,9 @@ export class GenerateReportComponent implements OnInit {
     this.amortizationPayments = this.property.amortizationPayments[year];
     this.appreciation = this.property.appreciationNumbers[year];
     this.averageRent = this.property.averageRentNumbers[year];
+    this.balloonPayment = this.property.balloonPayment == 'Yes' ? true : false;
+    this.balloonPaymentYear = this.property.balloonPaymentYear;
+    this.balloonPaymentBalance = this.property.balloonPaymentBalance;
     this.capEx = this.property.capExNumbers[year];
     this.cashFlow = this.property.cashFlowNumbers[year];
     this.cashOnCashReturn = this.property.cashOnCashReturnNumbers[year];
