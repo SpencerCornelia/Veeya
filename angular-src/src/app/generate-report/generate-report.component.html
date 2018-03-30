@@ -394,6 +394,18 @@
               </div>
             </div>
           </div>
+          <div class="row" *ngIf="balloonPayment&&currentYear==finalPaymentYear">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title mb-4">Balloon Payment</h5>
+                  <div class="table-responsive">
+                    $ {{ balloonPaymentBalance }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
 
         </div>
