@@ -185,6 +185,7 @@ export class CustomizePropertyComponent implements OnInit {
     this.property.propertyManagementNumbers = {};
     this.property.netOperatingIncomeNumbers = {};
     this.property.PMIAmountNumbers = {};
+    this.property.balloonPaymentBalance = 0;
 
   }
 
@@ -510,7 +511,7 @@ export class CustomizePropertyComponent implements OnInit {
 
 
         payments.push(payPeriod);
-        if (currentMonth == 'December' || i == this.property.numberOfPayments) {
+        if (currentMonth == 'December' || i == this.property.numberOfPayments || i == this.balloonFinalPayment) {
           this.property.PMIAmount = parseFloat(this.property.PMIAmount).toFixed(2);
           this.property.PMIAmount = parseFloat(this.property.PMIAmount);
           this.property.PMIAmountNumbers[currentYear] = this.property.PMIAmount;
@@ -542,6 +543,11 @@ export class CustomizePropertyComponent implements OnInit {
 
           this.property.amortizationPayments[currentYear] = payments;
           payments = [];
+
+          if (i == this.balloonFinalPayment) {
+            i = this.property.numberOfPayments + 1;
+            this.property.balloonPaymentBalance = principalRemaining;
+          }
         }
 
 
