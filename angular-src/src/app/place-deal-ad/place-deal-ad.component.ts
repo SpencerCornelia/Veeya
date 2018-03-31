@@ -15,6 +15,7 @@ export class PlaceDealAdComponent implements OnInit {
 
   private currentUser: string;
   private newAd: NewAd;
+  private perUnit: boolean = false;
 
   constructor(private dealAdService: DealAdService,
               private router: Router
@@ -23,6 +24,7 @@ export class PlaceDealAdComponent implements OnInit {
   ngOnInit() {
     this.currentUser = this.authService.loggedInUser();
     this.newAd = {
+      investorId: this.currentUser,
       city: '',
       state: 'AL',
       zipCode: '',
@@ -41,10 +43,11 @@ export class PlaceDealAdComponent implements OnInit {
   }
 
   placeAd() {
-    let confirmed = window.confirm("Have you entered all valid data?");
+    let confirmed = window.confirm("Are you satisfied with your ad?");
     if (confirmed) {
-      this.dealAdService.placeNewAd(this.newAd, this.currentUser)
+      this.dealAdService.placeNewAd(this.newAd)
         .subscribe((response) => {
+          console.log("response from service:", response)
           if (response.success) {
             // success message to user
             this.router.navigate(['/dashboard']);
@@ -52,6 +55,14 @@ export class PlaceDealAdComponent implements OnInit {
         }, (error) => {
 
         });
+    }
+  }
+
+  perUnitCheck() {
+    if (this.newAd.propertyType == 'Single Family' || this.newAd.propertyType == 'Condo') {
+      this.perUnit = false;
+    } else {
+      this.perUnit = true;
     }
   }
 
