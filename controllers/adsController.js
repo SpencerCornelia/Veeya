@@ -5,12 +5,12 @@ const Ad = require('../models/ad');
 const User = require('../models/user');
 
 router.post('/placeNewAd', (req, res, next) => {
-  Ad.placeNewAd(req.body)
+  Ad.placeNewAd(req.body.newAd)
     .then((response) => {
       return response;
     })
     .then((response) => {
-      return User.addDealAd(response);
+      return User.addDealAd(response.data);
     })
     .then((response) => {
       if (response.success) {
