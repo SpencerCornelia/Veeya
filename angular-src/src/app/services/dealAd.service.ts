@@ -13,12 +13,11 @@ export class DealAdService {
 
   private serverApi = 'http://localhost:3000';
 
-  public placeNewAd(newAd: NewAd, investorId: string) {
+  public placeNewAd(newAd: NewAd) {
     let URI = this.serverApi + "/ads/placeNewAd";
     let headers = new Headers;
     headers.append('Content-Type', 'application/json');
     let body = JSON.stringify({
-      investorId: investorId,
       newAd: newAd
     });
     return this.http.post(URI, body, { headers: headers })
