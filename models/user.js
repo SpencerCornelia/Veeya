@@ -81,7 +81,8 @@ const UserSchema = mongoose.Schema({
   maximumLoanAvailable: {
     type: String
   },
-  terms : []
+  terms : [],
+  ads: []
 },
   {
     timestamps: {
@@ -923,6 +924,55 @@ module.exports.updateInvestorBoughtProperties = function(investorId, propertyId)
     });
   });
 };
+
+module.exports.addDealAd = function(adBody) {
+  let id = adBody.investorId;
+  return new Promise((resolve, reject) => {
+    User.findById(id, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error placing new ad.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        investor.ads.push(adBody._id);
+        investor.save((error, savedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error placing new ad.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully marked property as sold.',
+              data: investor
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to place new ad. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to place new ad. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+}
 
 /*
 ===== INVESTOR SETTERS END =====
