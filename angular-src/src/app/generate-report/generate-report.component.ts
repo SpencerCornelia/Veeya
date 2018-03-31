@@ -23,8 +23,6 @@ export class GenerateReportComponent implements OnInit {
 
   private property: any;
 
-  private HOA: any;
-  private currentPITI: any;
   private amortizationPayments: any;
   private appreciation: any;
   private averageRent: any;
@@ -32,13 +30,16 @@ export class GenerateReportComponent implements OnInit {
   private balloonPaymentYear: any;
   private balloonPaymentBalance: any;
   private capEx: any;
+  private capRate: any;
   private cashFlow: any;
   private cashOnCashReturn: any;
+  private currentPITI: any;
   private depreciation: any;
   private equityBuilt: any;
   private extraIncomes: Array<any> = [];
   private extraFixedExpenses: Array<any> = [];
   private extraVariableExpenses: Array<any> = [];
+  private HOA: any;
   private incomeSavedTaxes: any;
   private insurance: any;
   private monthlyPayment: any;
@@ -106,6 +107,7 @@ export class GenerateReportComponent implements OnInit {
     this.balloonPaymentYear = this.property.balloonPaymentYear;
     this.balloonPaymentBalance = this.property.balloonPaymentBalance;
     this.capEx = this.property.capExNumbers[year];
+    this.capRate = this.property.capRate[year];
     this.cashFlow = this.property.cashFlowNumbers[year];
     this.cashOnCashReturn = this.property.cashOnCashReturnNumbers[year];
     this.depreciation = this.property.depreciationNumbers[year];
