@@ -53,6 +53,7 @@ import { AddConnectionService } from './services/addConnection.service';
 import { AddPropertyService } from './services/addProperty.service';
 import { AuthService } from './services/auth.service';
 import { CustomizePropertyService } from './services/customizeProperty.service';
+import { DealAdService } from './services/dealAd.service';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { EditPropertyService } from './services/editProperty.service';
 import { GetAllPropertiesService } from './services/getAllProperties.service';
@@ -117,6 +118,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     AuthService,
     AddPropertyService,
     CustomizePropertyService,
+    DealAdService,
     DeletePropertyService,
     EditPropertyService,
     GetAllPropertiesService,
