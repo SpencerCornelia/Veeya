@@ -30,7 +30,6 @@ import { AppComponent } from './app.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { InvestorWantedDealsComponent } from './investor-wanted-deals/investor-wanted-deals.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 import { InviteLenderComponent } from './invite-lender/invite-lender.component';
 import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
@@ -38,6 +37,7 @@ import { LoginComponent } from './login/login.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PlaceDealAdComponent } from './place-deal-ad/place-deal-ad.component';
 import { SearchComponent } from './search/search.component';
 import { SoldPropertyComponent } from './sold-property/sold-property.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -86,11 +86,11 @@ import { CustomizePropertyComponent } from './customize-property/customize-prope
     GenerateReportComponent,
     LoginComponent,
     MyProfileComponent,
-    InvestorWantedDealsComponent,
     InviteInvestorComponent,
     InviteLenderComponent,
     InviteWholesalerComponent,
     PageNotFoundComponent,
+    PlaceDealAdComponent,
     RegisterComponent,
     SearchComponent,
     SidebarComponent,

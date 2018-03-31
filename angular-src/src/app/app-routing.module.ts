@@ -11,12 +11,12 @@ import { CustomizePropertyComponent } from './customize-property/customize-prope
 import { ConnectionsComponent } from './connections/connections.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { GenerateReportComponent } from './generate-report/generate-report.component';
-import { InvestorWantedDealsComponent } from './investor-wanted-deals/investor-wanted-deals.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 import { InviteLenderComponent } from './invite-lender/invite-lender.component';
 import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
 import { LoginComponent } from './login/login.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PlaceDealAdComponent } from './place-deal-ad/place-deal-ad.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { RegisterComponent } from './register/register.component';
 import { SearchComponent } from './search/search.component';
@@ -32,11 +32,11 @@ const APP_ROUTES: Routes = [
   { path: 'customizeproperty/:id', component: CustomizePropertyComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard] },
   { path: 'generateReport/:id', component: GenerateReportComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
-  { path: 'investorWantedDeals', component: InvestorWantedDealsComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
   { path: 'inviteinvestor', component: InviteInvestorComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'invitelender', component: InviteLenderComponent, canActivate:[AuthGuard] },
   { path: 'invitewholesaler', component: InviteWholesalerComponent, canActivate:[RoleGuard], data:{userType: 'Investor' } },
   { path: 'login', component: LoginComponent },
+  { path: 'placeDealAd', component: PlaceDealAdComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
   { path: 'profile/:id', component: MyProfileComponent, canActivate:[ProfileGuard] },
   { path: 'properties', component: ViewPropertiesComponent, canActivate:[AuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate:[RegisterGuard] },
