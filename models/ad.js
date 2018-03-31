@@ -63,8 +63,8 @@ const AdSchema = mongoose.Schema({
 
 const Ad = module.exports = db.model('Ad', AdSchema);
 
-module.exports.placeNewAd = function(body) {
-  let investorId = body.investorId;
+module.exports.placeNewAd = function(data) {
+  let investorId = data.investorId;
 
   return new Promise((resolve, reject) => {
     User.findById(investorId, (error, investor) => {
@@ -76,7 +76,7 @@ module.exports.placeNewAd = function(body) {
         }
         reject(errorObj);
       } else if (investor) {
-        let newAd = new Ad(body.newAd);
+        let newAd = new Ad(data);
         newAd.save((error, savedAd) => {
           if (error) {
             let errorObj = {
