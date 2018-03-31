@@ -22,6 +22,7 @@ import { RegisterComponent } from './register/register.component';
 import { SearchComponent } from './search/search.component';
 import { SoldPropertyComponent } from './sold-property/sold-property.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ViewDealAdsComponent } from './view-deal-ads/view-deal-ads.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 
@@ -44,6 +45,7 @@ const APP_ROUTES: Routes = [
   { path: 'soldproperty/:id', component: SoldPropertyComponent, canActivate:[AuthGuard] },
   { path: 'user/:id', component: UserProfileComponent, canActivate:[AuthGuard] },
   { path: 'view/:id', component: ViewPropertyComponent, canActivate:[AuthGuard] },
+  { path: '/viewDealAds', component: ViewDealAdsComponent, canActivate:[AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
 ];
 
