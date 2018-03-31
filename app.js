@@ -9,6 +9,7 @@ const jwt = require('passport-jwt');
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
+const adsController = require('./controllers/adsController');
 const investorController = require('./controllers/investorController');
 const lenderController = require('./controllers/lenderController');
 const loginController = require('./controllers/loginController');
@@ -53,6 +54,8 @@ app.use(function(req, res, next) {
   next();
 });
 
+// Route all HTTP requests to adsController
+app.use('/ads', adsController);
 
 // Route all HTTP requests to investorController
 app.use('/investor', investorController);
