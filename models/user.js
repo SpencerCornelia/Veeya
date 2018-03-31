@@ -949,7 +949,7 @@ module.exports.addDealAd = function(adBody) {
           } else if (savedInvestor) {
             let successObj = {
               success: true,
-              message: 'Successfully marked property as sold.',
+              message: 'Successfully added new ad.',
               data: investor
             }
             resolve(successObj);
