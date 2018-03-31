@@ -196,7 +196,7 @@
             <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/search']"><span class="menu-title">Search</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn() && authService.investorUser()" [routerLink]="['/investorWantedDeals']"><span class="menu-title">Wanted Deals</span></a>
+            <a class="nav-link" *ngIf="authService.loggedIn() && authService.investorUser()" [routerLink]="['/placeDealAd']"><span class="menu-title">Place Ad for Deal</span></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/profile', authService.loggedInUser()]"><span class="menu-title">My Profile</span></a>
