@@ -1,4 +1,5 @@
 export interface NewAd {
+  investorId: string,
   city: string,
   state: string,
   zipCode: string,
