@@ -45,7 +45,7 @@ const APP_ROUTES: Routes = [
   { path: 'soldproperty/:id', component: SoldPropertyComponent, canActivate:[AuthGuard] },
   { path: 'user/:id', component: UserProfileComponent, canActivate:[AuthGuard] },
   { path: 'view/:id', component: ViewPropertyComponent, canActivate:[AuthGuard] },
-  { path: '/viewDealAds', component: ViewDealAdsComponent, canActivate:[AuthGuard] },
+  { path: 'viewDealAds', component: ViewDealAdsComponent, canActivate:[AuthGuard] },
   { path: '**', component: PageNotFoundComponent }
 ];
 
