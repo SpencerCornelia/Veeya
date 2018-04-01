@@ -25,4 +25,20 @@ export class DealAdService {
       .map(res => res);
   }
 
+  public getDealAdsForInvestor(userId: string) {
+    let URI = this.serverApi + '/ads/getDealAdsForInvestor';
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    let body = JSON.stringify({
+      userId: userId
+    });
+    return this.http.post(URI, body, { headers: headers })
+      .map(res => res.json())
+      .map(res => res.data);
+  }
+
+  public getAllDeals() {
+
+  }
+
 }
