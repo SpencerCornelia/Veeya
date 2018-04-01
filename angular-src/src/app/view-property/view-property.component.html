@@ -591,10 +591,10 @@
                         </div>
                       </div>
                     </div>
-                    <p>
+                    <p *ngIf="propertyOwner">
                       <em>Please Upload Photos (up to 3 allowed)</em>
                     </p>
-                    <div class="form-group">
+                    <div class="form-group" *ngIf="propertyOwner">
                       <div class="row">
                         <div class="col-md-6">
                           <div class="input-group mb-3">

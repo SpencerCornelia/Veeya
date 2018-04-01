@@ -81,7 +81,8 @@ const UserSchema = mongoose.Schema({
   maximumLoanAvailable: {
     type: String
   },
-  terms : []
+  terms : [],
+  ads: []
 },
   {
     timestamps: {
@@ -924,6 +925,55 @@ module.exports.updateInvestorBoughtProperties = function(investorId, propertyId)
   });
 };
 
+module.exports.addDealAd = function(adBody) {
+  let id = adBody.investorId;
+  return new Promise((resolve, reject) => {
+    User.findById(id, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error placing new ad.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        investor.ads.push(adBody._id);
+        investor.save((error, savedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error placing new ad.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully added new ad.',
+              data: investor
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to place new ad. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to place new ad. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+}
+
 /*
 ===== INVESTOR SETTERS END =====
 */
@@ -1325,6 +1375,35 @@ module.exports.getAllUsers = function() {
         reject(errorObj);
       }
     })
+  });
+};
+
+module.exports.getAdIDs = function(userId) {
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error getting ad deals.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved ad id\'s.',
+          data: investor.ads
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve ads. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
   });
 };
 

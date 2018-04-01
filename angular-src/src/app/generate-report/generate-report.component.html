@@ -122,11 +122,11 @@
                     <table class="table">
                       <thead>
                         <tr>
-                          <th scope="col">Category</th>
-                          <th scope="col">Name</th>
-                          <th scope="col">Income</th>
-                          <th scope="col">Expense</th>
-                          <th scope="col">Total</th>
+                          <th scope="col" class="column-head">Category</th>
+                          <th scope="col" class="column-head">Name</th>
+                          <th scope="col" class="column-head">Income</th>
+                          <th scope="col" class="column-head">Expense</th>
+                          <th scope="col" class="column-head">Total</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -286,6 +286,15 @@
                             <em><strong>$ {{ cashFlow }}</strong></em>
                           </td>
                         </tr>
+                        <tr>
+                          <th scope="row">Cap Rate</th>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td [ngClass]="{'text-success': cashFlow>0, 'text-danger': cashFlow<0}">
+                            {{ capRate }} %
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -305,8 +314,8 @@
                     <table class="table">
                       <thead>
                         <tr>
-                          <th scope="col">Category</th>
-                          <th scope="col">Total</th>
+                          <th scope="col" class="column-head">Category</th>
+                          <th scope="col" class="column-head">Total</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -345,8 +354,9 @@
                           </td>
                         </tr>
                         <tr>
-                          <th scope="row">Real Return</th>
-                          <td scope="row" [ngClass]="{'text-success': totalReturnPercent>0, 'text-danger': totalReturnPercent<0}">
+                          <th scope="row" class="column-totals">Real Return</th>
+                          <td scope="row" class="column-totals"
+                            [ngClass]="{'text-success': totalReturnPercent>0, 'text-danger': totalReturnPercent<0}">
                             <em><strong>{{ totalReturnPercent }} %</strong></em>
                           </td>
                         </tr>
@@ -366,11 +376,11 @@
                     <table class="table">
                       <thead>
                         <tr>
-                          <th scope="col">Month</th>
-                          <th scope="col">Payment</th>
-                          <th scope="col">Principal Paid</th>
-                          <th scope="col">Interest Paid</th>
-                          <th scope="col">Balance Remaining</th>
+                          <th scope="col" class="column-head">Month</th>
+                          <th scope="col" class="column-head">Payment</th>
+                          <th scope="col" class="column-head">Principal Paid</th>
+                          <th scope="col" class="column-head">Interest Paid</th>
+                          <th scope="col" class="column-head">Balance Remaining</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -382,10 +392,11 @@
                           <td>$ {{ payment.balance }}</td>
                         </tr>
                         <tr>
-                          <th scope="row">Yearly Totals</th>
-                          <td><strong>$ {{ yearlyTotals["totalPayments"] }}</strong></td>
-                          <td><strong>$ {{ yearlyTotals["totalPrincipal"] }}</strong></td>
-                          <td><strong>$ {{ yearlyTotals["totalInterest"] }}</strong></td>
+                          <th scope="row" class="column-totals">Yearly Totals</th>
+                          <td class="column-totals"><strong>$ {{ yearlyTotals["totalPayments"] }}</strong></td>
+                          <td class="column-totals"><strong>$ {{ yearlyTotals["totalPrincipal"] }}</strong></td>
+                          <td class="column-totals"><strong>$ {{ yearlyTotals["totalInterest"] }}</strong></td>
+                          <td class="column-totals"></td>
                         </tr>
                       </tbody>
                     </table>

@@ -16,6 +16,7 @@ declare var $: any;
 })
 export class CustomizePropertyComponent implements OnInit {
 
+  private capRate: any;
   private balloonFinalPayment: any;
   private dollarAmount: any;
   private equityForYear: any;
@@ -186,6 +187,7 @@ export class CustomizePropertyComponent implements OnInit {
     this.property.netOperatingIncomeNumbers = {};
     this.property.PMIAmountNumbers = {};
     this.property.balloonPaymentBalance = 0;
+    this.property.capRate = {};
 
   }
 
@@ -786,8 +788,12 @@ export class CustomizePropertyComponent implements OnInit {
         this.netOperatingIncome = parseFloat(this.netOperatingIncome).toFixed(2);
         this.netOperatingIncome = parseFloat(this.netOperatingIncome);
 
+        this.capRate = (this.netOperatingIncome / this.property.propertyValue) * 100;
+        this.capRate = parseFloat(this.capRate).toFixed(2);
+        this.capRate = parseFloat(this.capRate);
 
-        this.cashOnCashReturn = (this.netOperatingIncome / this.property.downPayment) * 100;
+
+        this.cashOnCashReturn = (this.netOperatingIncome / this.property.afterRepairValue) * 100;
         this.cashOnCashReturn = Number.parseFloat(this.cashOnCashReturn).toFixed(2);
         this.cashOnCashReturn = parseFloat(this.cashOnCashReturn);
 
@@ -847,7 +853,7 @@ export class CustomizePropertyComponent implements OnInit {
           this.property.utilitiesNumbers[currentYear] = this.utilities;
           this.property.propertyManagementNumbers[currentYear] = this.propertyManagement;
           this.property.netOperatingIncomeNumbers[currentYear] = this.netOperatingIncome;
-
+          this.property.capRate[currentYear] = this.capRate;
         }
 
         if (month == 11) {
