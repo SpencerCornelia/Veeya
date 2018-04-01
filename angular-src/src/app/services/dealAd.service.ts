@@ -37,8 +37,11 @@ export class DealAdService {
       .map(res => res.data);
   }
 
-  public getAllDeals() {
-
+  public getAllAds() {
+    let URI = this.serverApi + '/ads/getAllAds';
+    return this.http.get(URI)
+      .map(res => res.json())
+      .map(res => res.data)
   }
 
 }
