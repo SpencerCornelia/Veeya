@@ -36,14 +36,14 @@
     <li class="nav-item">
       <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/viewDealAds']"><span class="menu-title">View Wanted Deals</span></a>
     </li>
-    <li class="nav-item" *ngIf="authService.investorUser()">
+    <li class="nav-item" *ngIf="authService.wholesalerUser()">
       <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/uploadlist']">
         <span class="menu-title">Upload Buyers List</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" *ngIf="authService.investorUser()">
       <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/uploadlist']">
-        <span class="menu-title">Upload Buyers List</span>
+        <span class="menu-title">Upload Wholesalers List</span>
       </a>
     </li>
     <li class="nav-item">
