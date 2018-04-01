@@ -111,5 +111,41 @@ module.exports.placeNewAd = function(data) {
       }
     })
   });
-}
+};
+
+module.exports.getDealAds = function(adIdArray) {
+  return new Promise((resolve, reject) => {
+    let allAds = [];
+    let lastAd = adIdArray.length - 1;
+    adIdArray.forEach((id, index) => {
+      Ad.findById(id, (error, ad) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error retrieving ads.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (ad) {
+          allAds.push(ad);
+          if (index == lastAd) {
+            let successObj = {
+              success: true,
+              message: 'Successfully retrieved all ads.',
+              data: allAds
+            }
+            resolve(successObj);
+          }
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Error retrieving ads. Please try again.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      })
+    })
+  });
+};
 
