@@ -44,6 +44,7 @@ import { SearchComponent } from './search/search.component';
 import { SoldPropertyComponent } from './sold-property/sold-property.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
+import { UploadListComponent } from './upload-list/upload-list.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ViewDealAdsComponent } from './view-deal-ads/view-deal-ads.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
@@ -99,6 +100,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     SidebarComponent,
     SoldPropertyComponent,
     TopNavbarComponent,
+    UploadListComponent,
     UserProfileComponent,
     ViewDealAdsComponent,
     ViewPropertyComponent,
