@@ -45,7 +45,7 @@ router.put('/updateProfilePhoto/:id', (req, res) => {
     });
 });
 
-router.get('/all', (req, res) => {
+router.get('/all/users', (req, res) => {
   user.getAllUsers()
     .then((response) => {
       res.status(200).json(response);
@@ -196,6 +196,37 @@ router.put('/increaseViews', (req, res) => {
   user.increaseViewCount(userId)
     .then((response) => {
       res.status(201).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
+router.post('/uploadList', (req, res) => {
+  let list = req.body.list;
+  let userId = req.body.connectionId;
+  user.addUsersFromUpload(list)
+    .then((response) => {
+      if (response.data.length == 0) {
+        return res.status(201).json(response);
+      } else {
+        return response;
+      }
+    })
+    .then((response) => {
+      if (response.data.length == 0) {
+        return res.status(201).json(response);
+      } else {
+        let connectionIDs = response.data;
+        return user.addConnections(connectionIDs, userId);
+      }
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(201).json(response);
+      } else {
+        res.status(500).json(response);
+      }
     })
     .catch((error) => {
       res.status(500).json(error);
