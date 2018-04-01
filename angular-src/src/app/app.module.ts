@@ -64,6 +64,7 @@ import { InviteService } from './services/invite.service';
 import { PhotosService } from './services/photos.service';
 import { ProfileService } from './services/profile.service';
 import { SoldPropertyService } from './services/soldProperty.service';
+import { UploadListService } from './services/uploadListService';
 import { UserService } from './services/user.service';
 import { ValidateService } from './services/validate.service';
 import { ViewPropertyService } from './services/viewProperty.service';
@@ -130,6 +131,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     PhotosService,
     ProfileService,
     SoldPropertyService,
+    UploadListService,
     UserService,
     ValidateService,
     ViewPropertyService,
