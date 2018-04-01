@@ -1378,6 +1378,35 @@ module.exports.getAllUsers = function() {
   });
 };
 
+module.exports.getAdIDs = function(userId) {
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error getting ad deals.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved ad id\'s.',
+          data: investor.ads
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve ads. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
 /*
 ===== USER GETTERS END =====
 */
