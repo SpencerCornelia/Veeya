@@ -1916,6 +1916,160 @@ module.exports.denyConnectionConnectedUser = function(body) {
   });
 };
 
+module.exports.addUsersFromUpload = function(usersList) {
+  return new Promise((resolve, reject) => {
+    let lastIndex = usersList.length - 1;
+    let connectionsToAdd = [];
+
+    usersList.forEach((user, index) => {
+
+      User.findOne({ 'email': user.email }, (errorFindingUser, foundUser) => {
+        if (errorFindingUser) {
+          let errorObj = {
+            success: false,
+            message: 'Error adding users from uploaded list.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (!foundUser) {
+          let randomString = Math.random().toString(36).slice(-8);
+          let newUser = new User({
+            userType: user.userType,
+            userName: user.userName,
+            password: randomString,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            city: user.city,
+            state: user.state,
+            profileViews: 0,
+            profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
+            URLs: {
+              personal: '',
+              facebook: '',
+              linkedIn: '',
+              biggerPockets: ''
+            }
+          });
+
+          newUser.connections[0] = user.connectionId;
+
+          newUser.save((error, savedUser) => {
+            if (error) {
+              let errorObj = {
+                success: false,
+                message: 'Error saving user.',
+                error: error
+              }
+              reject(errorObj);
+            } else if (savedUser) {
+              connectionsToAdd.push(savedUser._id);
+              if (index == lastIndex) {
+                let successObj = {
+                  success: true,
+                  message: 'Successfully added new users.',
+                  data: connectionsToAdd
+                }
+                resolve(successObj);
+              }
+            } else {
+              let errorObj = {
+                success: false,
+                message: 'Unable to save user.',
+                error: ''
+              }
+              reject(errorObj);
+            }
+          });
+        } else if (foundUser) {
+          if (index == lastIndex) {
+            let successObj = {
+              success: true,
+              message: 'Successfully added new users.',
+              data: connectionsToAdd
+            }
+            resolve(successObj);
+          }
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to add at least one user from upload.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      });
+
+    });
+
+  });
+};
+
+module.exports.addConnections = function(IDs, userId) {
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error adding connections to user.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+
+        if (IDs.length == 0) {
+          let successObj = {
+              success: true,
+              message: 'Successfully added connections.',
+              data: savedUser
+            }
+          resolve(successObj);
+        } else {
+          IDs.forEach((id) => {
+            user.connections.push(id);
+          });
+
+          user.save((error, savedUser) => {
+            if (error) {
+              let errorObj = {
+                success: false,
+                message: 'Error updating user.',
+                error: error
+              }
+              reject(errorObj);
+            } else if (savedUser) {
+              let successObj = {
+                success: true,
+                message: 'Successfully added connections.',
+                data: savedUser
+              }
+              resolve(successObj);
+            } else {
+              let errorObj = {
+                success: false,
+                message: 'Unable to save user. Please try again',
+                error: ''
+              }
+              reject(errorObj);
+            }
+          });
+        }
+
+      } else {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Unable to add connections to user. Please try again.',
+            error: error
+          }
+          reject(errorObj);
+        }
+      }
+    });
+  });
+};
+
 /*
 ===== VALIDATION =====
 */
