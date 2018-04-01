@@ -149,3 +149,32 @@ module.exports.getDealAds = function(adIdArray) {
   });
 };
 
+module.exports.getAllAds = function() {
+  return new Promise((resolve, reject) => {
+    Ad.find((error, ads) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving ads.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (ads) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved all ads.',
+          data: ads
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve all ads.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+}
+
