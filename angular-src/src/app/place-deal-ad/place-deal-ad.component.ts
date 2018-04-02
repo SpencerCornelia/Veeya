@@ -18,7 +18,7 @@ export class PlaceDealAdComponent implements OnInit {
   private perUnit: boolean = false;
 
   constructor(private dealAdService: DealAdService,
-              private router: Router
+              private router: Router,
               private authService: AuthService) { }
 
   ngOnInit() {
