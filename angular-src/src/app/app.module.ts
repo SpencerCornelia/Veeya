@@ -32,6 +32,7 @@ import { AlertComponent } from './directives/alert/index';
 import { ConnectionsComponent } from './connections/connections.component';
 import { CustomizePropertyComponent } from './customize-property/customize-property.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { FooterComponent } from './footer/footer.component';
 import { GenerateReportComponent } from './generate-report/generate-report.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 import { InviteLenderComponent } from './invite-lender/invite-lender.component';
@@ -91,6 +92,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     FilterStatePipe,
     FilterStatusPipe,
     FilterUsernamePipe,
+    FooterComponent,
     GenerateReportComponent,
     LoginComponent,
     MyProfileComponent,
