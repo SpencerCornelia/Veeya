@@ -28,6 +28,7 @@ import { FilterUsernamePipe } from './pipes/filterUsername.pipe';
 
 import { AppComponent } from './app.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
+import { AlertComponent } from './directives/alert/index';
 import { ConnectionsComponent } from './connections/connections.component';
 import { CustomizePropertyComponent } from './customize-property/customize-property.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -52,6 +53,7 @@ import { ViewPropertiesComponent } from './view-properties/view-properties.compo
 
 import { AddConnectionService } from './services/addConnection.service';
 import { AddPropertyService } from './services/addProperty.service';
+import { AlertService } from './services/alert.service';
 import { AuthService } from './services/auth.service';
 import { CustomizePropertyService } from './services/customizeProperty.service';
 import { DealAdService } from './services/dealAd.service';
@@ -74,6 +76,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
   declarations: [
     AppComponent,
     AddPropertyComponent,
+    AlertComponent,
     ConnectionsComponent,
     CustomizePropertyComponent,
     DashboardComponent,
@@ -120,6 +123,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     AddConnectionService,
     AuthService,
     AddPropertyService,
+    AlertService,
     CustomizePropertyService,
     DealAdService,
     DeletePropertyService,
