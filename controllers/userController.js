@@ -233,5 +233,16 @@ router.post('/uploadList', (req, res) => {
     });
 });
 
+router.delete('/deleteuser/:id', (req, res) => {
+  let id = req.params.id;
+  user.deleteUser(id)
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
 
 module.exports = router;
