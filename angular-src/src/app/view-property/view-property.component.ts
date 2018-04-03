@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Property } from '../models/Property';
 import { User } from '../models/User';
 
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { CustomizePropertyService } from '../services/customizeProperty.service';
 import { DeletePropertyService } from '../services/deleteProperty.service';
@@ -33,6 +34,7 @@ export class ViewPropertyComponent implements OnInit {
   private showRemovePhotosButton: Boolean = false;
 
   constructor(private route: ActivatedRoute,
+              private alertService: AlertService,
               private authService: AuthService,
               private customizePropertyService: CustomizePropertyService,
               private deletePropertyService: DeletePropertyService,
@@ -97,7 +99,7 @@ export class ViewPropertyComponent implements OnInit {
         this.property = response;
         this.propertyOwner = this.confirmPropertyOwnership();
       }, (error) => {
-
+        this.alertService.error('Error retrieving property.');
       });
   }
 
@@ -119,6 +121,8 @@ export class ViewPropertyComponent implements OnInit {
         let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
         inputButton.disabled = true;
       }
+    } else {
+      this.alertService.error('Please add a valid photo image.');
     }
 
   }
@@ -146,7 +150,7 @@ export class ViewPropertyComponent implements OnInit {
 
         this.photosService.getPropertyPhotoUrls(photosUploaded, (error, photos) => {
           if (error) {
-            // error message
+            this.alertService.error('Error uploading photos.');
             return;
           } else {
             photos.forEach((photo) => {
@@ -161,9 +165,9 @@ export class ViewPropertyComponent implements OnInit {
   removePhoto(photo) {
     this.photosService.removePropertyPhoto(photo, (error) => {
       if (error) {
-        // error message = 'Error removing photo. Please try again.'
+        this.alertService.error('Error removing photo. Please try again.');
       } else {
-        // message = 'Successfully removed photo.'
+        this.alertService.error('Successfully removed photo.');
       }
     });
   }
@@ -172,10 +176,11 @@ export class ViewPropertyComponent implements OnInit {
     this.editPropertyService.editProperty(this.property)
       .subscribe((response) => {
         if (response.success) {
+          this.alertService.success('Changes saved.');
           this.router.navigate(['/dashboard']);
        }
       }, (error) => {
-
+        this.alertService.error('Error editing property.');
       });
   }
 
@@ -200,7 +205,7 @@ export class ViewPropertyComponent implements OnInit {
           if (response.success) {
           }
         }, (error) => {
-
+          this.alertService.error('Error marking property as listed.', true);
         });
     }
   }
@@ -216,11 +221,12 @@ export class ViewPropertyComponent implements OnInit {
       this.deletePropertyService.deleteProperty(this.property._id)
         .subscribe((response) => {
           if (response.success) {
+            this.alertService.success('Deleted property successfully.');
             this.router.navigate(['/dashboard']);
           }
         },(error) => {
-
-        })
+          this.alertService.error('Error deleting property.', true);
+        });
     }
   }
 

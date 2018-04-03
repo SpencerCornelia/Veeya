@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { GetAllPropertiesService } from '../services/getAllProperties.service';
 import { Property } from '../models/Property';
@@ -27,7 +28,8 @@ export class SearchComponent implements OnInit {
   private propertiesTab: String = 'false';
   private wholesalersTab: String = 'true';
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private getAllPropertiesService: GetAllPropertiesService,
               private userService: UserService) { }
 
@@ -56,8 +58,8 @@ export class SearchComponent implements OnInit {
       .subscribe((response) => {
         this.wholesalers = response;
       }, (error) => {
-
-      })
+        this.alertService.error('Error retrieving wholesaler users.');
+      });
   }
 
   getAllProperties() {
@@ -65,8 +67,8 @@ export class SearchComponent implements OnInit {
       .subscribe((response) => {
         this.properties = response;
       }, (error) => {
-
-      })
+        this.alertService.error('Error retrieving properties.');
+      });
   }
 
   getAllInvestors() {
@@ -74,8 +76,8 @@ export class SearchComponent implements OnInit {
       .subscribe((response) => {
         this.investors = response;
       }, (error) => {
-
-      })
+        this.alertService.error('Error retrieving investor users.');
+      });
   }
 
   getAllLenders() {
@@ -83,8 +85,8 @@ export class SearchComponent implements OnInit {
       .subscribe((response) => {
         this.lenders = response;
       }, (error) => {
-
-      })
+        this.alertService.error('Error retrieving lender users.');
+      });
   }
 
   changeTab(tab) {

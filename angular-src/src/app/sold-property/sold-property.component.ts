@@ -5,6 +5,7 @@ declare var $: any;
 import { Property } from '../models/Property';
 import { User } from '../models/User';
 
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { SoldPropertyService } from '../services/soldProperty.service';
 import { UserService } from '../services/user.service';
@@ -29,6 +30,7 @@ export class SoldPropertyComponent implements OnInit {
   private selectedInvestor: User;
 
   constructor(
+    private alertService: AlertService,
     private authService: AuthService,
     private soldPropertyService: SoldPropertyService,
     private viewPropertyService: ViewPropertyService,
@@ -59,7 +61,7 @@ export class SoldPropertyComponent implements OnInit {
       .subscribe((response) => {
         this.investors = response;
       }, (error) => {
-
+        this.alertService.error('Error retrieving investor users.');
       });
   }
 
@@ -77,12 +79,13 @@ export class SoldPropertyComponent implements OnInit {
               .subscribe((response) => {
                 $("#soldModal").modal('hide');
                 that.router.navigate(['/dashboard']);
+                that.alertService.success('Successfully marked property as sold.', true);
               }, (error) => {
-
+                that.alertService.error('Error marking property as sold.');
               });
           });
         }, (error) => {
-
+          this.alertService.error('Error retrieving property information.');
         });
     } else {
       this.selectedInvestor = investor;
@@ -91,9 +94,10 @@ export class SoldPropertyComponent implements OnInit {
         that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
           .subscribe((response) => {
             $("#soldModal").modal('hide');
+            that.alertService.success('Successfully marked property as sold.', true);
             that.router.navigate(['/dashboard']);
           }, (error) => {
-
+            that.alertService.error('')
           });
       });
     }

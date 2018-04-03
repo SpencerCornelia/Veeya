@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AddConnectionService } from '../services/addConnection.service';
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/User';
 import { UserService } from '../services/user.service';
@@ -23,6 +24,7 @@ export class UserProfileComponent implements OnInit {
   private user_id: string;
 
   constructor(private router: Router,
+              private alertService: AlertService,
               private activatedRoute: ActivatedRoute,
               private userService: UserService,
               private authService: AuthService,
@@ -66,14 +68,14 @@ export class UserProfileComponent implements OnInit {
         this.determineNumberOfDeals(this.user);
         this.isConnected();
       }, (error) => {
-
-      })
+        this.alertService.error('Error retrieving user info.');
+      });
 
     this.userService.increaseProfileViews(userID)
       .subscribe((response) => {
         this.user.profileViews = response.profileViews;
       }, (error) => {
-
+        this.alertService.error('Error increasing profile views.');
       });
   }
 
@@ -100,8 +102,9 @@ export class UserProfileComponent implements OnInit {
         this.notConnected = false;
         this.connectionSent = true;
         this.disableConnectButton = true;
+        this.alertService.success('Added connection successfully.', true);
       }, (error) => {
-
+        this.alertService.error('Error adding connection.', true);
       });
   }
 

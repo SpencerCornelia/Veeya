@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { DeletePropertyService } from '../services/deleteProperty.service';
 import { EditPropertyService } from '../services/editProperty.service';
@@ -35,7 +36,8 @@ export class ViewPropertiesComponent implements OnInit {
   private wholesalerPropertiesSold: Property[] = [];
   private wholesalerPropertiesSoldPending: Property[] = [];
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private getPropertyService: GetAllPropertiesService,
               private deletePropertyService: DeletePropertyService,
               private getUserPropertiesService: GetUserPropertiesService,
@@ -84,7 +86,7 @@ export class ViewPropertiesComponent implements OnInit {
       .subscribe((response) => {
         this.currentUser = response.data;
       }, (error) => {
-
+        this.alertService.error('Error retrieving user.');
       });
   }
 
@@ -102,8 +104,8 @@ export class ViewPropertiesComponent implements OnInit {
           }
         });
       }, (error) => {
-
-      })
+        this.alertService.error('Error retrieving properties for wholesaler.');
+      });
   }
 
   viewProperty(property) {
@@ -127,8 +129,8 @@ export class ViewPropertiesComponent implements OnInit {
           }
         });
       }, (error) => {
-
-      })
+        this.alertService.error('Error retrieving properties for investor.');
+      });
   }
 
   getPropertiesForLender() {
@@ -143,7 +145,7 @@ export class ViewPropertiesComponent implements OnInit {
           }
         });
       }, (error) => {
-
+        this.alertService.error('Error retrieving properties for lender.');
       });
   }
 
@@ -155,8 +157,8 @@ export class ViewPropertiesComponent implements OnInit {
         });
         this.investorPropertiesBought.push(property);
       }, (error) => {
-
-      })
+        this.alertService.error('Error accepting property as sold.');
+      });
   }
 
   denySold() {

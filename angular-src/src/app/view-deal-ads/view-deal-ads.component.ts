@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { DealAdService } from '../services/dealAd.service';
 
@@ -20,7 +21,8 @@ export class ViewDealAdsComponent implements OnInit {
   private wholesalerUserType: boolean = false;
   private lenderUserType: boolean = false;
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private dealAdService: DealAdService) { }
 
   ngOnInit() {
@@ -43,15 +45,15 @@ export class ViewDealAdsComponent implements OnInit {
         .subscribe((response) => {
           this.currentAds = response;
         }, (error) => {
-
-        })
+          this.alertService.error('Error retrieving deal ads for investor.');
+        });
     } else {
       this.dealAdService.getAllAds()
         .subscribe((response) => {
           this.currentAds = response;
         }, (error) => {
-
-        })
+          this.alertService.error('Error retrieving all ads.');
+        });
     }
   }
 

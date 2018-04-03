@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { UploadListService } from '../services/uploadListService';
 import { ValidateService } from '../services/validate.service';
@@ -19,7 +20,8 @@ export class UploadListComponent implements OnInit {
   private list: File;
   private users: Array<any>;
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private router: Router,
               private validateService: ValidateService,
               private uploadListService: UploadListService) { }
@@ -35,10 +37,10 @@ export class UploadListComponent implements OnInit {
   uploadListInput(event) {
     this.list = event.target.files[0];
     let fileType = this.list["type"];
-    // = 20 kb
+
     if (this.list.size > 50000) {
       this.list = null;
-      // flash message notifying user that file size is too large
+      this.alertService.error('Image size is too large. Please upload image with a size of less than 50kb.');
       return;
     }
     if (this.validateService.validateUploadListInput(fileType)) {
@@ -48,7 +50,7 @@ export class UploadListComponent implements OnInit {
       let inputButton = (<HTMLInputElement>document.getElementById('listInput'));
       inputButton.disabled = true;
     } else {
-      // display error message: the validation didn't pass.  file type is not correct
+      this.alertService.error('File type is not correct. Please upload only .csv files.');
     }
 
   }
@@ -91,8 +93,7 @@ export class UploadListComponent implements OnInit {
 
       if (row.length > 6) {
         errorExists = true;
-        // alert user that row: row + 1 has an extra comma
-        // please invite this user separately
+        this.alertService.error('Row ' + row[i+1] + ' has an error. Please upload this user separately.');
         continue;
       }
 
@@ -149,18 +150,17 @@ export class UploadListComponent implements OnInit {
 
   errorHandler(event) {
     if (event.target.error.name == 'NotReadableError') {
-      // notify user: cannot read file
+      this.alertService.error('Unable to read file. Please upload a .csv file.');
     }
   }
 
   finishUpload() {
     this.uploadListService.uploadList(this.users, this.currentUser)
       .subscribe((response) => {
-        console.log('response:', response)
-        // success message
+        this.alertService.success('Uploaded list successfully.', true);
         this.router.navigate(['/dashboard']);
       }, (error) => {
-        // error message
+        this.alertService.error('Error uploading list.', true);
       });
   }
 
