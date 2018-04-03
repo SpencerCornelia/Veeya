@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { User } from '../models/User';
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { PhotosService } from '../services/photos.service';
 import { UserService } from '../services/user.service';
@@ -16,17 +17,20 @@ declare var $: any;
 export class MyProfileComponent implements OnInit {
 
   private currentUser: User;
+  private currentUserId: string;
   private defaultProfilePhoto: string = 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed';
   private edit: Boolean = false;
   private password: any;
   private photo: File;
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private photosService: PhotosService,
               private userService: UserService,
               private validateService: ValidateService) { }
 
   ngOnInit() {
+    this.currentUserId = this.authService.loggedInUser();
     document.getElementById("updatePhotoButton").setAttribute('disabled', 'disabled');
     this.getCurrentUser();
     this.currentUser = {
@@ -61,7 +65,7 @@ export class MyProfileComponent implements OnInit {
       .subscribe((response) => {
         this.currentUser = response;
       }, (error) => {
-
+        this.alertService.error('Unable to update user profile.');
       });
   }
 
@@ -70,8 +74,8 @@ export class MyProfileComponent implements OnInit {
       .subscribe((response) => {
         this.currentUser = response.data;
       }, (error) => {
-
-      })
+        this.alertService.error('Error loading user profile.');
+      });
   }
 
   isDisabled() {
@@ -89,32 +93,32 @@ export class MyProfileComponent implements OnInit {
       this.photo = file;
       document.getElementById("updatePhotoButton").removeAttribute('disabled');
     } else {
-      // display an error message telling user to upload a file that is an image
+      this.alertService.error('Please upload an image file.');
     }
   }
 
   uploadProfilePhoto() {
     this.photosService.uploadProfileImagePhoto(this.photo, (error, photo) => {
       if (error) {
-        // error message = 'Error uploading photo. Please try again.'
+        this.alertService.error('Error uploading photo. Please try again.');
       } else {
         let inputValue = (<HTMLInputElement>document.getElementById('imageInput'));
         inputValue.value = "";
         this.photosService.getProfileImageUrl(photo, (error, firebasePhoto) => {
           if (error) {
-            // error message = 'Error uploading photo. Please try again.'
+            this.alertService.error('Error uploading photo. Please try again.');
             return;
           } else {
             if (this.currentUser.profilePhoto != this.defaultProfilePhoto) {
               this.photosService.removePropertyPhoto(this.currentUser.profilePhoto, (error, success) => {
                 if (error) {
-
+                  this.alertService.error('Error uploading photo. Please try again.');
                 } else {
                   this.userService.updateUserProfilePhoto(firebasePhoto)
                     .subscribe((response) => {
                       this.currentUser.profilePhoto = firebasePhoto;
                     }, (error) => {
-
+                      this.alertService.error('Error uploading photo. Please try again.');
                     });
                 }
               });
@@ -130,8 +134,10 @@ export class MyProfileComponent implements OnInit {
       this.userService.updatePassword(this.password.current, this.password.new)
         .subscribe((response) => {
           this.clearPasswordForm();
+          this.alertService.success('Password updated.');
         }, (error) => {
           this.clearPasswordForm();
+          this.alertService.error('Error updating password.');
         });
     }
   }
@@ -140,6 +146,20 @@ export class MyProfileComponent implements OnInit {
     this.password.current = '';
     this.password.new = '';
     this.password.newConfirm = '';
+  }
+
+  onDelete() {
+    let confirm = window.confirm("Are you sure you would like to delete your user? We are sad to see you go.");
+    if (confirm) {
+      this.userService.deleteUser(this.currentUserId)
+        .subscribe((response) => {
+          this.authService.logout();
+        }, (error) => {
+          this.alertService.error('Error deleting user.', true);
+        });
+    } else {
+      this.alertService.success('We are glad to see you have changed your mind and are staying with us. Time to make some money!');
+    }
   }
 
 }
