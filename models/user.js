@@ -780,7 +780,7 @@ module.exports.addWholesalerConnection = function(wholesalerId, investorId) {
           } else if (newInvestor) {
             let successObj = {
               success: true,
-              message: 'Successfully invited wholesaler.',
+              message: 'Successfully invited user.',
               data: newInvestor
             }
             resolve(successObj);
