@@ -4,6 +4,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 
 import { User } from '../models/User';
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { InviteService } from '../services/invite.service';
 
@@ -17,7 +18,8 @@ export class InviteInvestorComponent implements OnInit {
   private currentUser: User;
   private newInvestor: User;
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private inviteService: InviteService,
               private router: Router) {}
 
@@ -47,6 +49,7 @@ export class InviteInvestorComponent implements OnInit {
     this.newInvestor.userName = this.newInvestor.firstName.toString() + this.newInvestor.lastName.toString();
     this.inviteService.inviteInvestor(this.newInvestor)
       .subscribe((response) => {
+        this.alertService.success(response.message, true);
         this.router.navigate(['/dashboard']);
       },
       (error) => {
