@@ -22,11 +22,12 @@ export class InviteLenderComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+    let randomString = Math.random().toString(36).slice(-8);
     let user_id = this.authService.loggedInUser();
     this.newLender = {
       userType: 'Lender',
       userName: '',
-      password: 'initialPassword',
+      password: randomString,
       firstName: '',
       lastName: '',
       email: '',

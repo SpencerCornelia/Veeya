@@ -22,12 +22,13 @@ export class InviteWholesalerComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+    let randomString = Math.random().toString(36).slice(-8);
     let investorID = this.authService.loggedInUser();
     this.newWholesaler = {
       userType: 'Wholesaler',
       firstName: '',
       lastName: '',
-      password: 'initialUser',
+      password: randomString,
       userName: '',
       email: '',
       phoneNumber: '',
