@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Alert, AlertType } from '../../models/alert/index';
+import { Alert, AlertType } from '../../models/alert';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'alert',
-  templateUrl: './alert.component.html'
+  templateUrl: './alert.component.html',
+  styleUrls: ['./alert.component.css']
 })
 
 export class AlertComponent {
@@ -24,6 +25,11 @@ export class AlertComponent {
 
         // add alert to array
         this.alerts.push(alert);
+
+        // remove alert after 5 seconds
+        setTimeout(() => {
+          this.removeAlert(alert);
+        }, 3000);
       })
   }
 
