@@ -2070,6 +2070,36 @@ module.exports.addConnections = function(IDs, userId) {
   });
 };
 
+module.exports.deleteUser = function(userId) {
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, user) => {
+      user.connections.forEach((connectionId) => {
+        User.findById(connectionId, (error, connectionUser) => {
+          connectionUser.connections.filter(id => id != userId);
+        });
+      })
+    });
+
+    User.findByIdAndRemove(userId, (error, deletedUser) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error deleting user.',
+          error: error
+        }
+        reject(errorObj);
+      } else {
+        let successObj = {
+          success: true,
+          message: 'Successfully deleted user.'
+          data: null
+        }
+        resolve(successObj);
+      }
+    });
+  });
+};
+
 /*
 ===== VALIDATION =====
 */
