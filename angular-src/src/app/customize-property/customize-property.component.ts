@@ -69,7 +69,8 @@ export class CustomizePropertyComponent implements OnInit {
   private equityBuilt: any;
   private monthlyNumbers: any;
 
-  constructor(private customizePropertyService: CustomizePropertyService, private router: Router) { }
+  constructor(private customizePropertyService: CustomizePropertyService,
+              private router: Router) { }
 
   ngOnInit() {
     if (this.customizePropertyService.customizedPropertyExists) {
