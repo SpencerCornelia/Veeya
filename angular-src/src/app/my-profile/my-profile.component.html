@@ -115,6 +115,9 @@
                       </li>
                     </ul>
                   </div>
+
+
+
                   <div class="wrapper">
                     <hr>
                     <div class="tab-content" id="myTabContent">
@@ -312,6 +315,7 @@
                           </div>
                         </form>
                       </div>
+
                       <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
                         <form (submit)="updatePassword()" #passwordForm="ngForm">
                           <div class="form-group">
@@ -349,15 +353,26 @@
                             <button type="reset" class="btn btn-outline-danger">Cancel</button>
                           </div>
                         </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- content-wrapper ends -->
+                      </div> <!-- End of security tab -->
+
+
+                    </div> <!-- End of #myTabContent-->
+
+
+                  </div> <!-- End of #wrapper -->
+
+                </div> <!-- End of card-body -->
+
+                <button class="btn btn-inverse-danger btn-rounded btn-fw" (click)="onDelete()">Delete User</button>
+
+              </div> <!-- End of card -->
+
+            </div> <!-- End of col-lg-8 side-right stretch-card-->
+
+
+          </div> <!-- End of row user-profile -->
+
+        </div> <!-- content-wrapper ends -->
 
 
 
