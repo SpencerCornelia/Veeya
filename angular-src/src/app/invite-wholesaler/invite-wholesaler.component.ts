@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
 import { User } from '../models/User';
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { InviteService } from '../services/invite.service';
 
@@ -17,7 +18,8 @@ export class InviteWholesalerComponent implements OnInit {
   private currentUser: User;
   private newWholesaler: User;
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private inviteService: InviteService,
               private router: Router) { }
 
@@ -49,10 +51,11 @@ export class InviteWholesalerComponent implements OnInit {
     this.newWholesaler.userName = this.newWholesaler.firstName.toString() + this.newWholesaler.lastName.toString();
     this.inviteService.inviteWholesaler(this.newWholesaler)
       .subscribe((response) => {
+        this.alertService.success(response.message, true);
         this.router.navigate(['/dashboard']);
       },
       (error) => {
-
+        this.alertService.error('Error inviting wholesaler.', true);
       });
   }
 

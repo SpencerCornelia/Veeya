@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { ProfileService } from '../services/profile.service';
 import { EditPropertyService } from '../services/editProperty.service';
@@ -23,7 +24,8 @@ export class DashboardComponent implements OnInit {
   private userID: String;
   private userType: String;
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private profileService: ProfileService,
               private editPropertyService: EditPropertyService,
               private router: Router)
@@ -66,8 +68,8 @@ export class DashboardComponent implements OnInit {
       .subscribe((response) => {
         this.currentUser = response.data;
       }, (error) => {
-
-      })
+        this.alertService.error('Error retrieving logged in user.');
+      });
   }
 
   // getWholesalerProfileInfo() {

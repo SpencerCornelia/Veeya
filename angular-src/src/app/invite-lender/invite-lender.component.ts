@@ -4,6 +4,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 
 import { User } from '../models/User';
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { InviteService } from '../services/invite.service';
 
@@ -17,7 +18,8 @@ export class InviteLenderComponent implements OnInit {
   private currentUser: User;
   private newLender: User;
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private inviteService: InviteService,
               private router: Router) { }
 
@@ -49,11 +51,11 @@ export class InviteLenderComponent implements OnInit {
     this.newLender.userName = this.newLender.firstName.toString() + this.newLender.lastName.toString();
     this.inviteService.inviteLender(this.newLender)
       .subscribe((response) => {
+        this.alertService.success(response.message, true);
         this.router.navigate(['/dashboard']);
-
       },
       (error) => {
-
+        this.alertService.error('Error inviting lender.', true);
       });
   }
 

@@ -54,7 +54,7 @@ export class InviteInvestorComponent implements OnInit {
         this.router.navigate(['/dashboard']);
       },
       (error) => {
-
+        this.alertService.error('Error inviting investor.', true);
       });
   }
 
