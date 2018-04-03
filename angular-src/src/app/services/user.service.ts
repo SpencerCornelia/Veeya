@@ -121,4 +121,13 @@ export class UserService {
       .map(res => res.data)
   }
 
+  public deleteUser(userId: string) {
+    let URI = this.serverApi + `/user/deleteuser/${userId}`;
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    return this.http.delete(URI, { headers: headers })
+      .map(res => res.json())
+      .map(res => res)
+  }
+
 }
