@@ -14,6 +14,7 @@ import { PhotosService } from '../services/photos.service';
 import { ValidateService } from '../services/validate.service';
 import { ViewPropertyService } from '../services/viewProperty.service';
 
+declare var $: any;
 
 @Component({
   selector: 'app-view-property',
@@ -24,6 +25,7 @@ export class ViewPropertyComponent implements OnInit {
 
   private currentUserType: string;
   private editMode: Boolean = false;
+  private enlargedPhoto: string;
   private photo: File;
   private photosToAdd: Array<File> = [];
   private propertyID: string;
@@ -188,6 +190,11 @@ export class ViewPropertyComponent implements OnInit {
     this.editMode = true;
   }
 
+  imageModal(photo) {
+    this.enlargedPhoto = photo;
+    $("#photoModal").modal('show');
+  }
+
   sold() {
     let soldConfirm = confirm("Are you sure you want to mark this property as sold?");
     if (soldConfirm) {
@@ -212,6 +219,7 @@ export class ViewPropertyComponent implements OnInit {
 
   cancel() {
     this.deletePropertyService.removePhotos(this.photoURLsAdded);
+    this.editMode = false;
   }
 
   deleteProperty() {
