@@ -1229,7 +1229,7 @@ module.exports.getUserByEmail = function(email) {
       if (error) {
         let errorObj = {
           success: false,
-          message: 'Unable to retrieve user with email entered into application.',
+          message: 'Error finding user.',
           error: error
         }
         reject(errorObj);
@@ -1244,7 +1244,7 @@ module.exports.getUserByEmail = function(email) {
       } else {
         let errorObj = {
           success: false,
-          message: 'User not found with email entered into application.',
+          message: 'User not found.',
           error: ''
         }
         reject(errorObj);
