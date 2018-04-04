@@ -65,7 +65,8 @@
                   </p>
                   <p class="card-text" *ngIf="wholesalerPropertiesListed.length==0">
                     You currently do not have any properties listed. If you have a property under contract and would like to upload the property for investors to see,
-                    please click <button class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4" [routerLink]="['/search']">HERE</button>.
+                    please click <button class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4"
+                      [routerLink]="['/addproperty']">HERE</button>.
                   </p>
                   <div id="lightgallery" class="row lightGallery" *ngFor="let listedProperty of wholesalerPropertiesListed">
                     <a (click)="viewProperty(listedProperty)" class="image-tile" alt="image large">
