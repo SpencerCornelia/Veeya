@@ -16,6 +16,8 @@ declare var $: any;
 })
 export class CustomizePropertyComponent implements OnInit {
 
+  private enlargedPhoto: string;
+
   private capRate: any;
   private balloonFinalPayment: any;
   private dollarAmount: any;
@@ -252,6 +254,11 @@ export class CustomizePropertyComponent implements OnInit {
     $("#variableExpenseName").val("");
     $("#variableExpensePercent").val("");
     $("#variableExpenseModal").modal('hide');
+  }
+
+  imageModal(photo) {
+    this.enlargedPhoto = photo;
+    $("#photoModal").modal('show');
   }
 
   cleanseString(string) {
