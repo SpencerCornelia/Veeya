@@ -461,12 +461,11 @@ let validatePropertyInputs = function(data) {
  let addressPattern = /^[a-zA-Z0-9,.!? ]*$/
  let addressMatch = data.address.match(addressPattern) && data.address.length >= 5 && data.address.length <= 50;
 
- let cityPattern = /"^[a-zA-Z ]*$"/;
+ let cityPattern = /^[a-zA-Z ]*$/;
  let cityMatch = data.city.match(cityPattern) && data.city.length >= 3 && data.city.length <= 30;
-
  let stateMatch = data.state.length == 2;
 
- let zipCodePattern = /^[-9]*$/;
+ let zipCodePattern = /^[0-9]*$/;
  let zipCodeMatch = data.zipCode.match(zipCodePattern) && data.zipCode.length >= 5 && data.zipCode.length <= 10;
 
  let purchasePricePattern = /^[0-9]*$/;
