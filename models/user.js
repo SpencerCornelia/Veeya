@@ -1200,21 +1200,21 @@ module.exports.getUserById = function(id) {
       if (error) {
         let errorObj = {
           success: false,
-          message: 'Unable to retrieve user by id.'
+          message: 'Unable to retrieve user.'
         }
         reject(errorObj);
       } else if (user) {
         delete user.password;
         let successObj = {
           success: true,
-          message: 'Successfully found user by id.',
+          message: 'Successfully found user.',
           data: user
         }
         resolve(successObj);
       } else {
         let errorObj = {
           success: false,
-          message: 'User not found by id.',
+          message: 'User not found.',
           error: ''
         }
         reject(errorObj);
@@ -2075,7 +2075,9 @@ module.exports.deleteUser = function(userId) {
     User.findById(userId, (error, user) => {
       user.connections.forEach((connectionId) => {
         User.findById(connectionId, (error, connectionUser) => {
-          connectionUser.connections.filter(id => id != userId);
+          connectionUser.connections = connectionUser.connections.filter((id) => {
+            return id != userId;
+          });
         });
       })
     });
@@ -2091,7 +2093,7 @@ module.exports.deleteUser = function(userId) {
       } else {
         let successObj = {
           success: true,
-          message: 'Successfully deleted user.'
+          message: 'Successfully deleted user.',
           data: null
         }
         resolve(successObj);
