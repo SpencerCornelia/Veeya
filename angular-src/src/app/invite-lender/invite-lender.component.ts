@@ -15,8 +15,9 @@ import { InviteService } from '../services/invite.service';
 })
 export class InviteLenderComponent implements OnInit {
 
-  private currentUser: User;
-  private newLender: User;
+  private lender: any
+  private user_id: string;
+  private email: string;
 
   constructor(private alertService: AlertService,
               private authService: AuthService,
@@ -24,32 +25,14 @@ export class InviteLenderComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    let randomString = Math.random().toString(36).slice(-8);
-    let user_id = this.authService.loggedInUser();
-    this.newLender = {
-      userType: 'Lender',
-      userName: '',
-      password: randomString,
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      user_id: user_id,
-      city: '',
-      state: 'AL',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      }
+    this.user_id = this.authService.loggedInUser();
+    this.lender = {
+      'email': ''
     }
-
   }
 
   onSubmit() {
-    this.newLender.userName = this.newLender.firstName.toString() + this.newLender.lastName.toString();
-    this.inviteService.inviteLender(this.newLender)
+    this.inviteService.inviteLender(this.lender.email, this.user_id)
       .subscribe((response) => {
         this.alertService.success(response.message, true);
         this.router.navigate(['/dashboard']);

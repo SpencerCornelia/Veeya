@@ -15,8 +15,8 @@ import { InviteService } from '../services/invite.service';
 })
 export class InviteInvestorComponent implements OnInit {
 
-  private currentUser: User;
-  private newInvestor: User;
+  private wholesalerID: string;
+  private investor: any;
 
   constructor(private alertService: AlertService,
               private authService: AuthService,
@@ -24,31 +24,14 @@ export class InviteInvestorComponent implements OnInit {
               private router: Router) {}
 
   ngOnInit() {
-    let randomString = Math.random().toString(36).slice(-8);
-    let wholesalerID = this.authService.loggedInUser();
-    this.newInvestor = {
-      userType: 'Investor',
-      userName: '',
-      password: randomString,
-      firstName: '',
-      lastName: '',
+    this.wholesalerID = this.authService.loggedInUser();
+    this.investor = {
       email: '',
-      phoneNumber: '',
-      city: '',
-      state: 'AL',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      },
-      wholesaler_id: wholesalerID
     }
   }
 
   onSubmit() {
-    this.newInvestor.userName = this.newInvestor.firstName.toString() + this.newInvestor.lastName.toString();
-    this.inviteService.inviteInvestor(this.newInvestor)
+    this.inviteService.inviteInvestor(this.investor.email, this.wholesalerID)
       .subscribe((response) => {
         this.alertService.success(response.message, true);
         this.router.navigate(['/dashboard']);
