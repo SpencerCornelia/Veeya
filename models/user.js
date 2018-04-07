@@ -12,28 +12,22 @@ const keys = require('../config/keys.js');
 
 const UserSchema = mongoose.Schema({
   userType: {
-    type: String,
-    required: true
+    type: String
   },
   userName: {
-    type: String,
-    required: true
+    type: String
   },
   password: {
-    type: String,
-    required: true
+    type: String
   },
   firstName: {
-    type: String,
-    required: true
+    type: String
   },
   lastName: {
-    type: String,
-    required: true
+    type: String
   },
   email: {
-    type: mongoose.SchemaTypes.Email,
-    required: true
+    type: mongoose.SchemaTypes.Email
   },
   phoneNumber: {
     type: String
@@ -99,7 +93,7 @@ const User = module.exports = db.model('User', UserSchema);
 */
 
 module.exports.registerUser = function(userBody) {
-  let validated = validateRegisterUser(userBody);
+  let validated = validateUser(userBody);
 
   if (validated) {
     return new Promise((resolve, reject) => {
@@ -193,6 +187,89 @@ module.exports.registerUser = function(userBody) {
       }
       reject(errorObj);
     })
+  }
+};
+
+module.exports.registerInvitedUser = function(userBody) {
+  let validated = validateUser(userBody);
+
+  if (validated) {
+    return new Promise((resolve, reject) => {
+      User.findOne({ 'email': userBody.email }, (error, user) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error registering user.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (user) {
+          let userObj = {
+            success: false,
+            message: 'Email already exists. If you are attempting to login using this email, please head to login page. '
+              + 'If you are attempting to invite a user, please request a connection with the user using our Add Connection feature.',
+            error: ''
+          }
+          reject(userObj)
+        } else {
+          let randomString = Math.random().toString(36).slice(-8);
+          let newUser = new User({
+            userType: userBody.userType,
+            userName: '',
+            password: randomString,
+            firstName: '',
+            lastName: '',
+            email: userBody.email,
+            phoneNumber: '',
+            city: '',
+            state: '',
+            profileViews: 0,
+            profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
+            URLs: {
+              personal: '',
+              facebook: '',
+              linkedIn: '',
+              biggerPockets: ''
+            }
+          });
+
+          newUser.save((error, savedUser) => {
+            if (error) {
+              let errorObj = {
+                success: false,
+                message: 'Error registering user.',
+                error: error
+              }
+              reject(errorObj);
+            } else if (savedUser) {
+              delete savedUser.password;
+              let investorObj = {
+                success: true,
+                message: 'Successfully registered user.',
+                data: savedUser
+              }
+              resolve(investorObj);
+            } else {
+              let errorObj = {
+                success: false,
+                message: 'Unable to save user.',
+                error: ''
+              }
+              reject(errorObj);
+            }
+          });
+        }
+      });
+    });
+  } else {
+    return new Promise((resolve, reject) => {
+      let errorObj = {
+        success: false,
+        message: 'Error inviting new user.',
+        error: error
+      }
+      reject(errorObj);
+    });
   }
 };
 
@@ -2090,13 +2167,20 @@ module.exports.deleteUser = function(userId) {
           error: error
         }
         reject(errorObj);
-      } else {
+      } else if (deletedUser) {
         let successObj = {
           success: true,
           message: 'Successfully deleted user.',
           data: null
         }
         resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Error deleting user.',
+          error: ''
+        }
+        reject(errorObj);
       }
     });
   });
@@ -2106,25 +2190,136 @@ module.exports.deleteUser = function(userId) {
 ===== VALIDATION =====
 */
 
-let validateRegisterUser = function(data) {
-  let userNamePattern = new RegExp("^[a-zA-Z0-9-]+");
-  let firstNamePattern = new RegExp("^[a-zA-Z ]+$");
-  let lastNamePattern = new RegExp("^[a-zA-Z ]+$");
-  let passwordPattern = data.password.length >= 5 && data.password.length <= 30;
-  let emailPattern = new RegExp("^(([^<>()\\[\\]\\.,;:\\s@']+(\\.[^<>()\\[\\]\\.,;:\\s@']+)*)|('.+'))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
-  let phoneNumberPattern = new RegExp("^(\\+0?1\\s)?\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$");
-  let cityPattern = new RegExp("^[a-zA-Z ]*$");
-  let statePattern = data.state.length == 2;
-  let userTypePattern = false;
-  if (data.userType == 'Wholesaler' || data.userType == 'Investor' || data.userType == 'Lender') {
-    userTypePattern = true;
+let validateUser = function(data) {
+  console.log('data:',data)
+  if (data.userName) {
+    if (!validateUsername(data.userName)) {
+      return false;
+    }
   }
 
-  if (userNamePattern.test(data.userName) && firstNamePattern.test(data.firstName) && lastNamePattern.test(data.lastName)
-    && passwordPattern && emailPattern.test(data.email) && phoneNumberPattern.test(data.phoneNumber) && cityPattern.test(data.city)
-    && statePattern && userTypePattern) {
+  if (data.firstName) {
+    if (!validateFirstName(data.firstName)) {
+      return false;
+    }
+  }
+
+  if (data.lastName) {
+    if (!validateLastName(data.lastName)) {
+      return false;
+    }
+  }
+
+  if (data.email) {
+    if (!validateEmail(data.email)) {
+      return false;
+    }
+  }
+
+  if (data.phoneNumber) {
+    if (!validatePhoneNumber(data.phoneNumber)) {
+      return false;
+    }
+  }
+
+  if (data.city) {
+    if (!validateCity(data.city)) {
+      return false;
+    }
+  }
+
+  if (data.state) {
+    if (!validateState(data.state)) {
+      return false;
+    }
+  }
+
+  if (data.userType) {
+    if (!validateUserType(data.userType)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+let validateUsername = function(username) {
+  let userNamePattern = new RegExp("^[a-zA-Z0-9-]+");
+  if (userNamePattern.test(username)) {
     return true;
   } else {
     return false;
   }
 };
+
+let validateFirstName = function(firstname) {
+  let firstNamePattern = new RegExp("^[a-zA-Z ]+$");
+  if (firstNamePattern.test(firstname)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validateLastName = function(lastname) {
+  let lastNamePattern = new RegExp("^[a-zA-Z ]+$");
+  if (lastNamePattern.test(lastname)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validatePassword = function(password) {
+  let passwordPattern = password.length >= 5 && password.length <= 30;
+  if (passwordPattern) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validateEmail = function(email) {
+  let emailPattern = new RegExp("^(([^<>()\\[\\]\\.,;:\\s@']+(\\.[^<>()\\[\\]\\.,;:\\s@']+)*)|('.+'))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
+  if (emailPattern.test(email)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validatePhoneNumber = function(number) {
+  let phoneNumberPattern = new RegExp("^(\\+0?1\\s)?\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$");
+  if (phoneNumberPattern.test(number)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validateCity = function(city) {
+  let cityPattern = new RegExp("^[a-zA-Z ]*$");
+  if (cityPattern.test(city)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validateState = function(state) {
+  let statePattern = data.state.length == 2;
+  if (statePattern) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validateUserType = function(type) {
+  let userTypePattern = false;
+  if (type == 'Wholesaler' || type == 'Investor' || type == 'Lender') {
+    userTypePattern = true;
+  }
+  return userTypePattern;
+};
+
