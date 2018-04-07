@@ -4,6 +4,8 @@ const router = express.Router();
 const Ad = require('../models/ad');
 const User = require('../models/user');
 
+// ROUTE all routes beginning with '/ads'
+
 router.post('/placeNewAd', (req, res) => {
   Ad.placeNewAd(req.body.newAd)
     .then((response) => {
@@ -48,6 +50,17 @@ router.get('/getAllAds', (req, res) => {
   Ad.getAllAds()
     .then((response) => {
       res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
+router.delete('/deleteAd/:id', (req, res) => {
+  let adId = req.params.id;
+  Ad.deleteAd(adId)
+    .then((response) => {
+      res.status(201).json(response);
     })
     .catch((error) => {
       res.status(500).json(error);
