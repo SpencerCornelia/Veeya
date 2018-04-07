@@ -44,4 +44,13 @@ export class DealAdService {
       .map(res => res.data)
   }
 
+  public deleteAd(id: string) {
+    let URI = this.serverApi + `/ads/deleteAd/${id}`;
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    return this.http.delete(URI, { headers: headers })
+      .map(res => res.json())
+      .map(res => res)
+  }
+
 }
