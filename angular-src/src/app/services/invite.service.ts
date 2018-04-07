@@ -13,21 +13,14 @@ export class InviteService {
 
   private serverApi = 'http://localhost:3000/';
 
-  public inviteInvestor(user: User) {
+  public inviteInvestor(email: string, currentUser: string) {
     let URI = this.serverApi + "investor/inviteinvestor";
     let headers = new Headers;
     let body = JSON.stringify({
       _id: 0,
-      userType: user.userType,
-      userName: user.userName,
-      password: user.password,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
-      city: user.city,
-      state: user.state,
-      wholesaler_id: user.wholesaler_id
+      userType: 'Investor',
+      email: email,
+      wholesaler_id: currentUser
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, { headers: headers })
@@ -39,21 +32,14 @@ export class InviteService {
       })
   }
 
-  public inviteWholesaler(user: User) {
+  public inviteWholesaler(email: string, currentUser: string) {
     let URI = this.serverApi + "wholesaler/invitewholesaler";
     let headers = new Headers;
     let body = JSON.stringify({
       _id: 0,
-      userType: user.userType,
-      userName: user.userName,
-      password: user.password,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
-      city: user.city,
-      state: user.state,
-      investor_id: user.investor_id
+      userType: 'Wholesaler',
+      email: email,
+      investor_id: currentUser
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, {headers: headers})
@@ -65,21 +51,14 @@ export class InviteService {
       })
   }
 
-  public inviteLender(user: User) {
+  public inviteLender(email: string, currentUser: string) {
     let URI = this.serverApi + "lender/inviteLender";
     let headers = new Headers;
     let body = JSON.stringify({
       _id: 0,
-      userType: user.userType,
-      userName: user.userName,
-      password: user.password,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      phoneNumber: user.phoneNumber,
-      city: user.city,
-      state: user.state,
-      invitee_id: user.user_id
+      userType: 'Lender',
+      email: email,
+      invitee_id: currentUser
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, {headers: headers})
@@ -88,7 +67,7 @@ export class InviteService {
       })
       .catch((error) => {
         return Observable.throw(error.json());
-      })
+      });
   }
 
 }
