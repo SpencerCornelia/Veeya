@@ -74,7 +74,21 @@
                       <li>
                         <div class="form-check form-check-flat">
                           <label class="form-check-label">
-                            Location: {{ ad.city }}, {{ ad.state }} {{ ad.zipCode }}
+                            City: {{ ad.city }}
+                          </label>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="form-check form-check-flat">
+                          <label class="form-check-label">
+                            State: {{ ad.state }}
+                          </label>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="form-check form-check-flat">
+                          <label class="form-check-label">
+                            Zip Code: {{ ad.zipCode }}
                           </label>
                         </div>
                       </li>
@@ -95,7 +109,7 @@
                       <li>
                         <div class="form-check form-check-flat">
                           <label class="form-check-label">
-                            Bed / Bath: {{ ad.bedrooms }} / {{ ad.bathrooms }}
+                            Bed , Bath: {{ ad.bedrooms }} / {{ ad.bathrooms }}
                           </label>
                         </div>
                       </li>
@@ -150,8 +164,7 @@
                       </li>
                       <li *ngIf="investorUserType">
                         <div class="form-check form-check-flat">
-                          <button class="btn btn-inverse-primary btn-rounded btn-fw">Edit</button>
-                          <button class="btn btn-inverse-danger btn-rounded btn-fw">Delete</button>
+                          <button class="btn btn-inverse-danger btn-rounded btn-fw" (click)="deleteAd(ad._id)">Delete</button>
                         </div>
                       </li>
                       <li *ngIf="wholesalerUserType">

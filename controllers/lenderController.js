@@ -19,7 +19,7 @@ router.post('/invitelender', (req,res) => {
   let userId = req.body.invitee_id;
   let lenderId = '';
 
-  user.registerUser(req.body)
+  user.registerInvitedUser(req.body)
     .then((lender) => {
       lenderId = String(lender.data._id);
       return user.addLenderConnection(lenderId, userId);

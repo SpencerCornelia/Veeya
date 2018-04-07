@@ -30,7 +30,7 @@ router.post('/invitewholesaler', (req, res) => {
   let investorID = req.body.investor_id;
   let wholesalerID = '';
 
-  user.registerUser(req.body)
+  user.registerInvitedUser(req.body)
     .then((wholesaler) => {
       wholesalerID = String(wholesaler.data._id);
       return user.addWholesalerConnection(wholesalerID, investorID);
