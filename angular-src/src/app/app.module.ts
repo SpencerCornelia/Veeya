@@ -8,6 +8,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { NgProgressModule } from '@ngx-progressbar/core';
 
 import { AuthGuard } from './guards/auth.guard';
 import { EditPropertyGuard } from './guards/edit-property.guard';
@@ -66,6 +67,7 @@ import { GetUserPropertiesService } from './services/getUserProperties.service';
 import { InviteService } from './services/invite.service';
 import { PhotosService } from './services/photos.service';
 import { ProfileService } from './services/profile.service';
+import { ProgressService } from './services/progress.service';
 import { SoldPropertyService } from './services/soldProperty.service';
 import { UploadListService } from './services/uploadListService';
 import { UserService } from './services/user.service';
@@ -121,7 +123,8 @@ import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgProgressModule.forRoot()
   ],
   providers: [
     AddConnectionService,
@@ -138,6 +141,7 @@ import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
     InviteService,
     PhotosService,
     ProfileService,
+    ProgressService,
     SoldPropertyService,
     UploadListService,
     UserService,
