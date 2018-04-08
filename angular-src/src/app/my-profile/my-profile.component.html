@@ -77,21 +77,29 @@
                       </ul>
                       <div class="info-links">
                         <label>Personal Website</label>
-                        <a class="website" target="_blank" href="{{ currentUser.URLs.personal }}">
+                        <a class="website" target="_blank" href="{{ currentUser.URLs.personal }}"
+                          *ngIf="currentUser.URLs.personal.length>0">
                           <span>{{ currentUser.URLs.personal }}</span>
                         </a>
+                        <p *ngIf="currentUser.URLs.personal.length==0"><em><small>Not entered yet</small></em></p>
                         <label>Facebook</label>
-                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.facebook }}">
+                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.facebook }}"
+                          *ngIf="currentUser.URLs.facebook.length>0">
                           <span>{{ currentUser.URLs.facebook }}</span>
                         </a>
+                        <p *ngIf="currentUser.URLs.facebook.length==0"><em><small>Not entered yet</small></em></p>
                         <label>LinkedIn</label>
-                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.linkedIn }}">
+                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.linkedIn }}"
+                          *ngIf="currentUser.URLs.facebook.length>0">
                           <span>{{ currentUser.URLs.linkedIn }}</span>
                         </a>
+                        <p *ngIf="currentUser.URLs.linkedIn.length==0"><em><small>Not entered yet</small></em></p>
                         <label>Bigger Pockets</label>
-                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.biggerPockets }}">
+                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.biggerPockets }}"
+                          *ngIf="currentUser.URLs.biggerPockets.length>0">
                           <span>{{ currentUser.URLs.biggerPockets }}</span>
                         </a>
+                        <p *ngIf="currentUser.URLs.biggerPockets.length==0"><em><small>Not entered yet</small></em></p>
                       </div>
                     </div>
                   </div>
@@ -298,7 +306,9 @@
                           </div>
                           <div class="form-group mt-5">
                             <button id="updateBtn" type="submit" class="btn btn-success mr-2" [disabled]="form.invalid || isDisabled()">Update</button>
-                            <button type="reset" class="btn btn-outline-danger" [disabled]="isDisabled()">Cancel</button>
+                            <button type="button" class="btn btn-outline-danger" [disabled]="isDisabled()"
+                              (click)="cancelEditInfo($event)">Cancel
+                            </button>
                           </div>
                         </form>
                       </div><!-- tab content ends -->
@@ -311,7 +321,7 @@
                           <input type="file" id="imageInput" class="dropify" data-max-file-size="1mb" data-default-file="/assets/images/faces/face6.jpg" (change)="addProfileImage($event)" />
                           <div class="form-group mt-5">
                             <button id="updatePhotoButton" type="submit" class="btn btn-success mr-2">Update</button>
-                            <button class="btn btn-outline-danger">Cancel</button>
+                            <button class="btn btn-outline-danger" type="button">Cancel</button>
                           </div>
                         </form>
                       </div>

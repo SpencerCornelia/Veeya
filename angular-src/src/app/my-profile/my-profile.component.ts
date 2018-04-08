@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { User } from '../models/User';
 import { AlertService } from '../services/alert.service';
@@ -22,36 +23,23 @@ export class MyProfileComponent implements OnInit {
   private edit: Boolean = false;
   private password: any;
   private photo: File;
+  private saveCurrentUser: User;
 
   constructor(private alertService: AlertService,
               private authService: AuthService,
               private photosService: PhotosService,
+              private route: ActivatedRoute,
               private userService: UserService,
               private validateService: ValidateService) { }
 
   ngOnInit() {
     this.currentUserId = this.authService.loggedInUser();
     document.getElementById("updatePhotoButton").setAttribute('disabled', 'disabled');
-    this.getCurrentUser();
-    this.currentUser = {
-      userType: '',
-      userName: '',
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      phoneNumber: '',
-      city: '',
-      state: 'AL',
-      profilePhoto: '',
-      connections: [],
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      }
-    }
+
+    this.route.data.forEach(resolveData => {
+      this.currentUser = resolveData.user.data;
+      this.saveCurrentUser = JSON.parse(JSON.stringify(this.currentUser));
+    });
 
     this.password = {
       current: '',
@@ -67,6 +55,12 @@ export class MyProfileComponent implements OnInit {
       }, (error) => {
         this.alertService.error('Unable to update user profile.');
       });
+  }
+
+  cancelEditInfo(event) {
+    event.preventDefault();
+    this.currentUser = this.saveCurrentUser;
+    this.edit = !this.edit;
   }
 
   getCurrentUser() {
