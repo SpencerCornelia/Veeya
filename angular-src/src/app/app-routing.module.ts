@@ -27,6 +27,8 @@ import { ViewDealAdsComponent } from './view-deal-ads/view-deal-ads.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 
+import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
+
 const APP_ROUTES: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
@@ -39,7 +41,7 @@ const APP_ROUTES: Routes = [
   { path: 'invitewholesaler', component: InviteWholesalerComponent, canActivate:[RoleGuard], data:{userType: 'Investor' } },
   { path: 'login', component: LoginComponent },
   { path: 'placeDealAd', component: PlaceDealAdComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
-  { path: 'profile/:id', component: MyProfileComponent, canActivate:[ProfileGuard] },
+  { path: 'profile/:id', component: MyProfileComponent, canActivate:[ProfileGuard], resolve: { user: MyProfileResolve } },
   { path: 'properties', component: ViewPropertiesComponent, canActivate:[AuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate:[RegisterGuard] },
   { path: 'search', component: SearchComponent, canActivate:[AuthGuard] },

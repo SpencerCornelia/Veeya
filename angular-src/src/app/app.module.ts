@@ -72,6 +72,8 @@ import { UserService } from './services/user.service';
 import { ValidateService } from './services/validate.service';
 import { ViewPropertyService } from './services/viewProperty.service';
 
+import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
+
 
 @NgModule({
   declarations: [
@@ -146,7 +148,8 @@ import { ViewPropertyService } from './services/viewProperty.service';
     ProfileGuard,
     RegisterGuard,
     RoleGuard,
-    Title
+    Title,
+    MyProfileResolve
   ],
   bootstrap: [AppComponent]
 })
