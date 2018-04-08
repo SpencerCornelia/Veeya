@@ -46,6 +46,7 @@ export class MyProfileComponent implements OnInit {
       new: '',
       newConfirm: ''
     }
+
   }
 
   onSubmit() {
