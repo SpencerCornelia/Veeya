@@ -7,6 +7,7 @@ import { RegisterGuard } from './guards/register.guard';
 import { RoleGuard } from './guards/role.guard';
 
 import { AddPropertyComponent } from './add-property/add-property.component';
+import { AuctionComponent } from './auction/auction.component';
 import { CustomizePropertyComponent } from './customize-property/customize-property.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -32,6 +33,7 @@ import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
 const APP_ROUTES: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
+  { path: 'auction/:id', component: AuctionComponent, canActivate:[AuthGuard] },
   { path: 'connections', component: ConnectionsComponent, canActivate:[AuthGuard] },
   { path: 'customizeproperty/:id', component: CustomizePropertyComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard] },
