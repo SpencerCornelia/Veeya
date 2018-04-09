@@ -640,14 +640,37 @@
                     <br />
                     <div class="buttons">
                       <div class="row edit-property-btn" *ngIf="currentUserType=='Investor'">
-                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="customizeProperty()">Customize Property</button>
+                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="customizeProperty()">
+                            Customize Property
+                        </button>
+                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="enterAuction()">
+                          View Auction
+                        </button>
                       </div>
                       <div class="row edit-property-btn" *ngIf="propertyOwner">
-                        <button *ngIf="!editMode" id="editButton" type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="edit()">Edit Property</button>
-                        <button *ngIf="property.status!='Sold'" id="soldButton" type="button" class="btn btn-inverse-warning btn-rounded btn-fw" (click)="sold()">Mark as Sold</button>
-                        <button *ngIf="property.status!='Listed'" id="listedButton" type="button" class="btn btn-inverse-warning btn-rounded btn-fw" (click)="listed()">Mark as Listed</button>
-                        <button *ngIf="editMode" id="submitBtn" type="submit" class="btn btn-inverse-success btn-rounded btn-fw" [disabled]="form.invalid">Submit</button>
-                        <button *ngIf="editMode" type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="cancel()">Cancel</button>
+                        <button *ngIf="auctionEstablished=='true'" id="view-auction" type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="enterAuction()">
+                          View Bids
+                        </button>
+                        <button *ngIf="auctionEstablished=='false'" id="view-auction" type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="openAuction()">
+                          Open to Auction
+                        </button>
+                        <button *ngIf="!editMode" id="editButton" type="button" class="btn btn-inverse-primary btn-rounded btn-fw"
+                          (click)="edit()">Edit Property
+                        </button>
+                        <button *ngIf="property.status!='Sold'" id="soldButton" type="button"
+                          class="btn btn-inverse-warning btn-rounded btn-fw"
+                          (click)="sold()">Mark as Sold
+                        </button>
+                        <button *ngIf="property.status!='Listed'" id="listedButton" type="button"
+                          class="btn btn-inverse-warning btn-rounded btn-fw"
+                          (click)="listed()">Mark as Listed
+                        </button>
+                        <button *ngIf="editMode" id="submitBtn" type="submit"
+                          class="btn btn-inverse-success btn-rounded btn-fw" [disabled]="form.invalid">Submit
+                        </button>
+                        <button *ngIf="editMode" type="button" class="btn btn-inverse-primary btn-rounded btn-fw"
+                          (click)="cancel()">Cancel
+                        </button>
                         <button type="button" class="btn btn-inverse-danger btn-rounded btn-fw" (click)="deleteProperty()">Delete</button>
                       </div>
                     </div>

@@ -7,6 +7,7 @@ import { User } from '../models/User';
 
 import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
+import { AuctionService } from '../services/auction.service';
 import { CustomizePropertyService } from '../services/customizeProperty.service';
 import { DeletePropertyService } from '../services/deleteProperty.service';
 import { EditPropertyService } from '../services/editProperty.service';
@@ -23,6 +24,7 @@ declare var $: any;
 })
 export class ViewPropertyComponent implements OnInit {
 
+  private auctionEstablished: string;
   private currentUserType: string;
   private editMode: Boolean = false;
   private enlargedPhoto: string;
@@ -38,6 +40,7 @@ export class ViewPropertyComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private alertService: AlertService,
               private authService: AuthService,
+              private auctionService: AuctionService,
               private customizePropertyService: CustomizePropertyService,
               private deletePropertyService: DeletePropertyService,
               private editPropertyService: EditPropertyService,
@@ -90,7 +93,8 @@ export class ViewPropertyComponent implements OnInit {
           thirdCompPrice: ''
         }
       ],
-      photos: ['']
+      photos: [''],
+      auctionEstablished: 'false'
     }
 
   }
@@ -100,6 +104,7 @@ export class ViewPropertyComponent implements OnInit {
       .subscribe((response) => {
         this.property = response;
         this.propertyOwner = this.confirmPropertyOwnership();
+        this.auctionEstablished = this.property.auctionEstablished;
       }, (error) => {
         this.alertService.error('Error retrieving property.');
       });
@@ -242,5 +247,30 @@ export class ViewPropertyComponent implements OnInit {
     this.customizePropertyService.setProperty(this.property);
     this.router.navigate(['/customizeproperty/', this.property._id]);
   }
+
+  openAuction() {
+    let that = this;
+    let propertyId = this.property._id.toString();
+    this.auctionService.openAuction(propertyId)
+      .subscribe((response) => {
+        this.auctionService.setProperty(this.property);
+        this.router.navigate(['/auction/', propertyId]);
+      }, (error) => {
+
+      })
+  }
+
+  enterAuction() {
+    let that = this;
+    let propertyId = this.property._id.toString();
+    this.auctionService.setProperty(this.property);
+    this.auctionService.getInitialBids(propertyId)
+      .subscribe((response) => {
+        this.router.navigate(['/auction/', propertyId]);
+      }, (error) => {
+
+      })
+  }
+
 }
 
