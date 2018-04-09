@@ -82,6 +82,7 @@
     "rxjs": "^5.5.6",
     "simple-line-icons": "2.4.1",
     "simplemde": "1.11.2",
+    "socket.io-client": "^2.1.0",
     "summernote": "0.8.8",
     "sweetalert": "2.1.0",
     "tempusdominus-bootstrap-4": "5.0.0-alpha10",
