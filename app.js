@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 const adsController = require('./controllers/adsController');
+const bidsController = require('./controllers/bidsController');
 const investorController = require('./controllers/investorController');
 const lenderController = require('./controllers/lenderController');
 const loginController = require('./controllers/loginController');
@@ -26,6 +27,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 //Initialize our app variable
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 //Declaring Port
 const port = 3000;
@@ -54,8 +57,23 @@ app.use(function(req, res, next) {
   next();
 });
 
+// SOCKET connection for Bids
+io.on('connection', (socket) => {
+  socket.on('disconnect', () => {
+
+  });
+
+  socket.on('add-bid', (bid) => {
+    console.log("new bid:", bid)
+    io.emit('bid', { type: 'new-bid', text: bid })
+  });
+});
+
 // Route all HTTP requests to adsController
 app.use('/ads', adsController);
+
+// Route all HTTP requests to bidsController
+app.use('/bids', bidsController);
 
 // Route all HTTP requests to investorController
 app.use('/investor', investorController);
@@ -80,6 +98,6 @@ app.use('/wholesaler', wholesalerController);
 
 
 //Listen to port 3000
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Starting the server at port ${port}`);
 });
