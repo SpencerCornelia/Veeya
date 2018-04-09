@@ -82,7 +82,11 @@ const PropertySchema = mongoose.Schema({
   comps: [],
   photos: [{
     type: String
-  }]
+  }],
+  auctionEstablished: {
+    type: String,
+    default: 'false'
+  }
 },
   {
     timestamps: {
@@ -150,7 +154,8 @@ module.exports.addProperty = (propertyBody) => {
         insurance: propertyBody.insurance,
         sellerFinancing: propertyBody.sellerFinancing,
         comps: propertyBody.comps,
-        photos: propertyBody.photos
+        photos: propertyBody.photos,
+        auctionEstablished: 'false'
       });
 
       newProperty.save((errorSaving, savedProperty) => {
@@ -456,6 +461,51 @@ module.exports.deletePropertyById = (id) => {
   });
 };
 
+module.exports.establishAuction = (id) => {
+  console.log("id:", id)
+  return new Promise((resolve, reject) => {
+    Property.findById(id, (error, property) => {
+      console.log("error:", error)
+      console.log("property:", property);
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error starting auction.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (property) {
+        property.auctionEstablished = 'true';
+        property.save((error, newProperty) => {
+          console.log("newProperty:", newProperty)
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error starting auction.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (newProperty) {
+            let successObj = {
+              success: true,
+              message: 'Successfully started new auction.',
+              data: newProperty
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to start auction.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      }
+    });
+  });
+};
+
 
 let validatePropertyInputs = function(data) {
  let addressPattern = /^[a-zA-Z0-9,.!? ]*$/
@@ -614,25 +664,6 @@ let validatePropertyInputs = function(data) {
  }
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
