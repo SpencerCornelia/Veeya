@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Veeya</title>
+  <!-- inject:css -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="/assets/images/favicon.png" />
+</head>
+
+<body>
+  <div class="container-scroller">
+    <!-- partial:../../partials/_navbar.html -->
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+      <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+        <a class="navbar-brand brand-logo" href="../../index.html"><img src="/assets/images/logo.svg" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="/assets/images/logo-mini.svg" alt="logo"/></a>
+      </div>
+      <div class="navbar-menu-wrapper d-flex align-items-center">
+        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+          <span class="icon-menu"></span>
+        </button>
+        <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
+          <li class="nav-item">
+            <a href="/assets/pages/apps/gallery.html" class="nav-link"><i class="mdi mdi-image-filter"></i>Gallery</a>
+          </li>
+          <li class="nav-item active">
+            <a href="../../pages/apps/email.html" class="nav-link"><i class="mdi mdi-email-outline"></i>Inbox</a>
+          </li>
+          <li class="nav-item">
+            <a href="../../pages/apps/calendar.html" class="nav-link"><i class="mdi mdi-calendar"></i>Calendar</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav navbar-nav-right">
+          <li class="nav-item nav-settings d-none d-lg-block">
+            <a class="nav-link" href="#">
+              <img class="img-xs rounded-circle" src="/assets/images/faces/face4.jpg" alt="">
+            </a>
+          </li>
+        </ul>
+        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+          <span class="icon-menu"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:../../partials/_sidebar.html -->
+      <app-sidebar></app-sidebar>
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+
+          <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Auction</h4>
+                  <div *ngIf="userType=='Investor'">
+                    <button class="btn btn-inverse-primary btn-rounded btn-fw" (click)="addBidModal()">Add bid</button>
+                  </div>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody *ngIf="bids.length > 0">
+                      <tr *ngFor="let bid of bids; let i=index">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ bid }}</td>
+                        <td><a [routerLink]="['/user/' + bid.user._id]">View User</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+                    <!-- Add Bid MODAL -->
+          <div class="modal fade" id="addBidModal" tabindex="-1" role="dialog"
+                    aria-labelledby="addBidModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="addBidModal">Add Bid</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form class="forms-sample" #addBidForm="ngForm">
+                    <div class="form-group">
+                      <label for="bidAmount">Bid Amount</label>
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                        <input type="text" class="form-control" id="bidAmount"
+                          #bidAmount="ngModel"
+                          name="bidAmount"
+                          [(ngModel)]="newBid.amount"
+                          maxlength="12"
+                          pattern="^[a-zA-Z0-9,.$ ]*$"
+                          required
+                        >
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                  <button id="addBidConfirm" type="button"
+                    class="btn btn-primary"
+                    [disabled]="addBidForm.invalid"
+                    (click)="addBid()"
+                  >Confirm
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div> <!-- END MODAL -->
+
+
+        </div> <!-- content-wrapper ends -->
+
+
+        <app-footer></app-footer>
+
+      </div> <!-- main-panel ends -->
+
+
+    </div> <!-- page-body-wrapper ends -->
+
+
+
+  </div> <!-- container-scroller -->
+
+
+  <!-- plugins:js -->
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page-->
+  <script src="/node_modules/typeahead.js/dist/typeahead.bundle.min.js"></script>
+  <!-- End plugin js for this page-->
+  <!-- inject:js -->
+  <script src="/assets/js/off-canvas.js"></script>
+  <script src="/assets/js/hoverable-collapse.js"></script>
+  <script src="/assets/js/misc.js"></script>
+  <script src="/assets/js/settings.js"></script>
+  <script src="/assets/js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="/assets/js/file-upload.js"></script>
+  <script src="/assets/js/typeahead.js"></script>
+  <!-- End custom js for this page-->
+</body>
+
+</html>
