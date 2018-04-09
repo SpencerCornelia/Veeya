@@ -24,5 +24,6 @@ export interface Property {
   comps: Array<Object>,
   photos: Array<string>,
   property?: any,
-  data?: any
+  data?: any,
+  auctionEstablished?: any
 }
