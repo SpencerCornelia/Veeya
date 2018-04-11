@@ -121,4 +121,31 @@ export class AuctionService {
       .map(res => res.data)
   }
 
+  endAuction(propertyId: string) {
+    let today = new Date();
+    let currentMonth = today.getMonth();
+
+    let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let month = months[currentMonth];
+
+    let day = today.getDate();
+    let currentYear = today.getFullYear();
+    let hour = today.getHours();
+    let minutes = today.getMinutes();
+
+    let newDeadline = month + ' ' + day + ', ' + currentYear + ' ' +
+                      hour + ':' + minutes + ':00';
+
+    let URI = `http://localhost:3000/bids/endauction`;
+    let headers = new Headers;
+    let body = JSON.stringify({
+      propertyId: propertyId,
+      deadline: newDeadline
+    });
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(URI, body, { headers: headers })
+      .map(res => res.json())
+      .map(res => res.data)
+  }
+
 }
