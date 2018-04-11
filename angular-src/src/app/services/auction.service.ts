@@ -15,7 +15,7 @@ import 'rxjs/add/operator/map';
 export class AuctionService {
 
   private bids: Array<Bid> = [];
-  private closingTime: Date;
+  private deadline: Date;
   private property = new ReplaySubject(1);
 
   public propertyExists: boolean = false;
@@ -47,7 +47,7 @@ export class AuctionService {
       })
       .map((res) => {
         this.bids = res.data.bids;
-        this.closingTime = res.data.closingTime;
+        this.deadline = res.data.deadline;
         return res;
       })
   }
@@ -56,8 +56,8 @@ export class AuctionService {
     return this.bids;
   }
 
-  getClosingTime() {
-    return this.closingTime;
+  getDeadline() {
+    return this.deadline;
   }
 
   getBids(): any {
@@ -106,14 +106,14 @@ export class AuctionService {
     this.socket.emit('add-bid', bid);
   }
 
-  openAuction(propertyId: string) {
+  openAuction(propertyId: string, deadline: any) {
     this.bids = [];
-    this.closingTime = null;
 
     let URI = `http://localhost:3000/bids/openauction`;
     let headers = new Headers;
     let body = JSON.stringify({
-      propertyId: propertyId
+      propertyId: propertyId,
+      deadline: deadline
     });
     headers.append('Content-Type', 'application/json');
     return this.http.put(URI, body, { headers: headers })
