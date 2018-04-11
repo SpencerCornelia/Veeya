@@ -17,9 +17,10 @@ declare var $: any;
 export class AuctionComponent implements OnInit, OnDestroy {
 
   private bidData: any;
-  private bids: Array<any> = [];
+  // private bids: Array<any> = [];
+  private bids: any;
   private currentUser: any;
-  private connection;
+  private connection: any;
   private newBid: any;
   private property: any;
   private userType: string;
@@ -31,8 +32,10 @@ export class AuctionComponent implements OnInit, OnDestroy {
               private viewPropertyService: ViewPropertyService) { }
 
   ngOnInit() {
+
     // GET CURRENT USER INFO
     this.userType = this.authService.loggedInUserType();
+
     this.authService.getCurrentUser()
       .subscribe((response) => {
         this.currentUser = response.data;
@@ -48,7 +51,14 @@ export class AuctionComponent implements OnInit, OnDestroy {
           }, (error) => {
             this.router.navigate(['/dashboard']);
           })
-      })
+
+        this.auctionService.getInitialBids(propertyId)
+          .subscribe((response) => {
+            this.bids = response.data.bids;
+          }, (error) => {
+            this.router.navigate(['/dashboard']);
+          })
+      });
     } else {
       this.auctionService.getProperty()
         .subscribe((response) => {
@@ -60,9 +70,10 @@ export class AuctionComponent implements OnInit, OnDestroy {
     }
 
     // GET BIDS
+    // listens for new-bid in auctionService and pushes to this.bids
     this.connection = this.auctionService.getBids()
       .subscribe((bid) => {
-        this.bids.push(bid);
+        this.bids.push(bid.data);
       })
 
     this.newBid = {
@@ -78,6 +89,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
     this.newBid.amount = this.newBid.amount.replace(',', '');
     this.newBid.amount = this.newBid.amount.replace('$', '');
     this.auctionService.sendBid(this.property._id, this.currentUser, this.newBid.amount);
+    $("#addBidModal").modal('hide');
   }
 
   ngOnDestroy() {

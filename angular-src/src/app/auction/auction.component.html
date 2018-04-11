@@ -73,13 +73,19 @@
                         <th>City</th>
                         <th>State</th>
                         <th>Amount</th>
+                        <th>Profile</th>
                       </tr>
                     </thead>
-                    <tbody *ngIf="bids.length > 0">
-                      <tr *ngFor="let bid of bids; let i=index">
-                        <td>{{ i + 1 }}</td>
-                        <td>{{ bid }}</td>
-                        <td><a [routerLink]="['/user/' + bid.user._id]">View User</a></td>
+                    <tbody *ngIf="bids?.length > 0">
+                      <tr *ngFor="let bid of bids">
+                        <td>{{ bid?.bidPlacedDate }}</td>
+                        <td>{{ bid?.bidPlacedTime }}</td>
+                        <td>{{ bid?.firstName }}</td>
+                        <td>{{ bid?.lastName }}</td>
+                        <td>{{ bid?.city }}</td>
+                        <td>{{ bid?.state }}</td>
+                        <td>{{ bid?.amount }}</td>
+                        <td><a [routerLink]="['/user/' + bid?.userId]">View User</a></td>
                       </tr>
                     </tbody>
                   </table>
