@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { AuctionService } from '../services/auction.service';
 import { AuthService } from '../services/auth.service';
+import { CountdownService } from '../services/countdown.service';
 import { Bid } from '../models/Bid';
 import { Property } from '../models/Property';
 import { ViewPropertyService } from '../services/viewProperty.service';
@@ -17,17 +18,27 @@ declare var $: any;
 export class AuctionComponent implements OnInit, OnDestroy {
 
   private bidData: any;
-  // private bids: Array<any> = [];
   private bids: any;
   private currentUser: any;
   private connection: any;
+  private deadline: any;
   private newBid: any;
   private property: any;
+  private propertyId: any;
+  private timeInterval: any;
+  private timer: any;
   private userType: string;
+
+  private days: any;
+  private hours: any;
+  private minutes: any;
+  private seconds: any;
+  private interval: any;
 
   constructor(private activatedRoute: ActivatedRoute,
               private auctionService: AuctionService,
               private authService: AuthService,
+              private countdownService: CountdownService,
               private router: Router,
               private viewPropertyService: ViewPropertyService) { }
 
@@ -44,30 +55,34 @@ export class AuctionComponent implements OnInit, OnDestroy {
     // GET PROPERTY
     if (!this.auctionService.propertyExists) {
       this.activatedRoute.params.subscribe((params: Params) => {
-        let propertyId = params['id'];
-        this.viewPropertyService.getPropertyById(propertyId)
+        this.propertyId = params['id'];
+        this.viewPropertyService.getPropertyById(this.propertyId)
           .subscribe((response) => {
             this.property = response;
           }, (error) => {
             this.router.navigate(['/dashboard']);
           })
 
-        this.auctionService.getInitialBids(propertyId)
-          .subscribe((response) => {
-            this.bids = response.data.bids;
-          }, (error) => {
-            this.router.navigate(['/dashboard']);
-          })
       });
     } else {
       this.auctionService.getProperty()
         .subscribe((response) => {
           this.property = response;
+          this.propertyId = this.property._id;
           this.bids = this.auctionService.getBidData();
         }, (error) => {
 
         });
     }
+
+    this.auctionService.getInitialBids(this.propertyId)
+      .subscribe((response) => {
+        this.bids = response.data.bids;
+        this.deadline = response.data.deadline;
+        this.establishCountdownTimer();
+      }, (error) => {
+        this.router.navigate(['/dashboard']);
+      })
 
     // GET BIDS
     // listens for new-bid in auctionService and pushes to this.bids
@@ -79,6 +94,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
     this.newBid = {
       amount: ''
     };
+
   }
 
   addBidModal() {
@@ -94,6 +110,19 @@ export class AuctionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.connection.unsubscribe();
+  }
+
+  establishCountdownTimer() {
+    this.interval = setInterval(this.setTimer.bind(this), 1000);
+  }
+
+  setTimer() {
+    let now = new Date().getTime();
+    let t = new Date(this.deadline).getTime() - now;
+    this.days = Math.floor(t / (1000 * 60 * 60 * 24));
+    this.hours = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60 * 60));
+    this.minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
+    this.seconds = Math.floor((t % (1000 * 60)) / 1000);
   }
 
 }
