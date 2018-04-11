@@ -39,7 +39,11 @@ const BidSchema = mongoose.Schema({
     bidPlacedDate: {
       type: String
     }
-  }]
+  }],
+  auctionOpen: {
+    type: String,
+    default: 'true'
+  }
 },
   {
     timestamps: {
@@ -171,6 +175,57 @@ module.exports.addBid = function(bidData) {
           message: 'Unable to save property.',
           error: ''
         }
+      }
+    });
+  });
+};
+
+module.exports.endAuction = function(propertyId, newDeadline) {
+  return new Promise((resolve, reject) => {
+    Bid.findOne({ 'propertyId': propertyId }, (error, property) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error ending auction.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (property) {
+
+        property.deadline = newDeadline;
+        property.auctionOpen = 'false';
+
+        property.save((error, newProperty) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error ending auction.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (newProperty) {
+            let successObj = {
+              success: true,
+              message: 'Successfully ended auction.',
+              data: newProperty
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to end auction.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        })
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to end auction.',
+          error: ''
+        }
+        reject(errorObj);
       }
     });
   });
