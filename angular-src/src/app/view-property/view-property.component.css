@@ -48,3 +48,8 @@
 #property-image-enlarged {
   max-width: 100%;
 }
+
+.closingTimeLabel {
+  margin-top: 4px;
+  margin-right: 10px;
+}
