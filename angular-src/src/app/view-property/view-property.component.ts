@@ -26,6 +26,10 @@ export class ViewPropertyComponent implements OnInit {
 
   private auctionEstablished: string;
   private currentUserType: string;
+  private dateTime: any;
+  private daysAdded: boolean = false;
+  private deadline: any;
+  private hoursAdded: boolean = false;
   private editMode: Boolean = false;
   private enlargedPhoto: string;
   private photo: File;
@@ -36,6 +40,11 @@ export class ViewPropertyComponent implements OnInit {
   private photoURLsAdded: Array<string> = [];
   private showUploadPhotosButton: Boolean = false;
   private showRemovePhotosButton: Boolean = false;
+
+  private date: any;
+  private currentMonth: any;
+  private currentDay: any;
+  private months: any;
 
   constructor(private route: ActivatedRoute,
               private alertService: AlertService,
@@ -95,6 +104,20 @@ export class ViewPropertyComponent implements OnInit {
       ],
       photos: [''],
       auctionEstablished: 'false'
+    }
+
+    this.date = new Date();
+    this.currentMonth = this.date.getMonth();
+
+    this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.currentDay = this.date.getDate();
+
+    this.dateTime = {
+      month: this.months[this.currentMonth],
+      day: this.currentDay + 1,
+      hour: '5',
+      minutes: '00',
+      time: 'pm'
     }
 
   }
@@ -248,29 +271,52 @@ export class ViewPropertyComponent implements OnInit {
     this.router.navigate(['/customizeproperty/', this.property._id]);
   }
 
+  // called when auction has not been established for a property
+  // and loggedInUser is wholesaler && owner of property
   openAuction() {
-    let that = this;
-    let propertyId = this.property._id.toString();
-    this.auctionService.openAuction(propertyId)
-      .subscribe((response) => {
-        this.auctionService.setProperty(this.property);
-        this.router.navigate(['/auction/', propertyId]);
-      }, (error) => {
-
-      })
+    $("#deadlineModal").modal('show');
   }
 
+  // called when auction has been established for a property
+  // user can be either investor or wholesaler
   enterAuction() {
     let that = this;
     let propertyId = this.property._id.toString();
     this.auctionService.setProperty(this.property);
     this.auctionService.getInitialBids(propertyId)
       .subscribe((response) => {
+        $("#deadlineModal").modal('hide');
         this.router.navigate(['/auction/', propertyId]);
       }, (error) => {
 
       })
   }
+
+  // called when user has submitted deadline modal
+  submitDeadlineModal() {
+    let currentYear = this.date.getFullYear();
+    let month = this.months.indexOf(this.dateTime.month);
+
+    if (month < this.currentMonth) {
+      currentYear = currentYear + 1;
+    }
+
+    if (this.dateTime.time == 'pm') {
+      let hour = parseInt(this.dateTime.hour);
+      this.dateTime.hour = hour + 12;
+    }
+
+    let deadline = this.dateTime.month + ' ' + this.dateTime.day + ', ' + currentYear + ' ' +
+                   this.dateTime.hour + ':' + this.dateTime.minutes + ':00';
+    this.auctionService.openAuction(this.propertyID, deadline)
+      .subscribe((response) => {
+        this.auctionService.setProperty(response);
+        this.router.navigate(['/auction/', this.propertyID]);
+      }, (error) => {
+
+      })
+  }
+
 
 }
 
