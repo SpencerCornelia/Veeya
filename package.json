@@ -15,6 +15,7 @@
     "@angular/compiler-cli": "^5.1.2",
     "@angular/core": "^4.2.4",
     "@google-cloud/storage": "^1.6.0",
+    "@types/socket.io": "^1.4.33",
     "bcrypt": "^1.0.3",
     "body-parser": "~1.17.2",
     "bootstrap": "^3.3.7",
