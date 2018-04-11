@@ -34,8 +34,10 @@ const BidSchema = mongoose.Schema({
       type: String
     },
     bidPlacedTime: {
-      type: Date,
-      default: Date.now
+      type: String
+    },
+    bidPlacedDate: {
+      type: String
     }
   }]
 },
@@ -91,7 +93,7 @@ module.exports.establishAuction = function(propertyId) {
           error: error
         }
         reject(errorObj);
-      } else {
+      } else if (!property) {
 
         let bid = new Bid({
           propertyId: propertyId
@@ -123,6 +125,51 @@ module.exports.establishAuction = function(propertyId) {
             }
           }
         });
+      }
+    });
+  });
+};
+
+module.exports.addBid = function(bidData) {
+  let propertyId = bidData.propertyId;
+  let user = bidData.user;
+  let amount = bidData.amount;
+  let currentTime = bidData.currentTime;
+  let date = bidData.date;
+
+  Bid.findOne({ 'propertyId': propertyId }, (error, property) => {
+    let newBid = {
+      userId: bidData.user._id,
+      firstName: bidData.user.firstName,
+      lastName: bidData.user.lastName,
+      city: bidData.user.city,
+      state: bidData.user.state,
+      amount: bidData.amount,
+      bidPlacedTime: bidData.currentTime,
+      bidPlacedDate: bidData.date
+    }
+
+    property.bids.push(newBid);
+
+    property.save((error, newProperty) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error saving bid.',
+          error: error
+        }
+      } else if (newProperty) {
+        let successObj = {
+          success: true,
+          message: 'Successfully added bid.',
+          data: newProperty
+        }
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to save property.',
+          error: ''
+        }
       }
     });
   });
