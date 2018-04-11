@@ -21,14 +21,13 @@ export class AuctionService {
   public propertyExists: boolean = false;
 
   private socket;
-  private api = 'http://localhost:3000/bids/';
+  private api = 'http://localhost:3000';
 
   constructor(private http: Http) {
-    this.socket = io.connect();
+    this.socket = io.connect(this.api);
   }
 
   ngOnInit() {
-
   }
 
   setProperty(property: Property) {
@@ -61,12 +60,10 @@ export class AuctionService {
     return this.closingTime;
   }
 
-  getBids() {
+  getBids(): any {
     let observable = new Observable((observer) => {
-      this.socket = io(this.api);
       this.socket.on('new-bid', (data) => {
         observer.next(data);
-        console.log('data received from socket:', data);
       });
       return () => {
         this.socket.disconnect();
@@ -77,10 +74,34 @@ export class AuctionService {
   }
 
   sendBid(propertyId: string, user: any, amount: string) {
+    let hours = new Date().getHours();
+    let minutes = new Date().getMinutes();
+    let newMinutes;
+    if (minutes < 10) {
+      newMinutes = minutes.toString();
+      newMinutes = '0' + minutes;
+    } else {
+      newMinutes = minutes;
+    }
+    let time;
+    if (hours > 12) {
+      time = (hours - 12) + ':' + newMinutes + 'pm';
+    } else if (hours == 12) {
+      time = hours + ':' + newMinutes + 'pm';
+    } else {
+      time = hours + ':' + newMinutes + 'am';
+    }
+    let month = new Date().getMonth() + 1;
+    let day = new Date().getDate();
+    let year = new Date().getFullYear();
+    let date = month + '-' + day + '-' + year;
+
     let bid = {
       propertyId: propertyId,
       user: user,
-      amount: amount
+      amount: amount,
+      currentTime: time,
+      date: date
     }
     this.socket.emit('add-bid', bid);
   }
