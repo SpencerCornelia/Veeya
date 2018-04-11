@@ -19,6 +19,8 @@ const registerController = require('./controllers/registerController');
 const userController = require('./controllers/userController');
 const wholesalerController = require('./controllers/wholesalerController');
 
+const Bid = require('./models/bid.js');
+
 // Connect mongoose to our database
 const config = require('./config/database');
 mongoose.createConnection(config.database);
@@ -64,8 +66,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('add-bid', (bid) => {
-    console.log("new bid:", bid)
-    io.emit('bid', { type: 'new-bid', text: bid })
+    io.emit('new-bid', { type: 'new-bid', data: bid })
+    Bid.addBid(bid);
   });
 });
 
