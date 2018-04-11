@@ -3,7 +3,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { AuctionService } from '../services/auction.service';
 import { AuthService } from '../services/auth.service';
-import { CountdownService } from '../services/countdown.service';
 import { Bid } from '../models/Bid';
 import { Property } from '../models/Property';
 import { ViewPropertyService } from '../services/viewProperty.service';
@@ -38,7 +37,6 @@ export class AuctionComponent implements OnInit, OnDestroy {
   constructor(private activatedRoute: ActivatedRoute,
               private auctionService: AuctionService,
               private authService: AuthService,
-              private countdownService: CountdownService,
               private router: Router,
               private viewPropertyService: ViewPropertyService) { }
 
