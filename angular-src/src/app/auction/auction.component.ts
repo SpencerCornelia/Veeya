@@ -16,6 +16,7 @@ declare var $: any;
 })
 export class AuctionComponent implements OnInit, OnDestroy {
 
+  private auctionOpen: boolean = true;
   private bidData: any;
   private bids: any;
   private currentUser: any;
@@ -57,6 +58,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
         this.viewPropertyService.getPropertyById(this.propertyId)
           .subscribe((response) => {
             this.property = response;
+            this.propertyId = this.property._id;
           }, (error) => {
             this.router.navigate(['/dashboard']);
           })
@@ -67,7 +69,6 @@ export class AuctionComponent implements OnInit, OnDestroy {
         .subscribe((response) => {
           this.property = response;
           this.propertyId = this.property._id;
-          this.bids = this.auctionService.getBidData();
         }, (error) => {
 
         });
@@ -77,6 +78,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.bids = response.data.bids;
         this.deadline = response.data.deadline;
+        this.auctionOpen = response.data.auctionOpen == 'true' ? true : false;
         this.establishCountdownTimer();
       }, (error) => {
         this.router.navigate(['/dashboard']);
@@ -121,6 +123,20 @@ export class AuctionComponent implements OnInit, OnDestroy {
     this.hours = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60 * 60));
     this.minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
     this.seconds = Math.floor((t % (1000 * 60)) / 1000);
+  }
+
+  endAuction() {
+    this.auctionService.endAuction(this.propertyId)
+      .subscribe((response) => {
+        this.auctionOpen = false;
+        this.days = 0;
+        this.hours = 0;
+        this.minutes = 0;
+        this.seconds = 0;
+        clearInterval(this.interval);
+      }, (error) => {
+
+      });
   }
 
 }
