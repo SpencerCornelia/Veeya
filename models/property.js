@@ -462,11 +462,8 @@ module.exports.deletePropertyById = (id) => {
 };
 
 module.exports.establishAuction = (id) => {
-  console.log("id:", id)
   return new Promise((resolve, reject) => {
     Property.findById(id, (error, property) => {
-      console.log("error:", error)
-      console.log("property:", property);
       if (error) {
         let errorObj = {
           success: false,
@@ -477,7 +474,6 @@ module.exports.establishAuction = (id) => {
       } else if (property) {
         property.auctionEstablished = 'true';
         property.save((error, newProperty) => {
-          console.log("newProperty:", newProperty)
           if (error) {
             let errorObj = {
               success: false,
