@@ -11,8 +11,8 @@ const BidSchema = mongoose.Schema({
   propertyId: {
     type: String
   },
-  closingTime: {
-    type: Date
+  deadline: {
+    type: String
   },
   bids: [{
     userId: {
@@ -67,7 +67,7 @@ module.exports.getBidsByPropertyId = function(propertyId) {
           message: 'Successfully retrieved all bids.',
           data: {
             bids: property.bids,
-            closingTime: property.closingTime
+            deadline: property.deadline
           }
         }
         resolve(successObj);
@@ -83,7 +83,7 @@ module.exports.getBidsByPropertyId = function(propertyId) {
   });
 };
 
-module.exports.establishAuction = function(propertyId) {
+module.exports.establishAuction = function(propertyId, deadline) {
   return new Promise((resolve, reject) => {
     Bid.findOne({ 'propertyId': propertyId }, (error, property) => {
       if (error) {
@@ -96,7 +96,8 @@ module.exports.establishAuction = function(propertyId) {
       } else if (!property) {
 
         let bid = new Bid({
-          propertyId: propertyId
+          propertyId: propertyId,
+          deadline: deadline
         });
 
         bid.save((error, newBid) => {
