@@ -60,6 +60,12 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Auction</h4>
+                  <div class="timer">
+                    <span>Days: {{ days }}</span>
+                    <span>Hours: {{ hours }}</span>
+                    <span>Minutes: {{ minutes }}</span>
+                    <span>Seconds: {{ seconds }}</span>
+                  </div>
                   <div *ngIf="userType=='Investor'">
                     <button class="btn btn-inverse-primary btn-rounded btn-fw" (click)="addBidModal()">Add bid</button>
                   </div>
