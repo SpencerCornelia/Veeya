@@ -8,6 +8,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { NgProgressModule } from '@ngx-progressbar/core';
 
 import { AuthGuard } from './guards/auth.guard';
 import { EditPropertyGuard } from './guards/edit-property.guard';
@@ -28,9 +29,12 @@ import { FilterUsernamePipe } from './pipes/filterUsername.pipe';
 
 import { AppComponent } from './app.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
+import { AlertComponent } from './directives/alert/index';
+import { AuctionComponent } from './auction/auction.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { CustomizePropertyComponent } from './customize-property/customize-property.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { FooterComponent } from './footer/footer.component';
 import { GenerateReportComponent } from './generate-report/generate-report.component';
 import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
 import { InviteLenderComponent } from './invite-lender/invite-lender.component';
@@ -44,6 +48,7 @@ import { SearchComponent } from './search/search.component';
 import { SoldPropertyComponent } from './sold-property/sold-property.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { TopNavbarComponent } from './top-navbar/top-navbar.component';
+import { UploadListComponent } from './upload-list/upload-list.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ViewDealAdsComponent } from './view-deal-ads/view-deal-ads.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
@@ -51,6 +56,8 @@ import { ViewPropertiesComponent } from './view-properties/view-properties.compo
 
 import { AddConnectionService } from './services/addConnection.service';
 import { AddPropertyService } from './services/addProperty.service';
+import { AlertService } from './services/alert.service';
+import { AuctionService } from './services/auction.service';
 import { AuthService } from './services/auth.service';
 import { CustomizePropertyService } from './services/customizeProperty.service';
 import { DealAdService } from './services/dealAd.service';
@@ -62,16 +69,22 @@ import { GetUserPropertiesService } from './services/getUserProperties.service';
 import { InviteService } from './services/invite.service';
 import { PhotosService } from './services/photos.service';
 import { ProfileService } from './services/profile.service';
+import { ProgressService } from './services/progress.service';
 import { SoldPropertyService } from './services/soldProperty.service';
+import { UploadListService } from './services/uploadListService';
 import { UserService } from './services/user.service';
 import { ValidateService } from './services/validate.service';
 import { ViewPropertyService } from './services/viewProperty.service';
+
+import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AddPropertyComponent,
+    AlertComponent,
+    AuctionComponent,
     ConnectionsComponent,
     CustomizePropertyComponent,
     DashboardComponent,
@@ -86,6 +99,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     FilterStatePipe,
     FilterStatusPipe,
     FilterUsernamePipe,
+    FooterComponent,
     GenerateReportComponent,
     LoginComponent,
     MyProfileComponent,
@@ -99,6 +113,7 @@ import { ViewPropertyService } from './services/viewProperty.service';
     SidebarComponent,
     SoldPropertyComponent,
     TopNavbarComponent,
+    UploadListComponent,
     UserProfileComponent,
     ViewDealAdsComponent,
     ViewPropertyComponent,
@@ -111,12 +126,15 @@ import { ViewPropertyService } from './services/viewProperty.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgProgressModule.forRoot()
   ],
   providers: [
     AddConnectionService,
     AuthService,
     AddPropertyService,
+    AlertService,
+    AuctionService,
     CustomizePropertyService,
     DealAdService,
     DeletePropertyService,
@@ -127,7 +145,9 @@ import { ViewPropertyService } from './services/viewProperty.service';
     InviteService,
     PhotosService,
     ProfileService,
+    ProgressService,
     SoldPropertyService,
+    UploadListService,
     UserService,
     ValidateService,
     ViewPropertyService,
@@ -136,7 +156,8 @@ import { ViewPropertyService } from './services/viewProperty.service';
     ProfileGuard,
     RegisterGuard,
     RoleGuard,
-    Title
+    Title,
+    MyProfileResolve
   ],
   bootstrap: [AppComponent]
 })

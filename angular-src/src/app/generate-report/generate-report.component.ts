@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { CustomizePropertyService } from '../services/customizeProperty.service';
 
@@ -22,6 +22,7 @@ export class GenerateReportComponent implements OnInit {
   private lastYear: boolean = false;
 
   private property: any;
+  private propertyId: string;
 
   private amortizationPayments: any;
   private appreciation: any;
@@ -62,7 +63,9 @@ export class GenerateReportComponent implements OnInit {
   private yearlyTotals: any = {};
 
 
-  constructor(private customizePropertyService: CustomizePropertyService) { }
+  constructor(private customizePropertyService: CustomizePropertyService,
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     this.date = new Date();
@@ -74,10 +77,9 @@ export class GenerateReportComponent implements OnInit {
       this.property = this.customizePropertyService.getCustomizedProperty();
       this.setNumbers(this.currentYear)
       this.setLastYear();
-      console.log("property:", this.property)
     } else {
-      // get ID from route
-      // send to customizeproperty/:id
+      this.propertyId = this.route.snapshot.params['id'];
+      this.router.navigate(['/customizeproperty/', this.propertyId]);
     }
   }
 

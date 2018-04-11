@@ -45,7 +45,7 @@ router.get('/:uid', (req, res) => {
 router.post('/inviteinvestor', (req, res, next) => {
   let wholesalerID = req.body.wholesaler_id;
   let investorId = '';
-  user.registerUser(req.body)
+  user.registerInvitedUser(req.body)
     .then((investor) => {
       investorId = String(investor.data._id);
       investorEmail = investor.data.email

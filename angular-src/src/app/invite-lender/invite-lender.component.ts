@@ -4,6 +4,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 
 import { User } from '../models/User';
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { InviteService } from '../services/invite.service';
 
@@ -14,45 +15,30 @@ import { InviteService } from '../services/invite.service';
 })
 export class InviteLenderComponent implements OnInit {
 
-  private currentUser: User;
-  private newLender: User;
+  private lender: any
+  private user_id: string;
+  private email: string;
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private inviteService: InviteService,
               private router: Router) { }
 
   ngOnInit() {
-    let user_id = this.authService.loggedInUser();
-    this.newLender = {
-      userType: 'Lender',
-      userName: '',
-      password: 'initialPassword',
-      firstName: '',
-      lastName: '',
-      email: '',
-      phoneNumber: '',
-      user_id: user_id,
-      city: '',
-      state: 'AL',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      }
+    this.user_id = this.authService.loggedInUser();
+    this.lender = {
+      'email': ''
     }
-
   }
 
   onSubmit() {
-    this.newLender.userName = this.newLender.firstName.toString() + this.newLender.lastName.toString();
-    this.inviteService.inviteLender(this.newLender)
+    this.inviteService.inviteLender(this.lender.email, this.user_id)
       .subscribe((response) => {
+        this.alertService.success(response.message, true);
         this.router.navigate(['/dashboard']);
-
       },
       (error) => {
-
+        this.alertService.error('Error inviting lender.', true);
       });
   }
 

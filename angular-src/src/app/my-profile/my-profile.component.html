@@ -77,21 +77,29 @@
                       </ul>
                       <div class="info-links">
                         <label>Personal Website</label>
-                        <a class="website" target="_blank" href="{{ currentUser.URLs.personal }}">
+                        <a class="website" target="_blank" href="{{ currentUser.URLs.personal }}"
+                          *ngIf="currentUser.URLs.personal.length>0">
                           <span>{{ currentUser.URLs.personal }}</span>
                         </a>
+                        <p *ngIf="currentUser.URLs.personal.length==0"><em><small>Not entered yet</small></em></p>
                         <label>Facebook</label>
-                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.facebook }}">
+                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.facebook }}"
+                          *ngIf="currentUser.URLs.facebook.length>0">
                           <span>{{ currentUser.URLs.facebook }}</span>
                         </a>
+                        <p *ngIf="currentUser.URLs.facebook.length==0"><em><small>Not entered yet</small></em></p>
                         <label>LinkedIn</label>
-                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.linkedIn }}">
+                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.linkedIn }}"
+                          *ngIf="currentUser.URLs.facebook.length>0">
                           <span>{{ currentUser.URLs.linkedIn }}</span>
                         </a>
+                        <p *ngIf="currentUser.URLs.linkedIn.length==0"><em><small>Not entered yet</small></em></p>
                         <label>Bigger Pockets</label>
-                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.biggerPockets }}">
+                        <a class="social-link" target="_blank" href="{{ currentUser.URLs.biggerPockets }}"
+                          *ngIf="currentUser.URLs.biggerPockets.length>0">
                           <span>{{ currentUser.URLs.biggerPockets }}</span>
                         </a>
+                        <p *ngIf="currentUser.URLs.biggerPockets.length==0"><em><small>Not entered yet</small></em></p>
                       </div>
                     </div>
                   </div>
@@ -115,6 +123,9 @@
                       </li>
                     </ul>
                   </div>
+
+
+
                   <div class="wrapper">
                     <hr>
                     <div class="tab-content" id="myTabContent">
@@ -295,7 +306,9 @@
                           </div>
                           <div class="form-group mt-5">
                             <button id="updateBtn" type="submit" class="btn btn-success mr-2" [disabled]="form.invalid || isDisabled()">Update</button>
-                            <button type="reset" class="btn btn-outline-danger" [disabled]="isDisabled()">Cancel</button>
+                            <button type="button" class="btn btn-outline-danger" [disabled]="isDisabled()"
+                              (click)="cancelEditInfo($event)">Cancel
+                            </button>
                           </div>
                         </form>
                       </div><!-- tab content ends -->
@@ -308,10 +321,11 @@
                           <input type="file" id="imageInput" class="dropify" data-max-file-size="1mb" data-default-file="/assets/images/faces/face6.jpg" (change)="addProfileImage($event)" />
                           <div class="form-group mt-5">
                             <button id="updatePhotoButton" type="submit" class="btn btn-success mr-2">Update</button>
-                            <button class="btn btn-outline-danger">Cancel</button>
+                            <button class="btn btn-outline-danger" type="button">Cancel</button>
                           </div>
                         </form>
                       </div>
+
                       <div class="tab-pane fade" id="security" role="tabpanel" aria-labelledby="security-tab">
                         <form (submit)="updatePassword()" #passwordForm="ngForm">
                           <div class="form-group">
@@ -349,23 +363,34 @@
                             <button type="reset" class="btn btn-outline-danger">Cancel</button>
                           </div>
                         </form>
-                      </div>
-                    </div>
-                  </div>
+                      </div> <!-- End of security tab -->
+
+
+                    </div> <!-- End of #myTabContent-->
+
+
+                  </div> <!-- End of #wrapper -->
+
+                </div> <!-- End of card-body -->
+
+                <div class="button-wrapper">
+                  <button class="btn btn-inverse-danger btn-rounded btn-fw" (click)="onDelete()">Delete My Account</button>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- content-wrapper ends -->
-        <!-- partial:../../partials/_footer.html -->
-        <footer class="footer">
-          <div class="container-fluid clearfix">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
-          </div>
-        </footer>
-        <!-- partial -->
+
+              </div> <!-- End of card -->
+
+            </div> <!-- End of col-lg-8 side-right stretch-card-->
+
+
+          </div> <!-- End of row user-profile -->
+
+        </div> <!-- content-wrapper ends -->
+
+
+
+        <app-footer></app-footer>
+
+
       </div>
       <!-- main-panel ends -->
     </div>

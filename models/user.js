@@ -12,28 +12,22 @@ const keys = require('../config/keys.js');
 
 const UserSchema = mongoose.Schema({
   userType: {
-    type: String,
-    required: true
+    type: String
   },
   userName: {
-    type: String,
-    required: true
+    type: String
   },
   password: {
-    type: String,
-    required: true
+    type: String
   },
   firstName: {
-    type: String,
-    required: true
+    type: String
   },
   lastName: {
-    type: String,
-    required: true
+    type: String
   },
   email: {
-    type: mongoose.SchemaTypes.Email,
-    required: true
+    type: mongoose.SchemaTypes.Email
   },
   phoneNumber: {
     type: String
@@ -99,7 +93,7 @@ const User = module.exports = db.model('User', UserSchema);
 */
 
 module.exports.registerUser = function(userBody) {
-  let validated = validateRegisterUser(userBody);
+  let validated = validateUser(userBody);
 
   if (validated) {
     return new Promise((resolve, reject) => {
@@ -193,6 +187,89 @@ module.exports.registerUser = function(userBody) {
       }
       reject(errorObj);
     })
+  }
+};
+
+module.exports.registerInvitedUser = function(userBody) {
+  let validated = validateUser(userBody);
+
+  if (validated) {
+    return new Promise((resolve, reject) => {
+      User.findOne({ 'email': userBody.email }, (error, user) => {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Error registering user.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (user) {
+          let userObj = {
+            success: false,
+            message: 'Email already exists. If you are attempting to login using this email, please head to login page. '
+              + 'If you are attempting to invite a user, please request a connection with the user using our Add Connection feature.',
+            error: ''
+          }
+          reject(userObj)
+        } else {
+          let randomString = Math.random().toString(36).slice(-8);
+          let newUser = new User({
+            userType: userBody.userType,
+            userName: '',
+            password: randomString,
+            firstName: '',
+            lastName: '',
+            email: userBody.email,
+            phoneNumber: '',
+            city: '',
+            state: '',
+            profileViews: 0,
+            profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
+            URLs: {
+              personal: '',
+              facebook: '',
+              linkedIn: '',
+              biggerPockets: ''
+            }
+          });
+
+          newUser.save((error, savedUser) => {
+            if (error) {
+              let errorObj = {
+                success: false,
+                message: 'Error registering user.',
+                error: error
+              }
+              reject(errorObj);
+            } else if (savedUser) {
+              delete savedUser.password;
+              let investorObj = {
+                success: true,
+                message: 'Successfully registered user.',
+                data: savedUser
+              }
+              resolve(investorObj);
+            } else {
+              let errorObj = {
+                success: false,
+                message: 'Unable to save user.',
+                error: ''
+              }
+              reject(errorObj);
+            }
+          });
+        }
+      });
+    });
+  } else {
+    return new Promise((resolve, reject) => {
+      let errorObj = {
+        success: false,
+        message: 'Error inviting new user.',
+        error: error
+      }
+      reject(errorObj);
+    });
   }
 };
 
@@ -780,7 +857,7 @@ module.exports.addWholesalerConnection = function(wholesalerId, investorId) {
           } else if (newInvestor) {
             let successObj = {
               success: true,
-              message: 'Successfully invited wholesaler.',
+              message: 'Successfully invited user.',
               data: newInvestor
             }
             resolve(successObj);
@@ -1200,21 +1277,21 @@ module.exports.getUserById = function(id) {
       if (error) {
         let errorObj = {
           success: false,
-          message: 'Unable to retrieve user by id.'
+          message: 'Unable to retrieve user.'
         }
         reject(errorObj);
       } else if (user) {
         delete user.password;
         let successObj = {
           success: true,
-          message: 'Successfully found user by id.',
+          message: 'Successfully found user.',
           data: user
         }
         resolve(successObj);
       } else {
         let errorObj = {
           success: false,
-          message: 'User not found by id.',
+          message: 'User not found.',
           error: ''
         }
         reject(errorObj);
@@ -1229,7 +1306,7 @@ module.exports.getUserByEmail = function(email) {
       if (error) {
         let errorObj = {
           success: false,
-          message: 'Unable to retrieve user with email entered into application.',
+          message: 'Error finding user.',
           error: error
         }
         reject(errorObj);
@@ -1244,7 +1321,7 @@ module.exports.getUserByEmail = function(email) {
       } else {
         let errorObj = {
           success: false,
-          message: 'User not found with email entered into application.',
+          message: 'User not found.',
           error: ''
         }
         reject(errorObj);
@@ -1916,29 +1993,333 @@ module.exports.denyConnectionConnectedUser = function(body) {
   });
 };
 
+module.exports.addUsersFromUpload = function(usersList) {
+  return new Promise((resolve, reject) => {
+    let lastIndex = usersList.length - 1;
+    let connectionsToAdd = [];
+
+    usersList.forEach((user, index) => {
+
+      User.findOne({ 'email': user.email }, (errorFindingUser, foundUser) => {
+        if (errorFindingUser) {
+          let errorObj = {
+            success: false,
+            message: 'Error adding users from uploaded list.',
+            error: error
+          }
+          reject(errorObj);
+        } else if (!foundUser) {
+          let randomString = Math.random().toString(36).slice(-8);
+          let newUser = new User({
+            userType: user.userType,
+            userName: user.userName,
+            password: randomString,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            city: user.city,
+            state: user.state,
+            profileViews: 0,
+            profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
+            URLs: {
+              personal: '',
+              facebook: '',
+              linkedIn: '',
+              biggerPockets: ''
+            }
+          });
+
+          newUser.connections[0] = user.connectionId;
+
+          newUser.save((error, savedUser) => {
+            if (error) {
+              let errorObj = {
+                success: false,
+                message: 'Error saving user.',
+                error: error
+              }
+              reject(errorObj);
+            } else if (savedUser) {
+              connectionsToAdd.push(savedUser._id);
+              if (index == lastIndex) {
+                let successObj = {
+                  success: true,
+                  message: 'Successfully added new users.',
+                  data: connectionsToAdd
+                }
+                resolve(successObj);
+              }
+            } else {
+              let errorObj = {
+                success: false,
+                message: 'Unable to save user.',
+                error: ''
+              }
+              reject(errorObj);
+            }
+          });
+        } else if (foundUser) {
+          if (index == lastIndex) {
+            let successObj = {
+              success: true,
+              message: 'Successfully added new users.',
+              data: connectionsToAdd
+            }
+            resolve(successObj);
+          }
+        } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to add at least one user from upload.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+      });
+
+    });
+
+  });
+};
+
+module.exports.addConnections = function(IDs, userId) {
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error adding connections to user.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+
+        if (IDs.length == 0) {
+          let successObj = {
+              success: true,
+              message: 'Successfully added connections.',
+              data: savedUser
+            }
+          resolve(successObj);
+        } else {
+          IDs.forEach((id) => {
+            user.connections.push(id);
+          });
+
+          user.save((error, savedUser) => {
+            if (error) {
+              let errorObj = {
+                success: false,
+                message: 'Error updating user.',
+                error: error
+              }
+              reject(errorObj);
+            } else if (savedUser) {
+              let successObj = {
+                success: true,
+                message: 'Successfully added connections.',
+                data: savedUser
+              }
+              resolve(successObj);
+            } else {
+              let errorObj = {
+                success: false,
+                message: 'Unable to save user. Please try again',
+                error: ''
+              }
+              reject(errorObj);
+            }
+          });
+        }
+
+      } else {
+        if (error) {
+          let errorObj = {
+            success: false,
+            message: 'Unable to add connections to user. Please try again.',
+            error: error
+          }
+          reject(errorObj);
+        }
+      }
+    });
+  });
+};
+
+module.exports.deleteUser = function(userId) {
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, user) => {
+      user.connections.forEach((connectionId) => {
+        User.findById(connectionId, (error, connectionUser) => {
+          connectionUser.connections = connectionUser.connections.filter((id) => {
+            return id != userId;
+          });
+        });
+      })
+    });
+
+    User.findByIdAndRemove(userId, (error, deletedUser) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error deleting user.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (deletedUser) {
+        let successObj = {
+          success: true,
+          message: 'Successfully deleted user.',
+          data: null
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Error deleting user.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
 /*
 ===== VALIDATION =====
 */
 
-let validateRegisterUser = function(data) {
-  let userNamePattern = new RegExp("^[a-zA-Z0-9-]+");
-  let firstNamePattern = new RegExp("^[a-zA-Z ]+$");
-  let lastNamePattern = new RegExp("^[a-zA-Z ]+$");
-  let passwordPattern = data.password.length >= 5 && data.password.length <= 30;
-  let emailPattern = new RegExp("^(([^<>()\\[\\]\\.,;:\\s@']+(\\.[^<>()\\[\\]\\.,;:\\s@']+)*)|('.+'))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
-  let phoneNumberPattern = new RegExp("^(\\+0?1\\s)?\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$");
-  let cityPattern = new RegExp("^[a-zA-Z ]*$");
-  let statePattern = data.state.length == 2;
-  let userTypePattern = false;
-  if (data.userType == 'Wholesaler' || data.userType == 'Investor' || data.userType == 'Lender') {
-    userTypePattern = true;
+let validateUser = function(data) {
+  console.log('data:',data)
+  if (data.userName) {
+    if (!validateUsername(data.userName)) {
+      return false;
+    }
   }
 
-  if (userNamePattern.test(data.userName) && firstNamePattern.test(data.firstName) && lastNamePattern.test(data.lastName)
-    && passwordPattern && emailPattern.test(data.email) && phoneNumberPattern.test(data.phoneNumber) && cityPattern.test(data.city)
-    && statePattern && userTypePattern) {
+  if (data.firstName) {
+    if (!validateFirstName(data.firstName)) {
+      return false;
+    }
+  }
+
+  if (data.lastName) {
+    if (!validateLastName(data.lastName)) {
+      return false;
+    }
+  }
+
+  if (data.email) {
+    if (!validateEmail(data.email)) {
+      return false;
+    }
+  }
+
+  if (data.phoneNumber) {
+    if (!validatePhoneNumber(data.phoneNumber)) {
+      return false;
+    }
+  }
+
+  if (data.city) {
+    if (!validateCity(data.city)) {
+      return false;
+    }
+  }
+
+  if (data.state) {
+    if (!validateState(data.state)) {
+      return false;
+    }
+  }
+
+  if (data.userType) {
+    if (!validateUserType(data.userType)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+let validateUsername = function(username) {
+  let userNamePattern = new RegExp("^[a-zA-Z0-9-]+");
+  if (userNamePattern.test(username)) {
     return true;
   } else {
     return false;
   }
 };
+
+let validateFirstName = function(firstname) {
+  let firstNamePattern = new RegExp("^[a-zA-Z ]+$");
+  if (firstNamePattern.test(firstname)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validateLastName = function(lastname) {
+  let lastNamePattern = new RegExp("^[a-zA-Z ]+$");
+  if (lastNamePattern.test(lastname)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validatePassword = function(password) {
+  let passwordPattern = password.length >= 5 && password.length <= 30;
+  if (passwordPattern) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validateEmail = function(email) {
+  let emailPattern = new RegExp("^(([^<>()\\[\\]\\.,;:\\s@']+(\\.[^<>()\\[\\]\\.,;:\\s@']+)*)|('.+'))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
+  if (emailPattern.test(email)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validatePhoneNumber = function(number) {
+  let phoneNumberPattern = new RegExp("^(\\+0?1\\s)?\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$");
+  if (phoneNumberPattern.test(number)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validateCity = function(city) {
+  let cityPattern = new RegExp("^[a-zA-Z ]*$");
+  if (cityPattern.test(city)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validateState = function(state) {
+  let statePattern = data.state.length == 2;
+  if (statePattern) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+let validateUserType = function(type) {
+  let userTypePattern = false;
+  if (type == 'Wholesaler' || type == 'Investor' || type == 'Lender') {
+    userTypePattern = true;
+  }
+  return userTypePattern;
+};
+

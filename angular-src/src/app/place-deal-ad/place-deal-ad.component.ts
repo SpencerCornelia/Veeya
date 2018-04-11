@@ -4,6 +4,7 @@ import { AppRoutingModule } from '../app-routing.module';
 
 import { NewAd } from '../models/NewAd';
 import { AuthService } from '../services/auth.service';
+import { AlertService } from '../services/alert.service';
 import { DealAdService } from '../services/dealAd.service';
 
 @Component({
@@ -17,8 +18,9 @@ export class PlaceDealAdComponent implements OnInit {
   private newAd: NewAd;
   private perUnit: boolean = false;
 
-  constructor(private dealAdService: DealAdService,
-              private router: Router
+  constructor(private alertService: AlertService,
+              private dealAdService: DealAdService,
+              private router: Router,
               private authService: AuthService) { }
 
   ngOnInit() {
@@ -47,13 +49,12 @@ export class PlaceDealAdComponent implements OnInit {
     if (confirmed) {
       this.dealAdService.placeNewAd(this.newAd)
         .subscribe((response) => {
-          console.log("response from service:", response)
           if (response.success) {
-            // success message to user
+            this.alertService.success('Successfully placed ad.', true);
             this.router.navigate(['/dashboard']);
           }
         }, (error) => {
-
+          this.alertService.error('Error placing ad. Please try again.');
         });
     }
   }

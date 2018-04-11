@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { DealAdService } from '../services/dealAd.service';
 
@@ -20,8 +22,10 @@ export class ViewDealAdsComponent implements OnInit {
   private wholesalerUserType: boolean = false;
   private lenderUserType: boolean = false;
 
-  constructor(private authService: AuthService,
-              private dealAdService: DealAdService) { }
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
+              private dealAdService: DealAdService,
+              private router: Router) { }
 
   ngOnInit() {
     this.currentUser = this.authService.loggedInUser();
@@ -43,16 +47,26 @@ export class ViewDealAdsComponent implements OnInit {
         .subscribe((response) => {
           this.currentAds = response;
         }, (error) => {
-
-        })
+          this.alertService.error('Error retrieving deal ads for investor.');
+        });
     } else {
       this.dealAdService.getAllAds()
         .subscribe((response) => {
           this.currentAds = response;
         }, (error) => {
-
-        })
+          this.alertService.error('Error retrieving all ads.');
+        });
     }
+  }
+
+  deleteAd(adId) {
+    this.dealAdService.deleteAd(adId)
+      .subscribe((response) => {
+        this.alertService.success(response.message, true);
+        this.router.navigate(['/dashboard']);
+      }, (error) => {
+        this.alertService.error(error.message, true);
+      });
   }
 
 }

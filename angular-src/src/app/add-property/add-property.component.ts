@@ -7,6 +7,7 @@ import { ModuleWithProviders } from '@angular/core';
 import { User } from '../models/User';
 import { Property } from '../models/Property';
 
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { AddPropertyService } from '../services/addProperty.service';
 import { PhotosService } from '../services/photos.service';
@@ -28,7 +29,8 @@ export class AddPropertyComponent implements OnInit {
   private uploadedPhotos: Array<string> = [];
   private validForm: Boolean = false;
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private addPropertyService: AddPropertyService,
               private photosService: PhotosService,
               private router: Router,
@@ -84,17 +86,18 @@ export class AddPropertyComponent implements OnInit {
   onSubmit() {
     this.photosService.getPropertyPhotoUrls(this.uploadedPhotos, (error, photos) => {
       if (error) {
-        // error message = 'Error submitting form. Please try again.'
+        this.alertService.error('Error uploading photo.');
         return;
       } else {
         this.newProperty.photos = photos;
         this.addPropertyService.addProperty(this.newProperty)
           .subscribe((response) => {
             if (response.success === true) {
+              this.alertService.success(response.message);
               this.router.navigate(['/dashboard']);
             }
           }, (error) => {
-
+            this.alertService.error(error.message);
           });
       }
     });
@@ -111,7 +114,7 @@ export class AddPropertyComponent implements OnInit {
       document.getElementById('removePhotos').hidden = false;
       document.getElementById('uploadPhotos').hidden = false;
     } else {
-      // display an error message telling user to upload a file that is an image
+      this.alertService.error('Please upload an image file.');
     }
     if (this.photos.length === 3) {
       let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
@@ -123,7 +126,7 @@ export class AddPropertyComponent implements OnInit {
     document.getElementById('uploadPhotos').setAttribute('disabled', 'disabled');
     this.photosService.uploadPropertyPhotos(this.photos, (error, photos) => {
       if (error) {
-        // error message = 'Error uploading photos. Please try again later.'
+        this.alertService.error('Error uploading photos. Please try again later.');
       } else {
         let inputValue = (<HTMLInputElement>document.getElementById('imageInput'));
         inputValue.value = "";
@@ -131,6 +134,7 @@ export class AddPropertyComponent implements OnInit {
         document.getElementById('uploadPhotos').hidden = true;
         this.uploadedPhotos = photos;
         this.photos = [];
+        this.alertService.success('Successfully uploaded photo.');
       }
     });
   }
@@ -143,6 +147,7 @@ export class AddPropertyComponent implements OnInit {
     inputValue.disabled = false;
     document.getElementById('removePhotos').hidden = true;
     document.getElementById('uploadPhotos').hidden = true;
+    this.alertService.success('Photo removed.');
   }
 
 }

@@ -203,6 +203,16 @@
               <span class="menu-title">View Wanted Deals</span>
             </a>
           </li>
+          <li class="nav-item" *ngIf="authService.investorUser()">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/uploadlist']">
+              <span class="menu-title">Upload Wholesaler List</span>
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="authService.wholesalerUser()">
+            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/uploadlist']">
+              <span class="menu-title">Upload Buyers List</span>
+            </a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/profile', authService.loggedInUser()]"><span class="menu-title">My Profile</span></a>
           </li>
@@ -847,14 +857,12 @@
           </div>
         </div>
         <!-- content-wrapper ends -->
-        <!-- partial:partials/_footer.html -->
-        <footer class="footer">
-          <div class="container-fluid clearfix">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
-          </div>
-        </footer>
-        <!-- partial -->
+
+
+        <app-footer></app-footer>
+
+
+
       </div>
       <!-- main-panel ends -->
     </div>
@@ -863,29 +871,24 @@
   <!-- container-scroller -->
 
   <!-- plugins:js -->
-  <script src="/angular-src/node_modules/jquery/dist/jquery.min.js"></script>
-  <script src="/angular-src/node_modules/popper.js/dist/umd/popper.min.js"></script>
-  <script src="/angular-src/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="/angular-src/node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
+  <script src="/node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="/node_modules/popper.js/dist/umd/popper.min.js"></script>
+  <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="/node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js"></script>
   <!-- endinject -->
   <!-- Plugin js for this page-->
-  <script src="/angular-src/node_modules/raphael/raphael.min.js"></script>
-  <script src="/angular-src/node_modules/morris.js/morris.min.js"></script>
-  <script src="/angular-src/node_modules/jquery-sparkline/jquery.sparkline.min.js"></script>
-  <script src="/angular-src/node_modules/chartist/dist/chartist.min.js"></script>
-  <script src="/angular-src/node_modules/chart.js/dist/Chart.min.js"></script>
-  <script src="/angular-src/node_modules/jvectormap/jquery-jvectormap.min.js"></script>
-  <script src="/angular-src/node_modules/jvectormap/tests/assets/jquery-jvectormap-world-mill-en.js"></script>
+  <script src="/node_modules/typeahead.js/dist/typeahead.bundle.min.js"></script>
   <!-- End plugin js for this page-->
   <!-- inject:js -->
-  <script src="../assets/js/off-canvas.js"></script>
-  <script src="../assets/js/hoverable-collapse.js"></script>
-  <script src="../assets/js/misc.js"></script>
-  <script src="../assets/js/settings.js"></script>
-  <script src="../assets/js/todolist.js"></script>
+  <script src="/assets/js/off-canvas.js"></script>
+  <script src="/assets/js/hoverable-collapse.js"></script>
+  <script src="/assets/js/misc.js"></script>
+  <script src="/assets/js/settings.js"></script>
+  <script src="/assets/js/todolist.js"></script>
   <!-- endinject -->
   <!-- Custom js for this page-->
-  <script src="../assets/js/dashboard.js"></script>
+  <script src="/assets/js/file-upload.js"></script>
+  <script src="/assets/js/typeahead.js"></script>
   <!-- End custom js for this page-->
 </body>
 

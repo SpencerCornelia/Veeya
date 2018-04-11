@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
 import { User } from '../models/User';
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { InviteService } from '../services/invite.service';
 
@@ -14,44 +15,30 @@ import { InviteService } from '../services/invite.service';
 })
 export class InviteWholesalerComponent implements OnInit {
 
-  private currentUser: User;
-  private newWholesaler: User;
+  private investorID: string;
+  private wholesaler: any;
 
-  constructor(private authService: AuthService,
+  constructor(private alertService: AlertService,
+              private authService: AuthService,
               private inviteService: InviteService,
               private router: Router) { }
 
   ngOnInit() {
-    let investorID = this.authService.loggedInUser();
-    this.newWholesaler = {
-      userType: 'Wholesaler',
-      firstName: '',
-      lastName: '',
-      password: 'initialUser',
-      userName: '',
-      email: '',
-      phoneNumber: '',
-      city: '',
-      state: 'AL',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      },
-      investor_id: investorID
+    this.investorID = this.authService.loggedInUser();
+    this.wholesaler = {
+      email: ''
     }
 
   }
 
   onSubmit() {
-    this.newWholesaler.userName = this.newWholesaler.firstName.toString() + this.newWholesaler.lastName.toString();
-    this.inviteService.inviteWholesaler(this.newWholesaler)
+    this.inviteService.inviteWholesaler(this.wholesaler.email, this.investorID)
       .subscribe((response) => {
+        this.alertService.success(response.message, true);
         this.router.navigate(['/dashboard']);
       },
       (error) => {
-
+        this.alertService.error('Error inviting wholesaler.', true);
       });
   }
 

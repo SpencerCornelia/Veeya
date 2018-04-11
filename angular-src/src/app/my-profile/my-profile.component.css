@@ -22,3 +22,12 @@
 .form-control.ng-valid.ng-touched {
   border: 1px solid green;
 }
+
+.button-wrapper {
+  text-align: center;
+}
+
+.button-wrapper button {
+  margin: 0 auto;
+  margin-bottom: 30px;
+}

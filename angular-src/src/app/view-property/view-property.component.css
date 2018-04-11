@@ -28,6 +28,10 @@
   max-width: 100%;
 }
 
+#propertyImage:hover {
+  cursor: pointer;
+}
+
 #photoCard {
   margin-left: 10px;
 }
@@ -39,4 +43,13 @@
 
 #submitBtn:disabled {
   cursor: not-allowed;
+}
+
+#property-image-enlarged {
+  max-width: 100%;
+}
+
+.closingTimeLabel {
+  margin-top: 4px;
+  margin-right: 10px;
 }

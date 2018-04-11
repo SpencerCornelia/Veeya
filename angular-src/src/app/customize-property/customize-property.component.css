@@ -30,3 +30,11 @@
 .buttons button {
   margin-right: 10px;
 }
+
+#property-image-enlarged {
+  max-width: 100%;
+}
+
+#propertyImage:hover {
+  cursor: pointer;
+}

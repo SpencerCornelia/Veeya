@@ -7,6 +7,7 @@ import { RegisterGuard } from './guards/register.guard';
 import { RoleGuard } from './guards/role.guard';
 
 import { AddPropertyComponent } from './add-property/add-property.component';
+import { AuctionComponent } from './auction/auction.component';
 import { CustomizePropertyComponent } from './customize-property/customize-property.component';
 import { ConnectionsComponent } from './connections/connections.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -21,14 +22,18 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { RegisterComponent } from './register/register.component';
 import { SearchComponent } from './search/search.component';
 import { SoldPropertyComponent } from './sold-property/sold-property.component';
+import { UploadListComponent } from './upload-list/upload-list.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ViewDealAdsComponent } from './view-deal-ads/view-deal-ads.component';
 import { ViewPropertyComponent } from './view-property/view-property.component';
 import { ViewPropertiesComponent } from './view-properties/view-properties.component';
 
+import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
+
 const APP_ROUTES: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
+  { path: 'auction/:id', component: AuctionComponent, canActivate:[AuthGuard] },
   { path: 'connections', component: ConnectionsComponent, canActivate:[AuthGuard] },
   { path: 'customizeproperty/:id', component: CustomizePropertyComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
   { path: 'dashboard', component: DashboardComponent, canActivate:[AuthGuard] },
@@ -38,11 +43,12 @@ const APP_ROUTES: Routes = [
   { path: 'invitewholesaler', component: InviteWholesalerComponent, canActivate:[RoleGuard], data:{userType: 'Investor' } },
   { path: 'login', component: LoginComponent },
   { path: 'placeDealAd', component: PlaceDealAdComponent, canActivate:[RoleGuard], data:{userType: 'Investor'} },
-  { path: 'profile/:id', component: MyProfileComponent, canActivate:[ProfileGuard] },
+  { path: 'profile/:id', component: MyProfileComponent, canActivate:[ProfileGuard], resolve: { user: MyProfileResolve } },
   { path: 'properties', component: ViewPropertiesComponent, canActivate:[AuthGuard] },
   { path: 'register', component: RegisterComponent, canActivate:[RegisterGuard] },
   { path: 'search', component: SearchComponent, canActivate:[AuthGuard] },
   { path: 'soldproperty/:id', component: SoldPropertyComponent, canActivate:[AuthGuard] },
+  { path: 'uploadlist', component: UploadListComponent, canActivate:[AuthGuard] },
   { path: 'user/:id', component: UserProfileComponent, canActivate:[AuthGuard] },
   { path: 'view/:id', component: ViewPropertyComponent, canActivate:[AuthGuard] },
   { path: 'viewDealAds', component: ViewDealAdsComponent, canActivate:[AuthGuard] },

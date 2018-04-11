@@ -50,4 +50,12 @@ export class ValidateService {
     }
   }
 
+  validateUploadListInput(fileType) {
+    if (fileType == 'csv' || fileType == 'text/csv') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

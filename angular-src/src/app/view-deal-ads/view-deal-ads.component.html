@@ -74,7 +74,21 @@
                       <li>
                         <div class="form-check form-check-flat">
                           <label class="form-check-label">
-                            Location: {{ ad.city }}, {{ ad.state }} {{ ad.zipCode }}
+                            City: {{ ad.city }}
+                          </label>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="form-check form-check-flat">
+                          <label class="form-check-label">
+                            State: {{ ad.state }}
+                          </label>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="form-check form-check-flat">
+                          <label class="form-check-label">
+                            Zip Code: {{ ad.zipCode }}
                           </label>
                         </div>
                       </li>
@@ -95,7 +109,7 @@
                       <li>
                         <div class="form-check form-check-flat">
                           <label class="form-check-label">
-                            Bed / Bath: {{ ad.bedrooms }} / {{ ad.bathrooms }}
+                            Bed , Bath: {{ ad.bedrooms }} / {{ ad.bathrooms }}
                           </label>
                         </div>
                       </li>
@@ -150,8 +164,7 @@
                       </li>
                       <li *ngIf="investorUserType">
                         <div class="form-check form-check-flat">
-                          <button class="btn btn-inverse-primary btn-rounded btn-fw">Edit</button>
-                          <button class="btn btn-inverse-danger btn-rounded btn-fw">Delete</button>
+                          <button class="btn btn-inverse-danger btn-rounded btn-fw" (click)="deleteAd(ad._id)">Delete</button>
                         </div>
                       </li>
                       <li *ngIf="wholesalerUserType">
@@ -176,12 +189,7 @@
 
 
 
-        <footer class="footer">
-          <div class="container-fluid clearfix">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
-          </div>
-        </footer>
+        <app-footer></app-footer>
 
 
       </div> <!-- main panel ends -->

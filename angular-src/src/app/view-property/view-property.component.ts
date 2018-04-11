@@ -5,7 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Property } from '../models/Property';
 import { User } from '../models/User';
 
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
+import { AuctionService } from '../services/auction.service';
 import { CustomizePropertyService } from '../services/customizeProperty.service';
 import { DeletePropertyService } from '../services/deleteProperty.service';
 import { EditPropertyService } from '../services/editProperty.service';
@@ -13,6 +15,7 @@ import { PhotosService } from '../services/photos.service';
 import { ValidateService } from '../services/validate.service';
 import { ViewPropertyService } from '../services/viewProperty.service';
 
+declare var $: any;
 
 @Component({
   selector: 'app-view-property',
@@ -21,8 +24,14 @@ import { ViewPropertyService } from '../services/viewProperty.service';
 })
 export class ViewPropertyComponent implements OnInit {
 
+  private auctionEstablished: string;
   private currentUserType: string;
+  private dateTime: any;
+  private daysAdded: boolean = false;
+  private deadline: any;
+  private hoursAdded: boolean = false;
   private editMode: Boolean = false;
+  private enlargedPhoto: string;
   private photo: File;
   private photosToAdd: Array<File> = [];
   private propertyID: string;
@@ -32,8 +41,15 @@ export class ViewPropertyComponent implements OnInit {
   private showUploadPhotosButton: Boolean = false;
   private showRemovePhotosButton: Boolean = false;
 
+  private date: any;
+  private currentMonth: any;
+  private currentDay: any;
+  private months: any;
+
   constructor(private route: ActivatedRoute,
+              private alertService: AlertService,
               private authService: AuthService,
+              private auctionService: AuctionService,
               private customizePropertyService: CustomizePropertyService,
               private deletePropertyService: DeletePropertyService,
               private editPropertyService: EditPropertyService,
@@ -86,7 +102,22 @@ export class ViewPropertyComponent implements OnInit {
           thirdCompPrice: ''
         }
       ],
-      photos: ['']
+      photos: [''],
+      auctionEstablished: 'false'
+    }
+
+    this.date = new Date();
+    this.currentMonth = this.date.getMonth();
+
+    this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.currentDay = this.date.getDate();
+
+    this.dateTime = {
+      month: this.months[this.currentMonth],
+      day: this.currentDay + 1,
+      hour: '5',
+      minutes: '00',
+      time: 'pm'
     }
 
   }
@@ -96,8 +127,9 @@ export class ViewPropertyComponent implements OnInit {
       .subscribe((response) => {
         this.property = response;
         this.propertyOwner = this.confirmPropertyOwnership();
+        this.auctionEstablished = this.property.auctionEstablished;
       }, (error) => {
-
+        this.alertService.error('Error retrieving property.');
       });
   }
 
@@ -119,6 +151,8 @@ export class ViewPropertyComponent implements OnInit {
         let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
         inputButton.disabled = true;
       }
+    } else {
+      this.alertService.error('Please add a valid photo image.');
     }
 
   }
@@ -146,7 +180,7 @@ export class ViewPropertyComponent implements OnInit {
 
         this.photosService.getPropertyPhotoUrls(photosUploaded, (error, photos) => {
           if (error) {
-            // error message
+            this.alertService.error('Error uploading photos.');
             return;
           } else {
             photos.forEach((photo) => {
@@ -161,9 +195,9 @@ export class ViewPropertyComponent implements OnInit {
   removePhoto(photo) {
     this.photosService.removePropertyPhoto(photo, (error) => {
       if (error) {
-        // error message = 'Error removing photo. Please try again.'
+        this.alertService.error('Error removing photo. Please try again.');
       } else {
-        // message = 'Successfully removed photo.'
+        this.alertService.error('Successfully removed photo.');
       }
     });
   }
@@ -172,15 +206,21 @@ export class ViewPropertyComponent implements OnInit {
     this.editPropertyService.editProperty(this.property)
       .subscribe((response) => {
         if (response.success) {
+          this.alertService.success('Changes saved.');
           this.router.navigate(['/dashboard']);
        }
       }, (error) => {
-
+        this.alertService.error('Error editing property.');
       });
   }
 
   edit() {
     this.editMode = true;
+  }
+
+  imageModal(photo) {
+    this.enlargedPhoto = photo;
+    $("#photoModal").modal('show');
   }
 
   sold() {
@@ -200,13 +240,14 @@ export class ViewPropertyComponent implements OnInit {
           if (response.success) {
           }
         }, (error) => {
-
+          this.alertService.error('Error marking property as listed.', true);
         });
     }
   }
 
   cancel() {
     this.deletePropertyService.removePhotos(this.photoURLsAdded);
+    this.editMode = false;
   }
 
   deleteProperty() {
@@ -216,11 +257,12 @@ export class ViewPropertyComponent implements OnInit {
       this.deletePropertyService.deleteProperty(this.property._id)
         .subscribe((response) => {
           if (response.success) {
+            this.alertService.success('Deleted property successfully.');
             this.router.navigate(['/dashboard']);
           }
         },(error) => {
-
-        })
+          this.alertService.error('Error deleting property.', true);
+        });
     }
   }
 
@@ -228,5 +270,53 @@ export class ViewPropertyComponent implements OnInit {
     this.customizePropertyService.setProperty(this.property);
     this.router.navigate(['/customizeproperty/', this.property._id]);
   }
+
+  // called when auction has not been established for a property
+  // and loggedInUser is wholesaler && owner of property
+  openAuction() {
+    $("#deadlineModal").modal('show');
+  }
+
+  // called when auction has been established for a property
+  // user can be either investor or wholesaler
+  enterAuction() {
+    let that = this;
+    let propertyId = this.property._id.toString();
+    this.auctionService.setProperty(this.property);
+    this.auctionService.getInitialBids(propertyId)
+      .subscribe((response) => {
+        $("#deadlineModal").modal('hide');
+        this.router.navigate(['/auction/', propertyId]);
+      }, (error) => {
+
+      })
+  }
+
+  // called when user has submitted deadline modal
+  submitDeadlineModal() {
+    let currentYear = this.date.getFullYear();
+    let month = this.months.indexOf(this.dateTime.month);
+
+    if (month < this.currentMonth) {
+      currentYear = currentYear + 1;
+    }
+
+    if (this.dateTime.time == 'pm') {
+      let hour = parseInt(this.dateTime.hour);
+      this.dateTime.hour = hour + 12;
+    }
+
+    let deadline = this.dateTime.month + ' ' + this.dateTime.day + ', ' + currentYear + ' ' +
+                   this.dateTime.hour + ':' + this.dateTime.minutes + ':00';
+    this.auctionService.openAuction(this.propertyID, deadline)
+      .subscribe((response) => {
+        this.auctionService.setProperty(response);
+        this.router.navigate(['/auction/', this.propertyID]);
+      }, (error) => {
+
+      })
+  }
+
+
 }
 

@@ -65,7 +65,7 @@
                   <div *ngFor="let photo of property.photos">
                     <div class="col-xs-4">
                       <div class="card h-100" id="photoCard">
-                        <img id="propertyImage" src="{{ photo }}" />
+                        <img id="propertyImage" src="{{ photo }}" (click)="imageModal(photo)" />
                       </div>
                     </div>
                   </div>
@@ -74,6 +74,32 @@
             </div>
           </div>
         </div>
+
+
+          <!-- IMAGE MODAL -->
+
+          <div class="modal fade bd-example-modal-lg" id="photoModal" tabindex="-1" role="dialog"
+              aria-labelledby="photoLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="photoLabel">View Property Photo</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div id="property-image-wrapper">
+                  <img src="{{ enlargedPhoto }}" id="property-image-enlarged" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- END IMAGE MODAL -->
+
+
+
+
 
         <div class="row">
           <div class="col-lg-12 grid-margin">
@@ -104,15 +130,15 @@
                           <div class="input-group-prepend">
                             <span class="input-group-text">$</span>
                           </div>
-                        <input type="text" class="form-control"
-                          [(ngModel)]="property.averageRent"
-                          name="averageRent"
-                          #purchasePrice="ngModel"
-                          minlength="3"
-                          maxlength="10"
-                          pattern="^[0-9]*$"
-                          required
-                        >
+                          <input type="text" class="form-control"
+                            [(ngModel)]="property.averageRent"
+                            name="averageRent"
+                            #purchasePrice="ngModel"
+                            minlength="3"
+                            maxlength="10"
+                            pattern="^[0-9]*$"
+                            required
+                          >
                         </div>
                       </div>
                       <div class="form-group" id="extraIncome" >
@@ -804,14 +830,9 @@
         </div> <!-- content-wrapper ends -->
 
 
-        <!-- partial:../../partials/_footer.html -->
-        <footer class="footer">
-          <div class="container-fluid clearfix">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018 <a href="http://www.bootstrapdash.com/" target="_blank">Bootstrapdash</a>. All rights reserved.</span>
-            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="mdi mdi-heart text-danger"></i></span>
-          </div>
-        </footer>
-        <!-- partial -->
+        <app-footer></app-footer>
+
+
       </div>
       <!-- main-panel ends -->
     </div>

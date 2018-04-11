@@ -82,7 +82,11 @@ const PropertySchema = mongoose.Schema({
   comps: [],
   photos: [{
     type: String
-  }]
+  }],
+  auctionEstablished: {
+    type: String,
+    default: 'false'
+  }
 },
   {
     timestamps: {
@@ -150,7 +154,8 @@ module.exports.addProperty = (propertyBody) => {
         insurance: propertyBody.insurance,
         sellerFinancing: propertyBody.sellerFinancing,
         comps: propertyBody.comps,
-        photos: propertyBody.photos
+        photos: propertyBody.photos,
+        auctionEstablished: 'false'
       });
 
       newProperty.save((errorSaving, savedProperty) => {
@@ -456,17 +461,57 @@ module.exports.deletePropertyById = (id) => {
   });
 };
 
+module.exports.establishAuction = (id) => {
+  return new Promise((resolve, reject) => {
+    Property.findById(id, (error, property) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error starting auction.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (property) {
+        property.auctionEstablished = 'true';
+        property.save((error, newProperty) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error starting auction.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (newProperty) {
+            let successObj = {
+              success: true,
+              message: 'Successfully started new auction.',
+              data: newProperty
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to start auction.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      }
+    });
+  });
+};
+
 
 let validatePropertyInputs = function(data) {
  let addressPattern = /^[a-zA-Z0-9,.!? ]*$/
  let addressMatch = data.address.match(addressPattern) && data.address.length >= 5 && data.address.length <= 50;
 
- let cityPattern = /"^[a-zA-Z ]*$"/;
+ let cityPattern = /^[a-zA-Z ]*$/;
  let cityMatch = data.city.match(cityPattern) && data.city.length >= 3 && data.city.length <= 30;
-
  let stateMatch = data.state.length == 2;
 
- let zipCodePattern = /^[-9]*$/;
+ let zipCodePattern = /^[0-9]*$/;
  let zipCodeMatch = data.zipCode.match(zipCodePattern) && data.zipCode.length >= 5 && data.zipCode.length <= 10;
 
  let purchasePricePattern = /^[0-9]*$/;
@@ -615,25 +660,6 @@ let validatePropertyInputs = function(data) {
  }
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

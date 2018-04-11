@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { User } from '../models/User';
+
+import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { AddConnectionService } from '../services/addConnection.service';
 import { GetConnectionsService } from '../services/getConnections.service';
@@ -22,6 +24,7 @@ export class ConnectionsComponent implements OnInit {
   private user_id: String;
 
   constructor(private addConnectionService: AddConnectionService,
+              private alertService: AlertService,
               private authService: AuthService,
               private getConnectionsService: GetConnectionsService,
               private userService: UserService) { }
@@ -49,7 +52,7 @@ export class ConnectionsComponent implements OnInit {
           this.pendingConnections = true;
         }
       }, (error) => {
-
+        this.alertService.error('Error with retrieving pending connections.');
       });
   }
 
@@ -67,8 +70,8 @@ export class ConnectionsComponent implements OnInit {
           });
         }
       }, (error) => {
-
-      })
+        this.alertService.error('Error accepting connection request.');
+      });
   }
 
   denyRequest(connection) {
@@ -84,8 +87,8 @@ export class ConnectionsComponent implements OnInit {
           });
         }
       }, (error) => {
-
-      })
+        this.alertService.error('Error denying connection request.');
+      });
   }
 
 }
