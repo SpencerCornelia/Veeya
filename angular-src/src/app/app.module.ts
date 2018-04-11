@@ -59,7 +59,6 @@ import { AddPropertyService } from './services/addProperty.service';
 import { AlertService } from './services/alert.service';
 import { AuctionService } from './services/auction.service';
 import { AuthService } from './services/auth.service';
-import { CountdownService } from './services/countdown.service';
 import { CustomizePropertyService } from './services/customizeProperty.service';
 import { DealAdService } from './services/dealAd.service';
 import { DeletePropertyService } from './services/deleteProperty.service';
@@ -136,7 +135,6 @@ import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
     AddPropertyService,
     AlertService,
     AuctionService,
-    CountdownService,
     CustomizePropertyService,
     DealAdService,
     DeletePropertyService,
