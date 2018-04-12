@@ -65,7 +65,7 @@ export class ConnectionsComponent implements OnInit {
           this.pendingConnections = false;
           this.pendingConnectionsArray = [];
         } else {
-          this.pendingConnectionsArray.filter((connection) => {
+          this.pendingConnectionsArray = this.pendingConnectionsArray.filter((connection) => {
             return connection._id != response.connectionUser._id;
           });
         }
@@ -82,7 +82,7 @@ export class ConnectionsComponent implements OnInit {
           this.pendingConnections = false;
           this.pendingConnectionsArray = [];
         } else {
-          this.pendingConnectionsArray.filter((connection) => {
+          this.pendingConnectionsArray = this.pendingConnectionsArray.filter((connection) => {
             return connection._id != response.connectionUser._id;
           });
         }
