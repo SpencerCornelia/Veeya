@@ -650,6 +650,60 @@ module.exports.updateWholesalerSoldProperties = function(wholesalerId, propertyI
   });
 };
 
+module.exports.removeWholesalerListingProperty = function(propertyId, userId) {
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error deleting property.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+
+        // filter listed properties and only return proprties that do not
+        // equal the propertyId of removed property
+        user.wholesalerListedProperties = user.wholesalerListedProperties.filter((pId) => {
+          return pId != propertyId;
+        });
+
+        user.save((error, updatedUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error deleting property.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully deleted property.',
+              data: updatedUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to delete property.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to delete property.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    })
+  });
+};
+
 
 /*
 ===== WHOLESALER SETTERS END =====
