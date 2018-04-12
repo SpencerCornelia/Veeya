@@ -117,6 +117,7 @@ export class AddPropertyComponent implements OnInit {
     } else {
       this.alertService.error('Please upload an image file.');
     }
+
     if (this.photos.length === 3) {
       let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
       inputButton.disabled = true;
