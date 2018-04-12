@@ -65,8 +65,8 @@ export class PhotosService {
   }
 
   public removePropertyPhoto(photoName: String, callback) {
-    let storageRef = firebase.storage().ref();
     let path = `${this.propertyPhotosFolder}/${this.user_id}/` + photoName;
+    let storageRef = firebase.storage().ref(path);
     storageRef.delete()
       .then(() => {
         callback(false);
@@ -101,8 +101,8 @@ export class PhotosService {
   public getProfileImageUrl(photo: string, callback) {
     let urls = [];
     let storageRef = firebase.storage();
-    let path = `${this.profileImageFolder}/${this.user_id}/`;
-    let pathRef = storageRef.ref(photo);
+    let path = `${this.profileImageFolder}/${this.user_id}/` + photo;
+    let pathRef = storageRef.ref(path);
     pathRef.getDownloadURL()
       .then((url) => {
         callback(false, url)
@@ -112,4 +112,17 @@ export class PhotosService {
         return;
       })
    }
+
+  public removePropertyPhotos(photo: string, callback) {
+    let storageRef = firebase.storage().ref(photo);
+    storageRef.delete()
+      .then(() => {
+        callback(false);
+      })
+      .catch((error) => {
+        callback(true);
+      });
+  }
+
+
 }
