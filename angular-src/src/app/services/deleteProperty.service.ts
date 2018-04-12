@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Property } from '../models/Property';
+import * as firebase from 'firebase';
 
 import 'rxjs/add/operator/map';
 
@@ -12,8 +13,8 @@ export class DeletePropertyService {
 
   private serverApi = 'http://localhost:3000';
 
-  public deleteProperty(propertyId : Number) {
-    let URI = this.serverApi + "/properties/" + propertyId;
+  public deleteProperty(propertyId : Number, userId: string) {
+    let URI = this.serverApi + "/properties/" + propertyId + "/" + userId;
     let headers = new Headers;
     headers.append('Content-Type', 'application/json');
     return this.http.delete(URI, {headers})
