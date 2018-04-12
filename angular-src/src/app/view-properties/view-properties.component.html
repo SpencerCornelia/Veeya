@@ -93,6 +93,8 @@
                   <div id="lightgallery" class="row lightGallery" *ngFor="let soldProperty of wholesalerPropertiesSold">
                     <a (click)="viewProperty(soldProperty)" class="image-tile" alt="image large">
                       <img src="{{ soldProperty.photos[0] }}" alt="image small">
+                      <h6>{{ soldProperty.address }}</h6>
+                      <h6>{{ soldProperty.city }}, {{ soldProperty.state }} {{ soldProperty.zipCode }}</h6>
                     </a>
                   </div>
                 </div>
@@ -113,6 +115,8 @@
                   <div id="lightgallery" class="row lightGallery" *ngFor="let property of wholesalerPropertiesSoldPending">
                     <a (click)="viewProperty(property)" class="image-tile" alt="image large">
                       <img src="{{ property.photos[0] }}" alt="image small">
+                      <h6>{{ property.address }}</h6>
+                      <h6>{{ property.city }}, {{ property.state }} {{ property.zipCode }}</h6>
                     </a>
                   </div>
                 </div>
