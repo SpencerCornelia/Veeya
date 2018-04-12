@@ -81,7 +81,7 @@ export class UserProfileComponent implements OnInit {
 
   isConnected() {
     this.user.connections.forEach((user) => {
-      if (this.user_id === this.currentUser) {
+      if (user == this.currentUser) {
         this.connected = true;
         this.notConnected = false;
         return;
