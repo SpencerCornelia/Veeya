@@ -62,7 +62,7 @@
                   <div class="card">
                     <div class="card-body avatar">
                       <h4 class="card-title">Info</h4>
-                      <img src="/assets/images/faces/face6.jpg" alt="">
+                      <img src="{{ user.profilePhoto }}" alt="">
                       <p class="name">{{ user.firstName }} {{ user.lastName }}</p>
                       <p class="designation">-  {{ user.userType }}  -</p>
                       <a class="d-block text-center text-dark" href="#">{{ user.email }}</a>
@@ -80,23 +80,36 @@
                         <li><p>{{ user.connections.length }}</p><p>Connections</p></li>
                         <li><p>{{ numberOfDeals }}</p><p>Deals</p></li>
                       </ul>
+                      <br />
                       <div class="info-links">
                         <label>Personal Website</label>
-                        <a class="website" href="http://bootstrapdash.com/">
-                          <span>http://bootstrapdash.com/</span>
+                        <a class="website" target="_blank" href="{{ user.URLs.personal }}"
+                          *ngIf="user.URLs.personal.length>0">
+                          <span>{{ user.URLs.personal }}</span>
                         </a>
+                        <p *ngIf="user.URLs.personal.length==0"><em><small>Not entered yet</small></em></p>
+
                         <label>Facebook</label>
-                        <a class="social-link" href="#">
-                          <span>https://www.facebook.com/johndoe</span>
+                        <a class="social-link" target="_blank" href="{{ user.URLs.facebook }}"
+                          *ngIf="user.URLs.facebook.length>0">
+                          <span>{{ user.URLs.facebook }}</span>
                         </a>
+                        <p *ngIf="user.URLs.facebook.length==0"><em><small>Not entered yet</small></em></p>
+
                         <label>LinkedIn</label>
-                        <a class="social-link" href="#">
-                          <span>https://www.linkedin.com/johndoe</span>
+                        <a class="social-link" target="_blank" href="{{ user.URLs.linkedIn }}"
+                          *ngIf="user.URLs.linkedIn.length>0">
+                          <span>{{ user.URLs.linkedIn }}</span>
                         </a>
+                        <p *ngIf="user.URLs.linkedIn.length==0"><em><small>Not entered yet</small></em></p>
+
                         <label>Bigger Pockets</label>
-                        <a class="social-link" href="#">
-                          <span>https://www.biggerpockets.com/johndoe</span>
+                        <a class="social-link" target="_blank" href="{{ user.URLs.biggerPockets }}"
+                          *ngIf="user.URLs.biggerPockets.length>0">
+                          <span>{{ user.URLs.biggerPockets }}</span>
                         </a>
+                        <p *ngIf="user.URLs.biggerPockets.length==0"><em><small>Not entered yet</small></em></p>
+
                       </div>
                     </div>
                   </div>
