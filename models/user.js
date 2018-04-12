@@ -2191,7 +2191,6 @@ module.exports.deleteUser = function(userId) {
 */
 
 let validateUser = function(data) {
-  console.log('data:',data)
   if (data.userName) {
     if (!validateUsername(data.userName)) {
       return false;
@@ -2307,7 +2306,7 @@ let validateCity = function(city) {
 };
 
 let validateState = function(state) {
-  let statePattern = data.state.length == 2;
+  let statePattern = state.length == 2;
   if (statePattern) {
     return true;
   } else {
