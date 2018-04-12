@@ -108,7 +108,7 @@
                     Click on any image to view the property.
                   </p>
                   <p class="card-text" *ngIf="wholesalerPropertiesSoldPending==0">
-                    None.
+                    You do not have any sold properties awaiting confirmation from an investor.
                   </p>
                   <div id="lightgallery" class="row lightGallery" *ngFor="let property of wholesalerPropertiesSoldPending">
                     <a (click)="viewProperty(property)" class="image-tile" alt="image large">
