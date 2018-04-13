@@ -8,19 +8,27 @@
     </button>
     <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
       <li class="nav-item">
-        <a href="/assets/pages/apps/gallery.html" class="nav-link"><i class="mdi mdi-image-filter"></i>Gallery</a>
-      </li>
-      <li class="nav-item active">
-        <a href="../../pages/apps/email.html" class="nav-link"><i class="mdi mdi-email-outline"></i>Inbox</a>
+        <a href="/assets/pages/apps/gallery.html" class="nav-link"><i class="mdi mdi-image-filter"></i>About</a>
       </li>
       <li class="nav-item">
-        <a href="../../pages/apps/calendar.html" class="nav-link"><i class="mdi mdi-calendar"></i>Calendar</a>
+        <a href="../../pages/apps/email.html" class="nav-link"><i class="mdi mdi-email-outline"></i>Support</a>
+      </li>
+      <li class="nav-item">
+        <a href="../../pages/apps/calendar.html" class="nav-link"><i class="mdi mdi-calendar"></i>Contact</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" (click)="logout()"><i class="mdi mdi-calendar"></i>Logout</a>
       </li>
     </ul>
     <ul class="navbar-nav navbar-nav-right">
       <li class="nav-item nav-settings d-none d-lg-block">
-        <a class="nav-link" href="#">
-          <img class="img-xs rounded-circle" src="{{ currentUser?.profilePhoto }}" alt="ProfilePhoto">
+        <a class="nav-link" (click)="userProfile()">
+          <img class="img-xs rounded-circle" src="{{ currentUser?.profilePhoto }}" alt="">
+        </a>
+      </li>
+      <li class="nav-item nav-settings d-none d-lg-block">
+        <a class="nav-link" (click)="userProfile()">
+          <div>{{ currentUser?.firstName }} {{ currentUser?.lastName }}</div>
         </a>
       </li>
     </ul>
