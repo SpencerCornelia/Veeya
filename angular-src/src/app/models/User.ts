@@ -26,5 +26,6 @@ export interface User {
     biggerPockets: String
   },
   pendingIncomingConnectionRequests?: Array<string>,
-  pendingOutgoingConnectionRequests?: Array<string>
+  pendingOutgoingConnectionRequests?: Array<string>,
+  data?: any
 }
