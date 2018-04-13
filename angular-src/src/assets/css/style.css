@@ -10871,7 +10871,7 @@ tbody.collapse.show {
   width: 1.5em;
   height: 1.5em;
   vertical-align: middle;
-  content: "";
+  content: "***";
   background: no-repeat center center;
   background-size: 100% 100%; }
 
@@ -14752,7 +14752,7 @@ input:focus {
     background: #002e63;
     position: fixed;
     max-height: calc(100vh - 58px);
-    top: 58px;
+    top: 50px;
     bottom: 0;
     overflow: auto;
     right: -255px;
@@ -14934,7 +14934,8 @@ input:focus {
           margin-left: auto; }
           .rtl .navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right {
             margin-left: 0;
-            margin-right: auto; } }
+            margin-right: auto; }
+      }
       .navbar .navbar-menu-wrapper .navbar-nav.header-links {
         height: 58px;
         padding-left: 2%; }
