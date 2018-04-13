@@ -76,6 +76,7 @@ export class AuthService {
         .map((response) => {
           this.observable = null;
           this.currentUser = response.json();
+          this.currentUser = this.currentUser.data;
           return this.currentUser;
         })
         .catch((error) => {
