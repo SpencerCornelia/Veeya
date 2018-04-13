@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { tokenNotExpired } from 'angular2-jwt';
 import { Router } from '@angular/router';
 
-import { ProgressService } from '../services/progress.service';
 import { User } from '../models/User';
 
 import 'rxjs/add/operator/map';
@@ -22,7 +21,7 @@ export class AuthService {
   public redirecturl: String = '';
   private user_id: any;
 
-  constructor(private http: Http, private router: Router, private progressService: ProgressService) { }
+  constructor(private http: Http, private router: Router) { }
 
   registerUser(user) {
     let route= "http://localhost:3000/register";
@@ -46,7 +45,6 @@ export class AuthService {
   }
 
   authenticateUser(user) {
-    this.progressService.startLoading();
     let route = "http://localhost:3000/login";
 
     let headers = new Headers();
@@ -60,7 +58,6 @@ export class AuthService {
         return Observable.throw(error.json());
       })
       .subscribe((response) => {
-        this.progressService.stopLoading();
         this.currentUser = response.data;
         this.storeUserData(response.token, response.user._id, response.user.userType);
         this.router.navigate(['/dashboard']);
