@@ -25,6 +25,9 @@
       <a class="nav-link" *ngIf="authService.loggedIn() && authService.wholesalerUser()" [routerLink]="['/inviteinvestor']"><span class="menu-title">Invite Investor</span></a>
     </li>
     <li class="nav-item">
+      <a class="nav-link" *ngIf="authService.loggedIn() && authService.investorUser()" [routerLink]="['/invitewholesaler']"><span class="menu-title">Invite Wholesaler</span></a>
+    </li>
+    <li class="nav-item">
       <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/invitelender']"><span class="menu-title">Invite Lender</span></a>
     </li>
     <li class="nav-item">
