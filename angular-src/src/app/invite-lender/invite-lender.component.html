@@ -56,13 +56,15 @@
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="form-row row">
+
+            <!-- Left Column -->
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Invite Lender to Join</h4>
                   <form class="forms-sample" #form="ngForm" (submit)="onSubmit()">
                     <div class="form-group">
-                      <label for="email" class="required-field">Email address</label>
+                      <label for="email">Email address</label>
                       <input type="email" class="form-control" id="email"
                         placeholder="email@example.com"
                         [(ngModel)]="lender.email"
@@ -78,9 +80,25 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <!-- content-wrapper ends -->
+
+          <!-- End Left Column -->
+
+
+          <!-- Right Column -->
+          <div class="col-md-6 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Text to help users</h4>
+
+              </div>
+            </div>
+          </div> <!-- End Right Column -->
+
+
+          </div> <!-- End Row -->
+
+
+        </div> <!-- content-wrapper ends -->
 
 
         <app-footer></app-footer>

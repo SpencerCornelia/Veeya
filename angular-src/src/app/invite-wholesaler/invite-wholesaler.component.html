@@ -56,16 +56,15 @@
       <div class="main-panel">
         <div class="content-wrapper">
           <div class="form-row row">
+
+            <!-- Left Column -->
             <div class="col-md-6 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Invite Wholesaler to Join</h4>
-                  <p class="card-description">
-                    <span class="required-field">Required</span>
-                  </p>
                   <form class="forms-sample" #form="ngForm" (submit)="onSubmit()">
                     <div class="form-group">
-                      <label for="email" class="required-field">Email address</label>
+                      <label for="email">Email address</label>
                       <input type="email" class="form-control" id="email"
                         placeholder="example@email.com"
                         [(ngModel)]="wholesaler.email"
@@ -80,7 +79,20 @@
                   </form>
                 </div>
               </div>
-            </div>
+            </div> <!-- End Left Column -->
+
+
+
+            <!-- Right Column -->
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">help text for user</h4>
+                </div>
+              </div>
+            </div> <!-- End Right Column -->
+
+
           </div>
         </div>
         <!-- content-wrapper ends -->
