@@ -165,15 +165,6 @@
 
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-          <li class="nav-item nav-profile">
-            <div class="nav-link">
-              <div class="profile-image"> <img src="{{ currentUser.profilePhoto }}" alt="image"/> <span class="online-status online"></span> </div>
-              <div class="profile-name">
-                <p class="name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
-                <p class="designation">{{ currentUser.userType }}</p>
-              </div>
-            </div>
-          </li>
           <li class="nav-item"> <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/dashboard']">
             <span class="menu-title">Dashboard</span></a>
           </li>
