@@ -91,45 +91,13 @@ export class UploadListComponent implements OnInit {
     for (let i = 0; i < allRows.length; i++) {
       let row = allRows[i].split(',');
 
-      if (row.length > 6) {
-        errorExists = true;
-        this.alertService.error('Row ' + row[i+1] + ' has an error. Please upload this user separately.');
-        continue;
-      }
+      let user = {
+        email: row[0],
+        userType: userType,
+        connectionId: this.currentUser
+      };
 
-      if (i == 0) {
-        if (row[0] != 'First Name') {
-          // alert user to fix First Name column text
-        } else if (row[1] != 'Last Name') {
-
-        } else if (row[2] != 'Email') {
-
-        } else if (row[3] != 'Phone Number') {
-
-        } else if (row[4] != 'City') {
-
-        } else if (row[5] != 'State') {
-
-        } else if (row.length > 6) {
-
-        }
-      }
-
-      if (i > 0) {
-        let user = {
-          firstName: row[0],
-          lastName: row[1],
-          email: row[2],
-          phoneNumber: row[3],
-          city: row[4],
-          state: row[5],
-          userType: userType,
-          userName: row[0] + '' + row[1],
-          connectionId: this.currentUser
-        };
-
-        this.users.push(user);
-      }
+      this.users.push(user);
     }
 
     if (errorExists) {
