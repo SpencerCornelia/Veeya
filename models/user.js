@@ -2066,14 +2066,8 @@ module.exports.addUsersFromUpload = function(usersList) {
           let randomString = Math.random().toString(36).slice(-8);
           let newUser = new User({
             userType: user.userType,
-            userName: user.userName,
             password: randomString,
-            firstName: user.firstName,
-            lastName: user.lastName,
             email: user.email,
-            phoneNumber: user.phoneNumber,
-            city: user.city,
-            state: user.state,
             profileViews: 0,
             profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
             URLs: {
@@ -2157,6 +2151,7 @@ module.exports.addConnections = function(IDs, userId) {
             }
           resolve(successObj);
         } else {
+
           IDs.forEach((id) => {
             user.connections.push(id);
           });
