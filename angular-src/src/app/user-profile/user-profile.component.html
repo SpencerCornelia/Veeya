@@ -65,9 +65,9 @@
                       <img src="{{ user.profilePhoto }}" alt="">
                       <p class="name">{{ user.firstName }} {{ user.lastName }}</p>
                       <p class="designation">-  {{ user.userType }}  -</p>
-                      <a class="d-block text-center text-dark" href="#">{{ user.email }}</a>
-                      <a class="d-block text-center text-dark" href="#">{{ user.phoneNumber }}</a>
-                      <a class="d-block text-center text-dark" href="#">{{ user.city }}, {{ user.state }}</a>
+                      <a class="d-block text-center text-dark">{{ user.email }}</a>
+                      <a class="d-block text-center text-dark">{{ user.phoneNumber }}</a>
+                      <a class="d-block text-center text-dark">{{ user.city }} {{ user.state }}</a>
                     </div>
                     <div class="connect-button-row">
                       <button *ngIf="connected" class="btn btn-inverse-success btn-rounded btn-fw connect-button">Connected</button>
@@ -125,17 +125,14 @@
                       <li class="nav-item">
                         <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-expanded="true">Info</a>
                       </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="deals-tab" data-toggle="tab" href="#deals" role="tab" aria-controls="deals">Deals</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" id="looking-for-tab" data-toggle="tab" href="#looking-for" role="tab" aria-controls="looking-for">Looking For</a>
-                      </li>
                     </ul>
                   </div>
                   <div class="wrapper">
                     <hr>
                     <div class="tab-content" id="myTabContent">
+
+
+                      <!-- Info tab -->
                       <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info">
                         <form>
                           <div class="form-group">
@@ -167,38 +164,9 @@
                             <input type="text" class="form-control" id="state" [(ngModel)]="user.state" name="state" disabled>
                           </div>
                         </form>
-                      </div><!-- tab content ends -->
-                      <div class="tab-pane fade" id="deals" role="tabpanel" aria-labelledby="deals-tab">
-                        <div class="wrapper mb-5 mt-4">
-                          <span class="badge badge-warning text-white">Note : </span>
-                          <p class="d-inline ml-3 text-muted">Image size is limited to not greater than 1MB .</p>
-                        </div>
-                        <form action="#">
-                          <input type="file" class="dropify" data-max-file-size="1mb" data-default-file="/assets/images/faces/face6.jpg"/>
-                          <div class="form-group mt-5">
-                            <button type="submit" class="btn btn-success mr-2">Update</button>
-                            <button class="btn btn-outline-danger">Cancel</button>
-                          </div>
-                        </form>
-                      </div>
-                      <div class="tab-pane fade" id="looking-for" role="tabpanel" aria-labelledby="looking-for-tab">
-                        <form action="#">
-                          <div class="form-group">
-                            <label for="change-password">Change password</label>
-                            <input type="password" class="form-control" id="change-password" placeholder="Enter you current password">
-                          </div>
-                          <div class="form-group">
-                            <input type="password" class="form-control" id="new-password" placeholder="Enter you new password">
-                          </div>
-                          <div class="form-group">
-                            <input type="password" class="form-control" id="new-password-confirm" placeholder="Confirm your new password">
-                          </div>
-                          <div class="form-group mt-5">
-                            <button type="submit" class="btn btn-success mr-2">Update</button>
-                            <button class="btn btn-outline-danger">Cancel</button>
-                          </div>
-                        </form>
-                      </div>
+                      </div><!-- End info tab -->
+
+
                     </div>
                   </div>
                 </div>
