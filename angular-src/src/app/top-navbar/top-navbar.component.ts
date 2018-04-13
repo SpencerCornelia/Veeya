@@ -32,4 +32,12 @@ export class TopNavbarComponent implements OnInit {
     return false;
   }
 
+  userProfile() {
+    this.router.navigate(['/profile/', this.currentUser._id]);
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
 }
