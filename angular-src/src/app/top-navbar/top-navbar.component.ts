@@ -3,6 +3,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
+import { User } from '../models/User';
 
 @Component({
   selector: 'app-top-navbar',
@@ -11,9 +12,17 @@ import { AuthService } from '../services/auth.service';
 })
 export class TopNavbarComponent implements OnInit {
 
+  private currentUser: any;
+
   constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
+    this.authService.getCurrentUser()
+      .subscribe((response) => {
+        this.currentUser = response;
+      }, (error) => {
+
+      });
   }
 
   onLogoutClick() {
