@@ -30,37 +30,11 @@ export class DashboardComponent implements OnInit {
               private editPropertyService: EditPropertyService,
               private router: Router)
               {
-                this.getCurrentUser();
+
               }
 
   ngOnInit() {
-    this.currentUser = {
-      userType: '',
-      firstName: '',
-      lastName: '',
-      userName: '',
-      password: '',
-      email: '',
-      phoneNumber: '',
-      city: '',
-      state: '',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      }
-    }
-
-    // this.userID = this.authService.loggedInUser();
-    // this.userType = this.authService.loggedInUserType();
-    // if (this.userType === 'Wholesaler') {
-    //   this.getWholesalerProfileInfo();
-    // } else if (this.userType === 'Investor') {
-    //   this.getInvestorProfileInfo();
-    // } else {
-    //   this.userType = 'Lender';
-    // }
+    this.getCurrentUser();
   }
 
   getCurrentUser() {
@@ -72,24 +46,8 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  // getWholesalerProfileInfo() {
-  //   this.profileService.getWholesalerProfileInfo(this.userID)
-  //     .subscribe((response) => {
-  //       this.currentUser = response[0];
-  //       this.properties = response[0].properties;
-  //     }, (error) => {
-
-  //     });
-  // }
-
-  // getInvestorProfileInfo() {
-  //   this.profileService.getInvestorProfileInfo(this.userID)
-  //     .subscribe((response) => {
-  //       this.currentUser = response[0];
-  //       this.properties = response[0].properties;
-  //     }, (error) => {
-
-  //     })
-  // }
+  logout() {
+    this.authService.logout();
+  }
 
 }
