@@ -33,19 +33,17 @@ export class MyProfileComponent implements OnInit {
               private validateService: ValidateService) { }
 
   ngOnInit() {
-    this.currentUserId = this.authService.loggedInUser();
-    document.getElementById("updatePhotoButton").setAttribute('disabled', 'disabled');
-
-    this.route.data.forEach(resolveData => {
-      this.currentUser = resolveData.user.data;
-      this.saveCurrentUser = JSON.parse(JSON.stringify(this.currentUser));
-    });
-
     this.password = {
       current: '',
       new: '',
       newConfirm: ''
     }
+
+    this.route.data.forEach(resolveData => {
+      this.currentUser = resolveData.user.data;
+      this.saveCurrentUser = JSON.parse(JSON.stringify(this.currentUser));
+      this.currentUserId = this.authService.loggedInUser();
+    });
 
   }
 
@@ -155,6 +153,10 @@ export class MyProfileComponent implements OnInit {
     } else {
       this.alertService.success('We are glad to see you have changed your mind and are staying with us. Time to make some money!');
     }
+  }
+
+  clickProfileImageTab() {
+    document.getElementById("updatePhotoButton").setAttribute('disabled', 'disabled');
   }
 
 }
