@@ -123,16 +123,14 @@ export class MyProfileComponent implements OnInit {
   }
 
   updatePassword() {
-    if (this.validateService.validatePassword(this.password.new, this.password.newConfirm)) {
-      this.userService.updatePassword(this.password.current, this.password.new)
-        .subscribe((response) => {
-          this.clearPasswordForm();
-          this.alertService.success('Password updated.');
-        }, (error) => {
-          this.clearPasswordForm();
-          this.alertService.error('Error updating password.');
-        });
-    }
+    this.userService.updatePassword(this.password.current, this.password.new)
+      .subscribe((response) => {
+        this.clearPasswordForm();
+        this.alertService.success('Password updated.');
+      }, (error) => {
+        this.clearPasswordForm();
+        this.alertService.error('Error updating password.');
+      });
   }
 
   clearPasswordForm() {
