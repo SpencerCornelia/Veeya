@@ -14,46 +14,15 @@
 
 <body>
   <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-        <a class="navbar-brand brand-logo" href="../../index.html"><img src="/assets/images/logo.svg" alt="logo"/></a>
-        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="/assets/images/logo-mini.svg" alt="logo"/></a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="icon-menu"></span>
-        </button>
-        <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
-          <li class="nav-item">
-            <a href="/assets/pages/apps/gallery.html" class="nav-link"><i class="mdi mdi-image-filter"></i>Gallery</a>
-          </li>
-          <li class="nav-item active">
-            <a href="../../pages/apps/email.html" class="nav-link"><i class="mdi mdi-email-outline"></i>Inbox</a>
-          </li>
-          <li class="nav-item">
-            <a href="../../pages/apps/calendar.html" class="nav-link"><i class="mdi mdi-calendar"></i>Calendar</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item nav-settings d-none d-lg-block">
-            <a class="nav-link" href="#">
-              <img class="img-xs rounded-circle" src="{{ currentUser.profilePhoto }}" alt="">
-            </a>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button>
-      </div>
-    </nav>
-    <!-- partial -->
+
+    <app-top-navbar></app-top-navbar>
+
     <div class="container-fluid page-body-wrapper">
 
       <app-sidebar></app-sidebar>
 
-      <!-- partial -->
-      <div class="main-panel">
+
+      <div class="main-panel" *ngIf="currentUser">
         <div class="content-wrapper">
           <div class="row user-profile">
             <div class="col-lg-4 side-left d-flex align-items-stretch">
@@ -116,7 +85,9 @@
                         <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-expanded="true">Info</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" id="avatar-tab" data-toggle="tab" href="#avatar" role="tab" aria-controls="avatar">Profile Image</a>
+                        <a class="nav-link" id="avatar-tab" data-toggle="tab" href="#avatar" role="tab"
+                        aria-controls="avatar" (click)="clickProfileImageTab()">Profile Image
+                      </a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" id="security-tab" data-toggle="tab" href="#security" role="tab" aria-controls="security">Change Password</a>
@@ -312,6 +283,8 @@
                           </div>
                         </form>
                       </div><!-- tab content ends -->
+
+
                       <div class="tab-pane fade" id="avatar" role="tabpanel" aria-labelledby="avatar-tab">
                         <div class="wrapper mb-5 mt-4">
                           <span class="badge badge-warning text-white">Note : </span>
