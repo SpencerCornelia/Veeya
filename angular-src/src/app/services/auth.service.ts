@@ -27,8 +27,6 @@ export class AuthService {
     let route= "http://localhost:3000/register";
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    delete user.passwordConfirm;
-    let userName = user.userName || (user.firstName + user.lastName);
 
     return this.http.post(route, user, { headers: headers })
       .map((response) => {
