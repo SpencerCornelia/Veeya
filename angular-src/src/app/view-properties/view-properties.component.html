@@ -23,7 +23,7 @@
       <app-sidebar></app-sidebar>
 
 
-      <div class="main-panel" *ngIf="currentUser.userType=='Wholesaler'">
+      <div class="main-panel" *ngIf="currentUser.userType=='Wholesaler' && currentUser">
         <div class="content-wrapper">
           <div class="row grid-margin">
             <div class="col-lg-12">
@@ -234,21 +234,16 @@
               </div>
             </div>
           </div>
-        </div>
-        <!-- content-wrapper ends -->
-
+        </div> <!-- content-wrapper ends -->
 
 
         <app-footer></app-footer>
-
-
 
       </div>
 
     </div> <!-- main-panel ends -->
     </div> <!-- page-body-wrapper ends -->
-  </div> <!-- container-scroller -->
-
+  </div> <!-- container-scroller ends -->
 
 </body>
 
