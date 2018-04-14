@@ -66,47 +66,6 @@ export class ViewPropertyComponent implements OnInit {
 
     this.wholesalerID = this.authService.loggedInUser();
 
-    this.property = {
-      _id: 0,
-      wholesaler_id: this.wholesalerID,
-      address: '',
-      city: '',
-      state: 'AL',
-      zipCode: '',
-      purchasePrice: '',
-      bedrooms: 0,
-      bathrooms: 0,
-      expectedRehab: '',
-      HOA: '',
-      propertyTaxes: '',
-      utilities: '',
-      afterRepairValue: '',
-      capRate: '',
-      averageRent: '',
-      squareFootage: '',
-      insurance: '',
-      propertyType: 'Single Family',
-      yearBuilt: '',
-      status: 'Listed',
-      sellerFinancing: 'no',
-      comps: [
-        {
-          firstCompAddress: '',
-          firstCompPrice: ''
-        },
-        {
-          secondCompAddress: '',
-          secondCompPrice: ''
-        },
-        {
-          thirdCompAddress: '',
-          thirdCompPrice: ''
-        }
-      ],
-      photos: [''],
-      auctionEstablished: 'false'
-    }
-
     this.date = new Date();
     this.currentMonth = this.date.getMonth();
 
