@@ -10871,7 +10871,7 @@ tbody.collapse.show {
   width: 1.5em;
   height: 1.5em;
   vertical-align: middle;
-  content: "";
+  content: "***";
   background: no-repeat center center;
   background-size: 100% 100%; }
 
@@ -14584,8 +14584,9 @@ input:focus {
 
 /* Sidebar */
 .sidebar {
-  min-height: calc(100vh - 58px);
-  background: #ffffff;
+  position: fixed;
+  min-height: 100vh;
+  background: linear-gradient(88deg, #002e63, #005b96);
   font-family: "Poppins", sans-serif;
   padding: 0;
   width: 255px;
@@ -14595,6 +14596,8 @@ input:focus {
   -moz-transition: width 0.25s ease, background 0.25s ease;
   -ms-transition: width 0.25s ease, background 0.25s ease; }
   .sidebar .nav {
+    margin-top: 65px;
+    position: fixed;
     overflow: hidden;
     flex-wrap: nowrap;
     flex-direction: column; }
@@ -14633,7 +14636,7 @@ input:focus {
             vertical-align: middle;
             color: rgba(74, 73, 73, 0.5); }
       .sidebar .nav .nav-item .nav-link .menu-title {
-        color: inherit;
+        color: #F0F0F0;
         display: inline-block;
         font-size: 0.875rem;
         line-height: 1;
@@ -14746,9 +14749,10 @@ input:focus {
 /* style for off-canvas menu*/
 @media screen and (max-width: 991px) {
   .sidebar-offcanvas {
+    background: #002e63;
     position: fixed;
     max-height: calc(100vh - 58px);
-    top: 58px;
+    top: 50px;
     bottom: 0;
     overflow: auto;
     right: -255px;
@@ -14761,7 +14765,7 @@ input:focus {
 /* Navbar */
 .navbar {
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(88deg, #318be3, #04befe);
+  background: linear-gradient(88deg, #002e63, #005b96);
   transition: background 0.25s ease;
   -webkit-transition: background 0.25s ease;
   -moz-transition: background 0.25s ease;
@@ -14930,7 +14934,8 @@ input:focus {
           margin-left: auto; }
           .rtl .navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right {
             margin-left: 0;
-            margin-right: auto; } }
+            margin-right: auto; }
+      }
       .navbar .navbar-menu-wrapper .navbar-nav.header-links {
         height: 58px;
         padding-left: 2%; }
@@ -15285,8 +15290,10 @@ html {
     min-height: 100vh; }
 
 .main-panel {
+  margin-left: 255px;
+  margin-top: 50px;
   transition: width 0.25s ease, margin 0.25s ease;
-  width: calc(100% - 255px);
+  width: 100%;
   min-height: calc(100vh - 58px);
   display: -webkit-flex;
   display: flex;

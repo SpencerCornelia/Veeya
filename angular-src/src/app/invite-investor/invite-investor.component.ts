@@ -26,7 +26,7 @@ export class InviteInvestorComponent implements OnInit {
   ngOnInit() {
     this.wholesalerID = this.authService.loggedInUser();
     this.investor = {
-      email: '',
+      email: ''
     }
   }
 

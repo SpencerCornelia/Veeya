@@ -27,7 +27,8 @@ export class AddPropertyComponent implements OnInit {
   private photo: File;
   private photos: Array<File> = [];
   private uploadedPhotos: Array<string> = [];
-  private validForm: Boolean = false;
+  private validForm: boolean = false;
+  private validPhotos: boolean = false;
 
   constructor(private alertService: AlertService,
               private authService: AuthService,
@@ -116,6 +117,7 @@ export class AddPropertyComponent implements OnInit {
     } else {
       this.alertService.error('Please upload an image file.');
     }
+
     if (this.photos.length === 3) {
       let inputButton = (<HTMLInputElement>document.getElementById('imageInput'));
       inputButton.disabled = true;
@@ -134,6 +136,7 @@ export class AddPropertyComponent implements OnInit {
         document.getElementById('uploadPhotos').hidden = true;
         this.uploadedPhotos = photos;
         this.photos = [];
+        this.validPhotos = true;
         this.alertService.success('Successfully uploaded photo.');
       }
     });
@@ -148,6 +151,19 @@ export class AddPropertyComponent implements OnInit {
     document.getElementById('removePhotos').hidden = true;
     document.getElementById('uploadPhotos').hidden = true;
     this.alertService.success('Photo removed.');
+  }
+
+  cancel() {
+    this.uploadedPhotos.forEach((photo) => {
+      this.photosService.removePropertyPhotos(photo, (error) => {
+        if (error) {
+          this.alertService.error('Error removing property photos.', false);
+          return;
+        }
+      })
+    })
+
+    this.router.navigate(['/dashboard']);
   }
 
 }

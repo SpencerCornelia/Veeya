@@ -31,31 +31,6 @@ export class UserProfileComponent implements OnInit {
               private addConnectionService: AddConnectionService) { }
 
   ngOnInit() {
-    this.user = {
-      userType: '',
-      firstName: '',
-      lastName: '',
-      password: '',
-      userName: '',
-      email: '',
-      phoneNumber: '',
-      city: '',
-      state: '',
-      properties: [],
-      minimumLoanAmount: '',
-      maximumLoanAmount: '',
-      connections: [],
-      terms: [],
-      profilePhoto: '',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      },
-      pendingOutgoingConnectionRequests: []
-    }
-
     this.currentUser = this.authService.loggedInUser();
     this.user_id = this.activatedRoute.snapshot.params['id'];
     this.getUserInfo(this.user_id);
@@ -81,7 +56,7 @@ export class UserProfileComponent implements OnInit {
 
   isConnected() {
     this.user.connections.forEach((user) => {
-      if (this.user_id === this.currentUser) {
+      if (user == this.currentUser) {
         this.connected = true;
         this.notConnected = false;
         return;

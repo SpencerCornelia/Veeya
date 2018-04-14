@@ -195,11 +195,22 @@ router.post('/denysoldproperty', (req, res) => {
 });
 
 // DELETE HTTP request for deleting a property
-router.delete('/:id', (req, res, next) => {
-  let id = req.params.id;
-  property.deletePropertyById(id)
+router.delete('/:propertyId/:userId', (req, res, next) => {
+  let propertyId = req.params.propertyId;
+  let userId = req.params.userId;
+  property.deletePropertyById(propertyId)
     .then((response) => {
-      res.status(200).json(response);
+      return response;
+    })
+    .then((response) => {
+      return user.removeWholesalerListingProperty(propertyId, userId);
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(201).json(response);
+      } else {
+        res.status(500).json(response);
+      }
     })
     .catch((error) => {
       res.status(500).json(error);

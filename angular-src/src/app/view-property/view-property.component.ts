@@ -40,6 +40,7 @@ export class ViewPropertyComponent implements OnInit {
   private photoURLsAdded: Array<string> = [];
   private showUploadPhotosButton: Boolean = false;
   private showRemovePhotosButton: Boolean = false;
+  private wholesalerID: any;
 
   private date: any;
   private currentMonth: any;
@@ -63,48 +64,7 @@ export class ViewPropertyComponent implements OnInit {
     this.propertyID = this.route.snapshot.params['id'];
     this.getProperty(this.propertyID);
 
-    let wholesalerID = this.authService.loggedInUser();
-
-    this.property = {
-      _id: 0,
-      wholesaler_id: wholesalerID,
-      address: '',
-      city: '',
-      state: 'AL',
-      zipCode: '',
-      purchasePrice: '',
-      bedrooms: 0,
-      bathrooms: 0,
-      expectedRehab: '',
-      HOA: '',
-      propertyTaxes: '',
-      utilities: '',
-      afterRepairValue: '',
-      capRate: '',
-      averageRent: '',
-      squareFootage: '',
-      insurance: '',
-      propertyType: 'Single Family',
-      yearBuilt: '',
-      status: 'Listed',
-      sellerFinancing: 'no',
-      comps: [
-        {
-          firstCompAddress: '',
-          firstCompPrice: ''
-        },
-        {
-          secondCompAddress: '',
-          secondCompPrice: ''
-        },
-        {
-          thirdCompAddress: '',
-          thirdCompPrice: ''
-        }
-      ],
-      photos: [''],
-      auctionEstablished: 'false'
-    }
+    this.wholesalerID = this.authService.loggedInUser();
 
     this.date = new Date();
     this.currentMonth = this.date.getMonth();
@@ -254,7 +214,7 @@ export class ViewPropertyComponent implements OnInit {
     let deleteConfirm = confirm("Are you sure you want to delete this property?");
     if (deleteConfirm) {
       this.deletePropertyService.removePhotos(this.property.photos);
-      this.deletePropertyService.deleteProperty(this.property._id)
+      this.deletePropertyService.deleteProperty(this.property._id, this.wholesalerID)
         .subscribe((response) => {
           if (response.success) {
             this.alertService.success('Deleted property successfully.');

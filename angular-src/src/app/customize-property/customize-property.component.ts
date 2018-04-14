@@ -84,65 +84,65 @@ export class CustomizePropertyComponent implements OnInit {
         })
     }
 
-    this.property = {
-        "_id": "5aaead5fefef19eb2662b924",
-        "updated_at": "2018-03-18T18:18:08.000Z",
-        "created_at": "2018-03-18T18:18:08.000Z",
-        "wholesaler_id": "5aaea4a1ce0c02e9a020ac08",
-        "address": "Second Property to Test",
-        "city": "Las Vegas",
-        "state": "NV",
-        "zipCode": "89109",
-        "purchasePrice": "240000",
-        "bedrooms": 3,
-        "bathrooms": 3,
-        "expectedRehab": "25000",
-        "afterRepairValue": "260000",
-        "HOA": "125",
-        "propertyTaxes": "100",
-        "averageRent": "1900",
-        "squareFootage": "1000",
-        "propertyType": "Single Family",
-        "yearBuilt": "1980",
-        "status": "Listed",
-        "utilities": "100",
-        "insurance": "85",
-        "sellerFinancing": "no",
-        "amortizationSchedule": "30",
-        "balloonPayment": "No",
-        "balloonPaymentYear": "5",
-        "downPayment": "20000",
-        "interestRate": "5",
-        "closingCosts": "5000",
-        "PMI": "0",
-        "inflation": "1",
-        "rentAppreciation": "1",
-        "propertyAppreciation": "1",
-        "buildingValue": "175000",
-        "marginalTaxRate": "20",
-        "vacancy": "5",
-        "propertyManagement": "10",
-        "capEx": "10",
-        "smallRepairs": "5",
-        "__v": 0,
-        "photos": [
-            "https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/property-photos%2F5aaea4a1ce0c02e9a020ac08%2Froom.jpg?alt=media&token=d3b6dea5-6b5d-414f-8e56-6d1c61bd5166"
-        ],
-        "comps": [
-            {
-                "firstCompAddress": "",
-                "firstCompPrice": ""
-            },
-            {
-                "secondCompAddress": "",
-                "secondCompPrice": ""
-            },
-            {
-                "thirdCompAddress": "",
-                "thirdCompPrice": ""
-            }
-        ]
-    };
+    // this.property = {
+    //     "_id": "5aaead5fefef19eb2662b924",
+    //     "updated_at": "2018-03-18T18:18:08.000Z",
+    //     "created_at": "2018-03-18T18:18:08.000Z",
+    //     "wholesaler_id": "5aaea4a1ce0c02e9a020ac08",
+    //     "address": "Second Property to Test",
+    //     "city": "Las Vegas",
+    //     "state": "NV",
+    //     "zipCode": "89109",
+    //     "purchasePrice": "240000",
+    //     "bedrooms": 3,
+    //     "bathrooms": 3,
+    //     "expectedRehab": "25000",
+    //     "afterRepairValue": "260000",
+    //     "HOA": "125",
+    //     "propertyTaxes": "100",
+    //     "averageRent": "1900",
+    //     "squareFootage": "1000",
+    //     "propertyType": "Single Family",
+    //     "yearBuilt": "1980",
+    //     "status": "Listed",
+    //     "utilities": "100",
+    //     "insurance": "85",
+    //     "sellerFinancing": "no",
+    //     "amortizationSchedule": "30",
+    //     "balloonPayment": "No",
+    //     "balloonPaymentYear": "5",
+    //     "downPayment": "20000",
+    //     "interestRate": "5",
+    //     "closingCosts": "5000",
+    //     "PMI": "0",
+    //     "inflation": "1",
+    //     "rentAppreciation": "1",
+    //     "propertyAppreciation": "1",
+    //     "buildingValue": "175000",
+    //     "marginalTaxRate": "20",
+    //     "vacancy": "5",
+    //     "propertyManagement": "10",
+    //     "capEx": "10",
+    //     "smallRepairs": "5",
+    //     "__v": 0,
+    //     "photos": [
+    //         "https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/property-photos%2F5aaea4a1ce0c02e9a020ac08%2Froom.jpg?alt=media&token=d3b6dea5-6b5d-414f-8e56-6d1c61bd5166"
+    //     ],
+    //     "comps": [
+    //         {
+    //             "firstCompAddress": "",
+    //             "firstCompPrice": ""
+    //         },
+    //         {
+    //             "secondCompAddress": "",
+    //             "secondCompPrice": ""
+    //         },
+    //         {
+    //             "thirdCompAddress": "",
+    //             "thirdCompPrice": ""
+    //         }
+    //     ]
+    // };
 
     this.newIncome = {
       incomeName: '',

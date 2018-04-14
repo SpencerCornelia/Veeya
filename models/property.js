@@ -434,7 +434,7 @@ module.exports.updatePropertySoldAccepted = function(propertyId) {
 
 module.exports.deletePropertyById = (id) => {
   return new Promise((resolve, reject) => {
-    let query = {_id: id};
+    let query = { '_id': id };
     Property.remove(query, (error, success) => {
       if (error) {
         let errorObj = {

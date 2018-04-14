@@ -14,48 +14,16 @@
 
 <body>
   <div class="container-scroller">
-    <!-- partial:../../partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-        <a class="navbar-brand brand-logo" href="../../index.html"><img src="/assets/images/logo.svg" alt="logo"/></a>
-        <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="/assets/images/logo-mini.svg" alt="logo"/></a>
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center">
-        <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-          <span class="icon-menu"></span>
-        </button>
-        <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
-          <li class="nav-item">
-            <a href="/assets/pages/apps/gallery.html" class="nav-link"><i class="mdi mdi-image-filter"></i>Gallery</a>
-          </li>
-          <li class="nav-item active">
-            <a href="../../pages/apps/email.html" class="nav-link"><i class="mdi mdi-email-outline"></i>Inbox</a>
-          </li>
-          <li class="nav-item">
-            <a href="../../pages/apps/calendar.html" class="nav-link"><i class="mdi mdi-calendar"></i>Calendar</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item nav-settings d-none d-lg-block">
-            <a class="nav-link" href="#">
-              <img class="img-xs rounded-circle" src="/assets/images/faces/face4.jpg" alt="">
-            </a>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-          <span class="icon-menu"></span>
-        </button>
-      </div>
-    </nav>
-    <!-- partial -->
+
+    <app-top-navbar></app-top-navbar>
+
     <div class="container-fluid page-body-wrapper">
 
       <app-sidebar></app-sidebar>
 
-      <!-- partial -->
-      <div class="main-panel">
-        <div class="content-wrapper">
 
+      <div class="main-panel" *ngIf="property">
+        <div class="content-wrapper">
 
           <div class="row" *ngIf="property.photos !== undefined">
             <div class="col-lg-12 grid-margin">
@@ -80,7 +48,6 @@
           </div>
 
           <!-- IMAGE MODAL -->
-
           <div class="modal fade bd-example-modal-lg" id="photoModal" tabindex="-1" role="dialog"
               aria-labelledby="photoLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -97,7 +64,6 @@
               </div>
             </div>
           </div>
-
           <!-- END IMAGE MODAL -->
 
 
@@ -133,7 +99,7 @@
                     <div class="row">
                       <div class="col-md-4">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">City</label>
+                          <label class="required-field col-sm-3 col-form-label">City</label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control"
                               [(ngModel)]="property.city"
@@ -150,7 +116,7 @@
                       </div>
                       <div class="col-md-5">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">State</label>
+                          <label class="required-field col-sm-3 col-form-label">State</label>
                           <div class="col-sm-6">
                             <input type="text" class="form-control"
                               *ngIf="!editMode"
@@ -216,7 +182,7 @@
                       </div>
                       <div class="col-md-2">
                         <div class="form-group row">
-                          <label class="col-sm-5 col-form-label">Zip</label>
+                          <label class="required-field col-sm-5 col-form-label">Zip</label>
                           <div class="col-sm-7">
                             <input type="text" class="form-control"
                               [(ngModel)]="property.zipCode"
@@ -233,10 +199,10 @@
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-5">
+                      <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-4 col-form-label">Purchase Price</label>
-                           <div class="col-sm-7">
+                          <label class="required-field col-sm-4 col-form-label">Purchase Price</label>
+                           <div class="col-sm-6">
                             <input type="text" class="form-control"
                               [(ngModel)]="property.purchasePrice"
                               name="purchasePrice"
@@ -410,7 +376,7 @@
                               name="capRate"
                               [disabled]="!editMode"
                               #capRate="ngModel"
-                              pattern="[^-?\$?[0-9]*\.?([0-9]{2})?%]"
+                              pattern="^(0|[1-9]\d*)(\.\d+)?$"
                               maxlength="4"
                             />
                           </div>
@@ -615,7 +581,7 @@
                       </div>
                     </div>
                     <p *ngIf="propertyOwner">
-                      <em>Please Upload Photos (up to 3 allowed)</em>
+                      <em>Upload Additional Photos (up to 3 per property allowed)</em>
                     </p>
                     <div class="form-group" *ngIf="propertyOwner">
                       <div class="row">
@@ -866,12 +832,9 @@
         <app-footer></app-footer>
 
 
-      </div>
-      <!-- main-panel ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
+      </div> <!-- main-panel ends -->
+    </div> <!-- page-body-wrapper ends -->
+  </div> <!-- container-scroller -->
 </body>
 
 </html>

@@ -650,6 +650,60 @@ module.exports.updateWholesalerSoldProperties = function(wholesalerId, propertyI
   });
 };
 
+module.exports.removeWholesalerListingProperty = function(propertyId, userId) {
+  return new Promise((resolve, reject) => {
+    User.findById(userId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error deleting property.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+
+        // filter listed properties and only return proprties that do not
+        // equal the propertyId of removed property
+        user.wholesalerListedProperties = user.wholesalerListedProperties.filter((pId) => {
+          return pId != propertyId;
+        });
+
+        user.save((error, updatedUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error deleting property.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (updatedUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully deleted property.',
+              data: updatedUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to delete property.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to delete property.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    })
+  });
+};
+
 
 /*
 ===== WHOLESALER SETTERS END =====
@@ -2012,14 +2066,8 @@ module.exports.addUsersFromUpload = function(usersList) {
           let randomString = Math.random().toString(36).slice(-8);
           let newUser = new User({
             userType: user.userType,
-            userName: user.userName,
             password: randomString,
-            firstName: user.firstName,
-            lastName: user.lastName,
             email: user.email,
-            phoneNumber: user.phoneNumber,
-            city: user.city,
-            state: user.state,
             profileViews: 0,
             profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
             URLs: {
@@ -2103,6 +2151,7 @@ module.exports.addConnections = function(IDs, userId) {
             }
           resolve(successObj);
         } else {
+
           IDs.forEach((id) => {
             user.connections.push(id);
           });
@@ -2191,7 +2240,6 @@ module.exports.deleteUser = function(userId) {
 */
 
 let validateUser = function(data) {
-  console.log('data:',data)
   if (data.userName) {
     if (!validateUsername(data.userName)) {
       return false;
@@ -2307,7 +2355,7 @@ let validateCity = function(city) {
 };
 
 let validateState = function(state) {
-  let statePattern = data.state.length == 2;
+  let statePattern = state.length == 2;
   if (statePattern) {
     return true;
   } else {

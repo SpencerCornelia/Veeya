@@ -31,7 +31,13 @@ import { ViewPropertiesComponent } from './view-properties/view-properties.compo
 import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
 
 const APP_ROUTES: Routes = [
+  // edit this to go to root page which will be home page of Veeya
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  // edit next few after adding components to match
+  { path: 'about', component: AddPropertyComponent },
+  { path: 'contact', component: AddPropertyComponent },
+  { path: 'support', component: AddPropertyComponent },
+
   { path: 'addproperty', component: AddPropertyComponent, canActivate:[RoleGuard], data:{userType: 'Wholesaler'} },
   { path: 'auction/:id', component: AuctionComponent, canActivate:[AuthGuard] },
   { path: 'connections', component: ConnectionsComponent, canActivate:[AuthGuard] },

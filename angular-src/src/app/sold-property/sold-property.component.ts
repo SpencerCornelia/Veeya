@@ -79,7 +79,7 @@ export class SoldPropertyComponent implements OnInit {
               .subscribe((response) => {
                 $("#soldModal").modal('hide');
                 that.router.navigate(['/dashboard']);
-                that.alertService.success('Successfully marked property as sold.', true);
+                that.alertService.success('Success', true);
               }, (error) => {
                 that.alertService.error('Error marking property as sold.');
               });
@@ -94,7 +94,7 @@ export class SoldPropertyComponent implements OnInit {
         that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
           .subscribe((response) => {
             $("#soldModal").modal('hide');
-            that.alertService.success('Successfully marked property as sold.', true);
+            that.alertService.success('Success.', true);
             that.router.navigate(['/dashboard']);
           }, (error) => {
             that.alertService.error('')

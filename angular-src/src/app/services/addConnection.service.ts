@@ -21,6 +21,7 @@ export class AddConnectionService {
       currentUserId: userId,
       connectionUserId: connectionUserId
     });
+
     return this.http.post(URI, body, { headers: headers })
       .map(res => res.json())
       .map(res => <User[]>res.data);
@@ -34,6 +35,7 @@ export class AddConnectionService {
       userId: userId,
       connectionUserId: connectionUserId
     });
+
     return this.http.post(URI, body, { headers: headers })
       .map(res => res.json())
       .map(res => <Object>res.data)
