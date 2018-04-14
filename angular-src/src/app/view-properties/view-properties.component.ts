@@ -23,6 +23,7 @@ export class ViewPropertiesComponent implements OnInit {
 
   private currentUser: User;
   private properties: Property[] = [];
+  private userType: string;
 
   private investorPropertiesBought: Property[] = [];
   private investorPropertiesBoughtPending: Property[] = [];
@@ -45,21 +46,20 @@ export class ViewPropertiesComponent implements OnInit {
               private soldPropertyService: SoldPropertyService,
               private viewPropertyService: ViewPropertyService,
               private router: Router,
-              private activatedRoute: ActivatedRoute)
-  {
-    this.getCurrentUser();
-  }
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    let userType = this.authService.loggedInUserType();
+    this.userType = this.authService.loggedInUserType();
 
-    if (userType === 'Wholesaler') {
+    if (this.userType == 'Wholesaler') {
       this.getPropertiesForWholesaler();
-    } else if (userType === 'Investor') {
+    } else if (this.userType == 'Investor') {
       this.getPropertiesForInvestor();
     } else {
       this.getPropertiesForLender();
     }
+
+    this.getCurrentUser();
 
   }
 
@@ -100,9 +100,9 @@ export class ViewPropertiesComponent implements OnInit {
     this.getUserPropertiesService.getInvestorUserProperties(investorID)
       .subscribe((response) => {
         response.forEach((property) => {
-          if (property.status === 'Bought') {
+          if (property.status === 'Sold') {
             this.investorPropertiesBought.push(property);
-          } else if (property.status === 'Connection') {
+          } else if (property.status === 'Listed') {
             this.investorPropertiesConnected.push(property);
           } else if (property.status === 'Starred') {
             this.investorPropertiesStarred.push(property);
