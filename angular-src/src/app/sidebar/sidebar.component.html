@@ -45,8 +45,5 @@
     <li class="nav-item">
       <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/profile', authService.loggedInUser()]"><span class="menu-title">My Profile</span></a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" *ngIf="authService.loggedIn()" (click)="authService.logout()"><span class="menu-title">Logout</span></a>
-    </li>
   </ul>
 </nav>
