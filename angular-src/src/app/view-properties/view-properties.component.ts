@@ -164,12 +164,12 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.acceptSoldPropertySubscription.unsubscribe();
-    this.denySoldPropertySubscription.unsubscribe();
-    this.getCurrentUserSubscription.unsubscribe();
-    this.getLenderPropertiesSubscription.unsubscribe();
-    this.getInvestorPropertiesSubscription.unsubscribe();
-    this.getWholesalerPropertiesSubscription.unsubscribe();
+    this.acceptSoldPropertySubscription == undefined ? '' : this.acceptSoldPropertySubscription.unsubscribe();
+    this.denySoldPropertySubscription == undefined ? '' : this.denySoldPropertySubscription.unsubscribe();
+    this.getCurrentUserSubscription == undefined ? '' : this.getCurrentUserSubscription.unsubscribe();
+    this.getLenderPropertiesSubscription == undefined ? '' : this.getLenderPropertiesSubscription.unsubscribe();
+    this.getInvestorPropertiesSubscription == undefined ? '' : this.getInvestorPropertiesSubscription.unsubscribe();
+    this.getWholesalerPropertiesSubscription == undefined ? '' : this.getWholesalerPropertiesSubscription.unsubscribe();
   }
 
 }
