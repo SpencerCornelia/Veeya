@@ -156,7 +156,7 @@ router.post('/soldpropertypending', (req, res) => {
   let investorId = req.body.investorId;
   property.updatePropertySoldPending(propertyId)
     .then((response) => {
-      return user.updateWholesalerSoldPendingProperties(wholesalerId, propertyId, false,);
+      return user.updateWholesalerSoldPendingProperties(wholesalerId, propertyId, false);
     })
     .then((response) => {
       return user.updateInvestorBoughtPendingProperties(investorId, propertyId, false);
