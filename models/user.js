@@ -538,18 +538,27 @@ module.exports.updateWholesalerSoldPendingProperties = function(wholesalerId, pr
         }
         reject(errorObj);
       } else if (wholesaler) {
-        let newListed = [];
 
-        for (let i = 0; i < wholesaler.wholesalerListedProperties.length; i++) {
-          if (propertyId != wholesaler.wholesalerListedProperties[i]) {
-            newListed.push(wholesaler.wholesalerListedProperties[i]);
-          }
-        }
+        if (deny) {
+          // remove propertyId from wholesaler sold pending since it was denied
+          wholesaler.wholesalerSoldPendingProperties = wholesaler.wholesalerSoldPendingProperties.filter((propId) => {
+            return propId != propertyId;
+          });
 
-        wholesaler.wholesalerListedProperties = newListed;
-        if (!deny) {
+          // push propertyId into Listed since it is now in listed status
+          wholesaler.wholesalerListedProperties.push(propertyId);
+        } else {
+
+          let newListed = [];
+          // remove propertyId from listed since it is now sold pending status
+          wholesaler.wholesalerListedProperties = wholesaler.wholesalerListedProperties.filter((propId) => {
+            return propId != propertyId;
+          });
+
+          // push propertyId into sold pending array now that the status has changed
           wholesaler.wholesalerSoldPendingProperties.push(propertyId);
         }
+
         wholesaler.save((error, updatedWholesaler) => {
           if (error) {
             let errorObj = {
