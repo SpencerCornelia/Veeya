@@ -1,55 +1,15 @@
-.sidebar-nav {
-  z-index: 1;
-  padding: 0;
-  list-style: none;
+#new-sidebar {
   position: fixed;
-  width: 250px;
-  background: #2C3E50;
   height: 100%;
-  overflow-y: hidden;
-  transition: .3s;
-}
+  width: 255px;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background: linear-gradient(88deg, #002e63, #005b96);
+  overflow-y: scroll;
 
-.sidebar-nav li {
-  width: 100%;
-  text-indent: 35px;
-  line-height: 40px;
-  margin-top: 10px;
-}
-
-.sidebar-nav li a {
-  display: block;
-  text-decoration: none;
-  color: #ddd;
-}
-
-.sidebar-nav li a:hover {
-  background: #16A085;
-}
-
-.veeyaStamp {
-  color: #ddd;
-  font-size: 45px;
-  margin-left: 25px;
-  margin-bottom: 20px;
-  cursor: default;
-}
-
-.userImage {
-  width: 100%;
-  margin-top: 40px;
-  margin-bottom: 45px;
-}
-
-.userImage img {
-  margin-left: 30%;
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-}
-
-@media screen and (max-width: 785px) {
-  .sidebar-nav {
-    display: none;
-  }
+  transition: width 0.25s ease, background 0.25s ease;
+  -webkit-transition: width 0.25s ease, background 0.25s ease;
+  -moz-transition: width 0.25s ease, background 0.25s ease;
+  -ms-transition: width 0.25s ease, background 0.25s ease;
 }

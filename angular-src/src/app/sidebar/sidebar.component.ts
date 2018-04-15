@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import fontawesome from '@fortawesome/fontawesome'
 
 import { User } from '../models/User';
 
