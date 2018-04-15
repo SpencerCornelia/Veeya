@@ -1,6 +1,15 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, Event as RouterEvent, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
+import fontawesome from '@fortawesome/fontawesome';
+import brands from '@fortawesome/fontawesome-free-brands';
+import regular from '@fortawesome/fontawesome-free-regular';
+import solid from '@fortawesome/fontawesome-free-solid';
+
+/* ADD libraries from fontawesome */
+fontawesome.library.add(brands);
+fontawesome.library.add(regular);
+fontawesome.library.add(solid);
 
 @Component({
   selector: 'app-root',
