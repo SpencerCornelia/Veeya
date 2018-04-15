@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
-import fontawesome from '@fortawesome/fontawesome'
+import { Subscription } from 'rxjs/Subscription';
+import fontawesome from '@fortawesome/fontawesome';
 
 import { User } from '../models/User';
 
@@ -13,6 +14,7 @@ import { User } from '../models/User';
 export class SidebarComponent implements OnInit, OnDestroy {
 
   private getCurrentUserSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentUser: User;
 
@@ -49,6 +51,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
       }, (error) => {
 
       })
+
+    this.subscriptions.push(this.getCurrentUserSubscription);
   }
 
   isInvestor() {
@@ -77,7 +81,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.getCurrentUserSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }
