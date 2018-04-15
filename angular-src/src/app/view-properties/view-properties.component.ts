@@ -143,8 +143,17 @@ export class ViewPropertiesComponent implements OnInit {
       });
   }
 
-  denySold() {
+  denySold(property) {
+    let denyPropertyId = property._id;
+    this.soldPropertyService.denySoldProperty(property, this.currentUser._id)
+      .subscribe((response) => {
+        this.investorPropertiesBoughtPending = this.investorPropertiesBoughtPending.filter((prop) => {
+          return prop._id != denyPropertyId;
+        });
+        this.investorPropertiesConnected.push(property);
+      }, (error) => {
 
+      });
   }
 
 }
