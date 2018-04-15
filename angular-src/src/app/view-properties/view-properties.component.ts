@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
@@ -27,6 +28,7 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
   private getLenderPropertiesSubscription;
   private getInvestorPropertiesSubscription;
   private getWholesalerPropertiesSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentUser: User;
   private properties: Property[] = [];
@@ -95,6 +97,8 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error retrieving properties for wholesaler.');
       });
+
+    this.subscriptions.push(this.getWholesalerPropertiesSubscription);
   }
 
   viewProperty(property) {
@@ -120,6 +124,8 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error retrieving properties for investor.');
       });
+
+    this.subscriptions.push(this.getInvestorPropertiesSubscription);
   }
 
   getPropertiesForLender() {
@@ -136,6 +142,8 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error retrieving properties for lender.');
       });
+
+    this.subscriptions.push(this.getLenderPropertiesSubscription);
   }
 
   acceptSold(property) {
@@ -148,6 +156,8 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error accepting property as sold.');
       });
+
+    this.subscriptions.push(this.acceptSoldPropertySubscription);
   }
 
   denySold(property) {
@@ -161,15 +171,20 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
       }, (error) => {
 
       });
+
+    this.subscriptions.push(this.denySoldPropertySubscription);
   }
 
   ngOnDestroy() {
-    this.acceptSoldPropertySubscription == undefined ? '' : this.acceptSoldPropertySubscription.unsubscribe();
-    this.denySoldPropertySubscription == undefined ? '' : this.denySoldPropertySubscription.unsubscribe();
-    this.getCurrentUserSubscription == undefined ? '' : this.getCurrentUserSubscription.unsubscribe();
-    this.getLenderPropertiesSubscription == undefined ? '' : this.getLenderPropertiesSubscription.unsubscribe();
-    this.getInvestorPropertiesSubscription == undefined ? '' : this.getInvestorPropertiesSubscription.unsubscribe();
-    this.getWholesalerPropertiesSubscription == undefined ? '' : this.getWholesalerPropertiesSubscription.unsubscribe();
+    // this.acceptSoldPropertySubscription == undefined ? '' : this.acceptSoldPropertySubscription.unsubscribe();
+    // this.denySoldPropertySubscription == undefined ? '' : this.denySoldPropertySubscription.unsubscribe();
+    // this.getCurrentUserSubscription == undefined ? '' : this.getCurrentUserSubscription.unsubscribe();
+    // this.getLenderPropertiesSubscription == undefined ? '' : this.getLenderPropertiesSubscription.unsubscribe();
+    // this.getInvestorPropertiesSubscription == undefined ? '' : this.getInvestorPropertiesSubscription.unsubscribe();
+    // this.getWholesalerPropertiesSubscription == undefined ? '' : this.getWholesalerPropertiesSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

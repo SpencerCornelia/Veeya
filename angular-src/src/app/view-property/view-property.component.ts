@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { Property } from '../models/Property';
 import { User } from '../models/User';
@@ -30,6 +31,7 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
   private getInitialBidsSubscription;
   private getPropertySubscription;
   private openAuctionSubscription;
+  private subscriptions: Subscription[] = [];
 
   private auctionEstablished: string;
   private currentUserType: string;
@@ -98,6 +100,8 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error retrieving property.');
       });
+
+    this.subscriptions.push(this.getPropertySubscription);
   }
 
   confirmPropertyOwnership() {
@@ -179,6 +183,8 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error editing property.');
       });
+
+    this.subscriptions.push(this.editPropertySubscription);
   }
 
   edit() {
@@ -209,6 +215,8 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
         }, (error) => {
           this.alertService.error('Error marking property as listed.', true);
         });
+
+      this.subscriptions.push(this.editPropertyListedSubscription);
     }
   }
 
@@ -230,6 +238,8 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
         },(error) => {
           this.alertService.error('Error deleting property.', true);
         });
+
+      this.subscriptions.push(this.deletePropertySubscription);
     }
   }
 
@@ -257,6 +267,8 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
       }, (error) => {
 
       })
+
+    this.subscriptions.push(this.getInitialBidsSubscription);
   }
 
   // called when user has submitted deadline modal
@@ -282,15 +294,14 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
       }, (error) => {
 
       })
+
+    this.subscriptions.push(this.openAuctionSubscription);
   }
 
   ngOnDestroy() {
-    this.editPropertySubscription.unsubscribe();
-    this.editPropertyListedSubscription.unsubscribe();
-    this.deletePropertySubscription.unsubscribe();
-    this.getInitialBidsSubscription.unsubscribe();
-    this.getPropertySubscription.unsubscribe();
-    this.openAuctionSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 

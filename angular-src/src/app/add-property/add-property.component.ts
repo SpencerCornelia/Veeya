@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AppRoutingModule } from '../app-routing.module';
 import { ModuleWithProviders } from '@angular/core';
@@ -23,6 +24,7 @@ declare var $: any;
 export class AddPropertyComponent implements OnInit, OnDestroy {
 
   private propertySubscription;
+  private subscriptions: Subscription[] = [];
 
   private propertyComps: Array<Object>;
   private newProperty: Property;
@@ -102,6 +104,8 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
           }, (error) => {
             this.alertService.error(error.message);
           });
+
+        this.subscriptions.push(this.propertySubscription);
       }
     });
 
@@ -169,7 +173,9 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.propertySubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

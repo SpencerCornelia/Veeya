@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 import { User } from '../models/User';
 
@@ -19,6 +20,7 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
   private denyConnectionSubscription;
   private getConnectionsSubscription;
   private getPendingConnectionsSubscription;
+  private subscription: Subscription[] = [];
 
   private connections: Array<User> = [];
   private pendingConnections: Boolean = false;
@@ -45,6 +47,8 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
       }, (error) => {
 
       });
+
+    this.subscription.push(this.getConnectionsSubscription);
   }
 
   getPendingConnections() {
@@ -57,6 +61,8 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error with retrieving pending connections.');
       });
+
+    this.subscription.push(this.getPendingConnectionsSubscription);
   }
 
   acceptRequest(connection) {
@@ -75,6 +81,8 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error accepting connection request.');
       });
+
+    this.subscription.push(this.acceptConnectionSubscription);
   }
 
   denyRequest(connection) {
@@ -92,13 +100,14 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error denying connection request.');
       });
+
+    this.subscription.push(this.denyConnectionSubscription);
   }
 
   ngOnDestroy() {
-    this.acceptConnectionSubscription.unsubscribe();
-    this.denyConnectionSubscription.unsubscribe();
-    this.getConnectionsSubscription.unsubscribe();
-    this.getPendingConnectionsSubscription.unsubscribe();
+    this.subscription.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

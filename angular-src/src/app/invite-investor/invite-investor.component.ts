@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/cor
 import { ModuleWithProviders } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { User } from '../models/User';
 import { AlertService } from '../services/alert.service';
@@ -16,6 +17,7 @@ import { InviteService } from '../services/invite.service';
 export class InviteInvestorComponent implements OnInit, OnDestroy {
 
   private inviteInvestorSubscription;
+  private subscriptions: Subscription[] = [];
 
   private wholesalerID: string;
   private investor: any;
@@ -41,10 +43,14 @@ export class InviteInvestorComponent implements OnInit, OnDestroy {
       (error) => {
         this.alertService.error('Error inviting investor.', true);
       });
+
+    this.subscriptions.push(this.inviteInvestorSubscription);
   }
 
   ngOnDestroy() {
-    this.inviteInvestorSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 

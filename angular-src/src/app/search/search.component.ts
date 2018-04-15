@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
@@ -18,6 +19,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   private getAllLendersSubscription;
   private getAllPropertiesSubscription;
   private getAllWholesalersSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentTab: String = "Wholesalers";
   private lenders: Array<User> = [];
@@ -65,6 +67,8 @@ export class SearchComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error retrieving wholesaler users.');
       });
+
+    this.subscriptions.push(this.getAllWholesalersSubscription);
   }
 
   getAllProperties() {
@@ -74,6 +78,8 @@ export class SearchComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error retrieving properties.');
       });
+
+    this.subscriptions.push(this.getAllPropertiesSubscription);
   }
 
   getAllInvestors() {
@@ -83,6 +89,8 @@ export class SearchComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error retrieving investor users.');
       });
+
+    this.subscriptions.push(this.getAllInvestorsSubscription);
   }
 
   getAllLenders() {
@@ -92,6 +100,8 @@ export class SearchComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error retrieving lender users.');
       });
+
+    this.subscriptions.push(this.getAllLendersSubscription);
   }
 
   changeTab(tab) {
@@ -111,10 +121,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.getAllInvestorsSubscription.unsubscribe();
-    this.getAllLendersSubscription.unsubscribe();
-    this.getAllPropertiesSubscription.unsubscribe();
-    this.getAllWholesalersSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

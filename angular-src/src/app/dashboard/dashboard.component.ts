@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
@@ -19,6 +20,7 @@ import { User } from '../models/User';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   private getCurrentUserSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentUser: User;
   private pageTitle: String;
@@ -46,6 +48,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error retrieving logged in user.');
       });
+
+    this.subscriptions.push(this.getCurrentUserSubscription);
   }
 
   logout() {
@@ -53,7 +57,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.getCurrentUserSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

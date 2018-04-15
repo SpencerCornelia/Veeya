@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 declare var $: any;
 
 import { Property } from '../models/Property';
@@ -22,6 +23,7 @@ export class SoldPropertyComponent implements OnInit, OnDestroy {
   private getPropertySubscription;
   private getSoldPropertySubscription;
   private soldPropertyPendingSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentUser: User;
   private investors: Array<User> = [];
@@ -59,6 +61,8 @@ export class SoldPropertyComponent implements OnInit, OnDestroy {
         this.displayBody = true;
         this.property = response;
       })
+
+    this.subscriptions.push(this.getSoldPropertySubscription);
   }
 
   getInvestors() {
@@ -68,6 +72,8 @@ export class SoldPropertyComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error retrieving investor users.');
       });
+
+    this.subscriptions.push(this.getAllInvestorsSubscription);
   }
 
   showModal(investor) {
@@ -88,10 +94,14 @@ export class SoldPropertyComponent implements OnInit, OnDestroy {
               }, (error) => {
                 that.alertService.error('Error marking property as sold.');
               });
+
+            that.subscriptions.push(that.soldPropertyPendingSubscription);
           });
         }, (error) => {
           this.alertService.error('Error retrieving property information.');
         });
+
+      this.subscriptions.push(this.getPropertySubscription);
     } else {
       this.selectedInvestor = investor;
       $("#soldModal").modal('show');
@@ -104,16 +114,17 @@ export class SoldPropertyComponent implements OnInit, OnDestroy {
           }, (error) => {
             that.alertService.error('')
           });
+
+        that.subscriptions.push(that.soldPropertyPendingSubscription);
       });
     }
 
   }
 
   ngOnDestroy() {
-    this.getAllInvestorsSubscription.unsubscribe();
-    this.getPropertySubscription.unsubscribe();
-    this.getSoldPropertySubscription.unsubscribe();
-    this.soldPropertyPendingSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
@@ -17,6 +18,7 @@ export class ViewDealAdsComponent implements OnInit, OnDestroy {
 
   private deleteAdSubscription;
   private getDealsSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentAds: Array<NewAd> = [];
   private currentUser: string;
@@ -52,6 +54,8 @@ export class ViewDealAdsComponent implements OnInit, OnDestroy {
         }, (error) => {
           this.alertService.error('Error retrieving deal ads for investor.');
         });
+
+      this.subscriptions.push(this.getDealsSubscription);
     } else {
       this.getDealsSubscription = this.dealAdService.getAllAds()
         .subscribe((response) => {
@@ -59,6 +63,8 @@ export class ViewDealAdsComponent implements OnInit, OnDestroy {
         }, (error) => {
           this.alertService.error('Error retrieving all ads.');
         });
+
+      this.subscriptions.push(this.getDealsSubscription);
     }
   }
 
@@ -70,11 +76,14 @@ export class ViewDealAdsComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error(error.message, true);
       });
+
+    this.subscriptions.push(this.deleteAdSubscription);
   }
 
   ngOnDestroy() {
-    this.deleteAdSubscription.unsubscribe();
-    this.getDealsSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

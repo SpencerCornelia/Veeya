@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/cor
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 import { User } from '../models/User';
 import { AlertService } from '../services/alert.service';
@@ -16,6 +17,7 @@ import { InviteService } from '../services/invite.service';
 export class InviteWholesalerComponent implements OnInit, OnDestroy {
 
   private inviteWholesalerSubscription;
+  private subscriptions: Subscription[] = [];
 
   private investorID: string;
   private wholesaler: any;
@@ -42,10 +44,14 @@ export class InviteWholesalerComponent implements OnInit, OnDestroy {
       (error) => {
         this.alertService.error('Error inviting wholesaler.', true);
       });
+
+    this.subscriptions.push(this.inviteWholesalerSubscription);
   }
 
   ngOnDestroy() {
-    this.inviteWholesalerSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

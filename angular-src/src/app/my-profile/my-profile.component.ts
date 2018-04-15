@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { User } from '../models/User';
 import { AlertService } from '../services/alert.service';
@@ -22,6 +23,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   private updatePasswordSubscription;
   private updateProfilePhotoSubscription;
   private updateUserProfileSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentUser: User;
   private currentUserId: string;
@@ -60,6 +62,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Unable to update user profile.');
       });
+
+    this.subscriptions.push(this.updateUserProfileSubscription);
   }
 
   cancelEditInfo(event) {
@@ -75,6 +79,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error loading user profile.');
       });
+
+    this.subscriptions.push(this.getCurrentUserSubscription);
   }
 
   isDisabled() {
@@ -137,6 +143,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         this.clearPasswordForm();
         this.alertService.error('Error updating password.');
       });
+
+    this.subscriptions.push(this.updatePasswordSubscription);
   }
 
   clearPasswordForm() {
@@ -154,6 +162,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
         }, (error) => {
           this.alertService.error('Error deleting user.', true);
         });
+
+      this.subscriptions.push(this.deleteUserSubscription);
     } else {
       this.alertService.success('We are glad to see you have changed your mind and are staying with us. Time to make some money!');
     }
@@ -164,11 +174,9 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.getCurrentUserSubscription.unsubscribe();
-    this.deleteUserSubscription.unsubscribe();
-    this.updatePasswordSubscription.unsubscribe();
-    this.updateProfilePhotoSubscription.unsubscribe();
-    this.updateUserProfileSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

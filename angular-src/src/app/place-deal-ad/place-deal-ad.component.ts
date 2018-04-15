@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppRoutingModule } from '../app-routing.module';
+import { Subscription } from 'rxjs/Subscription';
 
 import { NewAd } from '../models/NewAd';
 import { AuthService } from '../services/auth.service';
@@ -15,6 +16,7 @@ import { DealAdService } from '../services/dealAd.service';
 export class PlaceDealAdComponent implements OnInit, OnDestroy {
 
   private newAdSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentUser: string;
   private newAd: NewAd;
@@ -58,6 +60,8 @@ export class PlaceDealAdComponent implements OnInit, OnDestroy {
         }, (error) => {
           this.alertService.error('Error placing ad. Please try again.');
         });
+
+      this.subscriptions.push(this.newAdSubscription);
     }
   }
 
@@ -70,7 +74,9 @@ export class PlaceDealAdComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.newAdSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

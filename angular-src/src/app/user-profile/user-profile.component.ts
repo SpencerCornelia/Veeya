@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AddConnectionService } from '../services/addConnection.service';
 import { AlertService } from '../services/alert.service';
@@ -17,6 +18,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   private addConnectionSubscription;
   private getUserSubscription;
   private increaseProfileViewsSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentUser: string;
   private connected: Boolean = false;
@@ -50,12 +52,16 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         this.alertService.error('Error retrieving user info.');
       });
 
+    this.subscriptions.push(this.getUserSubscription);
+
     this.increaseProfileViewsSubscription = this.userService.increaseProfileViews(userID)
       .subscribe((response) => {
         this.user.profileViews = response.profileViews;
       }, (error) => {
         this.alertService.error('Error increasing profile views.');
       });
+
+    this.subscriptions.push(this.increaseProfileViewsSubscription);
   }
 
   isConnected() {
@@ -85,6 +91,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       }, (error) => {
         this.alertService.error('Error adding connection.', true);
       });
+
+    this.subscriptions.push(this.addConnectionSubscription);
   }
 
   determineNumberOfDeals(user) {
@@ -98,9 +106,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.addConnectionSubscription.unsubscribe();
-    this.getUserSubscription.unsubscribe();
-    this.increaseProfileViewsSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }
