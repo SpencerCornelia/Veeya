@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -22,7 +22,14 @@ declare var $: any;
   templateUrl: './view-property.component.html',
   styleUrls: ['./view-property.component.css']
 })
-export class ViewPropertyComponent implements OnInit {
+export class ViewPropertyComponent implements OnInit, OnDestroy {
+
+  private editPropertySubscription;
+  private editPropertyListedSubscription;
+  private deletePropertySubscription;
+  private getInitialBidsSubscription;
+  private getPropertySubscription;
+  private openAuctionSubscription;
 
   private auctionEstablished: string;
   private currentUserType: string;
@@ -83,7 +90,7 @@ export class ViewPropertyComponent implements OnInit {
   }
 
   getProperty(id) {
-    this.viewPropertyService.getPropertyById(id)
+    this.getPropertySubscription = this.viewPropertyService.getPropertyById(id)
       .subscribe((response) => {
         this.property = response;
         this.propertyOwner = this.confirmPropertyOwnership();
@@ -163,7 +170,7 @@ export class ViewPropertyComponent implements OnInit {
   }
 
   onSubmit() {
-    this.editPropertyService.editProperty(this.property)
+    this.editPropertySubscription = this.editPropertyService.editProperty(this.property)
       .subscribe((response) => {
         if (response.success) {
           this.alertService.success('Changes saved.');
@@ -195,7 +202,7 @@ export class ViewPropertyComponent implements OnInit {
     let listedConfirm = confirm("Are you sure you want to mark this property as listed?");
     if (listedConfirm) {
       this.property.status = "Listed";
-      this.editPropertyService.editProperty(this.property)
+      this.editPropertyListedSubscription = this.editPropertyService.editProperty(this.property)
         .subscribe((response) => {
           if (response.success) {
           }
@@ -214,7 +221,7 @@ export class ViewPropertyComponent implements OnInit {
     let deleteConfirm = confirm("Are you sure you want to delete this property?");
     if (deleteConfirm) {
       this.deletePropertyService.removePhotos(this.property.photos);
-      this.deletePropertyService.deleteProperty(this.property._id, this.wholesalerID)
+      this.deletePropertySubscription = this.deletePropertyService.deleteProperty(this.property._id, this.wholesalerID)
         .subscribe((response) => {
           if (response.success) {
             this.alertService.success('Deleted property successfully.');
@@ -243,7 +250,7 @@ export class ViewPropertyComponent implements OnInit {
     let that = this;
     let propertyId = this.property._id.toString();
     this.auctionService.setProperty(this.property);
-    this.auctionService.getInitialBids(propertyId)
+    this.getInitialBidsSubscription = this.auctionService.getInitialBids(propertyId)
       .subscribe((response) => {
         $("#deadlineModal").modal('hide');
         this.router.navigate(['/auction/', propertyId]);
@@ -268,13 +275,22 @@ export class ViewPropertyComponent implements OnInit {
 
     let deadline = this.dateTime.month + ' ' + this.dateTime.day + ', ' + currentYear + ' ' +
                    this.dateTime.hour + ':' + this.dateTime.minutes + ':00';
-    this.auctionService.openAuction(this.propertyID, deadline)
+    this.openAuctionSubscription = this.auctionService.openAuction(this.propertyID, deadline)
       .subscribe((response) => {
         this.auctionService.setProperty(response);
         this.router.navigate(['/auction/', this.propertyID]);
       }, (error) => {
 
       })
+  }
+
+  ngOnDestroy() {
+    this.editPropertySubscription.unsubscribe();
+    this.editPropertyListedSubscription.unsubscribe();
+    this.deletePropertySubscription.unsubscribe();
+    this.getInitialBidsSubscription.unsubscribe();
+    this.getPropertySubscription.unsubscribe();
+    this.openAuctionSubscription.unsubscribe();
   }
 
 

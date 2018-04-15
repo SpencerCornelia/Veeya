@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
@@ -12,7 +12,12 @@ import { User } from '../models/User';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
+
+  private getAllInvestorsSubscription;
+  private getAllLendersSubscription;
+  private getAllPropertiesSubscription;
+  private getAllWholesalersSubscription;
 
   private currentTab: String = "Wholesalers";
   private lenders: Array<User> = [];
@@ -54,7 +59,7 @@ export class SearchComponent implements OnInit {
   }
 
   getAllWholesalers() {
-    this.userService.getAllWholesalers()
+    this.getAllWholesalersSubscription = this.userService.getAllWholesalers()
       .subscribe((response) => {
         this.wholesalers = response;
       }, (error) => {
@@ -63,7 +68,7 @@ export class SearchComponent implements OnInit {
   }
 
   getAllProperties() {
-    this.getAllPropertiesService.getAllProperties()
+    this.getAllPropertiesSubscription = this.getAllPropertiesService.getAllProperties()
       .subscribe((response) => {
         this.properties = response;
       }, (error) => {
@@ -72,7 +77,7 @@ export class SearchComponent implements OnInit {
   }
 
   getAllInvestors() {
-    this.userService.getAllInvestors()
+    this.getAllInvestorsSubscription = this.userService.getAllInvestors()
       .subscribe((response) => {
         this.investors = response;
       }, (error) => {
@@ -81,7 +86,7 @@ export class SearchComponent implements OnInit {
   }
 
   getAllLenders() {
-    this.userService.getAllLenders()
+    this.getAllLendersSubscription = this.userService.getAllLenders()
       .subscribe((response) => {
         this.lenders = response;
       }, (error) => {
@@ -103,6 +108,13 @@ export class SearchComponent implements OnInit {
       this.propertiesTab = 'false';
       this.currentTab = tab;
     }
+  }
+
+  ngOnDestroy() {
+    this.getAllInvestorsSubscription.unsubscribe();
+    this.getAllLendersSubscription.unsubscribe();
+    this.getAllPropertiesSubscription.unsubscribe();
+    this.getAllWholesalersSubscription.unsubscribe();
   }
 
 }

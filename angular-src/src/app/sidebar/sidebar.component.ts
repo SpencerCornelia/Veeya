@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -9,7 +9,9 @@ import { User } from '../models/User';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
+
+  private getCurrentUserSubscription;
 
   private currentUser: User;
 
@@ -40,7 +42,7 @@ export class SidebarComponent implements OnInit {
   }
 
   getCurrentUser() {
-    this.authService.getLoggedInUser()
+    this.getCurrentUserSubscription = this.authService.getLoggedInUser()
       .subscribe((response) => {
         this.currentUser = response.data;
       }, (error) => {
@@ -71,6 +73,10 @@ export class SidebarComponent implements OnInit {
 
     this.router.navigate(['/login']);
     return false;
+  }
+
+  ngOnDestroy() {
+    this.getCurrentUserSubscription.unsubscribe();
   }
 
 }

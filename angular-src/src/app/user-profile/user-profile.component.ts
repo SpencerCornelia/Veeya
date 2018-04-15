@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AddConnectionService } from '../services/addConnection.service';
@@ -12,7 +12,11 @@ import { UserService } from '../services/user.service';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent implements OnInit, OnDestroy {
+
+  private addConnectionSubscription;
+  private getUserSubscription;
+  private increaseProfileViewsSubscription;
 
   private currentUser: string;
   private connected: Boolean = false;
@@ -37,7 +41,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   getUserInfo(userID) {
-    this.userService.getUserById(userID)
+    this.getUserSubscription = this.userService.getUserById(userID)
       .subscribe((response) => {
         this.user = response;
         this.determineNumberOfDeals(this.user);
@@ -46,7 +50,7 @@ export class UserProfileComponent implements OnInit {
         this.alertService.error('Error retrieving user info.');
       });
 
-    this.userService.increaseProfileViews(userID)
+    this.increaseProfileViewsSubscription = this.userService.increaseProfileViews(userID)
       .subscribe((response) => {
         this.user.profileViews = response.profileViews;
       }, (error) => {
@@ -72,7 +76,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   connect() {
-    this.addConnectionService.addConnection(this.currentUser, this.user_id)
+    this.addConnectionSubscription = this.addConnectionService.addConnection(this.currentUser, this.user_id)
       .subscribe((response) => {
         this.notConnected = false;
         this.connectionSent = true;
@@ -91,6 +95,12 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.numberOfDeals = user.lenderLoanedProperties.length;
     }
+  }
+
+  ngOnDestroy() {
+    this.addConnectionSubscription.unsubscribe();
+    this.getUserSubscription.unsubscribe();
+    this.increaseProfileViewsSubscription.unsubscribe();
   }
 
 }

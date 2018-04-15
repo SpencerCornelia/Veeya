@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AlertService } from '../services/alert.service';
@@ -13,7 +13,10 @@ import { User } from '../models/User';
   templateUrl: './view-deal-ads.component.html',
   styleUrls: ['./view-deal-ads.component.css']
 })
-export class ViewDealAdsComponent implements OnInit {
+export class ViewDealAdsComponent implements OnInit, OnDestroy {
+
+  private deleteAdSubscription;
+  private getDealsSubscription;
 
   private currentAds: Array<NewAd> = [];
   private currentUser: string;
@@ -43,14 +46,14 @@ export class ViewDealAdsComponent implements OnInit {
 
   getAds() {
     if (this.investorUserType) {
-      this.dealAdService.getDealAdsForInvestor(this.currentUser)
+      this.getDealsSubscription = this.dealAdService.getDealAdsForInvestor(this.currentUser)
         .subscribe((response) => {
           this.currentAds = response;
         }, (error) => {
           this.alertService.error('Error retrieving deal ads for investor.');
         });
     } else {
-      this.dealAdService.getAllAds()
+      this.getDealsSubscription = this.dealAdService.getAllAds()
         .subscribe((response) => {
           this.currentAds = response;
         }, (error) => {
@@ -60,13 +63,18 @@ export class ViewDealAdsComponent implements OnInit {
   }
 
   deleteAd(adId) {
-    this.dealAdService.deleteAd(adId)
+    this.deleteAdSubscription = this.dealAdService.deleteAd(adId)
       .subscribe((response) => {
         this.alertService.success(response.message, true);
         this.router.navigate(['/dashboard']);
       }, (error) => {
         this.alertService.error(error.message, true);
       });
+  }
+
+  ngOnDestroy() {
+    this.deleteAdSubscription.unsubscribe();
+    this.getDealsSubscription.unsubscribe();
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { User } from '../models/User';
 
@@ -13,12 +13,15 @@ import { UserService } from '../services/user.service';
   templateUrl: './connections.component.html',
   styleUrls: ['./connections.component.css']
 })
-export class ConnectionsComponent implements OnInit {
+export class ConnectionsComponent implements OnInit, OnDestroy {
+
+  private acceptConnectionSubscription;
+  private denyConnectionSubscription;
+  private getConnectionsSubscription;
+  private getPendingConnectionsSubscription;
 
   private connections: Array<User> = [];
-
   private pendingConnections: Boolean = false;
-
   private pendingConnectionsArray: Array<User> = [];
   private searchText: String;
   private user_id: String;
@@ -36,7 +39,7 @@ export class ConnectionsComponent implements OnInit {
   }
 
   getConnectionsForUser() {
-    this.getConnectionsService.getConnectionsForUser(this.user_id)
+    this.getConnectionsSubscription = this.getConnectionsService.getConnectionsForUser(this.user_id)
       .subscribe((response) => {
         this.connections = response;
       }, (error) => {
@@ -45,7 +48,7 @@ export class ConnectionsComponent implements OnInit {
   }
 
   getPendingConnections() {
-    this.getConnectionsService.getPendingConnections(this.user_id)
+    this.getPendingConnectionsSubscription = this.getConnectionsService.getPendingConnections(this.user_id)
       .subscribe((response) => {
         this.pendingConnectionsArray = response;
         if (this.pendingConnectionsArray.length > 0) {
@@ -58,7 +61,7 @@ export class ConnectionsComponent implements OnInit {
 
   acceptRequest(connection) {
     let connectionId = connection._id;
-    this.addConnectionService.acceptConnection(this.user_id, connectionId)
+    this.acceptConnectionSubscription = this.addConnectionService.acceptConnection(this.user_id, connectionId)
       .subscribe((response) => {
         this.connections.push(response.connectionUser);
         if (this.pendingConnectionsArray.length == 1) {
@@ -76,7 +79,7 @@ export class ConnectionsComponent implements OnInit {
 
   denyRequest(connection) {
     let connectionId = connection._id;
-    this.addConnectionService.denyConnection(this.user_id, connectionId)
+    this.denyConnectionSubscription = this.addConnectionService.denyConnection(this.user_id, connectionId)
       .subscribe((response) => {
         if (this.pendingConnectionsArray.length == 1) {
           this.pendingConnections = false;
@@ -89,6 +92,13 @@ export class ConnectionsComponent implements OnInit {
       }, (error) => {
         this.alertService.error('Error denying connection request.');
       });
+  }
+
+  ngOnDestroy() {
+    this.acceptConnectionSubscription.unsubscribe();
+    this.denyConnectionSubscription.unsubscribe();
+    this.getConnectionsSubscription.unsubscribe();
+    this.getPendingConnectionsSubscription.unsubscribe();
   }
 
 }

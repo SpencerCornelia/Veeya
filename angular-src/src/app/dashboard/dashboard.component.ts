@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 
@@ -16,7 +16,9 @@ import { User } from '../models/User';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+
+  private getCurrentUserSubscription;
 
   private currentUser: User;
   private pageTitle: String;
@@ -38,7 +40,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getCurrentUser() {
-    this.authService.getLoggedInUser()
+    this.getCurrentUserSubscription = this.authService.getLoggedInUser()
       .subscribe((response) => {
         this.currentUser = response.data;
       }, (error) => {
@@ -48,6 +50,10 @@ export class DashboardComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+
+  ngOnDestroy() {
+    this.getCurrentUserSubscription.unsubscribe();
   }
 
 }

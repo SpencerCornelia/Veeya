@@ -16,6 +16,12 @@ declare var $: any;
 })
 export class AuctionComponent implements OnInit, OnDestroy {
 
+  private currentUserSubscription;
+  private endAuctionSubscription;
+  private getInitialBidsSubscription;
+  private getPropertySubscription;
+  private viewPropertySubscription;
+
   private auctionOpen: boolean = true;
   private bidData: any;
   private bids: any;
@@ -46,7 +52,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
     // GET CURRENT USER INFO
     this.userType = this.authService.loggedInUserType();
 
-    this.authService.getCurrentUser()
+    this.currentUserSubscription = this.authService.getCurrentUser()
       .subscribe((response) => {
         this.currentUser = response.data;
       })
@@ -55,7 +61,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
     if (!this.auctionService.propertyExists) {
       this.activatedRoute.params.subscribe((params: Params) => {
         this.propertyId = params['id'];
-        this.viewPropertyService.getPropertyById(this.propertyId)
+        this.viewPropertySubscription = this.viewPropertyService.getPropertyById(this.propertyId)
           .subscribe((response) => {
             this.property = response;
             this.propertyId = this.property._id;
@@ -65,7 +71,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
 
       });
     } else {
-      this.auctionService.getProperty()
+      this.getPropertySubscription = this.auctionService.getProperty()
         .subscribe((response) => {
           this.property = response;
           this.propertyId = this.property._id;
@@ -74,7 +80,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
         });
     }
 
-    this.auctionService.getInitialBids(this.propertyId)
+    this.getInitialBidsSubscription = this.auctionService.getInitialBids(this.propertyId)
       .subscribe((response) => {
         this.bids = response.data.bids;
         this.deadline = response.data.deadline;
@@ -108,10 +114,6 @@ export class AuctionComponent implements OnInit, OnDestroy {
     $("#addBidModal").modal('hide');
   }
 
-  ngOnDestroy() {
-    this.connection.unsubscribe();
-  }
-
   establishCountdownTimer() {
     this.interval = setInterval(this.setTimer.bind(this), 1000);
   }
@@ -126,7 +128,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
   }
 
   endAuction() {
-    this.auctionService.endAuction(this.propertyId)
+    this.endAuctionSubscription = this.auctionService.endAuction(this.propertyId)
       .subscribe((response) => {
         this.auctionOpen = false;
         this.days = 0;
@@ -137,6 +139,15 @@ export class AuctionComponent implements OnInit, OnDestroy {
       }, (error) => {
 
       });
+  }
+
+  ngOnDestroy() {
+    this.connection.unsubscribe();
+    this.currentUserSubscription.unsubscribe();
+    this.endAuctionSubscription.unsubscribe();
+    this.getInitialBidsSubscription.unsubscribe();
+    this.getPropertySubscription.unsubscribe();
+    this.viewPropertySubscription.unsubscribe();
   }
 
 }

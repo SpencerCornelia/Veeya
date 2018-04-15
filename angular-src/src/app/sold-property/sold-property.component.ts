@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 declare var $: any;
 
@@ -16,7 +16,12 @@ import { ViewPropertyService } from '../services/viewProperty.service';
   templateUrl: './sold-property.component.html',
   styleUrls: ['./sold-property.component.css']
 })
-export class SoldPropertyComponent implements OnInit {
+export class SoldPropertyComponent implements OnInit, OnDestroy {
+
+  private getAllInvestorsSubscription;
+  private getPropertySubscription;
+  private getSoldPropertySubscription;
+  private soldPropertyPendingSubscription;
 
   private currentUser: User;
   private investors: Array<User> = [];
@@ -48,7 +53,7 @@ export class SoldPropertyComponent implements OnInit {
   }
 
   getProperty() {
-    this.viewPropertyService.getSoldProperty()
+    this.getSoldPropertySubscription = this.viewPropertyService.getSoldProperty()
       .subscribe((response) => {
         this.displayMessage = false;
         this.displayBody = true;
@@ -57,7 +62,7 @@ export class SoldPropertyComponent implements OnInit {
   }
 
   getInvestors() {
-    this.userService.getAllInvestors()
+    this.getAllInvestorsSubscription = this.userService.getAllInvestors()
       .subscribe((response) => {
         this.investors = response;
       }, (error) => {
@@ -69,13 +74,13 @@ export class SoldPropertyComponent implements OnInit {
     let that = this;
 
     if (!this.property) {
-      this.viewPropertyService.getPropertyById(this.propertyId)
+      this.getPropertySubscription = this.viewPropertyService.getPropertyById(this.propertyId)
         .subscribe((response) => {
           this.property = response;
           this.selectedInvestor = investor;
           $("#soldModal").modal('show');
           $("#soldConfirm").on('click', function() {
-            that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
+            that.soldPropertyPendingSubscription = that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
               .subscribe((response) => {
                 $("#soldModal").modal('hide');
                 that.router.navigate(['/dashboard']);
@@ -91,7 +96,7 @@ export class SoldPropertyComponent implements OnInit {
       this.selectedInvestor = investor;
       $("#soldModal").modal('show');
       $("#soldConfirm").on('click', function() {
-        that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
+        that.soldPropertyPendingSubscription = that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
           .subscribe((response) => {
             $("#soldModal").modal('hide');
             that.alertService.success('Success.', true);
@@ -102,6 +107,13 @@ export class SoldPropertyComponent implements OnInit {
       });
     }
 
+  }
+
+  ngOnDestroy() {
+    this.getAllInvestorsSubscription.unsubscribe();
+    this.getPropertySubscription.unsubscribe();
+    this.getSoldPropertySubscription.unsubscribe();
+    this.soldPropertyPendingSubscription.unsubscribe();
   }
 
 }

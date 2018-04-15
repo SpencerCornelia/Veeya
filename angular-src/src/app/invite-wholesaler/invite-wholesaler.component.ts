@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
@@ -13,7 +13,9 @@ import { InviteService } from '../services/invite.service';
   templateUrl: './invite-wholesaler.component.html',
   styleUrls: ['./invite-wholesaler.component.css']
 })
-export class InviteWholesalerComponent implements OnInit {
+export class InviteWholesalerComponent implements OnInit, OnDestroy {
+
+  private inviteWholesalerSubscription;
 
   private investorID: string;
   private wholesaler: any;
@@ -32,7 +34,7 @@ export class InviteWholesalerComponent implements OnInit {
   }
 
   onSubmit() {
-    this.inviteService.inviteWholesaler(this.wholesaler.email, this.investorID)
+    this.inviteWholesalerSubscription = this.inviteService.inviteWholesaler(this.wholesaler.email, this.investorID)
       .subscribe((response) => {
         this.alertService.success(response.message, true);
         this.router.navigate(['/dashboard']);
@@ -40,6 +42,10 @@ export class InviteWholesalerComponent implements OnInit {
       (error) => {
         this.alertService.error('Error inviting wholesaler.', true);
       });
+  }
+
+  ngOnDestroy() {
+    this.inviteWholesalerSubscription.unsubscribe();
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { ModuleWithProviders } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router } from '@angular/router';
@@ -13,7 +13,9 @@ import { InviteService } from '../services/invite.service';
   templateUrl: './invite-lender.component.html',
   styleUrls: ['./invite-lender.component.css']
 })
-export class InviteLenderComponent implements OnInit {
+export class InviteLenderComponent implements OnInit, OnDestroy {
+
+  private inviteLenderSubscription;
 
   private lender: any
   private user_id: string;
@@ -32,7 +34,7 @@ export class InviteLenderComponent implements OnInit {
   }
 
   onSubmit() {
-    this.inviteService.inviteLender(this.lender.email, this.user_id)
+    this.inviteLenderSubscription = this.inviteService.inviteLender(this.lender.email, this.user_id)
       .subscribe((response) => {
         this.alertService.success(response.message, true);
         this.router.navigate(['/dashboard']);
@@ -40,6 +42,10 @@ export class InviteLenderComponent implements OnInit {
       (error) => {
         this.alertService.error('Error inviting lender.', true);
       });
+  }
+
+  ngOnDestroy() {
+    this.inviteLenderSubscription.unsubscribe();
   }
 
 }

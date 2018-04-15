@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { User } from '../models/User';
@@ -15,7 +15,13 @@ declare var $: any;
   templateUrl: './my-profile.component.html',
   styleUrls: ['./my-profile.component.css']
 })
-export class MyProfileComponent implements OnInit {
+export class MyProfileComponent implements OnInit, OnDestroy {
+
+  private getCurrentUserSubscription;
+  private deleteUserSubscription;
+  private updatePasswordSubscription;
+  private updateProfilePhotoSubscription;
+  private updateUserProfileSubscription;
 
   private currentUser: User;
   private currentUserId: string;
@@ -48,7 +54,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   onSubmit() {
-    this.userService.updateUserProfile(this.currentUser)
+    this.updateUserProfileSubscription = this.userService.updateUserProfile(this.currentUser)
       .subscribe((response) => {
         this.currentUser = response;
       }, (error) => {
@@ -63,7 +69,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   getCurrentUser() {
-    this.authService.getLoggedInUser()
+    this.getCurrentUserSubscription = this.authService.getLoggedInUser()
       .subscribe((response) => {
         this.currentUser = response.data;
       }, (error) => {
@@ -107,7 +113,7 @@ export class MyProfileComponent implements OnInit {
                 if (error) {
                   this.alertService.error('Error uploading photo. Please try again.');
                 } else {
-                  this.userService.updateUserProfilePhoto(firebasePhoto)
+                  this.updateProfilePhotoSubscription = this.userService.updateUserProfilePhoto(firebasePhoto)
                     .subscribe((response) => {
                       this.currentUser.profilePhoto = firebasePhoto;
                     }, (error) => {
@@ -123,7 +129,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   updatePassword() {
-    this.userService.updatePassword(this.password.current, this.password.new)
+    this.updatePasswordSubscription = this.userService.updatePassword(this.password.current, this.password.new)
       .subscribe((response) => {
         this.clearPasswordForm();
         this.alertService.success('Password updated.');
@@ -142,7 +148,7 @@ export class MyProfileComponent implements OnInit {
   onDelete() {
     let confirm = window.confirm("Are you sure you would like to delete your user? We are sad to see you go.");
     if (confirm) {
-      this.userService.deleteUser(this.currentUserId)
+      this.deleteUserSubscription = this.userService.deleteUser(this.currentUserId)
         .subscribe((response) => {
           this.authService.logout();
         }, (error) => {
@@ -155,6 +161,14 @@ export class MyProfileComponent implements OnInit {
 
   clickProfileImageTab() {
     document.getElementById("updatePhotoButton").setAttribute('disabled', 'disabled');
+  }
+
+  ngOnDestroy() {
+    this.getCurrentUserSubscription.unsubscribe();
+    this.deleteUserSubscription.unsubscribe();
+    this.updatePasswordSubscription.unsubscribe();
+    this.updateProfilePhotoSubscription.unsubscribe();
+    this.updateUserProfileSubscription.unsubscribe();
   }
 
 }

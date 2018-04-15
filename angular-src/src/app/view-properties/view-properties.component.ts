@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -19,7 +19,14 @@ import { User } from '../models/User';
   templateUrl: './view-properties.component.html',
   styleUrls: ['./view-properties.component.css']
 })
-export class ViewPropertiesComponent implements OnInit {
+export class ViewPropertiesComponent implements OnInit, OnDestroy {
+
+  private acceptSoldPropertySubscription;
+  private denySoldPropertySubscription;
+  private getCurrentUserSubscription;
+  private getLenderPropertiesSubscription;
+  private getInvestorPropertiesSubscription;
+  private getWholesalerPropertiesSubscription;
 
   private currentUser: User;
   private properties: Property[] = [];
@@ -64,7 +71,7 @@ export class ViewPropertiesComponent implements OnInit {
   }
 
   getCurrentUser() {
-    this.authService.getLoggedInUser()
+    this.getCurrentUserSubscription = this.authService.getLoggedInUser()
       .subscribe((response) => {
         this.currentUser = response.data;
       }, (error) => {
@@ -74,7 +81,7 @@ export class ViewPropertiesComponent implements OnInit {
 
   getPropertiesForWholesaler() {
     let wholesalerID = this.authService.loggedInUser();
-    this.getUserPropertiesService.getWholesalerUserProperties(wholesalerID)
+    this.getWholesalerPropertiesSubscription = this.getUserPropertiesService.getWholesalerUserProperties(wholesalerID)
       .subscribe((response) => {
         response.forEach((property) => {
           if (property.status === 'Listed') {
@@ -97,7 +104,7 @@ export class ViewPropertiesComponent implements OnInit {
 
   getPropertiesForInvestor() {
     let investorID = this.authService.loggedInUser();
-    this.getUserPropertiesService.getInvestorUserProperties(investorID)
+    this.getInvestorPropertiesSubscription = this.getUserPropertiesService.getInvestorUserProperties(investorID)
       .subscribe((response) => {
         response.forEach((property) => {
           if (property.status === 'Sold') {
@@ -117,7 +124,7 @@ export class ViewPropertiesComponent implements OnInit {
 
   getPropertiesForLender() {
     let lenderID = this.authService.loggedInUser();
-    this.getUserPropertiesService.getLenderUserProperties(lenderID)
+    this.getLenderPropertiesSubscription = this.getUserPropertiesService.getLenderUserProperties(lenderID)
       .subscribe((response) => {
         response.forEach((property) => {
           if (property.status === 'Connection') {
@@ -132,7 +139,7 @@ export class ViewPropertiesComponent implements OnInit {
   }
 
   acceptSold(property) {
-    this.soldPropertyService.acceptSoldProperty(property, this.currentUser._id)
+    this.acceptSoldPropertySubscription = this.soldPropertyService.acceptSoldProperty(property, this.currentUser._id)
       .subscribe((response) => {
         this.investorPropertiesBoughtPending = this.investorPropertiesBoughtPending.filter((p) => {
           return p._id != property._id;
@@ -145,7 +152,7 @@ export class ViewPropertiesComponent implements OnInit {
 
   denySold(property) {
     let denyPropertyId = property._id;
-    this.soldPropertyService.denySoldProperty(property, this.currentUser._id)
+    this.denySoldPropertySubscription = this.soldPropertyService.denySoldProperty(property, this.currentUser._id)
       .subscribe((response) => {
         this.investorPropertiesBoughtPending = this.investorPropertiesBoughtPending.filter((prop) => {
           return prop._id != denyPropertyId;
@@ -154,6 +161,15 @@ export class ViewPropertiesComponent implements OnInit {
       }, (error) => {
 
       });
+  }
+
+  ngOnDestroy() {
+    this.acceptSoldPropertySubscription.unsubscribe();
+    this.denySoldPropertySubscription.unsubscribe();
+    this.getCurrentUserSubscription.unsubscribe();
+    this.getLenderPropertiesSubscription.unsubscribe();
+    this.getInvestorPropertiesSubscription.unsubscribe();
+    this.getWholesalerPropertiesSubscription.unsubscribe();
   }
 
 }
