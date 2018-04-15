@@ -1,19 +1,62 @@
-#navbar-wrapper {
-  padding-left: 250px;
+.top-navbar {
+  margin-left: 250px;
+  height: 55px;
+  background: linear-gradient(88deg, #002e63, #005b96);
 }
 
-.navbar-brand {
-  cursor: default;
+.navbar-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 
-@media screen and (max-width: 785px) {
-  #navbar-wrapper {
-    padding-left: 0px;
-  }
+.navbar-container:first-child {
+  margin-left: 20px;
 }
 
-@media screen and (min-width: 785px) {
-  #showSidebarButton {
-    display: none;
-  }
+.username-item {
+  margin-right: 30px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+.navbar-list-item {
+  color: white;
+  flex-wrap: nowrap;
+  text-align: center;
+  display: inherit;
+  margin-left: 12px;
+}
+
+.navbar-list-item svg {
+  margin-top: 10px;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-list-item:hover svg {
+  color: #FFFFFF;
+}
+
+.logout-link {
+  margin-right: auto;
+}
+
+.logout-link a, .username-item a {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.new-nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  display: block;
+  padding: 0.5rem 1rem;
+}
+
+.new-nav-link:hover, .new-nav-link:focus {
+  text-decoration: none;
+  cursor: pointer;
+  color: #FFFFFF;
 }

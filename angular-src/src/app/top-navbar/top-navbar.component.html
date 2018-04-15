@@ -1,4 +1,4 @@
-<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+<!-- <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
 
   <div class="navbar-menu-wrapper d-flex align-items-center">
     <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
@@ -30,4 +30,35 @@
     <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
     </button>
   </div>
+</nav> -->
+
+<nav class="top-navbar">
+  <ul class="navbar-container">
+    <li class="navbar-list-item">
+      <i class="fas fa-globe"></i>
+      <a [routerLink]="['/about']" class="new-nav-link">About</a>
+    </li>
+    <li class="navbar-list-item">
+      <i class="fas fa-user-md"></i>
+      <a [routerLink]="['/support']" class="new-nav-link">Support</a>
+    </li>
+    <li class="navbar-list-item">
+      <i class="fas fa-phone"></i>
+      <a [routerLink]="['/contact']" class="new-nav-link">Contact</a>
+    </li>
+    <li class="navbar-list-item logout-link">
+      <i class="fas fa-power-off"></i>
+      <a (click)="logout()" class="new-nav-link">Logout</a>
+    </li>
+    <li class="navbar-list-item">
+      <a (click)="userProfile()" class="new-nav-link">
+       <img class="img-xs rounded-circle" src="{{ currentUser?.profilePhoto }}" alt="">
+      </a>
+    </li>
+    <li class="navbar-list-item username-item">
+      <a (click)="userProfile()" class="new-nav-link">
+        <div>{{ currentUser?.firstName }} {{ currentUser?.lastName }}</div>
+      </a>
+    </li>
+  </ul>
 </nav>
