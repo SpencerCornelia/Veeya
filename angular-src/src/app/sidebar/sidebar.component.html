@@ -33,6 +33,10 @@
       <a class="new-nav-link" [routerLink]="['/connections']">
         <i class="fas fa-users"></i>
         <span class="new-menu-title">Connections</span>
+        <div class="badge-wrapper">
+          <span id="badge"></span>
+          <span id="badge-number"></span>
+        </div>
       </a>
     </li>
     <li class="new-nav-item" *ngIf="authService.loggedIn() && authService.wholesalerUser()">
