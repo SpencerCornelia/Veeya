@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import fontawesome from '@fortawesome/fontawesome';
 
+import { GetConnectionsService } from '../services/getConnections.service';
 import { User } from '../models/User';
 
 @Component({
@@ -13,30 +14,41 @@ import { User } from '../models/User';
 })
 export class SidebarComponent implements OnInit, OnDestroy {
 
-  private getCurrentUserSubscription;
+  private getPendingConnectionsSubscription;
   private subscriptions: Subscription[] = [];
 
-  private currentUser: User;
+  private numberOfPendingConnections;
 
   constructor(private authService: AuthService,
-              private router: Router)
-            {
-              this.getCurrentUser();
-            }
+              private router: Router,
+              private getConnectionsService: GetConnectionsService) { }
 
   ngOnInit() {
-
+    this.getPendingConnections();
   }
 
-  getCurrentUser() {
-    this.getCurrentUserSubscription = this.authService.getLoggedInUser()
+  getPendingConnections() {
+    this.getPendingConnectionsSubscription = this.getConnectionsService.getPendingConnections()
       .subscribe((response) => {
-        this.currentUser = response.data;
-      }, (error) => {
+        this.numberOfPendingConnections = '100';
+        this.numberOfPendingConnections = parseInt(this.numberOfPendingConnections);
+        // handle the right value of badge
+        // in order to center the notification number
+        // based on the number of pending connections
+        if (this.numberOfPendingConnections < 10) {
+          document.getElementById("badge-number").style.right = '-37px';
+        } else if (this.numberOfPendingConnections >= 10 && this.numberOfPendingConnections < 100) {
+          document.getElementById("badge-number").style.right = '-42px';
+        } else if (this.numberOfPendingConnections >= 100 && this.numberOfPendingConnections < 1000) {
+          document.getElementById("badge-number").style.right = '-46px';
+        } else {
+          document.getElementById("badge-number").style.right = '-50px';
+        }
 
-      })
+        document.getElementById("badge-number").innerHTML = this.numberOfPendingConnections;
+      });
 
-    this.subscriptions.push(this.getCurrentUserSubscription);
+    this.subscriptions.push(this.getPendingConnectionsSubscription);
   }
 
   isInvestor() {
