@@ -13,100 +13,11 @@
 <body>
   <div class="container-scroller">
 
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-      <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-        <!-- The given logo setup
-          <div class="navbar-brand brand-logo" href="../../index.html"><img src="/assets/images/logo-mini.svg" alt="logo"/></div>
-          <div class="navbar-brand brand-logo-mini" href="../../index.html"><img src="/assets/images/logo-mini.svg" alt="logo"/></div>
-        -->
-      </div>
-      <div class="navbar-menu-wrapper d-flex align-items-center">
-        <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
-          <li class="nav-item">
-            <a [routerLink]="['/about']" class="nav-link"><i class="mdi mdi-image-filter"></i>About</a>
-          </li>
-          <li class="nav-item">
-            <a [routerLink]="['/support']" class="nav-link"><i class="mdi mdi-email-outline"></i>Support</a>
-          </li>
-          <li class="nav-item">
-            <a [routerLink]="['/contact']" class="nav-link"><i class="mdi mdi-calendar"></i>Contact</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" (click)="logout()"><i class="mdi mdi-calendar"></i>Logout</a>
-          </li>
-        </ul>
-        <ul class="navbar-nav navbar-nav-right">
-          <li class="nav-item nav-settings d-none d-lg-block">
-            <a class="nav-link" (click)="userProfile()">
-              <img class="img-xs rounded-circle" src="{{ currentUser?.profilePhoto }}" alt="">
-            </a>
-          </li>
-          <li class="nav-item nav-settings d-none d-lg-block">
-            <a class="nav-link" (click)="userProfile()">
-              <div>{{ currentUser?.firstName }} {{ currentUser?.lastName }}</div>
-            </a>
-          </li>
-        </ul>
-        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-        </button>
-      </div>
-    </nav>
+    <app-top-navbar></app-top-navbar>
+    <app-sidebar></app-sidebar>
 
 
     <div class="container-fluid page-body-wrapper">
-
-      <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <li class="nav-item"> <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/dashboard']">
-            <span class="menu-title">Dashboard</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn() && authService.wholesalerUser()" [routerLink]="['/addproperty']"><span class="menu-title">Add Property</span> </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/properties']"><span class="menu-title">View Properties</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/connections']"><span class="menu-title">Connections</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn() && authService.wholesalerUser()" [routerLink]="['/inviteinvestor']"><span class="menu-title">Invite Investor</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn() && authService.investorUser()" [routerLink]="['/invitewholesaler']"><span class="menu-title">Invite Wholesaler</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/invitelender']"><span class="menu-title">Invite Lender</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/search']"><span class="menu-title">Search</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn() && authService.investorUser()" [routerLink]="['/placeDealAd']"><span class="menu-title">Place Ad for Deal</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/viewDealAds']">
-              <span class="menu-title">View Wanted Deals</span>
-            </a>
-          </li>
-          <li class="nav-item" *ngIf="authService.investorUser()">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/uploadlist']">
-              <span class="menu-title">Upload Wholesaler List</span>
-            </a>
-          </li>
-          <li class="nav-item" *ngIf="authService.wholesalerUser()">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/uploadlist']">
-              <span class="menu-title">Upload Buyers List</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" [routerLink]="['/profile', authService.loggedInUser()]"><span class="menu-title">My Profile</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" *ngIf="authService.loggedIn()" (click)="authService.logout()"><span class="menu-title">Logout</span></a>
-          </li>
-        </ul>
-      </nav>
 
       <div class="main-panel" *ngIf="currentUser">
         <div class="content-wrapper">
