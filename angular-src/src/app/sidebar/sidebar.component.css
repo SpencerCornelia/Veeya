@@ -70,3 +70,19 @@
   margin-left: 0px;
   font-size: 15px;
 }
+
+.navbar-menu-item {
+  display: hidden;
+}
+
+@media all and (max-width: 991px) {
+  #new-sidebar {
+    display: none;
+    transition: all 0.25s;
+    -webkit-transition: all 0.25s;
+  }
+
+  .navbar-menu-item {
+    display: visible;
+  }
+}
