@@ -8,6 +8,7 @@
   display: flex;
   width: 100%;
   align-items: center;
+  height: 100%;
 }
 
 .navbar-container:first-child {
@@ -59,4 +60,44 @@ ul {
   text-decoration: none;
   cursor: pointer;
   color: #FFFFFF;
+}
+
+@media all and (max-width: 600px) {
+  #username-list-item, #profile-photo-list-item, #logout-list-item, #contact-list-item, #about-list-item, #support-list-item {
+    display: none;
+  }
+}
+
+@media all and (max-width: 835px) {
+  #profile-photo-list-item, #username-list-item {
+    display: none;
+  }
+
+  .navbar-list-item {
+    flex-grow: 2
+  }
+}
+
+@media all and (min-width: 836px) {
+  #profile-photo-list-item, #username-list-item {
+    display: inherit;
+  }
+}
+
+@media all and (max-width: 991px) {
+  #menu-list-item {
+    display: inherit;
+  }
+}
+
+@media all and (min-width: 992px) {
+  #menu-list-item {
+    display: none;
+  }
+}
+
+@media all and (max-width: 991px) {
+  .top-navbar {
+    margin-left: 0px;
+  }
 }
