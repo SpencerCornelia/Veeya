@@ -25,23 +25,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
             }
 
   ngOnInit() {
-    this.currentUser = {
-      userType: '',
-      firstName: '',
-      lastName: '',
-      userName: '',
-      password: '',
-      email: '',
-      phoneNumber: '',
-      city: '',
-      state: '',
-      URLs: {
-        personal: '',
-        facebook: '',
-        linkedIn: '',
-        biggerPockets: ''
-      }
-    }
+
   }
 
   getCurrentUser() {
