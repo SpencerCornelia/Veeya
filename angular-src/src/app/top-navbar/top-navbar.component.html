@@ -1,61 +1,31 @@
-<!-- <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-
-  <div class="navbar-menu-wrapper d-flex align-items-center">
-    <ul class="navbar-nav navbar-nav-left header-links d-none d-md-flex">
-      <li class="nav-item">
-        <a [routerLink]="['/about']" class="nav-link"><i class="mdi mdi-image-filter"></i>About</a>
-      </li>
-      <li class="nav-item">
-        <a [routerLink]="['/support']" class="nav-link"><i class="mdi mdi-email-outline"></i>Support</a>
-      </li>
-      <li class="nav-item">
-        <a [routerLink]="['/contact']" class="nav-link"><i class="mdi mdi-calendar"></i>Contact</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="logout()"><i class="mdi mdi-calendar"></i>Logout</a>
-      </li>
-    </ul>
-    <ul class="navbar-nav navbar-nav-right">
-      <li class="nav-item nav-settings d-none d-lg-block">
-        <a class="nav-link" (click)="userProfile()">
-          <img class="img-xs rounded-circle" src="{{ currentUser?.profilePhoto }}" alt="">
-        </a>
-      </li>
-      <li class="nav-item nav-settings d-none d-lg-block">
-        <a class="nav-link" (click)="userProfile()">
-          <div>{{ currentUser?.firstName }} {{ currentUser?.lastName }}</div>
-        </a>
-      </li>
-    </ul>
-    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-    </button>
-  </div>
-</nav> -->
-
 <nav class="top-navbar">
   <ul class="navbar-container">
-    <li class="navbar-list-item">
+    <li class="navbar-list-item" id="menu-list-item">
+      <i class="fas fa-bars"></i>
+      <a class="new-nav-link">Menu</a>
+    </li>
+    <li class="navbar-list-item" id="about-list-item">
       <i class="fas fa-globe"></i>
       <a [routerLink]="['/about']" class="new-nav-link">About</a>
     </li>
-    <li class="navbar-list-item">
+    <li class="navbar-list-item" id="support-list-item">
       <i class="fas fa-user-md"></i>
       <a [routerLink]="['/support']" class="new-nav-link">Support</a>
     </li>
-    <li class="navbar-list-item">
+    <li class="navbar-list-item" id="contact-list-item">
       <i class="fas fa-phone"></i>
       <a [routerLink]="['/contact']" class="new-nav-link">Contact</a>
     </li>
-    <li class="navbar-list-item logout-link">
+    <li class="navbar-list-item logout-link" id="logout-list-item">
       <i class="fas fa-power-off"></i>
       <a (click)="logout()" class="new-nav-link">Logout</a>
     </li>
-    <li class="navbar-list-item">
+    <li class="navbar-list-item" id="profile-photo-list-item">
       <a (click)="userProfile()" class="new-nav-link">
        <img class="img-xs rounded-circle" src="{{ currentUser?.profilePhoto }}" alt="">
       </a>
     </li>
-    <li class="navbar-list-item username-item">
+    <li class="navbar-list-item username-item" id="username-list-item">
       <a (click)="userProfile()" class="new-nav-link">
         <div>{{ currentUser?.firstName }} {{ currentUser?.lastName }}</div>
       </a>
