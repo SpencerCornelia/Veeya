@@ -52,7 +52,7 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
   }
 
   getPendingConnections() {
-    this.getPendingConnectionsSubscription = this.getConnectionsService.getPendingConnections(this.user_id)
+    this.getPendingConnectionsSubscription = this.getConnectionsService.getPendingConnections()
       .subscribe((response) => {
         this.pendingConnectionsArray = response;
         if (this.pendingConnectionsArray.length > 0) {
