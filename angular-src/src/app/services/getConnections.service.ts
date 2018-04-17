@@ -17,7 +17,7 @@ export class GetConnectionsService {
 
   private serverApi = 'http://localhost:3000';
 
-  public getConnectionsForUser(userId: string):Observable<User[]> {
+  public getConnectionsForUser(userId: String):Observable<User[]> {
     let URI = this.serverApi + `/user/connections/${userId}`;
     return this.http.get(URI)
       .map(res => res.json())
