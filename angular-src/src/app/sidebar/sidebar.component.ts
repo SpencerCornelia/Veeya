@@ -30,7 +30,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   getPendingConnections() {
     this.getPendingConnectionsSubscription = this.getConnectionsService.getPendingConnections()
       .subscribe((response) => {
-        this.numberOfPendingConnections = '100';
+        console.log("response:", response)
+        this.numberOfPendingConnections = response.length;
         this.numberOfPendingConnections = parseInt(this.numberOfPendingConnections);
         // handle the right value of badge
         // in order to center the notification number
