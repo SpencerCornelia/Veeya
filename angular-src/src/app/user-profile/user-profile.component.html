@@ -41,7 +41,13 @@
                     <div class="connect-button-row">
                       <button *ngIf="connected" class="btn btn-inverse-success btn-rounded btn-fw connect-button">Connected</button>
                       <button *ngIf="connectionSent" class="btn btn-inverse-success btn-rounded btn-fw connect-button" [disabled]="disableConnectButton">Sent Request</button>
-                      <button *ngIf="notConnected" class="btn btn-inverse-primary btn-rounded btn-fw connect-button" (click)="connect()">Connect</button>
+                      <button *ngIf="notConnected && !connectionReceived" class="btn btn-inverse-primary btn-rounded btn-fw connect-button" (click)="connect()">Connect</button>
+                      <button *ngIf="connectionReceived" class="btn btn-inverse-primary btn-rounded btn-fw" id="accept-button"
+                        (click)="acceptRequest(user)">Accept
+                      </button>
+                      <button *ngIf="connectionReceived" class="btn btn-inverse-danger btn-rounded btn-fw"
+                        (click)="denyRequest(user)">Deny
+                      </button>
                     </div>
                     <div class="card-body overview">
                       <ul class="achievements">
