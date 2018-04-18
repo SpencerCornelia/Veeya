@@ -15,6 +15,8 @@ import { User } from '../models/User';
 export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getPendingConnectionsSubscription;
+  private getNumberOfPendingConnectionsSubscription;
+  private numberOfPendingConnectionsSubscription;
   private subscriptions: Subscription[] = [];
 
   private numberOfPendingConnections;
@@ -34,8 +36,19 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
   getPendingConnections() {
     this.getPendingConnectionsSubscription = this.getConnectionsService.getPendingConnections()
       .subscribe((response) => {
-        this.numberOfPendingConnections = response.length;
-        this.numberOfPendingConnections = parseInt(this.numberOfPendingConnections);
+        this.getNumberOfPendingConnections();
+      }, (error) => {
+
+      })
+
+    this.subscriptions.push(this.getPendingConnectionsSubscription);
+  }
+
+  getNumberOfPendingConnections() {
+    this.getNumberOfPendingConnectionsSubscription = this.getConnectionsService.getNumberOfPendingConnections()
+      .subscribe((response) => {
+        this.numberOfPendingConnections = response;
+
         // handle the right value of badge
         // in order to center the notification number
         // based on the number of pending connections
@@ -52,9 +65,11 @@ export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
         }
 
         document.getElementById("badge-number").innerHTML = this.numberOfPendingConnections;
-      });
+      }, (error) => {
 
-    this.subscriptions.push(this.getPendingConnectionsSubscription);
+      })
+
+      this.subscriptions.push(this.getNumberOfPendingConnectionsSubscription);
   }
 
   isInvestor() {
