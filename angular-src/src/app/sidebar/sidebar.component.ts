@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -12,7 +12,7 @@ import { User } from '../models/User';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
-export class SidebarComponent implements OnInit, OnDestroy {
+export class SidebarComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private getPendingConnectionsSubscription;
   private subscriptions: Subscription[] = [];
@@ -24,19 +24,24 @@ export class SidebarComponent implements OnInit, OnDestroy {
               private getConnectionsService: GetConnectionsService) { }
 
   ngOnInit() {
+
+  }
+
+  ngAfterViewInit() {
     this.getPendingConnections();
   }
 
   getPendingConnections() {
     this.getPendingConnectionsSubscription = this.getConnectionsService.getPendingConnections()
       .subscribe((response) => {
-        console.log("response:", response)
         this.numberOfPendingConnections = response.length;
         this.numberOfPendingConnections = parseInt(this.numberOfPendingConnections);
         // handle the right value of badge
         // in order to center the notification number
         // based on the number of pending connections
-        if (this.numberOfPendingConnections < 10) {
+        if (this.numberOfPendingConnections == 0) {
+          document.getElementById("badge-number").style.right = '-40px';
+        } else if (this.numberOfPendingConnections < 10) {
           document.getElementById("badge-number").style.right = '-37px';
         } else if (this.numberOfPendingConnections >= 10 && this.numberOfPendingConnections < 100) {
           document.getElementById("badge-number").style.right = '-42px';
