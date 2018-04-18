@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/User';
 
+import { ReplaySubject } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -12,9 +13,9 @@ export class GetConnectionsService {
 
   constructor(private http: Http, private authService: AuthService) { }
 
-  private pendingConnections: any;
+  private pendingConnections = new ReplaySubject(1);
+  private numberOfPendingConnections = new ReplaySubject(1);
   private newPendingConnections: any;
-  private observable: Observable<any>;
 
   private serverApi = 'http://localhost:3000';
 
@@ -25,34 +26,40 @@ export class GetConnectionsService {
       .map(res => <User[]>res.data);
   }
 
-  public getPendingConnections() {
-    if (this.pendingConnections) {
-      return Observable.of(this.pendingConnections);
-    } else if (this.observable) {
-      return this.observable;
-    } else {
-      let userId = this.authService.loggedInUser();
-      let URI = this.serverApi + `/user/pendingconnections/${userId}`;
+  getPendingConnections() {
+    let userId = this.authService.loggedInUser();
+    let URI = this.serverApi + `/user/pendingconnections/${userId}`;
 
-      this.observable = this.http.get(URI)
-        .map((response) => {
-          this.observable = null;
-          this.pendingConnections = response.json();
-          this.pendingConnections = this.pendingConnections.data;
-          return this.pendingConnections;
-        })
-        .catch((error) => {
-          return Observable.throw(error.json());
-        })
-        .share();
-        return this.observable;
-    }
+   return this.http.get(URI)
+     .map((response) => {
+       let responseJSON = response.json();
+       this.setAllPendingConnections(responseJSON.data);
+       this.increasePendingConnections(responseJSON.data.length);
+       return;
+      })
+      .catch((error) => {
+        return Observable.throw(error.json());
+      })
   }
 
-  public reducePendingConnections(connectionId: string) {
-    this.pendingConnections = this.pendingConnections.filter((connection) => {
-      return connection._id != connectionId;
-    });
+  getAllPendingConnections() {
+    return this.pendingConnections.asObservable();
+  }
+
+  setAllPendingConnections(connections) {
+    this.pendingConnections.next(connections);
+  }
+
+  getNumberOfPendingConnections() {
+    return this.numberOfPendingConnections.asObservable();
+  }
+
+  increasePendingConnections(newNumber) {
+    this.numberOfPendingConnections.next(newNumber);
+  }
+
+  reducePendingConnections(newNumber) {
+    this.numberOfPendingConnections.next(newNumber);
   }
 
 }
