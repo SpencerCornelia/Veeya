@@ -54,10 +54,9 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
   }
 
   getPendingConnections() {
-    this.getPendingConnectionsSubscription = this.getConnectionsService.getPendingConnections()
+    this.getPendingConnectionsSubscription = this.getConnectionsService.getAllPendingConnections()
       .subscribe((response) => {
-        console.log("response:", response)
-        this.pendingConnectionsArray = response;
+        this.pendingConnectionsArray = response as User[];
         if (this.pendingConnectionsArray.length > 0) {
           this.pendingConnections = true;
         }
@@ -72,6 +71,7 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
     let connectionId = connection._id;
     this.acceptConnectionSubscription = this.addConnectionService.acceptConnection(this.user_id, connectionId)
       .subscribe((response) => {
+        let currentNumberOfPendingConnections = this.pendingConnectionsArray.length;
         this.connections.push(response.connectionUser);
         if (this.pendingConnectionsArray.length == 1) {
           this.pendingConnections = false;
@@ -82,7 +82,7 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
           });
         }
 
-        this.getConnectionsService.reducePendingConnections(connectionId);
+        this.getConnectionsService.reducePendingConnections(currentNumberOfPendingConnections - 1);
       }, (error) => {
         this.alertService.error('Error accepting connection request.');
       });
@@ -94,6 +94,7 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
     let connectionId = connection._id;
     this.denyConnectionSubscription = this.addConnectionService.denyConnection(this.user_id, connectionId)
       .subscribe((response) => {
+        let currentNumberOfPendingConnections = this.pendingConnectionsArray.length;
         if (this.pendingConnectionsArray.length == 1) {
           this.pendingConnections = false;
           this.pendingConnectionsArray = [];
@@ -103,7 +104,7 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
           });
         }
 
-        this.getConnectionsService.reducePendingConnections(connectionId);
+        this.getConnectionsService.reducePendingConnections(currentNumberOfPendingConnections - 1);
       }, (error) => {
         this.alertService.error('Error denying connection request.');
       });
