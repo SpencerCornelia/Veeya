@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Router } from '@angular/router';
 
 import { User } from '../models/User';
 
@@ -20,7 +21,7 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
   private denyConnectionSubscription;
   private getConnectionsSubscription;
   private getPendingConnectionsSubscription;
-  private subscription: Subscription[] = [];
+  private subscriptions: Subscription[] = [];
 
   private connections: Array<User> = [];
   private pendingConnections: Boolean = false;
@@ -32,6 +33,7 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
               private alertService: AlertService,
               private authService: AuthService,
               private getConnectionsService: GetConnectionsService,
+              private router: Router,
               private userService: UserService) { }
 
   ngOnInit() {
@@ -48,12 +50,13 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
 
       });
 
-    this.subscription.push(this.getConnectionsSubscription);
+    this.subscriptions.push(this.getConnectionsSubscription);
   }
 
   getPendingConnections() {
     this.getPendingConnectionsSubscription = this.getConnectionsService.getPendingConnections()
       .subscribe((response) => {
+        console.log("response:", response)
         this.pendingConnectionsArray = response;
         if (this.pendingConnectionsArray.length > 0) {
           this.pendingConnections = true;
@@ -62,7 +65,7 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
         this.alertService.error('Error with retrieving pending connections.');
       });
 
-    this.subscription.push(this.getPendingConnectionsSubscription);
+    this.subscriptions.push(this.getPendingConnectionsSubscription);
   }
 
   acceptRequest(connection) {
@@ -78,11 +81,13 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
             return connection._id != response.connectionUser._id;
           });
         }
+
+        this.getConnectionsService.reducePendingConnections(connectionId);
       }, (error) => {
         this.alertService.error('Error accepting connection request.');
       });
 
-    this.subscription.push(this.acceptConnectionSubscription);
+    this.subscriptions.push(this.acceptConnectionSubscription);
   }
 
   denyRequest(connection) {
@@ -97,15 +102,21 @@ export class ConnectionsComponent implements OnInit, OnDestroy {
             return connection._id != response.connectionUser._id;
           });
         }
+
+        this.getConnectionsService.reducePendingConnections(connectionId);
       }, (error) => {
         this.alertService.error('Error denying connection request.');
       });
 
-    this.subscription.push(this.denyConnectionSubscription);
+    this.subscriptions.push(this.denyConnectionSubscription);
+  }
+
+  visitProfile(connection) {
+    this.router.navigate(['/user/', connection._id]);
   }
 
   ngOnDestroy() {
-    this.subscription.forEach((sub) => {
+    this.subscriptions.forEach((sub) => {
       sub.unsubscribe();
     });
   }
