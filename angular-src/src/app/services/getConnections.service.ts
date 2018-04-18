@@ -13,6 +13,7 @@ export class GetConnectionsService {
   constructor(private http: Http, private authService: AuthService) { }
 
   private pendingConnections: any;
+  private newPendingConnections: any;
   private observable: Observable<any>;
 
   private serverApi = 'http://localhost:3000';
@@ -46,6 +47,12 @@ export class GetConnectionsService {
         .share();
         return this.observable;
     }
+  }
+
+  public reducePendingConnections(connectionId: string) {
+    this.pendingConnections = this.pendingConnections.filter((connection) => {
+      return connection._id != connectionId;
+    });
   }
 
 }
