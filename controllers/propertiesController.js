@@ -50,16 +50,41 @@ router.get('/wholesaler/:uid', (req, res) => {
 
 // GET HTTP for /properties for an investor. uid = investorID
 router.get('/investor/:uid', (req, res) => {
-  user.getPropertiesForInvestor(req.params.uid)
+  let investorId = req.params.uid;
+  let allPropertyIDs = [];
+  user.getPropertiesForInvestor(investorId)
     .then((response) => {
-      return response;
+      // this gets initial properties for user
+      // all properties not affiliated with wholesalers
+      let properties = response.data;
+
+      allPropertyIDs = allPropertyIDs.concat(properties);
+
+      return user.getInvestorConnectedProperties(investorId);
+
     })
     .then((response) => {
-      return property.getPropertiesById(response.data);
+      // response is array of property IDs from
+      // connected wholesaler users
+      if (response.data.length > 0) {
+        response.data.forEach((propertyId) => {
+          allPropertyIDs.push(propertyId);
+        });
+      }
+
+      // input is all of the property IDs for an investor
+      // output is all of the data associated with those property IDs
+      return property.getPropertiesById(allPropertyIDs);
     })
     .then((response) => {
+      // response data is all of the property data
       if (response.success) {
-        res.status(200).json(response);
+        let responseObj = {
+          success: true,
+          message: 'Successfully retrieved all properties.',
+          data: response.data
+        }
+        res.status(200).json(responseObj);
       } else {
         res.status(500).json(response);
       }
@@ -131,7 +156,7 @@ router.post('/soldpropertypending', (req, res) => {
   let investorId = req.body.investorId;
   property.updatePropertySoldPending(propertyId)
     .then((response) => {
-      return user.updateWholesalerSoldPendingProperties(wholesalerId, propertyId, false,);
+      return user.updateWholesalerSoldPendingProperties(wholesalerId, propertyId, false);
     })
     .then((response) => {
       return user.updateInvestorBoughtPendingProperties(investorId, propertyId, false);

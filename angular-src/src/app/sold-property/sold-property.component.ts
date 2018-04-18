@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 declare var $: any;
 
 import { Property } from '../models/Property';
@@ -16,7 +17,13 @@ import { ViewPropertyService } from '../services/viewProperty.service';
   templateUrl: './sold-property.component.html',
   styleUrls: ['./sold-property.component.css']
 })
-export class SoldPropertyComponent implements OnInit {
+export class SoldPropertyComponent implements OnInit, OnDestroy {
+
+  private getAllInvestorsSubscription;
+  private getPropertySubscription;
+  private getSoldPropertySubscription;
+  private soldPropertyPendingSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentUser: User;
   private investors: Array<User> = [];
@@ -48,34 +55,38 @@ export class SoldPropertyComponent implements OnInit {
   }
 
   getProperty() {
-    this.viewPropertyService.getSoldProperty()
+    this.getSoldPropertySubscription = this.viewPropertyService.getSoldProperty()
       .subscribe((response) => {
         this.displayMessage = false;
         this.displayBody = true;
         this.property = response;
       })
+
+    this.subscriptions.push(this.getSoldPropertySubscription);
   }
 
   getInvestors() {
-    this.userService.getAllInvestors()
+    this.getAllInvestorsSubscription = this.userService.getAllInvestors()
       .subscribe((response) => {
         this.investors = response;
       }, (error) => {
         this.alertService.error('Error retrieving investor users.');
       });
+
+    this.subscriptions.push(this.getAllInvestorsSubscription);
   }
 
   showModal(investor) {
     let that = this;
 
     if (!this.property) {
-      this.viewPropertyService.getPropertyById(this.propertyId)
+      this.getPropertySubscription = this.viewPropertyService.getPropertyById(this.propertyId)
         .subscribe((response) => {
           this.property = response;
           this.selectedInvestor = investor;
           $("#soldModal").modal('show');
           $("#soldConfirm").on('click', function() {
-            that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
+            that.soldPropertyPendingSubscription = that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
               .subscribe((response) => {
                 $("#soldModal").modal('hide');
                 that.router.navigate(['/dashboard']);
@@ -83,15 +94,19 @@ export class SoldPropertyComponent implements OnInit {
               }, (error) => {
                 that.alertService.error('Error marking property as sold.');
               });
+
+            that.subscriptions.push(that.soldPropertyPendingSubscription);
           });
         }, (error) => {
           this.alertService.error('Error retrieving property information.');
         });
+
+      this.subscriptions.push(this.getPropertySubscription);
     } else {
       this.selectedInvestor = investor;
       $("#soldModal").modal('show');
       $("#soldConfirm").on('click', function() {
-        that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
+        that.soldPropertyPendingSubscription = that.soldPropertyService.soldPropertyPending(that.property, that.selectedInvestor._id)
           .subscribe((response) => {
             $("#soldModal").modal('hide');
             that.alertService.success('Success.', true);
@@ -99,9 +114,17 @@ export class SoldPropertyComponent implements OnInit {
           }, (error) => {
             that.alertService.error('')
           });
+
+        that.subscriptions.push(that.soldPropertyPendingSubscription);
       });
     }
 
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

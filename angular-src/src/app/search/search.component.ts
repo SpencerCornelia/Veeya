@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
@@ -12,7 +13,13 @@ import { User } from '../models/User';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
+
+  private getAllInvestorsSubscription;
+  private getAllLendersSubscription;
+  private getAllPropertiesSubscription;
+  private getAllWholesalersSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentTab: String = "Wholesalers";
   private lenders: Array<User> = [];
@@ -54,39 +61,47 @@ export class SearchComponent implements OnInit {
   }
 
   getAllWholesalers() {
-    this.userService.getAllWholesalers()
+    this.getAllWholesalersSubscription = this.userService.getAllWholesalers()
       .subscribe((response) => {
         this.wholesalers = response;
       }, (error) => {
         this.alertService.error('Error retrieving wholesaler users.');
       });
+
+    this.subscriptions.push(this.getAllWholesalersSubscription);
   }
 
   getAllProperties() {
-    this.getAllPropertiesService.getAllProperties()
+    this.getAllPropertiesSubscription = this.getAllPropertiesService.getAllProperties()
       .subscribe((response) => {
         this.properties = response;
       }, (error) => {
         this.alertService.error('Error retrieving properties.');
       });
+
+    this.subscriptions.push(this.getAllPropertiesSubscription);
   }
 
   getAllInvestors() {
-    this.userService.getAllInvestors()
+    this.getAllInvestorsSubscription = this.userService.getAllInvestors()
       .subscribe((response) => {
         this.investors = response;
       }, (error) => {
         this.alertService.error('Error retrieving investor users.');
       });
+
+    this.subscriptions.push(this.getAllInvestorsSubscription);
   }
 
   getAllLenders() {
-    this.userService.getAllLenders()
+    this.getAllLendersSubscription = this.userService.getAllLenders()
       .subscribe((response) => {
         this.lenders = response;
       }, (error) => {
         this.alertService.error('Error retrieving lender users.');
       });
+
+    this.subscriptions.push(this.getAllLendersSubscription);
   }
 
   changeTab(tab) {
@@ -103,6 +118,12 @@ export class SearchComponent implements OnInit {
       this.propertiesTab = 'false';
       this.currentTab = tab;
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

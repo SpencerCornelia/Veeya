@@ -1,5 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AppRoutingModule } from '../app-routing.module';
 import { ModuleWithProviders } from '@angular/core';
@@ -20,7 +21,10 @@ declare var $: any;
   templateUrl: './add-property.component.html',
   styleUrls: ['./add-property.component.css']
 })
-export class AddPropertyComponent implements OnInit {
+export class AddPropertyComponent implements OnInit, OnDestroy {
+
+  private propertySubscription;
+  private subscriptions: Subscription[] = [];
 
   private propertyComps: Array<Object>;
   private newProperty: Property;
@@ -91,7 +95,7 @@ export class AddPropertyComponent implements OnInit {
         return;
       } else {
         this.newProperty.photos = photos;
-        this.addPropertyService.addProperty(this.newProperty)
+        this.propertySubscription = this.addPropertyService.addProperty(this.newProperty)
           .subscribe((response) => {
             if (response.success === true) {
               this.alertService.success(response.message);
@@ -100,6 +104,8 @@ export class AddPropertyComponent implements OnInit {
           }, (error) => {
             this.alertService.error(error.message);
           });
+
+        this.subscriptions.push(this.propertySubscription);
       }
     });
 
@@ -164,6 +170,12 @@ export class AddPropertyComponent implements OnInit {
     })
 
     this.router.navigate(['/dashboard']);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

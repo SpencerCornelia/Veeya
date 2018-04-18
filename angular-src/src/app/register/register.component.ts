@@ -27,11 +27,9 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
     this.newUser = {
       userType: 'Wholesaler',
-      userName: '',
       firstName: '',
       lastName: '',
       password: '',
-      passwordConfirm: '',
       email: '',
       phoneNumber: '',
       city: '',
@@ -43,12 +41,6 @@ export class RegisterComponent implements OnInit {
     // required fields
     if(!this.validateService.validateRegister(this.newUser)) {
       // need error message
-      return false;
-    }
-
-    // validate password confirmation
-    if (!this.validateService.validatePassword(this.newUser.password, this.newUser.passwordConfirm)) {
-      // error message = 'Passwords do not match'
       return false;
     }
 

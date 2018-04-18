@@ -30,7 +30,8 @@
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.1",
     "socket.io": "^2.1.0",
-    "typescript": "^2.6.1"
+    "typescript": "^2.6.1",
+    "zone.js": "^0.8.4"
   },
   "devDependencies": {
     "@angular/core": "^4.2.4",

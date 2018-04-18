@@ -28,18 +28,6 @@
               <form class="pt-4" #form="ngForm">
                 <form (ngSubmit)="onRegisterSubmit()" #form="ngForm">
                   <div class="form-group">
-                    <label for="Username">Username</label>
-                    <input type="text" class="form-control" id="username"
-                      [(ngModel)]="newUser.userName"
-                      name="userName"
-                      #userName="ngModel"
-                      minlength="3"
-                      maxlength="30"
-                      pattern="^[a-zA-Z0-9-]+"
-                      required
-                    />
-                  </div>
-                  <div class="form-group">
                     <label for="First Name">First Name</label>
                     <input type="text" class="form-control" id="firstName"
                       [(ngModel)]="newUser.firstName"
@@ -71,15 +59,6 @@
                     />
                   </div>
                   <div class="form-group">
-                    <label for="Confirm Password">Confirm Password</label>
-                    <input type="password" class="form-control" id="passwordConfirm"
-                      [(ngModel)]="newUser.passwordConfirm"
-                      name="passwordConfirm"
-                      #passwordConfirm="ngModel"
-                      required
-                    />
-                  </div>
-                  <div class="form-group">
                     <label for="Email">Email</label>
                     <input type="email" class="form-control" id="email"
                       [(ngModel)]="newUser.email"
@@ -92,7 +71,6 @@
                   <div class="form-group">
                     <label for="Phone Number">Phone Number</label>
                     <input type="text" class="form-control" id="phoneNumber"
-                      placeholder="XXX-XXX-XXXX   or   +1 XXX-XXX-XXXX"
                       [(ngModel)]="newUser.phoneNumber"
                       name="phoneNumber"
                       #phoneNumber="ngModel"

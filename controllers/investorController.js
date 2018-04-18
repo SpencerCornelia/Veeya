@@ -18,10 +18,9 @@ router.get('/all', function(req,res) {
 
 router.get('/searchInvestor', (req, res) => {
   let email = req.query.email;
-  let userName = req.query.username;
   let phoneNumber = req.query.phoneNumber;
 
-  user.searchInvestor(email, userName, phoneNumber)
+  user.searchInvestor(email, phoneNumber)
     .then((response) => {
       res.status(200).json(response);
     })

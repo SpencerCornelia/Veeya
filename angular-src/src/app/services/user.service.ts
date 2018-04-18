@@ -59,7 +59,6 @@ export class UserService {
     headers.append('Content-Type', 'application/json');
     let body = JSON.stringify({
       _id: user._id,
-      userName: user.userName,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,

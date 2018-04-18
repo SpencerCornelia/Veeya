@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
@@ -13,7 +14,10 @@ import { User } from '../models/User';
   templateUrl: './upload-list.component.html',
   styleUrls: ['./upload-list.component.css']
 })
-export class UploadListComponent implements OnInit {
+export class UploadListComponent implements OnInit, OnDestroy {
+
+  private uploadListSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentUser: string;
   private currentUserType: string;
@@ -123,13 +127,21 @@ export class UploadListComponent implements OnInit {
   }
 
   finishUpload() {
-    this.uploadListService.uploadList(this.users, this.currentUser)
+    this.uploadListSubscription = this.uploadListService.uploadList(this.users, this.currentUser)
       .subscribe((response) => {
         this.alertService.success('Uploaded list successfully.', true);
         this.router.navigate(['/dashboard']);
       }, (error) => {
         this.alertService.error('Error uploading list.', true);
       });
+
+    this.subscriptions.push(this.uploadListSubscription);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

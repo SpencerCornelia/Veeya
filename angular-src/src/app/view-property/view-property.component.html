@@ -603,13 +603,16 @@
                         Upload Photos</button>
                       <button *ngIf="showRemovePhotosButton" class="btn btn-inverse-danger btn-rounded btn-fw" type="button" (click)="removePhotos()" id="removePhotos">Remove Photos</button>
                     </div>
+
                     <br />
+
                     <div class="buttons">
                       <div class="row edit-property-btn" *ngIf="currentUserType=='Investor'">
                         <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="customizeProperty()">
                             Customize Property
                         </button>
-                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw" (click)="enterAuction()">
+                        <button type="button" class="btn btn-inverse-primary btn-rounded btn-fw"
+                          [disabled]="auctionEstablished=='false'" (click)="enterAuction()">
                           View Auction
                         </button>
                       </div>

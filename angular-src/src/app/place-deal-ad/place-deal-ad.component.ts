@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppRoutingModule } from '../app-routing.module';
+import { Subscription } from 'rxjs/Subscription';
 
 import { NewAd } from '../models/NewAd';
 import { AuthService } from '../services/auth.service';
@@ -12,7 +13,10 @@ import { DealAdService } from '../services/dealAd.service';
   templateUrl: './place-deal-ad.component.html',
   styleUrls: ['./place-deal-ad.component.css']
 })
-export class PlaceDealAdComponent implements OnInit {
+export class PlaceDealAdComponent implements OnInit, OnDestroy {
+
+  private newAdSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentUser: string;
   private newAd: NewAd;
@@ -47,7 +51,7 @@ export class PlaceDealAdComponent implements OnInit {
   placeAd() {
     let confirmed = window.confirm("Are you satisfied with your ad?");
     if (confirmed) {
-      this.dealAdService.placeNewAd(this.newAd)
+      this.newAdSubscription = this.dealAdService.placeNewAd(this.newAd)
         .subscribe((response) => {
           if (response.success) {
             this.alertService.success('Successfully placed ad.', true);
@@ -56,6 +60,8 @@ export class PlaceDealAdComponent implements OnInit {
         }, (error) => {
           this.alertService.error('Error placing ad. Please try again.');
         });
+
+      this.subscriptions.push(this.newAdSubscription);
     }
   }
 
@@ -65,6 +71,12 @@ export class PlaceDealAdComponent implements OnInit {
     } else {
       this.perUnit = true;
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

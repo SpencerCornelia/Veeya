@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AuctionService } from '../services/auction.service';
 import { AuthService } from '../services/auth.service';
@@ -16,11 +17,18 @@ declare var $: any;
 })
 export class AuctionComponent implements OnInit, OnDestroy {
 
+  private connectionSubscription;
+  private currentUserSubscription;
+  private endAuctionSubscription;
+  private getInitialBidsSubscription;
+  private getPropertySubscription;
+  private viewPropertySubscription;
+  private subscriptions: Subscription[] = [];
+
   private auctionOpen: boolean = true;
   private bidData: any;
   private bids: any;
   private currentUser: any;
-  private connection: any;
   private deadline: any;
   private newBid: any;
   private property: any;
@@ -46,16 +54,18 @@ export class AuctionComponent implements OnInit, OnDestroy {
     // GET CURRENT USER INFO
     this.userType = this.authService.loggedInUserType();
 
-    this.authService.getCurrentUser()
+    this.currentUserSubscription = this.authService.getCurrentUser()
       .subscribe((response) => {
         this.currentUser = response.data;
       })
+
+    this.subscriptions.push(this.currentUserSubscription);
 
     // GET PROPERTY
     if (!this.auctionService.propertyExists) {
       this.activatedRoute.params.subscribe((params: Params) => {
         this.propertyId = params['id'];
-        this.viewPropertyService.getPropertyById(this.propertyId)
+        this.viewPropertySubscription = this.viewPropertyService.getPropertyById(this.propertyId)
           .subscribe((response) => {
             this.property = response;
             this.propertyId = this.property._id;
@@ -64,17 +74,22 @@ export class AuctionComponent implements OnInit, OnDestroy {
           })
 
       });
+
+      this.subscriptions.push(this.viewPropertySubscription);
+
     } else {
-      this.auctionService.getProperty()
+      this.getPropertySubscription = this.auctionService.getProperty()
         .subscribe((response) => {
           this.property = response;
           this.propertyId = this.property._id;
         }, (error) => {
 
         });
+
+      this.subscriptions.push(this.getPropertySubscription);
     }
 
-    this.auctionService.getInitialBids(this.propertyId)
+    this.getInitialBidsSubscription = this.auctionService.getInitialBids(this.propertyId)
       .subscribe((response) => {
         this.bids = response.data.bids;
         this.deadline = response.data.deadline;
@@ -82,14 +97,20 @@ export class AuctionComponent implements OnInit, OnDestroy {
         this.establishCountdownTimer();
       }, (error) => {
         this.router.navigate(['/dashboard']);
-      })
+      });
+
+    this.subscriptions.push(this.getInitialBidsSubscription);
 
     // GET BIDS
     // listens for new-bid in auctionService and pushes to this.bids
-    this.connection = this.auctionService.getBids()
+    this.connectionSubscription = this.auctionService.getBids()
       .subscribe((bid) => {
         this.bids.push(bid.data);
-      })
+      }, (error) => {
+
+      });
+
+    this.subscriptions.push(this.connectionSubscription);
 
     this.newBid = {
       amount: ''
@@ -108,10 +129,6 @@ export class AuctionComponent implements OnInit, OnDestroy {
     $("#addBidModal").modal('hide');
   }
 
-  ngOnDestroy() {
-    this.connection.unsubscribe();
-  }
-
   establishCountdownTimer() {
     this.interval = setInterval(this.setTimer.bind(this), 1000);
   }
@@ -126,7 +143,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
   }
 
   endAuction() {
-    this.auctionService.endAuction(this.propertyId)
+    this.endAuctionSubscription = this.auctionService.endAuction(this.propertyId)
       .subscribe((response) => {
         this.auctionOpen = false;
         this.days = 0;
@@ -137,6 +154,14 @@ export class AuctionComponent implements OnInit, OnDestroy {
       }, (error) => {
 
       });
+
+    this.subscriptions.push(this.endAuctionSubscription);
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
@@ -19,10 +20,19 @@ import { User } from '../models/User';
   templateUrl: './view-properties.component.html',
   styleUrls: ['./view-properties.component.css']
 })
-export class ViewPropertiesComponent implements OnInit {
+export class ViewPropertiesComponent implements OnInit, OnDestroy {
+
+  private acceptSoldPropertySubscription;
+  private denySoldPropertySubscription;
+  private getCurrentUserSubscription;
+  private getLenderPropertiesSubscription;
+  private getInvestorPropertiesSubscription;
+  private getWholesalerPropertiesSubscription;
+  private subscriptions: Subscription[] = [];
 
   private currentUser: User;
   private properties: Property[] = [];
+  private userType: string;
 
   private investorPropertiesBought: Property[] = [];
   private investorPropertiesBoughtPending: Property[] = [];
@@ -45,26 +55,25 @@ export class ViewPropertiesComponent implements OnInit {
               private soldPropertyService: SoldPropertyService,
               private viewPropertyService: ViewPropertyService,
               private router: Router,
-              private activatedRoute: ActivatedRoute)
-  {
-    this.getCurrentUser();
-  }
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    let userType = this.authService.loggedInUserType();
+    this.userType = this.authService.loggedInUserType();
 
-    if (userType === 'Wholesaler') {
+    if (this.userType == 'Wholesaler') {
       this.getPropertiesForWholesaler();
-    } else if (userType === 'Investor') {
+    } else if (this.userType == 'Investor') {
       this.getPropertiesForInvestor();
     } else {
       this.getPropertiesForLender();
     }
 
+    this.getCurrentUser();
+
   }
 
   getCurrentUser() {
-    this.authService.getLoggedInUser()
+    this.getCurrentUserSubscription = this.authService.getLoggedInUser()
       .subscribe((response) => {
         this.currentUser = response.data;
       }, (error) => {
@@ -74,7 +83,7 @@ export class ViewPropertiesComponent implements OnInit {
 
   getPropertiesForWholesaler() {
     let wholesalerID = this.authService.loggedInUser();
-    this.getUserPropertiesService.getWholesalerUserProperties(wholesalerID)
+    this.getWholesalerPropertiesSubscription = this.getUserPropertiesService.getWholesalerUserProperties(wholesalerID)
       .subscribe((response) => {
         response.forEach((property) => {
           if (property.status === 'Listed') {
@@ -88,6 +97,8 @@ export class ViewPropertiesComponent implements OnInit {
       }, (error) => {
         this.alertService.error('Error retrieving properties for wholesaler.');
       });
+
+    this.subscriptions.push(this.getWholesalerPropertiesSubscription);
   }
 
   viewProperty(property) {
@@ -97,12 +108,12 @@ export class ViewPropertiesComponent implements OnInit {
 
   getPropertiesForInvestor() {
     let investorID = this.authService.loggedInUser();
-    this.getUserPropertiesService.getInvestorUserProperties(investorID)
+    this.getInvestorPropertiesSubscription = this.getUserPropertiesService.getInvestorUserProperties(investorID)
       .subscribe((response) => {
         response.forEach((property) => {
-          if (property.status === 'Bought') {
+          if (property.status === 'Sold') {
             this.investorPropertiesBought.push(property);
-          } else if (property.status === 'Connection') {
+          } else if (property.status === 'Listed') {
             this.investorPropertiesConnected.push(property);
           } else if (property.status === 'Starred') {
             this.investorPropertiesStarred.push(property);
@@ -113,11 +124,13 @@ export class ViewPropertiesComponent implements OnInit {
       }, (error) => {
         this.alertService.error('Error retrieving properties for investor.');
       });
+
+    this.subscriptions.push(this.getInvestorPropertiesSubscription);
   }
 
   getPropertiesForLender() {
     let lenderID = this.authService.loggedInUser();
-    this.getUserPropertiesService.getLenderUserProperties(lenderID)
+    this.getLenderPropertiesSubscription = this.getUserPropertiesService.getLenderUserProperties(lenderID)
       .subscribe((response) => {
         response.forEach((property) => {
           if (property.status === 'Connection') {
@@ -129,10 +142,12 @@ export class ViewPropertiesComponent implements OnInit {
       }, (error) => {
         this.alertService.error('Error retrieving properties for lender.');
       });
+
+    this.subscriptions.push(this.getLenderPropertiesSubscription);
   }
 
   acceptSold(property) {
-    this.soldPropertyService.acceptSoldProperty(property, this.currentUser._id)
+    this.acceptSoldPropertySubscription = this.soldPropertyService.acceptSoldProperty(property, this.currentUser._id)
       .subscribe((response) => {
         this.investorPropertiesBoughtPending = this.investorPropertiesBoughtPending.filter((p) => {
           return p._id != property._id;
@@ -141,10 +156,35 @@ export class ViewPropertiesComponent implements OnInit {
       }, (error) => {
         this.alertService.error('Error accepting property as sold.');
       });
+
+    this.subscriptions.push(this.acceptSoldPropertySubscription);
   }
 
-  denySold() {
+  denySold(property) {
+    let denyPropertyId = property._id;
+    this.denySoldPropertySubscription = this.soldPropertyService.denySoldProperty(property, this.currentUser._id)
+      .subscribe((response) => {
+        this.investorPropertiesBoughtPending = this.investorPropertiesBoughtPending.filter((prop) => {
+          return prop._id != denyPropertyId;
+        });
+        this.investorPropertiesConnected.push(property);
+      }, (error) => {
 
+      });
+
+    this.subscriptions.push(this.denySoldPropertySubscription);
+  }
+
+  ngOnDestroy() {
+    // this.acceptSoldPropertySubscription == undefined ? '' : this.acceptSoldPropertySubscription.unsubscribe();
+    // this.denySoldPropertySubscription == undefined ? '' : this.denySoldPropertySubscription.unsubscribe();
+    // this.getCurrentUserSubscription == undefined ? '' : this.getCurrentUserSubscription.unsubscribe();
+    // this.getLenderPropertiesSubscription == undefined ? '' : this.getLenderPropertiesSubscription.unsubscribe();
+    // this.getInvestorPropertiesSubscription == undefined ? '' : this.getInvestorPropertiesSubscription.unsubscribe();
+    // this.getWholesalerPropertiesSubscription == undefined ? '' : this.getWholesalerPropertiesSubscription.unsubscribe();
+    this.subscriptions.forEach((sub) => {
+      sub.unsubscribe();
+    });
   }
 
 }

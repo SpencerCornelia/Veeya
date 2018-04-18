@@ -14,9 +14,6 @@ const UserSchema = mongoose.Schema({
   userType: {
     type: String
   },
-  userName: {
-    type: String
-  },
   password: {
     type: String
   },
@@ -126,7 +123,6 @@ module.exports.registerUser = function(userBody) {
               }
               let newUser = new User({
                 userType: userBody.userType,
-                userName: userBody.userName,
                 password: hash,
                 firstName: userBody.firstName,
                 lastName: userBody.lastName,
@@ -215,7 +211,6 @@ module.exports.registerInvitedUser = function(userBody) {
           let randomString = Math.random().toString(36).slice(-8);
           let newUser = new User({
             userType: userBody.userType,
-            userName: '',
             password: randomString,
             firstName: '',
             lastName: '',
@@ -367,11 +362,11 @@ module.exports.getWholesalerById = function(id) {
   });
 };
 
-module.exports.searchWholesaler = function(email, userName, phoneNumber) {
+module.exports.searchWholesaler = function(email, phoneNumber) {
   return new Promise((resolve, reject) => {
     User.find({
       'userType': 'Wholesaler',
-      $or:[{ 'email': email }, { 'userName': userName }, { 'phoneNumber': phoneNumber }]
+      $or:[{ 'email': email }, { 'phoneNumber': phoneNumber }]
     }, (error, user) => {
       if (error) {
         let errorObj = {
@@ -543,18 +538,27 @@ module.exports.updateWholesalerSoldPendingProperties = function(wholesalerId, pr
         }
         reject(errorObj);
       } else if (wholesaler) {
-        let newListed = [];
 
-        for (let i = 0; i < wholesaler.wholesalerListedProperties.length; i++) {
-          if (propertyId != wholesaler.wholesalerListedProperties[i]) {
-            newListed.push(wholesaler.wholesalerListedProperties[i]);
-          }
-        }
+        if (deny) {
+          // remove propertyId from wholesaler sold pending since it was denied
+          wholesaler.wholesalerSoldPendingProperties = wholesaler.wholesalerSoldPendingProperties.filter((propId) => {
+            return propId != propertyId;
+          });
 
-        wholesaler.wholesalerListedProperties = newListed;
-        if (!deny) {
+          // push propertyId into Listed since it is now in listed status
+          wholesaler.wholesalerListedProperties.push(propertyId);
+        } else {
+
+          let newListed = [];
+          // remove propertyId from listed since it is now sold pending status
+          wholesaler.wholesalerListedProperties = wholesaler.wholesalerListedProperties.filter((propId) => {
+            return propId != propertyId;
+          });
+
+          // push propertyId into sold pending array now that the status has changed
           wholesaler.wholesalerSoldPendingProperties.push(propertyId);
         }
+
         wholesaler.save((error, updatedWholesaler) => {
           if (error) {
             let errorObj = {
@@ -781,11 +785,11 @@ module.exports.getInvestorById = function(id) {
   });
 };
 
-module.exports.searchInvestor = function(email, userName, phoneNumber) {
+module.exports.searchInvestor = function(email, phoneNumber) {
   return new Promise((resolve, reject) => {
     User.find({
       'userType': 'Investor',
-      $or:[{ 'email': email }, { 'userName': userName }, { 'phoneNumber': phoneNumber }]
+      $or:[{ 'email': email }, { 'phoneNumber': phoneNumber }]
     }, (error, user) => {
       if (error) {
         let errorObj = {
@@ -868,6 +872,52 @@ module.exports.getPropertiesForInvestor = function(investorId) {
         let errorObj = {
           success: false,
           message: 'Unable to retrieve properties for user.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.getInvestorConnectedProperties = function(investorId) {
+  return new Promise((resolve, reject) => {
+    User.findById(investorId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving properties.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        let propertyIDs = [];
+
+        investor.connections.forEach((connectedUser, index) => {
+          User.findById(connectedUser, (error, foundUser) => {
+            if (foundUser.wholesalerListedProperties.length > 0) {
+              for (let i = 0; i < foundUser.wholesalerListedProperties.length; i++) {
+                propertyIDs.push(foundUser.wholesalerListedProperties[i]);
+              }
+            }
+
+            if (index == investor.connections.length-1) {
+              let successObj = {
+                success: true,
+                message: "Successfully retrieved property ID's",
+                data: propertyIDs
+              }
+              resolve(successObj);
+            }
+          });
+
+
+        });
+
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve properties.',
           error: ''
         }
         reject(errorObj);
@@ -1146,11 +1196,11 @@ module.exports.getAllLenders = function() {
   });
 };
 
-module.exports.searchLender = function(email, userName, phoneNumber) {
+module.exports.searchLender = function(email, phoneNumber) {
   return new Promise((resolve, reject) => {
     User.find({
       'userType': 'Lender',
-      $or:[{ 'email': email }, { 'userName': userName }, { 'phoneNumber': phoneNumber }]
+      $or:[{ 'email': email }, { 'phoneNumber': phoneNumber }]
     }, (error, user) => {
       if (error) {
         let errorObj = {
@@ -1590,7 +1640,6 @@ module.exports.updateUserMyProfileInfo = function(userData) {
         }
         reject(errorObj);
       } else if (user) {
-        user.userName = userData.userName;
         user.firstName = userData.firstName;
         user.lastName = userData.lastName;
         user.email = userData.email;
@@ -2146,7 +2195,7 @@ module.exports.addConnections = function(IDs, userId) {
         if (IDs.length == 0) {
           let successObj = {
               success: true,
-              message: 'Successfully added connections.',
+              message: 'Success.',
               data: savedUser
             }
           resolve(successObj);
@@ -2167,7 +2216,7 @@ module.exports.addConnections = function(IDs, userId) {
             } else if (savedUser) {
               let successObj = {
                 success: true,
-                message: 'Successfully added connections.',
+                message: 'Success.',
                 data: savedUser
               }
               resolve(successObj);
@@ -2240,12 +2289,6 @@ module.exports.deleteUser = function(userId) {
 */
 
 let validateUser = function(data) {
-  if (data.userName) {
-    if (!validateUsername(data.userName)) {
-      return false;
-    }
-  }
-
   if (data.firstName) {
     if (!validateFirstName(data.firstName)) {
       return false;
@@ -2289,15 +2332,6 @@ let validateUser = function(data) {
   }
 
   return true;
-};
-
-let validateUsername = function(username) {
-  let userNamePattern = new RegExp("^[a-zA-Z0-9-]+");
-  if (userNamePattern.test(username)) {
-    return true;
-  } else {
-    return false;
-  }
 };
 
 let validateFirstName = function(firstname) {
