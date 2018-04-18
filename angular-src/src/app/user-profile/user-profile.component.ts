@@ -103,7 +103,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         this.notConnected = false;
         this.connectionSent = true;
         this.disableConnectButton = true;
-        this.alertService.success('Added connection successfully.', true);
       }, (error) => {
         this.alertService.error('Error adding connection.', true);
       });
