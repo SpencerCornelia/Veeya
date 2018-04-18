@@ -2195,7 +2195,7 @@ module.exports.addConnections = function(IDs, userId) {
         if (IDs.length == 0) {
           let successObj = {
               success: true,
-              message: 'Successfully added connections.',
+              message: 'Success.',
               data: savedUser
             }
           resolve(successObj);
@@ -2216,7 +2216,7 @@ module.exports.addConnections = function(IDs, userId) {
             } else if (savedUser) {
               let successObj = {
                 success: true,
-                message: 'Successfully added connections.',
+                message: 'Success.',
                 data: savedUser
               }
               resolve(successObj);
