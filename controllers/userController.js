@@ -137,7 +137,7 @@ router.post('/addconnection', (req, res) => {
 router.post('/acceptconnection', (req, res) => {
   let responseObj = {
     success: true,
-    message: 'Successfully added connection.',
+    message: 'Success',
     data: {
       currentUser: {},
       connectionUser: {}
