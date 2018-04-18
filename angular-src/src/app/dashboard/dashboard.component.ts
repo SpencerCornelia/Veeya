@@ -7,6 +7,7 @@ import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { ProfileService } from '../services/profile.service';
 import { EditPropertyService } from '../services/editProperty.service';
+import { GetConnectionsService } from '../services/getConnections.service';
 
 import { Property } from '../models/Property';
 import { User } from '../models/User';
@@ -20,6 +21,7 @@ import { User } from '../models/User';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   private getCurrentUserSubscription;
+  private getPendingConnectionsSubscription;
   private subscriptions: Subscription[] = [];
 
   private currentUser: User;
@@ -30,12 +32,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(private alertService: AlertService,
               private authService: AuthService,
+              private getConnectionsService: GetConnectionsService,
               private profileService: ProfileService,
               private editPropertyService: EditPropertyService,
-              private router: Router)
-              {
-
-              }
+              private router: Router) { }
 
   ngOnInit() {
     this.getCurrentUser();
