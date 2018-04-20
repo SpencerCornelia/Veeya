@@ -1,0 +1,22 @@
+.table-row {
+  width: 100%;
+  max-width: 100%;
+}
+
+#property-photo-wrapper {
+  width: 20%;
+}
+
+#property-photo {
+  width: 120px;
+  height: 110px;
+  border-radius: 0%;
+}
+
+#property-address-wrapper {
+  width: 55%;
+}
+
+#city-state {
+  cursor: default;
+}
