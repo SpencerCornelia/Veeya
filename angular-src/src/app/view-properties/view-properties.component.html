@@ -26,29 +26,68 @@
       <div class="main-panel" *ngIf="userType=='Wholesaler'">
         <div class="content-wrapper">
           <div class="row grid-margin">
+
+
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Listed Properties</h4>
-                  <p class="card-text" *ngIf="wholesalerPropertiesListed.length>0">
-                    Click on any image to view the property.
-                  </p>
                   <p class="card-text" *ngIf="wholesalerPropertiesListed.length==0">
                     You currently do not have any properties listed. If you have a property under contract and would like to upload the property for investors to see,
                     please click <button class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4"
                       [routerLink]="['/addproperty']">HERE</button>.
                   </p>
-                  <div id="lightgallery" class="row lightGallery" *ngFor="let listedProperty of wholesalerPropertiesListed">
+                  <!-- <div id="lightgallery" class="row lightGallery" *ngFor="let listedProperty of wholesalerPropertiesListed">
                     <a (click)="viewProperty(listedProperty)" class="image-tile" alt="image large">
-                      <img src="{{ listedProperty.photos[0] }}" alt="image small">
+                      <img src="{{ listedProperty.photos[0] }}" alt="">
                       <h6>{{ listedProperty.address }}</h6>
                       <h6>{{ listedProperty.city }}, {{ listedProperty.state }} {{ listedProperty.zipCode }}</h6>
                     </a>
+                  </div> -->
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr class="table-row" *ngFor="let listedProperty of wholesalerPropertiesListed">
+                          <td id="property-photo-wrapper">
+                            <div class="d-flex justify-content-center">
+                              <img src="{{ listedProperty.photos[0] }}" alt="" id="property-photo">
+                            </div>
+                          </td>
+                          <td id="property-address-wrapper">
+                            <a href="#">
+                              <h3>{{ listedProperty.address }}</h3>
+                            </a>
+                            <div>
+                              <button type="button" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4">View Auction</button>
+                            </div>
+                          </td>
+                          <td>
+                            <div>
+                              $ {{ listedProperty.purchasePrice }}
+                            </div>
+                            <div>
+                              <div class="btn btn-primary btn-rounded btn-fw" id="city-state">
+                                {{ listedProperty.city }}, {{ listedProperty.state }}
+                              </div>
+                            </div>
+                            <div>
+                              <p>
+                                4 weeks ago
+                              </p>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
+
                 </div>
               </div>
             </div>
           </div>
+
+
+
           <div class="row grid-margin">
             <div class="col-lg-12">
               <div class="card px-3">
