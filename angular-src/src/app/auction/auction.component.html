@@ -27,8 +27,7 @@
           <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Auction</h4>
+                <div class="card-body auction-header">
                   <div class="timer" *ngIf="auctionOpen">
                     <span>Days: {{ days }}</span>
                     <span>Hours: {{ hours }}</span>
@@ -43,36 +42,85 @@
                       [disabled]="!auctionOpen">Add bid
                     </button>
                   </div>
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>City</th>
-                        <th>State</th>
-                        <th>Amount</th>
-                        <th>Profile</th>
-                      </tr>
-                    </thead>
-                    <tbody *ngIf="bids?.length > 0">
-                      <tr *ngFor="let bid of bids">
-                        <td>{{ bid?.bidPlacedDate }}</td>
-                        <td>{{ bid?.bidPlacedTime }}</td>
-                        <td>{{ bid?.firstName }}</td>
-                        <td>{{ bid?.lastName }}</td>
-                        <td>{{ bid?.city }}</td>
-                        <td>{{ bid?.state }}</td>
-                        <td>{{ bid?.amount }}</td>
-                        <td><a [routerLink]="['/user/' + bid?.userId]">View User</a></td>
-                      </tr>
-                    </tbody>
-                  </table>
                 </div>
               </div>
             </div>
           </div>
+
+
+
+          <div class="row" *ngFor="let bid of bids">
+            <div class="col-lg-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+
+                  <div class="table-responsive">
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr class="table-row">
+                          <td id="bid-user-photo-wrapper">
+                            <div class="d-flex justify-content-center">
+                              <!-- <img src="{{ bid.photo[0] }}" alt="" id="bid-user-photo"> -->
+                            </div>
+                          </td>
+                          <td id="bid-name-wrapper">
+                            <a [routerLink]="['/user/', bid.userId]">
+                              <h3>{{ bid.firstName }} {{ bid.lastName }}</h3>
+                            </a>
+                            <div>
+                              {{ bid.bidPlacedTime }}
+                            </div>
+                            <div>
+                              {{ bid.bidPlacedDate }}
+                            </div>
+                            <div>
+                              <button type="button" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4"
+                                [routerLink]="['/user/', bid.userId]">View User
+                              </button>
+                            </div>
+                          </td>
+                          <td>
+                            <h3 class="bid-row-right">
+                              $ {{ bid.amount }}
+                            </h3>
+                            <div class="bid-row-right">
+                              <div class="btn btn-primary btn-rounded btn-fw" id="city-state">
+                                {{ bid.city }}, {{ bid.state }}
+                              </div>
+                            </div>
+                            <div class="bid-row-right">
+                              <p>
+                                4 weeks ago
+                              </p>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           <!-- Add Bid MODAL -->
           <div class="modal fade" id="addBidModal" tabindex="-1" role="dialog"

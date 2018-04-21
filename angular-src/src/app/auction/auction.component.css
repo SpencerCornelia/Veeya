@@ -1,0 +1,38 @@
+.auction-header {
+  background-color: #489ad8;
+}
+
+.table-row {
+  width: 100%;
+  max-width: 100%;
+}
+
+#bid-user-photo-wrapper {
+  width: 20%;
+}
+
+#bid-user-photo {
+  width: 120px;
+  height: 110px;
+  border-radius: 0%;
+}
+
+#bid-photo:hover {
+  cursor: pointer;
+}
+
+#bid-name-wrapper {
+  width: 55%;
+}
+
+#bid-name-wrapper > a:hover {
+  text-decoration: none;
+}
+
+#city-state {
+  cursor: default;
+}
+
+.bid-row-right {
+  margin-top: 10px;
+}

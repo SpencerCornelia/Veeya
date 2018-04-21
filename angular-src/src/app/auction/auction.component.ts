@@ -67,6 +67,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
         this.propertyId = params['id'];
         this.viewPropertySubscription = this.viewPropertyService.getPropertyById(this.propertyId)
           .subscribe((response) => {
+            console.log("response:", response)
             this.property = response;
             this.propertyId = this.property._id;
           }, (error) => {
@@ -136,6 +137,12 @@ export class AuctionComponent implements OnInit, OnDestroy {
   setTimer() {
     let now = new Date().getTime();
     let t = new Date(this.deadline).getTime() - now;
+    if (t < now) {
+      this.auctionOpen = true;
+    } else {
+      this.auctionOpen = false;
+      this.endAuction();
+    }
     this.days = Math.floor(t / (1000 * 60 * 60 * 24));
     this.hours = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60 * 60));
     this.minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));
