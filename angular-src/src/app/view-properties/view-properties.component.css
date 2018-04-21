@@ -13,10 +13,22 @@
   border-radius: 0%;
 }
 
+#property-photo:hover {
+  cursor: pointer;
+}
+
 #property-address-wrapper {
   width: 55%;
 }
 
+#property-address-wrapper > a:hover {
+  text-decoration: none;
+}
+
 #city-state {
   cursor: default;
+}
+
+.property-row-right {
+  margin-top: 10px;
 }
