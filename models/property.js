@@ -520,7 +520,7 @@ let validatePropertyInputs = function(data) {
  let expectedRehabPattern = /^[0-9]*$/;
  let expectedRehabMatch = false;
  if (data.expectedRehab) {
-  expectedRehabMatch = data.expectedRehab.match(expectedRehabPattern) && data.expectedRehab.length >= 3 && data.expectedRehab.length <= 10;
+  expectedRehabMatch = data.expectedRehab.match(expectedRehabPattern) && data.expectedRehab.length <= 10;
  } else {
   expectedRehabMatch = true;
  }
