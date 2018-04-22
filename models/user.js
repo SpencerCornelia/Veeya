@@ -895,6 +895,14 @@ module.exports.getInvestorConnectedProperties = function(investorId) {
 
         investor.connections.forEach((connectedUser, index) => {
           User.findById(connectedUser, (error, foundUser) => {
+            if (error) {
+              let errorObj = {
+                success: false,
+                message: 'Error.',
+                error: error
+              }
+              reject(errorObj);
+            }
             if (foundUser.wholesalerListedProperties.length > 0) {
               for (let i = 0; i < foundUser.wholesalerListedProperties.length; i++) {
                 propertyIDs.push(foundUser.wholesalerListedProperties[i]);
