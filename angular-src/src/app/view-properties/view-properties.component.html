@@ -285,10 +285,10 @@
                           </p>
                           <div>
                             <button class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4"
-                              [routerLink]="['/user/', property.wholesaler_id]">View Wholesaler
+                              (click)="enterAuction(property)">View Wholesaler
                             </button>
                             <button *ngIf="property.auctionEstablished=='true'" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4"
-                              [routerLink]="['/auction/', property.wholesaler_id]">Enter Auction
+                              (click)="enterAuction(property)">Enter Auction
                             </button>
                           </div>
                         </td>
