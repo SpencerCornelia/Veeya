@@ -56,7 +56,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
 
     this.currentUserSubscription = this.authService.getCurrentUser()
       .subscribe((response) => {
-        this.currentUser = response.data;
+        this.currentUser = response;
       })
 
     this.subscriptions.push(this.currentUserSubscription);
@@ -67,7 +67,6 @@ export class AuctionComponent implements OnInit, OnDestroy {
         this.propertyId = params['id'];
         this.viewPropertySubscription = this.viewPropertyService.getPropertyById(this.propertyId)
           .subscribe((response) => {
-            console.log("response:", response)
             this.property = response;
             this.propertyId = this.property._id;
           }, (error) => {
@@ -137,7 +136,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
   setTimer() {
     let now = new Date().getTime();
     let t = new Date(this.deadline).getTime() - now;
-    if (t < now) {
+    if (t > 0) {
       this.auctionOpen = true;
     } else {
       this.auctionOpen = false;
