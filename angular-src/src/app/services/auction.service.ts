@@ -49,7 +49,7 @@ export class AuctionService {
         this.bids = res.data.bids;
         this.deadline = res.data.deadline;
         return res;
-      })
+      });
   }
 
   getBidData() {
@@ -98,10 +98,15 @@ export class AuctionService {
 
     let bid = {
       propertyId: propertyId,
-      user: user,
       amount: amount,
-      currentTime: time,
-      date: date
+      bidPlacedTime: time,
+      bidPlacedDate: date,
+      profilePhoto: user.profilePhoto,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      city: user.city,
+      state: user.state,
+      userId: user._id
     }
     this.socket.emit('add-bid', bid);
   }
