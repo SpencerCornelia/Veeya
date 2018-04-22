@@ -10,7 +10,7 @@
 #property-photo {
   width: 120px;
   height: 110px;
-  border-radius: 0%;
+  border-radius: 10%;
 }
 
 #property-photo:hover {
@@ -25,8 +25,8 @@
   text-decoration: none;
 }
 
-#city-state {
-  cursor: default;
+.property-status {
+  margin-top: 5px;
 }
 
 .property-row-right {
