@@ -30,6 +30,9 @@ const BidSchema = mongoose.Schema({
     state: {
       type: String
     },
+    profilePhoto: {
+      type: String
+    },
     amount: {
       type: String
     },
@@ -137,21 +140,18 @@ module.exports.establishAuction = function(propertyId, deadline) {
 
 module.exports.addBid = function(bidData) {
   let propertyId = bidData.propertyId;
-  let user = bidData.user;
-  let amount = bidData.amount;
-  let currentTime = bidData.currentTime;
-  let date = bidData.date;
 
   Bid.findOne({ 'propertyId': propertyId }, (error, property) => {
     let newBid = {
-      userId: bidData.user._id,
-      firstName: bidData.user.firstName,
-      lastName: bidData.user.lastName,
-      city: bidData.user.city,
-      state: bidData.user.state,
+      userId: bidData.userId,
+      firstName: bidData.firstName,
+      lastName: bidData.lastName,
+      city: bidData.city,
+      state: bidData.state,
+      profilePhoto: bidData.profilePhoto,
       amount: bidData.amount,
-      bidPlacedTime: bidData.currentTime,
-      bidPlacedDate: bidData.date
+      bidPlacedTime: bidData.bidPlacedTime,
+      bidPlacedDate: bidData.bidPlacedDate
     }
 
     property.bids.push(newBid);
