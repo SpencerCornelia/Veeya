@@ -42,6 +42,10 @@ ul {
   color: #FFFFFF;
 }
 
+.navbar-list-item:hover > a {
+  color: white;
+}
+
 .logout-link {
   margin-right: auto;
 }
