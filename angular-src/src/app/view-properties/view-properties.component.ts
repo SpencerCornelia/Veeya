@@ -137,7 +137,6 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
     let investorID = this.authService.loggedInUser();
     this.getInvestorPropertiesSubscription = this.getUserPropertiesService.getInvestorUserProperties(investorID)
       .subscribe((response) => {
-        console.log("response:", response)
         response.forEach((property) => {
           if (property.status === 'Sold') {
             this.investorPropertiesBought.push(property);
