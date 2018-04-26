@@ -1,3 +1,11 @@
 .user-card {
   cursor: pointer;
 }
+
+.connections-search-input {
+  width: 40%;
+}
+
+.connections-search-input input {
+  width: 100%;
+}
