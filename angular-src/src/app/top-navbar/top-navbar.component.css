@@ -66,6 +66,10 @@ ul {
   color: #FFFFFF;
 }
 
+#logout-list-item:hover {
+  cursor: pointer;
+}
+
 @media all and (max-width: 600px) {
   #username-list-item, #profile-photo-list-item, #logout-list-item, #contact-list-item, #about-list-item, #support-list-item {
     display: none;
