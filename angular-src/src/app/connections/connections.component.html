@@ -91,7 +91,37 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let connection of connections; let i=index">
+                      <tr>
+                        <td>
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchFirstName" name="filterFirstName" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchLastName" name="filterLastName" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchEmail" name="filterEmail" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchPhoneNumber" name="filterPhoneNumber" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchCity" name="filterCity" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchState" name="filterState" value="Search" />
+                        </td>
+                        <td></td>
+                      </tr>
+                      <tr *ngFor="let connection of connections
+                        | filterFirstName: searchFirstName
+                        | filterLastName: searchLastName
+                        | filterEmail: searchEmail
+                        | filterPhoneNumber: searchPhoneNumber
+                        | filterCity: searchCity
+                        | filterState: searchState;
+                        let i=index">
                         <td>{{ i + 1 }}</td>
                         <td>{{ connection.firstName }}</td>
                         <td>{{ connection.lastName }}</td>
