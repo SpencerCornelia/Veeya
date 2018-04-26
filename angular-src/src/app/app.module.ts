@@ -24,7 +24,6 @@ import { FilterPropertyTypePipe } from './pipes/filterPropertyType.pipe';
 import { FilterPurchasePricePipe } from './pipes/filterPurchasePrice.pipe';
 import { FilterStatePipe } from './pipes/filterState.pipe';
 import { FilterStatusPipe } from './pipes/filterStatus.pipe';
-import { FilterUsernamePipe } from './pipes/filterUsername.pipe';
 
 import { AppComponent } from './app.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
@@ -96,7 +95,6 @@ import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
     FilterPurchasePricePipe,
     FilterStatePipe,
     FilterStatusPipe,
-    FilterUsernamePipe,
     FooterComponent,
     GenerateReportComponent,
     LoginComponent,
