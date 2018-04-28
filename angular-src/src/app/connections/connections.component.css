@@ -22,6 +22,8 @@
 
 #connection-name-wrapper > a:hover {
   text-decoration: none;
+  cursor: pointer;
+  color: blue;
 }
 
 #connection-stats-wrapper {
