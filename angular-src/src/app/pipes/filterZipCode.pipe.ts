@@ -10,11 +10,9 @@ export class FilterZipCodePipe implements PipeTransform {
 
     if(!searchText) return items;
 
-    searchText = searchText.toLowerCase();
-
     return items.filter((item) => {
       if (item.zipCode) {
-        return item.zipCode.toLowerCase().includes(searchText);
+        return item.zipCode.includes(searchText);
       }
     });
   }
