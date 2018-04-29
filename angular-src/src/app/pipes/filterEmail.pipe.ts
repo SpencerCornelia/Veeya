@@ -17,5 +17,5 @@ export class FilterEmailPipe implements PipeTransform {
         return item.email.toLowerCase().includes(searchText);
       }
     });
-   }
+  }
 }

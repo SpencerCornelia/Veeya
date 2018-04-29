@@ -17,5 +17,5 @@ export class FilterAddressPipe implements PipeTransform {
         return item.address.toLowerCase().includes(searchText);
       }
     });
-   }
+  }
 }

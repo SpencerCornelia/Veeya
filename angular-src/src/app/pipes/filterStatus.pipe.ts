@@ -17,5 +17,5 @@ export class FilterStatusPipe implements PipeTransform {
         return item.status.toLowerCase().includes(searchText);
       }
     });
-   }
+  }
 }

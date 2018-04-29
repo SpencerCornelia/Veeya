@@ -17,5 +17,5 @@ export class FilterFirstNamePipe implements PipeTransform {
         return item.firstName.toLowerCase().includes(searchText);
       }
     });
-   }
+  }
 }

@@ -17,5 +17,5 @@ export class FilterPurchasePricePipe implements PipeTransform {
         return item.purchasePrice.toLowerCase().includes(searchText);
       }
     });
-   }
+  }
 }

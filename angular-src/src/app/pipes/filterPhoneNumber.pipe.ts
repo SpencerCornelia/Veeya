@@ -17,5 +17,5 @@ export class FilterPhoneNumberPipe implements PipeTransform {
         return item.phoneNumber.toLowerCase().includes(searchText);
       }
     });
-   }
+  }
 }
