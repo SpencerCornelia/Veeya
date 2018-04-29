@@ -22,6 +22,7 @@ export class ViewDealAdsComponent implements OnInit, OnDestroy {
 
   private currentAds: Array<NewAd> = [];
   private currentUser: string;
+  private deal: any;
   private userType: string;
   private investorUserType: boolean = false;
   private wholesalerUserType: boolean = false;
@@ -33,6 +34,11 @@ export class ViewDealAdsComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit() {
+    document.getElementById("table-row").hidden = true;
+    document.getElementById("property-content").hidden = true;
+    document.getElementById("return-content").hidden = true;
+    document.getElementById("confirm-content").hidden = true;
+    document.getElementById("search-complete-content").hidden = true;
     this.currentUser = this.authService.loggedInUser();
     this.userType = this.authService.loggedInUserType();
     if (this.userType == 'Investor') {
@@ -44,6 +50,30 @@ export class ViewDealAdsComponent implements OnInit, OnDestroy {
     }
 
     this.getAds();
+
+    this.dealModel();
+  }
+
+  dealModel() {
+    this.deal = {
+      city: '',
+      state: 'AL',
+      zipCode: '',
+      minPurchasePrice: '',
+      maxPurchasePrice: '',
+      propertyType: 'Single Family',
+      minBedrooms: '0',
+      maxBedrooms: '5+',
+      minBathrooms: '0',
+      maxBathrooms: '5+',
+      maxRehabCost: '',
+      afterRepairValue: '',
+      yearBuilt: '',
+      squareFootage: '',
+      sellerFinancing: 'No',
+      capRate: '',
+      grossIncome: ''
+    }
   }
 
   getAds() {
@@ -78,6 +108,29 @@ export class ViewDealAdsComponent implements OnInit, OnDestroy {
       });
 
     this.subscriptions.push(this.deleteAdSubscription);
+  }
+
+  changeTab(current, newTab) {
+    document.getElementById(current + '-content').hidden = true;
+    document.getElementById(current + '-tab').classList.remove('active');
+
+    document.getElementById(newTab + '-content').hidden = false;
+    document.getElementById(newTab + '-tab').classList.add('active');
+  }
+
+  search() {
+    document.getElementById('return-content').hidden = true;
+    document.getElementById('table-row').hidden = false;
+    document.getElementById('confirm-content').hidden = true;
+    document.getElementById('search-complete-content').hidden = false;
+
+    document.getElementById('search-row').classList.add('searched');
+  }
+
+  startOver() {
+    document.getElementById('search-complete-content').hidden = true;
+    document.getElementById('location-content').hidden = false;
+    this.dealModel();
   }
 
   ngOnDestroy() {
