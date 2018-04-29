@@ -56,7 +56,7 @@ export class AuctionComponent implements OnInit, OnDestroy {
 
     this.currentUserSubscription = this.authService.getCurrentUser()
       .subscribe((response) => {
-        this.currentUser = response.data;
+        this.currentUser = response;
       })
 
     this.subscriptions.push(this.currentUserSubscription);
@@ -136,6 +136,12 @@ export class AuctionComponent implements OnInit, OnDestroy {
   setTimer() {
     let now = new Date().getTime();
     let t = new Date(this.deadline).getTime() - now;
+    if (t > 0) {
+      this.auctionOpen = true;
+    } else {
+      this.auctionOpen = false;
+      this.endAuction();
+    }
     this.days = Math.floor(t / (1000 * 60 * 60 * 24));
     this.hours = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60 * 60));
     this.minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60));

@@ -47,17 +47,8 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-lg-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div class="form-group d-flex search-field">
-                    <input type="text" [(ngModel)]="searchText" class="form-control" placeholder="Enter your search" value="Search">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
+
           <div class="row" *ngIf="currentTab=='Wholesalers'">
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
@@ -65,7 +56,7 @@
                   <h4 class="card-title">Search Results</h4>
                   <table class="table">
                     <thead>
-                      <tr>
+                      <tr class="table-row">
                         <th>#</th>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -77,7 +68,37 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let wholesaler of wholesalers | filterEmail: searchText | filterFirstName: searchText | filterLastName: searchText | filterUsername: searchText | filterCity: searchText | filterState: searchText; let i=index;">
+                      <tr>
+                        <td>
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchFirstName" name="filterFirstName" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchLastName" name="filterLastName" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchEmail" name="filterEmail" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchPhoneNumber" name="filterPhoneNumber" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchCity" name="filterCity" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchState" name="filterState" value="Search" />
+                        </td>
+                        <td></td>
+                      </tr>
+                      <tr *ngFor="let wholesaler of wholesalers |
+                                  filterFirstName: searchFirstName |
+                                  filterLastName: searchLastName |
+                                  filterEmail: searchEmail |
+                                  filterPhoneNumber: searchPhoneNumber |
+                                  filterCity: searchCity |
+                                  filterState: searchState;
+                                  let i=index;">
                         <td>{{ i + 1 }}</td>
                         <td>{{ wholesaler.firstName }}</td>
                         <td>{{ wholesaler.lastName }}</td>
@@ -100,7 +121,7 @@
                   <h4 class="card-title">Search Results</h4>
                   <table class="table">
                     <thead>
-                      <tr>
+                      <tr class="table-row">
                         <th>#</th>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -112,7 +133,37 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let investor of investors | filterEmail: searchText | filterFirstName: searchText | filterLastName: searchText | filterUsername: searchText | filterCity: searchText | filterState: searchText; let i=index;">
+                      <tr class="table-row">
+                        <td>
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchFirstName" name="filterFirstName" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchLastName" name="filterLastName" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchEmail" name="filterEmail" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchPhoneNumber" name="filterPhoneNumber" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchCity" name="filterCity" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchState" name="filterState" value="Search" />
+                        </td>
+                        <td></td>
+                      </tr>
+                      <tr *ngFor="let investor of investors |
+                                  filterFirstName: searchFirstName |
+                                  filterLastName: searchLastName |
+                                  filterEmail: searchEmail |
+                                  filterPhoneNumber: searchPhoneNumber |
+                                  filterCity: searchCity |
+                                  filterState: searchState;
+                                  let i=index;">
                         <td>{{ i + 1 }}</td>
                         <td>{{ investor.firstName }}</td>
                         <td>{{ investor.lastName }}</td>
@@ -135,7 +186,7 @@
                   <h4 class="card-title">Search Results</h4>
                   <table class="table">
                     <thead>
-                      <tr>
+                      <tr class="table-row">
                         <th>#</th>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -147,7 +198,37 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let lender of lenders | filterEmail: searchText | filterFirstName: searchText | filterLastName: searchText | filterUsername: searchText | filterCity: searchText | filterState: searchText; let i=index;">
+                      <tr class="table-row">
+                        <td>
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchFirstName" name="filterFirstName" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchLastName" name="filterLastName" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchEmail" name="filterEmail" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchPhoneNumber" name="filterPhoneNumber" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchCity" name="filterCity" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchState" name="filterState" value="Search" />
+                        </td>
+                        <td></td>
+                      </tr>
+                      <tr *ngFor="let lender of lenders |
+                                  filterFirstName: searchFirstName |
+                                  filterLastName: searchLastName |
+                                  filterEmail: searchEmail |
+                                  filterPhoneNumber: searchPhoneNumber |
+                                  filterCity: searchCity |
+                                  filterState: searchState;
+                                  let i=index;">
                         <td>{{ i + 1 }}</td>
                         <td>{{ lender.firstName }}</td>
                         <td>{{ lender.lastName }}</td>
@@ -170,7 +251,7 @@
                   <h4 class="card-title">Search Results</h4>
                   <table class="table">
                     <thead>
-                      <tr>
+                      <tr class="table-row">
                         <th>#</th>
                         <th>Address</th>
                         <th>City</th>
@@ -184,7 +265,37 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let property of properties | filterAddress: searchText | filterCity: searchText | filterState: searchText | filterPurchasePrice: searchText | filterPropertyType: searchText | filterStatus: searchText; let i=index;">
+                      <tr class="table-row">
+                        <td>
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchFirstName" name="filterFirstName" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchLastName" name="filterLastName" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchEmail" name="filterEmail" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchPhoneNumber" name="filterPhoneNumber" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchCity" name="filterCity" value="Search" />
+                        </td>
+                        <td class="connections-search-input">
+                          <input [(ngModel)]="searchState" name="filterState" value="Search" />
+                        </td>
+                        <td></td>
+                      </tr>
+                      <tr *ngFor="let property of properties |
+                                  filterFirstName: searchFirstName |
+                                  filterLastName: searchLastName |
+                                  filterEmail: searchEmail |
+                                  filterPhoneNumber: searchPhoneNumber |
+                                  filterCity: searchCity |
+                                  filterState: searchState;
+                                  let i=index;">
                         <td>{{ i + 1 }}</td>
                         <td>{{ property.address }}</td>
                         <td>{{ property.city }}</td>

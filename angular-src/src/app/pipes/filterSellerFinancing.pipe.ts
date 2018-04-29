@@ -1,10 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'filterEmail'
+  name: 'filterSellerFinancing'
 })
 
-export class FilterEmailPipe implements PipeTransform {
+export class FilterSellerFinancingPipe implements PipeTransform {
+  private searchTextNumber;
+
   transform(items: any[], searchText: string): any[] {
     if(!items) return [];
 
@@ -13,8 +15,8 @@ export class FilterEmailPipe implements PipeTransform {
     searchText = searchText.toLowerCase();
 
     return items.filter((item) => {
-      if (item.email) {
-        return item.email.toLowerCase().includes(searchText);
+      if (item.sellerFinancing) {
+        return item.sellerFinancing.toLowerCase().includes(searchText);
       }
     });
   }

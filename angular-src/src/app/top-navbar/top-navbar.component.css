@@ -42,6 +42,10 @@ ul {
   color: #FFFFFF;
 }
 
+.navbar-list-item:hover > a {
+  color: white;
+}
+
 .logout-link {
   margin-right: auto;
 }
@@ -60,6 +64,10 @@ ul {
   text-decoration: none;
   cursor: pointer;
   color: #FFFFFF;
+}
+
+#logout-list-item:hover {
+  cursor: pointer;
 }
 
 @media all and (max-width: 600px) {

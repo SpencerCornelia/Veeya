@@ -17,5 +17,5 @@ export class FilterPropertyTypePipe implements PipeTransform {
         return item.propertyType.toLowerCase().includes(searchText);
       }
     });
-   }
+  }
 }

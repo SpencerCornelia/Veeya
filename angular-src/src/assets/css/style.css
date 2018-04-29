@@ -15291,7 +15291,6 @@ html {
 
 .main-panel {
   margin-left: 255px;
-  margin-top: 50px;
   transition: width 0.25s ease, margin 0.25s ease;
   width: 100%;
   min-height: calc(100vh - 58px);
@@ -15311,8 +15310,8 @@ html {
   -webkit-flex-grow: 1;
   flex-grow: 1; }
 
-.container-scroller {
-  overflow: hidden; }
+/*.container-scroller {
+  overflow: hidden; }*/
 
 .scroll-container {
   position: relative; }

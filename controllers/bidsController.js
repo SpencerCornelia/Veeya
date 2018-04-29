@@ -24,9 +24,6 @@ router.put('/openauction', (req, res) => {
   let deadline = req.body.deadline;
   Bid.establishAuction(propertyId, deadline)
     .then((response) => {
-      return response;
-    })
-    .then((response) => {
       return Property.establishAuction(propertyId);
     })
     .then((response) => {

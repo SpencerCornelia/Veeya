@@ -5,19 +5,19 @@
       <a class="new-nav-link">Menu</a>
     </li>
     <li class="navbar-list-item" id="about-list-item">
-      <i class="fas fa-globe"></i>
+      <a [routerLink]="['/about']"><i class="fas fa-globe"></i></a>
       <a [routerLink]="['/about']" class="new-nav-link">About</a>
     </li>
     <li class="navbar-list-item" id="support-list-item">
-      <i class="fas fa-user-md"></i>
+      <a [routerLink]="['/support']"><i class="fas fa-user-md"></i></a>
       <a [routerLink]="['/support']" class="new-nav-link">Support</a>
     </li>
     <li class="navbar-list-item" id="contact-list-item">
-      <i class="fas fa-phone"></i>
+      <a [routerLink]="['/contact']"><i class="fas fa-phone"></i></a>
       <a [routerLink]="['/contact']" class="new-nav-link">Contact</a>
     </li>
     <li class="navbar-list-item logout-link" id="logout-list-item">
-      <i class="fas fa-power-off"></i>
+      <a (click)="logout()"><i class="fas fa-power-off"></i></a>
       <a (click)="logout()" class="new-nav-link">Logout</a>
     </li>
     <li class="navbar-list-item" id="profile-photo-list-item">

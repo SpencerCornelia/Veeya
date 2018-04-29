@@ -61,7 +61,6 @@ router.get('/investor/:uid', (req, res) => {
       allPropertyIDs = allPropertyIDs.concat(properties);
 
       return user.getInvestorConnectedProperties(investorId);
-
     })
     .then((response) => {
       // response is array of property IDs from

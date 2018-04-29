@@ -17,5 +17,5 @@ export class FilterCityPipe implements PipeTransform {
         return item.city.toLowerCase().includes(searchText);
       }
     });
-   }
+  }
 }

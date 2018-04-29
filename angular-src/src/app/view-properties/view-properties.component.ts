@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AlertService } from '../services/alert.service';
+import { AuctionService } from '../services/auction.service';
 import { AuthService } from '../services/auth.service';
 import { DeletePropertyService } from '../services/deleteProperty.service';
 import { EditPropertyService } from '../services/editProperty.service';
@@ -14,6 +15,8 @@ import { ViewPropertyService } from '../services/viewProperty.service';
 
 import { Property } from '../models/Property';
 import { User } from '../models/User';
+
+declare var $: any;
 
 @Component({
   selector: 'app-view-properties',
@@ -26,11 +29,14 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
   private denySoldPropertySubscription;
   private getCurrentUserSubscription;
   private getLenderPropertiesSubscription;
+  private getInitialBidsSubscription;
   private getInvestorPropertiesSubscription;
   private getWholesalerPropertiesSubscription;
+  private openAuctionSubscription;
   private subscriptions: Subscription[] = [];
 
   private currentUser: User;
+  private openAuctionProperty: Property;
   private properties: Property[] = [];
   private userType: string;
 
@@ -46,7 +52,14 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
   private wholesalerPropertiesSold: Property[] = [];
   private wholesalerPropertiesSoldPending: Property[] = [];
 
+  private date: any;
+  private dateTime: any;
+  private currentMonth: any;
+  private currentDay: any;
+  private months: any;
+
   constructor(private alertService: AlertService,
+              private auctionService: AuctionService,
               private authService: AuthService,
               private getPropertyService: GetAllPropertiesService,
               private deletePropertyService: DeletePropertyService,
@@ -59,6 +72,20 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userType = this.authService.loggedInUserType();
+
+    this.date = new Date();
+    this.currentMonth = this.date.getMonth();
+
+    this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.currentDay = this.date.getDate();
+
+    this.dateTime = {
+      month: this.months[this.currentMonth],
+      day: this.currentDay + 1,
+      hour: '5',
+      minutes: '00',
+      time: 'pm'
+    }
 
     if (this.userType == 'Wholesaler') {
       this.getPropertiesForWholesaler();
@@ -175,13 +202,59 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.denySoldPropertySubscription);
   }
 
+  // called when auction has not been established for a property
+  // and loggedInUser is wholesaler && owner of property
+  openAuction(property) {
+    this.openAuctionProperty = property;
+    $("#deadlineModal").modal('show');
+  }
+
+  // called when auction has been established for a property
+  // user can be either investor or wholesaler
+  enterAuction(property) {
+    let that = this;
+    let propertyId = property._id.toString();
+    this.auctionService.setProperty(property);
+    this.getInitialBidsSubscription = this.auctionService.getInitialBids(propertyId)
+      .subscribe((response) => {
+        $("#deadlineModal").modal('hide');
+        this.router.navigate(['/auction/', propertyId]);
+      }, (error) => {
+
+      })
+
+    this.subscriptions.push(this.getInitialBidsSubscription);
+  }
+
+  // called when user has submitted deadline modal
+  submitDeadlineModal() {
+    let currentYear = this.date.getFullYear();
+    let month = this.months.indexOf(this.dateTime.month);
+    let propertyId = this.openAuctionProperty._id.toString();
+
+    if (month < this.currentMonth) {
+      currentYear = currentYear + 1;
+    }
+
+    if (this.dateTime.time == 'pm') {
+      let hour = parseInt(this.dateTime.hour);
+      this.dateTime.hour = hour + 12;
+    }
+
+    let deadline = this.dateTime.month + ' ' + this.dateTime.day + ', ' + currentYear + ' ' +
+                   this.dateTime.hour + ':' + this.dateTime.minutes + ':00';
+    this.openAuctionSubscription = this.auctionService.openAuction(propertyId, deadline)
+      .subscribe((response) => {
+        this.auctionService.setProperty(response);
+        this.router.navigate(['/auction/', propertyId]);
+      }, (error) => {
+
+      })
+
+    this.subscriptions.push(this.openAuctionSubscription);
+  }
+
   ngOnDestroy() {
-    // this.acceptSoldPropertySubscription == undefined ? '' : this.acceptSoldPropertySubscription.unsubscribe();
-    // this.denySoldPropertySubscription == undefined ? '' : this.denySoldPropertySubscription.unsubscribe();
-    // this.getCurrentUserSubscription == undefined ? '' : this.getCurrentUserSubscription.unsubscribe();
-    // this.getLenderPropertiesSubscription == undefined ? '' : this.getLenderPropertiesSubscription.unsubscribe();
-    // this.getInvestorPropertiesSubscription == undefined ? '' : this.getInvestorPropertiesSubscription.unsubscribe();
-    // this.getWholesalerPropertiesSubscription == undefined ? '' : this.getWholesalerPropertiesSubscription.unsubscribe();
     this.subscriptions.forEach((sub) => {
       sub.unsubscribe();
     });
