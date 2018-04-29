@@ -14,16 +14,29 @@ import { EditPropertyGuard } from './guards/edit-property.guard';
 import { ProfileGuard } from './guards/profile.guard';
 import { RegisterGuard } from './guards/register.guard';
 import { RoleGuard } from './guards/role.guard';
+
 import { FilterAddressPipe } from './pipes/filterAddress.pipe';
+import { FilterAfterRepairValuePipe } from './pipes/filterAfterRepairValue.pipe';
 import { FilterCityPipe } from './pipes/filterCity.pipe';
 import { FilterEmailPipe } from './pipes/filterEmail.pipe';
 import { FilterFirstNamePipe } from './pipes/filterFirstName.pipe';
 import { FilterLastNamePipe } from './pipes/filterLastName.pipe';
+import { FilterMaxBathroomsPipe } from './pipes/filterMaxBathrooms.pipe';
+import { FilterMaxBedroomsPipe } from './pipes/filterMaxBedrooms.pipe';
+import { FilterMaxRehabCostPipe } from './pipes/filterMaxRehabCost.pipe';
+import { FilterMinBathroomsPipe } from './pipes/filterMinBathrooms.pipe';
+import { FilterMinBedroomsPipe } from './pipes/filterMinBedrooms.pipe';
+import { FilterMinCapRatePipe } from './pipes/filterMinCapRate.pipe';
+import { FilterMinGrossIncomePipe } from './pipes/filterMinGrossIncome.pipe';
 import { FilterPhoneNumberPipe } from './pipes/filterPhoneNumber.pipe';
 import { FilterPropertyTypePipe } from './pipes/filterPropertyType.pipe';
 import { FilterPurchasePricePipe } from './pipes/filterPurchasePrice.pipe';
 import { FilterStatePipe } from './pipes/filterState.pipe';
 import { FilterStatusPipe } from './pipes/filterStatus.pipe';
+import { FilterSellerFinancingPipe } from './pipes/filterSellerFinancing.pipe';
+import { FilterSquareFootagePipe } from './pipes/filterSquareFootage.pipe';
+import { FilterYearBuiltPipe } from './pipes/filterYearBuilt.pipe';
+import { FilterZipCodePipe } from './pipes/filterZipCode.pipe';
 
 import { AppComponent } from './app.component';
 import { AddPropertyComponent } from './add-property/add-property.component';
@@ -86,15 +99,27 @@ import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
     CustomizePropertyComponent,
     DashboardComponent,
     FilterAddressPipe,
+    FilterAfterRepairValuePipe,
     FilterCityPipe,
     FilterEmailPipe,
     FilterFirstNamePipe,
     FilterLastNamePipe,
+    FilterMaxBathroomsPipe,
+    FilterMaxBedroomsPipe,
+    FilterMaxRehabCostPipe,
+    FilterMinBathroomsPipe,
+    FilterMinBedroomsPipe,
+    FilterMinCapRatePipe,
+    FilterMinGrossIncomePipe,
     FilterPhoneNumberPipe,
     FilterPropertyTypePipe,
     FilterPurchasePricePipe,
+    FilterSellerFinancingPipe,
     FilterStatePipe,
     FilterStatusPipe,
+    FilterSquareFootagePipe,
+    FilterYearBuiltPipe,
+    FilterZipCodePipe,
     FooterComponent,
     GenerateReportComponent,
     LoginComponent,
