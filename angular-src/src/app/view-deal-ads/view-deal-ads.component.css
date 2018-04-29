@@ -7,11 +7,11 @@
 }
 
 #search-row.searched {
-  width: 85%;
+  width: 80%;
 }
 
 #table-row {
-  width: 85%;
+  width: 80%;
 }
 
 #content-wrapper {
@@ -64,7 +64,7 @@
 }
 
 @media all and (max-width: 991px) {
-  #table-row {
+  #table-row, #search-row.searched {
     width: 100%;
   }
 }
