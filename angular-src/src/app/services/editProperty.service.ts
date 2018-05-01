@@ -60,12 +60,12 @@ export class EditPropertyService {
       })
   }
 
-  public starProperty(investorId: string, propertyId: string) {
+  public starProperty(investorId: string, property: Property) {
     let URI = this.serverApi + '/starproperty';
     let headers = new Headers;
     let body = JSON.stringify({
       investorId: investorId,
-      propertyId: propertyId
+      property: property
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, { headers: headers })
