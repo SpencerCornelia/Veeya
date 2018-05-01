@@ -51,7 +51,41 @@ export class EditPropertyService {
       photos: property.photos
     });
     headers.append('Content-Type', 'application/json');
-    return this.http.put(URI, body, {headers: headers})
+    return this.http.put(URI, body, { headers: headers })
+      .map((response) => {
+        return response.json();
+      })
+      .catch((error) => {
+        return Observable.throw(error.json());
+      })
+  }
+
+  public starProperty(investorId: string, propertyId: string) {
+    let URI = this.serverApi + '/starproperty';
+    let headers = new Headers;
+    let body = JSON.stringify({
+      investorId: investorId,
+      propertyId: propertyId
+    });
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(URI, body, { headers: headers })
+      .map((response) => {
+        return response.json();
+      })
+      .catch((error) => {
+        return Observable.throw(error.json());
+      })
+  }
+
+    public unStarProperty(investorId: string, propertyId: string) {
+    let URI = this.serverApi + '/unstarproperty';
+    let headers = new Headers;
+    let body = JSON.stringify({
+      investorId: investorId,
+      propertyId: propertyId
+    });
+    headers.append('Content-Type', 'application/json');
+    return this.http.post(URI, body, { headers: headers })
       .map((response) => {
         return response.json();
       })
