@@ -294,7 +294,9 @@
                         </td>
                         <td>
                           <h3 class="property-row-right">
-                            $ {{ property.purchasePrice }}
+                            $ {{ property.purchasePrice }} <span class="star" (click)="starProperty(property)">
+                                                             <i class="far fa-star fa-lg"></i>
+                                                           </span>
                           </h3>
                           <div class="property-row-right">
                             <div class="btn btn-primary btn-rounded btn-fw property-status">
@@ -349,7 +351,9 @@
                         </td>
                         <td>
                           <h3 class="property-row-right">
-                            $ {{ property.purchasePrice }}
+                            $ {{ property.purchasePrice }} <span class="star full" (click)="unStarProperty(property)">
+                                                             <i class="fas fa-star fa-lg"></i>
+                                                           </span>
                           </h3>
                           <div class="property-row-right">
                             <div class="btn btn-primary btn-rounded btn-fw property-status">
