@@ -254,6 +254,36 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.openAuctionSubscription);
   }
 
+  starProperty(property) {
+    let investorId = this.authService.loggedInUser();
+    let propertyId = property._id;
+    this.editPropertyService.starProperty(investorId, propertyId)
+      .subscribe((response) => {
+        this.alertService.success('Property starred.', true);
+        this.investorPropertiesStarred.push(property);
+        this.investorPropertiesConnected = this.investorPropertiesConnected.filter((p) => {
+          return p._id != propertyId;
+        });
+      }, (error) => {
+
+      });
+  }
+
+  unStarProperty(property) {
+    let investorId = this.authService.loggedInUser();
+    let propertyId = property._id;
+    this.editPropertyService.unStarProperty(investorId, propertyId)
+      .subscribe((response) => {
+        this.alertService.success('Property un-starred.', true);
+        this.investorPropertiesStarred = this.investorPropertiesStarred.filter((starProperty) => {
+          return starProperty._id != propertyId;
+        });
+        this.investorPropertiesConnected.push(property);
+      }, (error) => {
+
+      });
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => {
       sub.unsubscribe();
