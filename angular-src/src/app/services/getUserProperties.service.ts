@@ -33,4 +33,11 @@ export class GetUserPropertiesService {
       .map(res => <Property[]>res.data)
   }
 
+  public getStarredProperties(investorId) :Observable<Property[]> {
+    let URI = this.serverApi + '/starproperties/' + investorId;
+    return this.http.get(URI)
+      .map(res => res.json())
+      .map(res => <Property[]>res.data)
+  }
+
 }
