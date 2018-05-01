@@ -839,9 +839,6 @@ module.exports.getPropertiesForInvestor = function(investorId) {
         investor.investorBoughtPendingProperties.forEach((property) => {
           properties.push(property);
         });
-        investor.investorStarredProperties.forEach((property) => {
-          properties.push(property);
-        });
 
         investor.save((error, updatedInvestor) => {
           if (error) {
@@ -933,6 +930,35 @@ module.exports.getInvestorConnectedProperties = function(investorId) {
     });
   });
 };
+
+module.exports.getStarredProperties = function(investorId) {
+  return new Promise((resolve, reject) => {
+    User.findById(investorId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error retrieving starred properties.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+        let successObj = {
+          success: true,
+          message: 'Successfully retrieved starred properties for investor.',
+          data: user.investorStarredProperties
+        }
+        resolve(successObj);
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to retrieve starred properties.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+}
 
 
 /*
@@ -1161,7 +1187,92 @@ module.exports.addDealAd = function(adBody) {
       }
     });
   });
-}
+};
+
+module.exports.starProperty = function(investorId, property) {
+  return new Promise((resolve, reject) => {
+    User.findById(investorId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error starring property.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        investor.investorStarredProperties.push(property);
+
+        investor.save((error, savedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error starring property.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully starred property.',
+              data: investor
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to star property.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      }
+    });
+  });
+};
+
+module.exports.unStarProperty = function(investorId, propertyId) {
+  return new Promise((resolve, reject) => {
+    User.findById(investorId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error starring property.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        investor.investorStarredProperties = investor.investorStarredProperties.filter((starProperty) => {
+          return starProperty._id != propertyId;
+        });
+        investor.save((error, savedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error removing star.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully removed star from property.',
+              data: investor
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to remove star from property.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      }
+    });
+  });
+};
 
 /*
 ===== INVESTOR SETTERS END =====

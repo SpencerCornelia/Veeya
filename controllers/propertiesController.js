@@ -218,6 +218,41 @@ router.post('/denysoldproperty', (req, res) => {
     })
 });
 
+router.get('/starproperties/:id', (req, res) => {
+  let investorId = req.params.id;
+  user.getStarredProperties(investorId)
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
+router.post('/starproperty', (req, res) => {
+  let investorId = req.body.investorId;
+  let property = req.body.property;
+  user.starProperty(investorId, property)
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
+router.post('/unstarproperty', (req, res) => {
+  let investorId = req.body.investorId;
+  let propertyId = req.body.propertyId;
+  user.unStarProperty(investorId, propertyId)
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+});
+
 // DELETE HTTP request for deleting a property
 router.delete('/:propertyId/:userId', (req, res, next) => {
   let propertyId = req.params.propertyId;

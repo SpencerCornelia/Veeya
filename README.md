@@ -12,7 +12,5 @@ Currently, investors need to rely on being on a buyers list, which amounts to es
 # Future iterations and features:
 - User being able to upload necessary loan documents for easier loan-approval process between investor and lender
 - Investors creating a syndication
-- Investors placing an ad for the exact property they are looking for
-- Wholesalers searching for an investor's ad for the property they have listed
 - In-app messaging system
 - Tiered levels of membership where vetted Wholesalers will be able to access the best investors

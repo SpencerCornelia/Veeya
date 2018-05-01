@@ -9,6 +9,8 @@ import { AlertService } from '../services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { InviteService } from '../services/invite.service';
 
+declare var $: any;
+
 @Component({
   selector: 'app-invite-investor',
   templateUrl: './invite-investor.component.html',

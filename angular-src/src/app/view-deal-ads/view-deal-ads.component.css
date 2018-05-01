@@ -63,6 +63,10 @@
   margin: 0 auto;
 }
 
+input:focus {
+  box-shadow: 0 0 2px 2px #007DFF;
+}
+
 @media all and (max-width: 991px) {
   #table-row, #search-row.searched {
     width: 100%;
