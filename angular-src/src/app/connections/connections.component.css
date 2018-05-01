@@ -42,3 +42,7 @@
 .connections-search-input input {
   width: 100%;
 }
+
+input:focus {
+  box-shadow: 0 0 2px 2px #007DFF;
+}
