@@ -1161,7 +1161,93 @@ module.exports.addDealAd = function(adBody) {
       }
     });
   });
-}
+};
+
+module.exports.starProperty = function(investorId, propertyId) {
+  return new Promise((resolve, reject) => {
+    User.findById(investorId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error starring property.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        console.log("investor before:", investor)
+        investor.investorStarredProperties.push(propertyId);
+        console.log("investor after:", investor)
+        investor.save((error, savedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error starring property.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully starred property.',
+              data: investor
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to star property.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      }
+    });
+  });
+};
+
+module.exports.unStarProperty = function(investorId, propertyId) {
+  return new Promise((resolve, reject) => {
+    User.findById(investorId, (error, investor) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error starring property.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (investor) {
+        investor.investorStarredProperties = investor.investorStarredProperties.filter((starPropertyId) => {
+          return starPropertyId != propertyId;
+        });
+        investor.save((error, savedInvestor) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error removing star.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedInvestor) {
+            let successObj = {
+              success: true,
+              message: 'Successfully removed star from property.',
+              data: investor
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to remove star from property.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      }
+    });
+  });
+};
 
 /*
 ===== INVESTOR SETTERS END =====
