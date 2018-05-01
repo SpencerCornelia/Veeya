@@ -32,3 +32,20 @@
 .property-row-right {
   margin-top: 10px;
 }
+
+input:focus {
+  box-shadow: 0 0 2px 2px #007DFF;
+}
+
+.star {
+  float: right;
+}
+
+.full {
+  color: #F0d64E;
+}
+
+.star:hover {
+  cursor: pointer;
+  color: #F0d64E;
+}
