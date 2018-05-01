@@ -31,6 +31,7 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
   private getLenderPropertiesSubscription;
   private getInitialBidsSubscription;
   private getInvestorPropertiesSubscription;
+  private getStarredPropertiesSubscription;
   private getWholesalerPropertiesSubscription;
   private openAuctionSubscription;
   private subscriptions: Subscription[] = [];
@@ -142,8 +143,6 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
             this.investorPropertiesBought.push(property);
           } else if (property.status === 'Listed') {
             this.investorPropertiesConnected.push(property);
-          } else if (property.status === 'Starred') {
-            this.investorPropertiesStarred.push(property);
           } else if (property.status === 'Sold-Pending') {
             this.investorPropertiesBoughtPending.push(property);
           }
@@ -152,7 +151,15 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
         this.alertService.error('Error retrieving properties for investor.');
       });
 
+    this.getStarredPropertiesSubscription = this.getUserPropertiesService.getStarredProperties(investorID)
+      .subscribe((response) => {
+        this.investorPropertiesStarred = response;
+      }, (error) => {
+        this.alertService.error('Unable to retrieve starred properties.');
+      });
+
     this.subscriptions.push(this.getInvestorPropertiesSubscription);
+    this.subscriptions.push(this.getStarredPropertiesSubscription);
   }
 
   getPropertiesForLender() {
@@ -257,7 +264,7 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
   starProperty(property) {
     let investorId = this.authService.loggedInUser();
     let propertyId = property._id;
-    this.editPropertyService.starProperty(investorId, propertyId)
+    this.editPropertyService.starProperty(investorId, property)
       .subscribe((response) => {
         this.alertService.success('Property starred.', true);
         this.investorPropertiesStarred.push(property);
@@ -274,7 +281,7 @@ export class ViewPropertiesComponent implements OnInit, OnDestroy {
     let propertyId = property._id;
     this.editPropertyService.unStarProperty(investorId, propertyId)
       .subscribe((response) => {
-        this.alertService.success('Property un-starred.', true);
+        this.alertService.success('Removed starred property.', true);
         this.investorPropertiesStarred = this.investorPropertiesStarred.filter((starProperty) => {
           return starProperty._id != propertyId;
         });
