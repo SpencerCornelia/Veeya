@@ -25,31 +25,5 @@ router.get('/:uid', (req,res) => {
     });
 });
 
-// POST HTTP to invite a wholesaler
-router.post('/invitewholesaler', (req, res) => {
-  let investorID = req.body.investor_id;
-  let wholesalerID = '';
-
-  user.registerInvitedUser(req.body)
-    .then((wholesaler) => {
-      wholesalerID = String(wholesaler.data._id);
-      return user.addWholesalerConnection(wholesalerID, investorID);
-    })
-    .then((investor) => {
-      return user.addInvestorConnection(investorID, wholesalerID);
-    })
-    .then((response) => {
-      if (response.success) {
-        delete response.data.password;
-        res.status(201).json(response);
-      } else {
-        res.status(500).json(response);
-      }
-    })
-    .catch((error) => {
-      res.status(500).json(error);
-    })
-});
-
 
 module.exports = router;
