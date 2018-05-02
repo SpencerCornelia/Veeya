@@ -75,6 +75,27 @@ router.get('/all/wholesalers', (req, res) => {
     });
 });
 
+router.post('/inviteuser', (req, res) => {
+  let currentUserId = req.body.currentUserId;
+  let newUserId = '';
+  user.registerInvitedUser(req.body)
+    .then((user) => {
+      newUserId = String(user.data._id);
+      delete user.data.password;
+      return user.addNewUserConnection(currentUserId, newUserId);
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(201).json(response);
+      } else {
+        res.status(500).json(response);
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    })
+});
+
 router.get('/connections/:uid', (req, res) => {
   let user_id = req.params.uid;
   user.getAllConnections(user_id)
