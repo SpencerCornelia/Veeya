@@ -30,7 +30,7 @@ export class InviteUserComponent implements OnInit {
     this.currentUserId = this.authService.loggedInUser();
     this.user = {
       email: '',
-      userType: ''
+      userType: 'Wholesaler'
     }
   }
 
