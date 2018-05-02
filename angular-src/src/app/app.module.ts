@@ -47,9 +47,7 @@ import { CustomizePropertyComponent } from './customize-property/customize-prope
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FooterComponent } from './footer/footer.component';
 import { GenerateReportComponent } from './generate-report/generate-report.component';
-import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
-import { InviteLenderComponent } from './invite-lender/invite-lender.component';
-import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
+import { InviteUserComponent } from './invite-user/invite-user.component';
 import { LoginComponent } from './login/login.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { RegisterComponent } from './register/register.component';
@@ -124,9 +122,7 @@ import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
     GenerateReportComponent,
     LoginComponent,
     MyProfileComponent,
-    InviteInvestorComponent,
-    InviteLenderComponent,
-    InviteWholesalerComponent,
+    InviteUserComponent,
     PageNotFoundComponent,
     PlaceDealAdComponent,
     RegisterComponent,
@@ -138,7 +134,8 @@ import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
     UserProfileComponent,
     ViewDealAdsComponent,
     ViewPropertyComponent,
-    ViewPropertiesComponent
+    ViewPropertiesComponent,
+    InviteUserComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
