@@ -39,22 +39,10 @@
         </div>
       </a>
     </li>
-    <li class="new-nav-item" *ngIf="authService.loggedIn() && authService.wholesalerUser()">
-      <a class="new-nav-link" [routerLink]="['/inviteinvestor']">
-        <i class="fas fa-user-plus"></i>
-        <span class="new-menu-title">Invite Investor</span>
-      </a>
-    </li>
-    <li class="new-nav-item" *ngIf="authService.loggedIn() && authService.investorUser()">
-      <a class="new-nav-link" [routerLink]="['/invitewholesaler']">
-        <i class="fas fa-user-plus"></i>
-        <span class="new-menu-title">Invite Wholesaler</span>
-      </a>
-    </li>
     <li class="new-nav-item" *ngIf="authService.loggedIn()">
-      <a class="new-nav-link" [routerLink]="['/invitelender']">
+      <a class="new-nav-link" [routerLink]="['/inviteuser']">
         <i class="fas fa-user-plus"></i>
-        <span class="new-menu-title">Invite Lender</span>
+        <span class="new-menu-title">Invite User</span>
       </a>
     </li>
     <li class="new-nav-item" *ngIf="authService.loggedIn()">
