@@ -79,9 +79,9 @@ router.post('/inviteuser', (req, res) => {
   let currentUserId = req.body.currentUserId;
   let newUserId = '';
   user.registerInvitedUser(req.body)
-    .then((user) => {
-      newUserId = String(user.data._id);
-      delete user.data.password;
+    .then((registeredUser) => {
+      newUserId = String(registeredUser.data._id);
+      delete registeredUser.data.password;
       return user.addNewUserConnection(currentUserId, newUserId);
     })
     .then((response) => {
