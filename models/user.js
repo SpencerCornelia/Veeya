@@ -209,6 +209,8 @@ module.exports.registerInvitedUser = function(userBody) {
           reject(userObj)
         } else {
           let randomString = Math.random().toString(36).slice(-8);
+          let startingConnections = [];
+          startingConnections[0] = userBody.currentUserId;
           let newUser = new User({
             userType: userBody.userType,
             password: randomString,
@@ -219,6 +221,7 @@ module.exports.registerInvitedUser = function(userBody) {
             city: '',
             state: '',
             profileViews: 0,
+            connections: startingConnections,
             profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
             URLs: {
               personal: '',
@@ -479,53 +482,6 @@ module.exports.addWholesalerListing = function(propertyId, wholesalerId) {
   });
 };
 
-module.exports.addInvestorConnection = function(investorId, wholesalerId) {
-  return new Promise((resolve, reject) => {
-    User.findById(wholesalerId, (error, wholesaler) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error inviting user.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (wholesaler) {
-        wholesaler.connections.push(investorId);
-        wholesaler.save((error, newWholesaler) => {
-          if (error) {
-            let errorObj = {
-              success: false,
-              message: 'Error inviting user.',
-              error: error
-            }
-            reject(errorObj);
-          } else if (newWholesaler) {
-            let successObj = {
-              success: true,
-              message: 'Successfully added user.',
-              data: newWholesaler
-            }
-            resolve(successObj);
-          } else {
-            let errorObj = {
-              success: false,
-              message: 'Unable to invite user. Please try again.',
-              error: ''
-            }
-            reject(errorObj);
-          }
-        });
-      } else {
-        let errorObj = {
-          success: false,
-          message: 'Unable to add connection. Please try again.',
-          error: ''
-        }
-        reject(errorObj);
-      }
-    });
-  });
-};
 
 module.exports.updateWholesalerSoldPendingProperties = function(wholesalerId, propertyId, deny) {
   return new Promise((resolve, reject) => {
@@ -972,53 +928,6 @@ module.exports.getStarredProperties = function(investorId) {
 ===== INVESTOR SETTERS BEGIN =====
 */
 
-module.exports.addWholesalerConnection = function(wholesalerId, investorId) {
-  return new Promise((resolve, reject) => {
-    User.findById(investorId, (error, investor) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error inviting user.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (investor) {
-        investor.connections.push(wholesalerId);
-        investor.save((error, newInvestor) => {
-          if (error) {
-            let errorObj = {
-              success: false,
-              message: 'Error inviting user.',
-              error: error
-            }
-            reject(errorObj);
-          } else if (newInvestor) {
-            let successObj = {
-              success: true,
-              message: 'Successfully invited user.',
-              data: newInvestor
-            }
-            resolve(successObj);
-          } else {
-            let errorObj = {
-              success: false,
-              message: 'Unable to invite user.',
-              error: ''
-            }
-            reject(errorObj);
-          }
-        });
-      } else {
-        let errorObj = {
-          success: false,
-          message: 'Unable to invite user. Please try again.',
-          error: ''
-        }
-        reject(errorObj);
-      }
-    });
-  });
-};
 
 module.exports.updateInvestorBoughtPendingProperties = function(investorId, propertyId, deny) {
   return new Promise((resolve, reject) => {
@@ -1353,104 +1262,6 @@ module.exports.searchLender = function(email, phoneNumber) {
 ===== LENDER SETTERS BEGIN =====
 */
 
-module.exports.addLenderConnection = function(lenderId, userId) {
-  return new Promise((resolve, reject) => {
-    User.findById(userId, (error, user) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error updating user.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (user) {
-        user.connections.push(lenderId);
-        user.save((error, savedUser) => {
-          if (error) {
-            let errorObj = {
-              success: false,
-              message: 'Error updating user.',
-              error: error
-            }
-            reject(errorObj);
-          } else if (savedUser) {
-            let successObj = {
-              success: true,
-              message: 'Successfully added connection.',
-              data: savedUser
-            }
-            resolve(successObj);
-          } else {
-            let errorObj = {
-              success: false,
-              message: 'Unable to invite user. Please try again',
-              error: ''
-            }
-            reject(errorObj);
-          }
-        });
-      } else {
-        let errorObj = {
-          success: false,
-          message: 'Error updating user.',
-          error: error
-        }
-        reject(errorObj);
-      }
-    });
-  });
-};
-
-module.exports.addUserConnectionForLender = function(userId, lenderId) {
-  return new Promise((resolve, reject) => {
-    User.findById(lenderId, (error, lender) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error adding connection for user.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (lender) {
-        lender.connections.push(userId);
-        lender.save((error, newLender) => {
-          if (error) {
-            let errorObj = {
-              success: false,
-              message: 'Error adding connection for user.',
-              error: error
-            }
-            reject(errorObj);
-          } else if (newLender) {
-            let successObj = {
-              success: true,
-              message: 'Successfully added connection for user.',
-              data: newLender
-            }
-            resolve(successObj);
-          } else {
-            let errorObj = {
-              success: false,
-              message: 'Unable to add connection for user.',
-              error: ''
-            }
-            reject(errorObj);
-          }
-        });
-      } else {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Unable to add connection for user. Please try again.',
-          error: ''
-        }
-        reject(errorObj);
-      }
-      }
-    });
-  });
-};
-
 module.exports.getPropertiesForLender = function(lenderId) {
   return new Promise((resolve, reject) => {
     User.findById(lenderId, (error, lender) => {
@@ -1714,6 +1525,55 @@ module.exports.getAdIDs = function(userId) {
 /*
 ===== USER SETTERS BEGIN =====
 */
+
+
+module.exports.addNewUserConnection = function(currentUserId, newUserId) {
+  return new Promise((resolve, reject) => {
+    User.findById(currentUserId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error inviting user.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+        user.connections.push(newUserId);
+        user.save((error, savedUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error inviting user.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully connected with new user.',
+              data: savedUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to invite user. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to add connection. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
 
 module.exports.increaseViewCount = function(userId) {
   return new Promise((resolve, reject) => {
