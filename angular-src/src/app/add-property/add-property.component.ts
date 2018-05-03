@@ -44,6 +44,12 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
   ngOnInit() {
     document.getElementById('removePhotos').hidden = true;
     document.getElementById('uploadPhotos').hidden = true;
+
+    document.getElementById("property-content").hidden = true;
+    document.getElementById("comps-content").hidden = true;
+    document.getElementById("photos-content").hidden = true;
+    document.getElementById("confirm-content").hidden = true;
+
     let wholesalerID = this.authService.loggedInUser();
     let propertyComps = [];
     this.newProperty = {
@@ -157,6 +163,14 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
     document.getElementById('removePhotos').hidden = true;
     document.getElementById('uploadPhotos').hidden = true;
     this.alertService.success('Photo removed.');
+  }
+
+  changeTab(current, newTab) {
+    document.getElementById(current + '-content').hidden = true;
+    document.getElementById(current + '-tab').classList.remove('active');
+
+    document.getElementById(newTab + '-content').hidden = false;
+    document.getElementById(newTab + '-tab').classList.add('active');
   }
 
   cancel() {
