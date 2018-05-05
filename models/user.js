@@ -93,6 +93,26 @@ const UserSchema = mongoose.Schema({
   dataProfileViews: [{
     createdAt: Date,
     viewingUserId: String
+  }],
+  dataConnectionRequestsSent: [{
+    createdAt: Date,
+    connectedUserId: String
+  }],
+  dataConnectionRequestsReceived: [{
+    createdAt: Date,
+    connectedUserId: String
+  }],
+  dataConnectionsMade: [{
+    createdAt: Date,
+    connectedUserId: String
+  }],
+  dataInvitesSent: [{
+    createdAt: Date,
+    invitedUserId: String
+  }],
+  dataBidsSent: [{
+    createdAt: Date,
+    propertyId: String
   }]
 },
   {
@@ -1568,6 +1588,57 @@ module.exports.getAdIDs = function(userId) {
 ===== USER SETTERS BEGIN =====
 */
 
+module.exports.addBid = function(bid) {
+  return new Promise((resolve, reject) => {
+    User.findById(bid.userId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error adding bid to user.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+        user.dataBidsSent.push({
+          createdAt: Date.now(),
+          propertyId: bid.propertyId
+        });
+
+        user.save((error, savedUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error saving user.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully saved user.',
+              data: savedUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to save user. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to save user. Please try again.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+    });
+  });
+}
 
 module.exports.addNewUserConnection = function(currentUserId, newUserId) {
   return new Promise((resolve, reject) => {
@@ -1820,6 +1891,12 @@ module.exports.addOutgoingConnectionRequest = function(currentUserId, connectedU
         reject(errorObj);
       } else if (user) {
         user.pendingOutgoingConnectionRequests.push(connectedUserId);
+
+        user.dataConnectionRequestsSent.push({
+          createdAt: Date.now(),
+          connectedUserId: connectedUserId
+        });
+
         user.save((error, newUser) => {
           if (error) {
             let errorObj = {
@@ -1868,6 +1945,12 @@ module.exports.addIncomingConnectionRequest = function(currentUserId, connectedU
         reject(errorObj);
       } else if (user) {
         user.pendingIncomingConnectionRequests.push(currentUserId);
+
+        user.dataConnectionRequestsReceived.push({
+          createdAt: Date.now(),
+          connectedUserId: connectedUserId
+        });
+
         user.save((error, newUser) => {
           if (error) {
             let errorObj = {
@@ -1926,6 +2009,12 @@ module.exports.acceptConnectionCurrentUser = function(body) {
 
         currentUser.connections.push(connectionUserId);
         currentUser.pendingIncomingConnectionRequests = newIncoming;
+
+        currentUser.dataConnectionsMade.push({
+          createdAt: Date.now(),
+          connectedUserId: connectionUserId
+        });
+
         currentUser.save((error, savedCurrentUser) => {
           if (error) {
             let errorObj = {
@@ -2230,6 +2319,10 @@ module.exports.addConnections = function(IDs, userId) {
 
           IDs.forEach((id) => {
             user.connections.push(id);
+            user.dataInvitesSent.push({
+              createdAt: Date.now(),
+              invitedUserId: id
+            });
           });
 
           user.save((error, savedUser) => {
