@@ -68,6 +68,7 @@ io.on('connection', (socket) => {
   socket.on('add-bid', (bid) => {
     io.emit('new-bid', { type: 'new-bid', data: bid })
     Bid.addBid(bid);
+    User.addBid(bid);
   });
 });
 
