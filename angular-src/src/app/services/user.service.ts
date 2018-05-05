@@ -108,11 +108,12 @@ export class UserService {
       .map(res => res.data)
   }
 
-  public increaseProfileViews(userId: string) {
+  public increaseProfileViews(userId: string, currentUser: string) {
     let URI = this.serverApi + "/user/increaseViews";
     let headers = new Headers;
     let body = JSON.stringify({
-      id: userId
+      id: userId,
+      viewingUserId: currentUser
     });
     headers.append('Content-Type', 'application/json');
     return this.http.put(URI, body, { headers: headers })
