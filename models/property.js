@@ -186,7 +186,7 @@ module.exports.addProperty = (propertyBody) => {
   } else {
     return new Promise((resolve, reject) => {
       let errorObj = {
-        success: true,
+        success: false,
         message: 'Invalid inputs. Please enter valid inputs.'
       }
       reject(errorObj);
@@ -565,7 +565,7 @@ let validatePropertyInputs = function(data) {
   yearBuiltMatch = true;
  }
 
- let capRatePattern = /[^-?\$?[0-9]*\.?([0-9]{2})?%]/;
+ let capRatePattern = /^(0|[1-9]\d*)(\.\d+)?$/;
  let capRateMatch = false;
  if (data.capRate) {
   capRateMatch = data.capRate.match(capRatePattern) && data.capRate.length <= 4;
@@ -660,6 +660,4 @@ let validatePropertyInputs = function(data) {
  }
 
 };
-
-
 
