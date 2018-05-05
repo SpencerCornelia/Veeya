@@ -213,8 +213,9 @@ router.post('/denyconnection', (req, res) => {
 
 router.put('/increaseViews', (req, res) => {
   let userId = req.body.id;
+  let viewingUserId = req.body.viewingUserId;
 
-  user.increaseViewCount(userId)
+  user.increaseViewCount(userId, viewingUserId)
     .then((response) => {
       res.status(201).json(response);
     })
