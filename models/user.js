@@ -474,7 +474,7 @@ module.exports.addWholesalerListing = function(propertyId, wholesalerId) {
   return new Promise((resolve, reject) => {
     User.findById(wholesalerId, (error, wholesaler) => {
       wholesaler.dataPropertyAdded.push({
-        createdAt: Date.now,
+        createdAt: Date.now(),
         propertyId: propertyId
       });
 
@@ -541,7 +541,7 @@ module.exports.updateWholesalerSoldPendingProperties = function(wholesalerId, pr
           wholesaler.wholesalerSoldPendingProperties.push(propertyId);
 
           wholesaler.dataPropertySoldPending.push({
-            createdAt: Date.now,
+            createdAt: Date.now(),
             propertyId: propertyId
           });
         }
@@ -606,7 +606,7 @@ module.exports.updateWholesalerSoldProperties = function(wholesalerId, propertyI
         wholesaler.wholesalerSoldProperties.push(propertyId);
 
         wholesaler.dataPropertySold.push({
-          createdAt: Date.now,
+          createdAt: Date.now(),
           propertyId: propertyId
         });
 
@@ -1050,7 +1050,7 @@ module.exports.updateInvestorBoughtProperties = function(investorId, propertyId)
         investor.investorBoughtProperties.push(propertyId);
 
         investor.dataPropertyBought.push({
-          createdAt: Date.now,
+          createdAt: Date.now(),
           propertyId: propertyId
         });
 
@@ -1623,7 +1623,7 @@ module.exports.increaseViewCount = function(userId, viewingUserId) {
       user.profileViews = user.profileViews + 1;
 
       user.dataProfileViews.push({
-        createdAt: Date.now,
+        createdAt: Date.now(),
         viewingUserId: viewingUserId
       });
 
