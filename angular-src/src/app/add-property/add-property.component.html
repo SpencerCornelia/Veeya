@@ -60,37 +60,35 @@
                       <div class="col-sm-6">
                         <input id="addressInput" type="text" class="form-control"
                           [(ngModel)]="newProperty.address"
-                          #address="ngModel"
                           name="address"
                           minlength="5"
                           maxlength="50"
                           pattern="^[a-zA-Z0-9,.!? ]*$"
                           required
+                          (keyup)="validateAddress($event.target)"
                         />
                       </div>
                     </div>
-
 
                     <div class="form-group row">
                       <label class="required-field col-sm-3 col-form-label">City</label>
                       <div class="col-sm-6">
                         <input type="text" class="form-control"
                           [(ngModel)]="newProperty.city"
-                          #city="ngModel"
                           name="city"
                           pattern="^[a-zA-Z ]*$"
                           minlength="3"
                           maxlength="30"
                           required
+                          (keyup)="validateCity($event.target)"
                         />
                       </div>
                     </div>
 
-
                     <div class="form-group row">
-                      <label class="col-sm-3 col-form-label">State</label>
+                      <label class="required-field col-sm-3 col-form-label">State</label>
                       <div class="col-sm-6">
-                        <select [(ngModel)]="newProperty.state" #state="ngModel" name="state" class="form-control">
+                        <select [(ngModel)]="newProperty.state" name="state" class="form-control">
                           <option value="AL">Alabama</option>
                           <option value="AK">Alaska</option>
                           <option value="AZ">Arizona</option>
@@ -151,18 +149,18 @@
                       <div class="col-sm-6">
                         <input type="text" class="form-control"
                           [(ngModel)]="newProperty.zipCode"
-                          #zipCode="ngModel"
                           name="zipCode"
                           pattern="^[0-9]*$"
                           minlength="5"
                           maxlength="10"
                           required
+                          (keyup)="validateZipCode($event.target)"
                         />
                       </div>
                     </div>
 
                     <div class="form-group row buttons">
-                      <button type="button" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4 add-property-btn" (click)="changeTab('location','property')">Next</button>
+                      <button type="button" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4 add-property-btn" id="location-button" (click)="changeTab('location','property')">Next</button>
                     </div>
 
                   </div> <!-- Location tab end -->
@@ -170,6 +168,22 @@
 
                   <!-- Property tab -->
                   <div class="property-content" id="property-content">
+
+                    <div class="form-group row">
+                      <label class="required-field col-sm-4 col-form-label">Property Type</label>
+                      <div class="col-sm-6">
+                        <select [(ngModel)]="newProperty.propertyType" name="propertyType" class="form-control">
+                          <option value="Single Family">Single Family Home</option>
+                          <option value="Condo">Condo</option>
+                          <option value="Duplex">Multifamily: Duplex</option>
+                          <option value="Triplex">Multifamily: Triplex</option>
+                          <option value="Quadplex">Multifamily: 4plex</option>
+                          <option value="Five-plus">Commercial: 5+</option>
+                          <option value="Apartments">Commercial: Apartments</option>
+                        </select>
+                      </div>
+                    </div>
+
                     <div class="form-group row">
                       <label class="required-field col-sm-4 col-form-label">Purchase Price</label>
                        <div class="col-sm-6">
@@ -179,21 +193,21 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.purchasePrice"
-                            #purchasePrice="ngModel"
                             name="purchasePrice"
                             minlength="5"
                             maxlength="10"
-                            pattern="^[0-9]*$"
+                            pattern="^[0-9 ,]*$"
                             required
+                            (keyup)="validatePurchasePrice($event.target)"
                           />
                         </div>
                       </div>
                     </div>
 
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Beds</label>
+                      <label class="required-field col-sm-4 col-form-label">Beds</label>
                       <div class="col-sm-6">
-                        <select [(ngModel)]="newProperty.bedrooms" #bedrooms="ngModel" name="bedrooms" class="form-control">
+                        <select [(ngModel)]="newProperty.bedrooms" name="bedrooms" class="form-control">
                           <option value="0">0</option>
                           <option value="1">1</option>
                           <option value="2">2</option>
@@ -205,9 +219,9 @@
                     </div>
 
                     <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Baths</label>
+                      <label class="required-field col-sm-4 col-form-label">Baths</label>
                       <div class="col-sm-6">
-                        <select [(ngModel)]="newProperty.bathrooms" #bathrooms="ngModel" name="bathrooms" class="form-control">
+                        <select [(ngModel)]="newProperty.bathrooms" name="bathrooms" class="form-control">
                           <option value="0">0</option>
                           <option value="1">1</option>
                           <option value="2">2</option>
@@ -227,10 +241,10 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.expectedRehab"
-                            #expectedRehab="ngModel"
                             name="expectedRehab"
                             maxlength="10"
-                            pattern="^[0-9]*$"
+                            pattern="^[0-9 ,]*$"
+                            (keyup)="validateInput($event.target)"
                           />
                         </div>
                       </div>
@@ -245,11 +259,11 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.afterRepairValue"
-                            #afterRepairValue="ngModel"
                             name="afterRepairValue"
                             minlength="5"
                             maxlength="10"
-                            pattern="^[0-9]*$"
+                            pattern="^[0-9 ,]*$"
+                            (keyup)="validateInput($event.target)"
                           />
                         </div>
                       </div>
@@ -264,11 +278,11 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.averageRent"
-                            #averageRent="ngModel"
                             name="averageRent"
                             minlength="3"
                             maxlength="6"
-                            pattern="^[0-9]*$"
+                            pattern="^[0-9 ,]*$"
+                            (keyup)="validateInput($event.target)"
                           />
                         </div>
                       </div>
@@ -279,27 +293,12 @@
                       <div class="col-sm-6">
                         <input type="text" class="form-control"
                           [(ngModel)]="newProperty.squareFootage"
-                          #squareFootage="ngModel"
                           name="squareFootage"
                           minlength="3"
                           maxlength="6"
-                          pattern="^[0-9]*$"
+                          pattern="^[0-9 ,]*$"
+                          (keyup)="validateInput($event.target)"
                         />
-                      </div>
-                    </div>
-
-                    <div class="form-group row">
-                      <label class="col-sm-4 col-form-label">Property Type</label>
-                      <div class="col-sm-6">
-                        <select [(ngModel)]="newProperty.propertyType" #propertyType="ngModel" name="propertyType" class="form-control">
-                          <option value="Single Family">Single Family Home</option>
-                          <option value="Condo">Condo</option>
-                          <option value="Duplex">Multifamily: Duplex</option>
-                          <option value="Triplex">Multifamily: Triplex</option>
-                          <option value="Quadplex">Multifamily: 4plex</option>
-                          <option value="Five-plus">Commercial: 5+</option>
-                          <option value="Apartments">Commercial: Apartments</option>
-                        </select>
                       </div>
                     </div>
 
@@ -308,11 +307,11 @@
                       <div class="col-sm-6">
                         <input type="text" class="form-control"
                           [(ngModel)]="newProperty.yearBuilt"
-                          #yearBuilt="ngModel"
                           name="yearBuilt"
                           pattern="^[0-9]*$"
                           minlength="4"
                           maxlength="4"
+                          (keyup)="validateInput($event.target)"
                         />
                       </div>
                     </div>
@@ -326,11 +325,11 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.capRate"
-                            #capRate="ngModel"
                             name="capRate"
                             pattern="^(0|[1-9]\d*)(\.\d+)?$"
                             placeholder="%"
                             maxlength="4"
+                            (keyup)="validateInput($event.target)"
                           />
                         </div>
                       </div>
@@ -345,11 +344,11 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.HOA"
-                            #HOA="ngModel"
                             name="HOA"
-                            pattern="^[0-9]*$"
+                            pattern="^[0-9 ,]*$"
                             placeholder="monthly"
                             maxlength="6"
+                            (keyup)="validateInput($event.target)"
                           />
                         </div>
                       </div>
@@ -364,11 +363,11 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.propertyTaxes"
-                            #propertyTaxes="ngModel"
                             name="propertyTaxes"
-                            pattern="^[0-9]*$"
+                            pattern="^[0-9 ,]*$"
                             placeholder="monthly"
                             maxlength="6"
+                            (keyup)="validateInput($event.target)"
                           />
                         </div>
                       </div>
@@ -383,11 +382,11 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.utilities"
-                            #utilities="ngModel"
                             name="utilities"
-                            pattern="^[0-9]*$"
+                            pattern="^[0-9 ,]*$"
                             placeholder="monthly"
                             maxlength="6"
+                            (keyup)="validateInput($event.target)"
                           />
                         </div>
                       </div>
@@ -402,11 +401,11 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.insurance"
-                            #insurance="ngModel"
                             name="insurance"
-                            pattern="^[0-9]*$"
+                            pattern="^[0-9 ,]*$"
                             placeholder="monthly"
                             maxlength="6"
+                            (keyup)="validateInput($event.target)"
                           />
                         </div>
                       </div>
@@ -415,7 +414,7 @@
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Seller Financing Available?</label>
                       <div class="col-sm-6">
-                        <select class="form-control" [(ngModel)]="newProperty.sellerFinancing" name="sellerFinancing" #sellerFinancing="ngModel">
+                        <select class="form-control" [(ngModel)]="newProperty.sellerFinancing" name="sellerFinancing">
                           <option value="no">No</option>
                           <option value="yes">Yes</option>
                         </select>
@@ -425,7 +424,7 @@
                     <div class="form-group row">
                       <label class="col-sm-4 col-form-label">Under Contract?</label>
                       <div class="col-sm-6">
-                        <select class="form-control" [(ngModel)]="newProperty.status" name="status" #status="ngModel">
+                        <select class="form-control" [(ngModel)]="newProperty.status" name="status">
                           <option value="Listed">Yes</option>
                           <option value="NoContract">No</option>
                         </select>
@@ -436,6 +435,7 @@
                       <button type="button" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4 add-property-btn"
                         (click)="changeTab('property','location')">Previous</button>
                       <button type="button" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4"
+                        id="property-button"
                         (click)="changeTab('property','comps')">Next</button>
                     </div>
 
@@ -450,10 +450,11 @@
                       <div class="col-sm-9">
                         <input type="text" class="form-control"
                           [(ngModel)]="newProperty.comps[0].firstCompAddress"
-                          #firstCompAddress="ngModel"
                           name="firstCompAddress"
-                          pattern="^[a-zA-Z0-9,.!? ]*$"
+                          minlength="5"
                           maxlength="50"
+                          pattern="^[a-zA-Z0-9,.!? ]*$"
+                          (keyup)="validateFirstAddress($event.target)"
                         />
                       </div>
                     </div>
@@ -467,10 +468,10 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.comps[0].firstCompPrice"
-                            #firstCompPrice="ngModel"
                             name="firstCompPrice"
                             pattern="^[0-9]*$"
                             maxlength="10"
+                            (keyup)="validateFirstPrice($event.target)"
                           />
                         </div>
                       </div>
@@ -481,10 +482,11 @@
                       <div class="col-sm-9">
                         <input type="text" class="form-control"
                           [(ngModel)]="newProperty.comps[1].secondCompAddress"
-                          #secondCompAddress="ngModel"
                           name="secondCompAddress"
-                          pattern="^[a-zA-Z0-9,.!? ]*$"
+                          minlength="5"
                           maxlength="50"
+                          pattern="^[a-zA-Z0-9,.!? ]*$"
+                          (keyup)="validateSecondAddress($event.target)"
                         />
                       </div>
                     </div>
@@ -498,10 +500,10 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.comps[1].secondCompPrice"
-                            #secondCompPrice="ngModel"
                             name="secondCompPrice"
                             pattern="^[0-9]*$"
                             maxlength="10"
+                            (keyup)="validateSecondPrice($event.target)"
                           />
                         </div>
                       </div>
@@ -512,10 +514,11 @@
                       <div class="col-sm-9">
                         <input type="text" class="form-control"
                           [(ngModel)]="newProperty.comps[2].thirdCompAddress"
-                          #thirdCompAddress="ngModel"
                           name="thirdCompAddress"
-                          pattern="^[a-zA-Z0-9,.!? ]*$"
+                          minlength="5"
                           maxlength="50"
+                          pattern="^[a-zA-Z0-9,.!? ]*$"
+                          (keyup)="validateThirdAddress($event.target)"
                         />
                       </div>
                     </div>
@@ -529,10 +532,10 @@
                           </div>
                           <input type="text" class="form-control"
                             [(ngModel)]="newProperty.comps[2].thirdCompPrice"
-                            #thirdCompPrice="ngModel"
                             name="thirdCompPrice"
                             pattern="^[0-9]*$"
                             maxlength="10"
+                            (keyup)="validateThirdPrice($event.target)"
                           />
                         </div>
                       </div>
@@ -542,6 +545,7 @@
                       <button type="button" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4 add-property-btn"
                         (click)="changeTab('comps','property')">Previous</button>
                       <button type="button" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4"
+                        id="comp-button"
                         (click)="changeTab('comps','photos')">Next</button>
                     </div>
 
@@ -579,6 +583,7 @@
                       <button type="button" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4 add-property-btn"
                         (click)="changeTab('photos','comps')">Previous</button>
                       <button type="button" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4"
+                        id="photos-button"
                         (click)="changeTab('photos','confirm')">Next</button>
                     </div>
 
@@ -587,14 +592,181 @@
                   <!-- Confirm tab -->
                   <div class="confirm-content" id="confirm-content">
 
-                    <!-- NEED TO ENTER ALL INPUT FIELDS
-                         AS DISABLED HERE
-                    -->
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Street Address</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.address" name="address" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">City</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.city" name="city" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">State</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.state" name="state" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Zip Code</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.zipCode" name="zipCode" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Property Type</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.propertyType" name="propertyType" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Purchase Price</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.purchasePrice" name="purchasePrice" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Beds</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.bedrooms" name="bedrooms" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Bathrooms</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.bathrooms" name="bathrooms" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Expected Rehab Cost</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.expectedRehab" name="expectedRehab" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">After Repair Value (ARV)</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.afterRepairValue" name="afterRepairValue" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Gross Monthly Rent</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.averageRent" name="averageRent" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Square Footage</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.squareFootage" name="squareFootage" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Year Built</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.yearBuilt" name="yearBuilt" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Cap Rate</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.capRate" name="capRate" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">HOA</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.HOA" name="HOA" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Property Taxes</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.propertyTaxes" name="propertyTaxes" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Utilities</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.utilities" name="utilities" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Insurance</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.insurance" name="insurance" disabled
+                        />
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label class="col-sm-3 col-form-label">Seller Financing Available?</label>
+                      <div class="col-sm-6">
+                        <input id="addressInput" type="text" class="form-control"
+                          [(ngModel)]="newProperty.sellerFinancing" name="sellerFinancing" disabled
+                        />
+                      </div>
+                    </div>
 
                     <div class="row submit-add-property-btn">
                       <button type="button" class="btn btn-inverse-primary btn-rounded btn-sm mt-3 mb-4 add-property-btn"
                         (click)="changeTab('confirm','photos')">Previous</button>
-                      <button id="submitBtn" type="button" class="btn btn-inverse-success btn-rounded btn-fw" (click)="onSubmit()">Submit
+                      <button id="submitBtn" type="button" class="btn btn-inverse-success btn-rounded btn-sm mt-3 mb-4 btn-fw" (click)="onSubmit()">Submit
                       </button>
                     </div>
                   </div> <!-- Confirm tab end -->
