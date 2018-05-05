@@ -72,8 +72,28 @@ const UserSchema = mongoose.Schema({
   maximumLoanAvailable: {
     type: String
   },
-  terms : [],
-  ads: []
+  terms: [],
+  ads: [],
+  dataPropertyAdded: [{
+    createdAt: Date,
+    propertyId: String
+  }],
+  dataPropertySoldPending: [{
+    createdAt: Date,
+    propertyId: String
+  }],
+  dataPropertySold: [{
+    createdAt: Date,
+    propertyId: String
+  }],
+  dataPropertyBought: [{
+    createdAt: Date,
+    propertyId: String
+  }],
+  dataProfileViews: [{
+    createdAt: Date,
+    viewingUserId: String
+  }]
 },
   {
     timestamps: {
@@ -453,7 +473,13 @@ module.exports.getPropertiesForWholesaler = function(wholesalerId) {
 module.exports.addWholesalerListing = function(propertyId, wholesalerId) {
   return new Promise((resolve, reject) => {
     User.findById(wholesalerId, (error, wholesaler) => {
+      wholesaler.dataPropertyAdded.push({
+        createdAt: Date.now,
+        propertyId: propertyId
+      });
+
       wholesaler.wholesalerListedProperties.push(propertyId);
+
       wholesaler.save((error, newWholesaler) => {
         if (error) {
           let errorObj = {
@@ -513,6 +539,11 @@ module.exports.updateWholesalerSoldPendingProperties = function(wholesalerId, pr
 
           // push propertyId into sold pending array now that the status has changed
           wholesaler.wholesalerSoldPendingProperties.push(propertyId);
+
+          wholesaler.dataPropertySoldPending.push({
+            createdAt: Date.now,
+            propertyId: propertyId
+          });
         }
 
         wholesaler.save((error, updatedWholesaler) => {
@@ -573,6 +604,12 @@ module.exports.updateWholesalerSoldProperties = function(wholesalerId, propertyI
 
         wholesaler.wholesalerSoldPendingProperties = newSoldPending;
         wholesaler.wholesalerSoldProperties.push(propertyId);
+
+        wholesaler.dataPropertySold.push({
+          createdAt: Date.now,
+          propertyId: propertyId
+        });
+
         wholesaler.save((error, updatedWholesaler) => {
           if (error) {
             let errorObj = {
@@ -1011,6 +1048,11 @@ module.exports.updateInvestorBoughtProperties = function(investorId, propertyId)
 
         investor.investorBoughtPendingProperties = newBoughtPending;
         investor.investorBoughtProperties.push(propertyId);
+
+        investor.dataPropertyBought.push({
+          createdAt: Date.now,
+          propertyId: propertyId
+        });
 
         investor.save((error, updatedInvestor) => {
           if (error) {
@@ -1575,10 +1617,16 @@ module.exports.addNewUserConnection = function(currentUserId, newUserId) {
   });
 };
 
-module.exports.increaseViewCount = function(userId) {
+module.exports.increaseViewCount = function(userId, viewingUserId) {
   return new Promise((resolve, reject) => {
     User.findById(userId, (error, user) => {
       user.profileViews = user.profileViews + 1;
+
+      user.dataProfileViews.push({
+        createdAt: Date.now,
+        viewingUserId: viewingUserId
+      });
+
       user.save((error, newUser) => {
         if (error) {
           let errorObj = {
