@@ -110,6 +110,19 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    this.newProperty.purchasePrice = this.formatInput(this.newProperty.purchasePrice);
+    this.newProperty.expectedRehab = this.formatInput(this.newProperty.expectedRehab);
+    this.newProperty.afterRepairValue = this.formatInput(this.newProperty.afterRepairValue);
+    this.newProperty.averageRent = this.formatInput(this.newProperty.averageRent);
+    this.newProperty.squareFootage = this.formatInput(this.newProperty.squareFootage);
+    this.newProperty.capRate = this.formatInput(this.newProperty.capRate);
+    this.newProperty.HOA = this.formatInput(this.newProperty.HOA);
+    this.newProperty.propertyTaxes = this.formatInput(this.newProperty.propertyTaxes);
+    this.newProperty.utilities = this.formatInput(this.newProperty.utilities);
+    this.newProperty.insurance = this.formatInput(this.newProperty.insurance);
+
+    console.log("this.newProperty:", this.newProperty)
+
     this.photosService.getPropertyPhotoUrls(this.uploadedPhotos, (error, photos) => {
       if (error) {
         this.alertService.error('Error uploading photo.');
@@ -129,7 +142,6 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
         this.subscriptions.push(this.propertySubscription);
       }
     });
-
   }
 
   addPhoto(event) {
@@ -348,6 +360,14 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
       $("#comp-button").prop('disabled', true);
       return false;
     }
+  }
+
+  formatInput(input) {
+    input = input.replace(/$/g,'');
+    input = input.replace(/%/g,'');
+    input = input.replace(/,/g,'');
+    input = input.replace(/ /g, '');
+    return input;
   }
 
   ngOnDestroy() {
