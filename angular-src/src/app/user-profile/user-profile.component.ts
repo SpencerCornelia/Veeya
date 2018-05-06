@@ -65,7 +65,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(this.getUserSubscription);
 
-    this.increaseProfileViewsSubscription = this.userService.increaseProfileViews(userID)
+    this.increaseProfileViewsSubscription = this.userService.increaseProfileViews(userID, this.currentUser)
       .subscribe((response) => {
         this.user.profileViews = response.profileViews;
       }, (error) => {

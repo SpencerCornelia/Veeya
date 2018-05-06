@@ -1,12 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const Data = require('../models/data');
 
-const user = require('../models/user');
-
-// GET HTTP to /lender
-
-router.get('/all', (req, res) => {
-  user.getAllLenders()
+router.get('/:id', (req, res) => {
+  Data.getDashboardData(req.params.id)
     .then((response) => {
       res.status(200).json(response);
     })
@@ -14,6 +11,5 @@ router.get('/all', (req, res) => {
       res.status(500).json(error);
     });
 });
-
 
 module.exports = router;

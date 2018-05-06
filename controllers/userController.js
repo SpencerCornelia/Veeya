@@ -75,6 +75,27 @@ router.get('/all/wholesalers', (req, res) => {
     });
 });
 
+router.post('/inviteuser', (req, res) => {
+  let currentUserId = req.body.currentUserId;
+  let newUserId = '';
+  user.registerInvitedUser(req.body)
+    .then((registeredUser) => {
+      newUserId = String(registeredUser.data._id);
+      delete registeredUser.data.password;
+      return user.addNewUserConnection(currentUserId, newUserId);
+    })
+    .then((response) => {
+      if (response.success) {
+        res.status(201).json(response);
+      } else {
+        res.status(500).json(response);
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    })
+});
+
 router.get('/connections/:uid', (req, res) => {
   let user_id = req.params.uid;
   user.getAllConnections(user_id)
@@ -192,8 +213,9 @@ router.post('/denyconnection', (req, res) => {
 
 router.put('/increaseViews', (req, res) => {
   let userId = req.body.id;
+  let viewingUserId = req.body.viewingUserId;
 
-  user.increaseViewCount(userId)
+  user.increaseViewCount(userId, viewingUserId)
     .then((response) => {
       res.status(201).json(response);
     })

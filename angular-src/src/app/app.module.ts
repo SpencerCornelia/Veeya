@@ -6,8 +6,10 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 import { AuthGuard } from './guards/auth.guard';
 import { EditPropertyGuard } from './guards/edit-property.guard';
@@ -47,9 +49,7 @@ import { CustomizePropertyComponent } from './customize-property/customize-prope
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FooterComponent } from './footer/footer.component';
 import { GenerateReportComponent } from './generate-report/generate-report.component';
-import { InviteInvestorComponent } from './invite-investor/invite-investor.component';
-import { InviteLenderComponent } from './invite-lender/invite-lender.component';
-import { InviteWholesalerComponent } from './invite-wholesaler/invite-wholesaler.component';
+import { InviteUserComponent } from './invite-user/invite-user.component';
 import { LoginComponent } from './login/login.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { RegisterComponent } from './register/register.component';
@@ -71,6 +71,7 @@ import { AlertService } from './services/alert.service';
 import { AuctionService } from './services/auction.service';
 import { AuthService } from './services/auth.service';
 import { CustomizePropertyService } from './services/customizeProperty.service';
+import { DashboardService } from './services/dashboard.service';
 import { DealAdService } from './services/dealAd.service';
 import { DeletePropertyService } from './services/deleteProperty.service';
 import { EditPropertyService } from './services/editProperty.service';
@@ -124,9 +125,7 @@ import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
     GenerateReportComponent,
     LoginComponent,
     MyProfileComponent,
-    InviteInvestorComponent,
-    InviteLenderComponent,
-    InviteWholesalerComponent,
+    InviteUserComponent,
     PageNotFoundComponent,
     PlaceDealAdComponent,
     RegisterComponent,
@@ -138,15 +137,18 @@ import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
     UserProfileComponent,
     ViewDealAdsComponent,
     ViewPropertyComponent,
-    ViewPropertiesComponent
+    ViewPropertiesComponent,
+    InviteUserComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
     AngularFontAwesomeModule,
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpModule,
+    NgxChartsModule,
     AppRoutingModule
   ],
   providers: [
@@ -156,6 +158,7 @@ import { MyProfileResolve } from './resolvers/my-profile-resolve.service';
     AlertService,
     AuctionService,
     CustomizePropertyService,
+    DashboardService,
     DealAdService,
     DeletePropertyService,
     EditPropertyService,

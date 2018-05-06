@@ -11,6 +11,7 @@ mongoose.Promise = global.Promise;
 
 const adsController = require('./controllers/adsController');
 const bidsController = require('./controllers/bidsController');
+const dashboardController = require('./controllers/dashboardController');
 const investorController = require('./controllers/investorController');
 const lenderController = require('./controllers/lenderController');
 const loginController = require('./controllers/loginController');
@@ -68,34 +69,20 @@ io.on('connection', (socket) => {
   socket.on('add-bid', (bid) => {
     io.emit('new-bid', { type: 'new-bid', data: bid })
     Bid.addBid(bid);
+    User.addBid(bid);
   });
 });
 
-// Route all HTTP requests to adsController
+// Route all HTTP requests to Controllers
 app.use('/ads', adsController);
-
-// Route all HTTP requests to bidsController
 app.use('/bids', bidsController);
-
-// Route all HTTP requests to investorController
+app.use('/dashboard', dashboardController);
 app.use('/investor', investorController);
-
-// Route all HTTP requests to lenderController
 app.use('/lender', lenderController);
-
-// Route all HTTP requests to loginController
 app.use('/login', loginController);
-
-// Route all HTTP requests to propertiesController
 app.use('/properties', propertiesController);
-
-// Route all HTTP requests to registerController
 app.use('/register', registerController);
-
-// Route all HTTP requests to userController
 app.use('/user', userController);
-
-// Route all HTTP requests to wholesalerController
 app.use('/wholesaler', wholesalerController);
 
 

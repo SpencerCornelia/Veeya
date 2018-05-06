@@ -6,6 +6,8 @@ import { User } from '../models/User';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/throw';
 
+declare var $: any;
+
 @Injectable()
 export class InviteService {
 
@@ -13,14 +15,14 @@ export class InviteService {
 
   private serverApi = 'http://localhost:3000/';
 
-  public inviteInvestor(email: string, currentUser: string) {
-    let URI = this.serverApi + "investor/inviteinvestor";
+  public inviteUser(email: string, userType: string, currentUserId: string) {
+    let URI = this.serverApi + "user/inviteuser";
     let headers = new Headers;
     let body = JSON.stringify({
       _id: 0,
-      userType: 'Investor',
       email: email,
-      wholesaler_id: currentUser
+      userType: userType,
+      currentUserId: currentUserId
     });
     headers.append('Content-Type', 'application/json');
     return this.http.post(URI, body, { headers: headers })
@@ -30,44 +32,6 @@ export class InviteService {
       .catch((error) => {
         return Observable.throw(error.json());
       })
-  }
-
-  public inviteWholesaler(email: string, currentUser: string) {
-    let URI = this.serverApi + "wholesaler/invitewholesaler";
-    let headers = new Headers;
-    let body = JSON.stringify({
-      _id: 0,
-      userType: 'Wholesaler',
-      email: email,
-      investor_id: currentUser
-    });
-    headers.append('Content-Type', 'application/json');
-    return this.http.post(URI, body, {headers: headers})
-      .map((response) => {
-        return response.json()
-      })
-      .catch((error) => {
-        return Observable.throw(error.json());
-      })
-  }
-
-  public inviteLender(email: string, currentUser: string) {
-    let URI = this.serverApi + "lender/inviteLender";
-    let headers = new Headers;
-    let body = JSON.stringify({
-      _id: 0,
-      userType: 'Lender',
-      email: email,
-      invitee_id: currentUser
-    });
-    headers.append('Content-Type', 'application/json');
-    return this.http.post(URI, body, {headers: headers})
-      .map((response) => {
-        return response.json()
-      })
-      .catch((error) => {
-        return Observable.throw(error.json());
-      });
   }
 
 }

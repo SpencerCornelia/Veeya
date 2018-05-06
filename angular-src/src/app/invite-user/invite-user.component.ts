@@ -10,18 +10,16 @@ import { AuthService } from '../services/auth.service';
 import { InviteService } from '../services/invite.service';
 
 @Component({
-  selector: 'app-invite-lender',
-  templateUrl: './invite-lender.component.html',
-  styleUrls: ['./invite-lender.component.css']
+  selector: 'app-invite-user',
+  templateUrl: './invite-user.component.html',
+  styleUrls: ['./invite-user.component.css']
 })
-export class InviteLenderComponent implements OnInit, OnDestroy {
+export class InviteUserComponent implements OnInit {
 
-  private inviteLenderSubscription;
+  private inviteUserSubscription;
   private subscriptions: Subscription[] = [];
-
-  private lender: any
-  private user_id: string;
-  private email: string;
+  private currentUserId: string;
+  private user;
 
   constructor(private alertService: AlertService,
               private authService: AuthService,
@@ -29,23 +27,24 @@ export class InviteLenderComponent implements OnInit, OnDestroy {
               private router: Router) { }
 
   ngOnInit() {
-    this.user_id = this.authService.loggedInUser();
-    this.lender = {
-      'email': ''
+    this.currentUserId = this.authService.loggedInUser();
+    this.user = {
+      email: '',
+      userType: 'Wholesaler'
     }
   }
 
   onSubmit() {
-    this.inviteLenderSubscription = this.inviteService.inviteLender(this.lender.email, this.user_id)
+    this.inviteUserSubscription = this.inviteService.inviteUser(this.user.email, this.user.userType, this.currentUserId)
       .subscribe((response) => {
         this.alertService.success(response.message, true);
         this.router.navigate(['/dashboard']);
       },
       (error) => {
-        this.alertService.error('Error inviting lender.', true);
+        this.alertService.error('Error inviting investor.', true);
       });
 
-    this.subscriptions.push(this.inviteLenderSubscription);
+    this.subscriptions.push(this.inviteUserSubscription);
   }
 
   ngOnDestroy() {

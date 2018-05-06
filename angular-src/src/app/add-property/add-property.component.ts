@@ -34,6 +34,18 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
   private validForm: boolean = false;
   private validPhotos: boolean = false;
 
+  private addressValid: boolean = false;
+  private cityValid: boolean = false;
+  private zipCodeValid: boolean = false;
+  private purchasePriceValid: boolean = false;
+  private inputValid: boolean = true;
+  private compAddressOneValid: boolean = true;
+  private compPriceOneValid: boolean = true;
+  private compAddressTwoValid: boolean = true;
+  private compPriceTwoValid: boolean = true;
+  private compAddressThreeValid: boolean = true;
+  private compPriceThreeValid: boolean = true;
+
   constructor(private alertService: AlertService,
               private authService: AuthService,
               private addPropertyService: AddPropertyService,
@@ -44,6 +56,12 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
   ngOnInit() {
     document.getElementById('removePhotos').hidden = true;
     document.getElementById('uploadPhotos').hidden = true;
+
+    document.getElementById("property-content").hidden = true;
+    document.getElementById("comps-content").hidden = true;
+    document.getElementById("photos-content").hidden = true;
+    document.getElementById("confirm-content").hidden = true;
+
     let wholesalerID = this.authService.loggedInUser();
     let propertyComps = [];
     this.newProperty = {
@@ -86,9 +104,25 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
       photos: []
     }
 
+    $("#location-button").prop('disabled', true);
+    $("#property-button").prop('disabled', true);
+    $("#photos-button").prop('disabled', true);
   }
 
   onSubmit() {
+    this.newProperty.purchasePrice = this.formatInput(this.newProperty.purchasePrice);
+    this.newProperty.expectedRehab = this.formatInput(this.newProperty.expectedRehab);
+    this.newProperty.afterRepairValue = this.formatInput(this.newProperty.afterRepairValue);
+    this.newProperty.averageRent = this.formatInput(this.newProperty.averageRent);
+    this.newProperty.squareFootage = this.formatInput(this.newProperty.squareFootage);
+    this.newProperty.capRate = this.formatInput(this.newProperty.capRate);
+    this.newProperty.HOA = this.formatInput(this.newProperty.HOA);
+    this.newProperty.propertyTaxes = this.formatInput(this.newProperty.propertyTaxes);
+    this.newProperty.utilities = this.formatInput(this.newProperty.utilities);
+    this.newProperty.insurance = this.formatInput(this.newProperty.insurance);
+
+    console.log("this.newProperty:", this.newProperty)
+
     this.photosService.getPropertyPhotoUrls(this.uploadedPhotos, (error, photos) => {
       if (error) {
         this.alertService.error('Error uploading photo.');
@@ -108,7 +142,6 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
         this.subscriptions.push(this.propertySubscription);
       }
     });
-
   }
 
   addPhoto(event) {
@@ -140,10 +173,11 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
         inputValue.value = "";
         document.getElementById('removePhotos').hidden = true;
         document.getElementById('uploadPhotos').hidden = true;
+        $("#photos-button").prop('disabled', false);
         this.uploadedPhotos = photos;
         this.photos = [];
         this.validPhotos = true;
-        this.alertService.success('Successfully uploaded photo.');
+        this.alertService.success('Successfully uploaded photo(s).');
       }
     });
   }
@@ -159,6 +193,14 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
     this.alertService.success('Photo removed.');
   }
 
+  changeTab(current, newTab) {
+    document.getElementById(current + '-content').hidden = true;
+    document.getElementById(current + '-tab').classList.remove('active');
+
+    document.getElementById(newTab + '-content').hidden = false;
+    document.getElementById(newTab + '-tab').classList.add('active');
+  }
+
   cancel() {
     this.uploadedPhotos.forEach((photo) => {
       this.photosService.removePropertyPhotos(photo, (error) => {
@@ -170,6 +212,162 @@ export class AddPropertyComponent implements OnInit, OnDestroy {
     })
 
     this.router.navigate(['/dashboard']);
+  }
+
+  // VALIDATE LOCATION TAB CONTENT //
+
+  validateAddress(input) {
+    if (input.classList.contains('ng-invalid')) {
+      this.addressValid = false;
+    } else if (input.classList.contains('ng-valid')) {
+      this.addressValid = true;
+    }
+
+    this.locationTabValid();
+  }
+
+  validateCity(input) {
+    if (input.classList.contains('ng-invalid')) {
+      this.cityValid = false;
+    } else if (input.classList.contains('ng-valid')) {
+      this.cityValid = true;
+    }
+
+    this.locationTabValid();
+  }
+
+  validateZipCode(input) {
+    if (input.classList.contains('ng-invalid')) {
+      this.zipCodeValid = false;
+    } else if (input.classList.contains('ng-valid')) {
+      this.zipCodeValid = true;
+    }
+
+    this.locationTabValid();
+  }
+
+  locationTabValid() {
+    if (this.addressValid && this.cityValid && this.zipCodeValid) {
+      $("#location-button").prop('disabled', false);
+      return true;
+    } else {
+      $("#location-button").prop('disabled', true);
+      return false;
+    }
+  }
+
+  // VALIDATE PROPERTY TAB CONTENT //
+
+  validatePurchasePrice(input) {
+    if (input.classList.contains('ng-invalid')) {
+      this.purchasePriceValid = false;
+    } else {
+      this.purchasePriceValid = true;
+    }
+
+    this.propertyTabValid();
+  }
+
+  validateInput(input) {
+    if (input.classList.contains('ng-invalid')) {
+      this.inputValid = false;
+    } else {
+      this.inputValid = true;
+    }
+
+    this.propertyTabValid();
+  }
+
+  propertyTabValid() {
+    if (this.purchasePriceValid && this.inputValid) {
+      $("#property-button").prop('disabled', false);
+      return true;
+    } else {
+      $("#property-button").prop('disabled', true);
+      return false;
+    }
+  }
+
+  // VALIDATE COMP TAB CONTENT //
+
+  validateFirstAddress(input) {
+    if (input.classList.contains('ng-invalid')) {
+      this.compAddressOneValid = false;
+    } else {
+      this.compAddressOneValid = true;
+    }
+
+    this.compTabValid();
+  }
+
+  validateFirstPrice(input) {
+    if (input.classList.contains('ng-invalid')) {
+      this.compPriceOneValid = false;
+    } else {
+      this.compPriceOneValid = true;
+    }
+
+    this.compTabValid();
+  }
+
+  validateSecondAddress(input) {
+    if (input.classList.contains('ng-invalid')) {
+      this.compAddressTwoValid = false;
+    } else {
+      this.compAddressTwoValid = true;
+    }
+
+    this.compTabValid();
+  }
+
+  validateSecondPrice(input) {
+    if (input.classList.contains('ng-invalid')) {
+      this.compPriceTwoValid = false;
+    } else {
+      this.compPriceTwoValid = true;
+    }
+
+    this.compTabValid();
+  }
+
+  validateThirdAddress(input) {
+    if (input.classList.contains('ng-invalid')) {
+      this.compAddressThreeValid = false;
+    } else {
+      this.compAddressThreeValid = true;
+    }
+
+    this.compTabValid();
+  }
+
+  validateThirdPrice(input) {
+    if (input.classList.contains('ng-invalid')) {
+      this.compPriceThreeValid = false;
+    } else {
+      this.compPriceThreeValid = true;
+    }
+
+    this.compTabValid();
+  }
+
+  compTabValid() {
+    if (this.compAddressOneValid && this.compPriceOneValid &&
+        this.compAddressTwoValid && this.compPriceTwoValid &&
+        this.compAddressThreeValid && this.compPriceThreeValid) {
+      $("#comp-button").prop('disabled', false);
+      return true;
+    } else {
+      $("#comp-button").prop('disabled', true);
+      return false;
+    }
+  }
+
+  formatInput(input) {
+    input = input.replace(/$/g,'');
+    input = input.replace(/%/g,'');
+    input = input.replace(/,/g,'');
+    input = input.replace(/ /g, '');
+    return input;
   }
 
   ngOnDestroy() {

@@ -72,8 +72,48 @@ const UserSchema = mongoose.Schema({
   maximumLoanAvailable: {
     type: String
   },
-  terms : [],
-  ads: []
+  terms: [],
+  ads: [],
+  dataPropertyAdded: [{
+    createdAt: Date,
+    propertyId: String
+  }],
+  dataPropertySoldPending: [{
+    createdAt: Date,
+    propertyId: String
+  }],
+  dataPropertySold: [{
+    createdAt: Date,
+    propertyId: String
+  }],
+  dataPropertyBought: [{
+    createdAt: Date,
+    propertyId: String
+  }],
+  dataProfileViews: [{
+    createdAt: Date,
+    viewingUserId: String
+  }],
+  dataConnectionRequestsSent: [{
+    createdAt: Date,
+    connectedUserId: String
+  }],
+  dataConnectionRequestsReceived: [{
+    createdAt: Date,
+    connectedUserId: String
+  }],
+  dataConnectionsMade: [{
+    createdAt: Date,
+    connectedUserId: String
+  }],
+  dataInvitesSent: [{
+    createdAt: Date,
+    invitedUserId: String
+  }],
+  dataBidsSent: [{
+    createdAt: Date,
+    propertyId: String
+  }]
 },
   {
     timestamps: {
@@ -209,6 +249,8 @@ module.exports.registerInvitedUser = function(userBody) {
           reject(userObj)
         } else {
           let randomString = Math.random().toString(36).slice(-8);
+          let startingConnections = [];
+          startingConnections[0] = userBody.currentUserId;
           let newUser = new User({
             userType: userBody.userType,
             password: randomString,
@@ -219,6 +261,7 @@ module.exports.registerInvitedUser = function(userBody) {
             city: '',
             state: '',
             profileViews: 0,
+            connections: startingConnections,
             profilePhoto: 'https://firebasestorage.googleapis.com/v0/b/veeya-c0185.appspot.com/o/default-profile-image%2Fdefault-profile-image.jpg?alt=media&token=cb5fd586-a920-42eb-9a82-59cc9020aaed',
             URLs: {
               personal: '',
@@ -450,7 +493,13 @@ module.exports.getPropertiesForWholesaler = function(wholesalerId) {
 module.exports.addWholesalerListing = function(propertyId, wholesalerId) {
   return new Promise((resolve, reject) => {
     User.findById(wholesalerId, (error, wholesaler) => {
+      wholesaler.dataPropertyAdded.push({
+        createdAt: Date.now(),
+        propertyId: propertyId
+      });
+
       wholesaler.wholesalerListedProperties.push(propertyId);
+
       wholesaler.save((error, newWholesaler) => {
         if (error) {
           let errorObj = {
@@ -479,53 +528,6 @@ module.exports.addWholesalerListing = function(propertyId, wholesalerId) {
   });
 };
 
-module.exports.addInvestorConnection = function(investorId, wholesalerId) {
-  return new Promise((resolve, reject) => {
-    User.findById(wholesalerId, (error, wholesaler) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error inviting user.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (wholesaler) {
-        wholesaler.connections.push(investorId);
-        wholesaler.save((error, newWholesaler) => {
-          if (error) {
-            let errorObj = {
-              success: false,
-              message: 'Error inviting user.',
-              error: error
-            }
-            reject(errorObj);
-          } else if (newWholesaler) {
-            let successObj = {
-              success: true,
-              message: 'Successfully added user.',
-              data: newWholesaler
-            }
-            resolve(successObj);
-          } else {
-            let errorObj = {
-              success: false,
-              message: 'Unable to invite user. Please try again.',
-              error: ''
-            }
-            reject(errorObj);
-          }
-        });
-      } else {
-        let errorObj = {
-          success: false,
-          message: 'Unable to add connection. Please try again.',
-          error: ''
-        }
-        reject(errorObj);
-      }
-    });
-  });
-};
 
 module.exports.updateWholesalerSoldPendingProperties = function(wholesalerId, propertyId, deny) {
   return new Promise((resolve, reject) => {
@@ -557,6 +559,11 @@ module.exports.updateWholesalerSoldPendingProperties = function(wholesalerId, pr
 
           // push propertyId into sold pending array now that the status has changed
           wholesaler.wholesalerSoldPendingProperties.push(propertyId);
+
+          wholesaler.dataPropertySoldPending.push({
+            createdAt: Date.now(),
+            propertyId: propertyId
+          });
         }
 
         wholesaler.save((error, updatedWholesaler) => {
@@ -617,6 +624,12 @@ module.exports.updateWholesalerSoldProperties = function(wholesalerId, propertyI
 
         wholesaler.wholesalerSoldPendingProperties = newSoldPending;
         wholesaler.wholesalerSoldProperties.push(propertyId);
+
+        wholesaler.dataPropertySold.push({
+          createdAt: Date.now(),
+          propertyId: propertyId
+        });
+
         wholesaler.save((error, updatedWholesaler) => {
           if (error) {
             let errorObj = {
@@ -972,53 +985,6 @@ module.exports.getStarredProperties = function(investorId) {
 ===== INVESTOR SETTERS BEGIN =====
 */
 
-module.exports.addWholesalerConnection = function(wholesalerId, investorId) {
-  return new Promise((resolve, reject) => {
-    User.findById(investorId, (error, investor) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error inviting user.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (investor) {
-        investor.connections.push(wholesalerId);
-        investor.save((error, newInvestor) => {
-          if (error) {
-            let errorObj = {
-              success: false,
-              message: 'Error inviting user.',
-              error: error
-            }
-            reject(errorObj);
-          } else if (newInvestor) {
-            let successObj = {
-              success: true,
-              message: 'Successfully invited user.',
-              data: newInvestor
-            }
-            resolve(successObj);
-          } else {
-            let errorObj = {
-              success: false,
-              message: 'Unable to invite user.',
-              error: ''
-            }
-            reject(errorObj);
-          }
-        });
-      } else {
-        let errorObj = {
-          success: false,
-          message: 'Unable to invite user. Please try again.',
-          error: ''
-        }
-        reject(errorObj);
-      }
-    });
-  });
-};
 
 module.exports.updateInvestorBoughtPendingProperties = function(investorId, propertyId, deny) {
   return new Promise((resolve, reject) => {
@@ -1102,6 +1068,11 @@ module.exports.updateInvestorBoughtProperties = function(investorId, propertyId)
 
         investor.investorBoughtPendingProperties = newBoughtPending;
         investor.investorBoughtProperties.push(propertyId);
+
+        investor.dataPropertyBought.push({
+          createdAt: Date.now(),
+          propertyId: propertyId
+        });
 
         investor.save((error, updatedInvestor) => {
           if (error) {
@@ -1352,104 +1323,6 @@ module.exports.searchLender = function(email, phoneNumber) {
 /*
 ===== LENDER SETTERS BEGIN =====
 */
-
-module.exports.addLenderConnection = function(lenderId, userId) {
-  return new Promise((resolve, reject) => {
-    User.findById(userId, (error, user) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error updating user.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (user) {
-        user.connections.push(lenderId);
-        user.save((error, savedUser) => {
-          if (error) {
-            let errorObj = {
-              success: false,
-              message: 'Error updating user.',
-              error: error
-            }
-            reject(errorObj);
-          } else if (savedUser) {
-            let successObj = {
-              success: true,
-              message: 'Successfully added connection.',
-              data: savedUser
-            }
-            resolve(successObj);
-          } else {
-            let errorObj = {
-              success: false,
-              message: 'Unable to invite user. Please try again',
-              error: ''
-            }
-            reject(errorObj);
-          }
-        });
-      } else {
-        let errorObj = {
-          success: false,
-          message: 'Error updating user.',
-          error: error
-        }
-        reject(errorObj);
-      }
-    });
-  });
-};
-
-module.exports.addUserConnectionForLender = function(userId, lenderId) {
-  return new Promise((resolve, reject) => {
-    User.findById(lenderId, (error, lender) => {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Error adding connection for user.',
-          error: error
-        }
-        reject(errorObj);
-      } else if (lender) {
-        lender.connections.push(userId);
-        lender.save((error, newLender) => {
-          if (error) {
-            let errorObj = {
-              success: false,
-              message: 'Error adding connection for user.',
-              error: error
-            }
-            reject(errorObj);
-          } else if (newLender) {
-            let successObj = {
-              success: true,
-              message: 'Successfully added connection for user.',
-              data: newLender
-            }
-            resolve(successObj);
-          } else {
-            let errorObj = {
-              success: false,
-              message: 'Unable to add connection for user.',
-              error: ''
-            }
-            reject(errorObj);
-          }
-        });
-      } else {
-      if (error) {
-        let errorObj = {
-          success: false,
-          message: 'Unable to add connection for user. Please try again.',
-          error: ''
-        }
-        reject(errorObj);
-      }
-      }
-    });
-  });
-};
 
 module.exports.getPropertiesForLender = function(lenderId) {
   return new Promise((resolve, reject) => {
@@ -1715,10 +1588,116 @@ module.exports.getAdIDs = function(userId) {
 ===== USER SETTERS BEGIN =====
 */
 
-module.exports.increaseViewCount = function(userId) {
+module.exports.addBid = function(bid) {
+  return new Promise((resolve, reject) => {
+    User.findById(bid.userId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error adding bid to user.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+        user.dataBidsSent.push({
+          createdAt: Date.now(),
+          propertyId: bid.propertyId
+        });
+
+        user.save((error, savedUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error saving user.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully saved user.',
+              data: savedUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to save user. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+          let errorObj = {
+            success: false,
+            message: 'Unable to save user. Please try again.',
+            error: ''
+          }
+          reject(errorObj);
+        }
+    });
+  });
+}
+
+module.exports.addNewUserConnection = function(currentUserId, newUserId) {
+  return new Promise((resolve, reject) => {
+    User.findById(currentUserId, (error, user) => {
+      if (error) {
+        let errorObj = {
+          success: false,
+          message: 'Error inviting user.',
+          error: error
+        }
+        reject(errorObj);
+      } else if (user) {
+        user.connections.push(newUserId);
+        user.save((error, savedUser) => {
+          if (error) {
+            let errorObj = {
+              success: false,
+              message: 'Error inviting user.',
+              error: error
+            }
+            reject(errorObj);
+          } else if (savedUser) {
+            let successObj = {
+              success: true,
+              message: 'Successfully connected with new user.',
+              data: savedUser
+            }
+            resolve(successObj);
+          } else {
+            let errorObj = {
+              success: false,
+              message: 'Unable to invite user. Please try again.',
+              error: ''
+            }
+            reject(errorObj);
+          }
+        });
+      } else {
+        let errorObj = {
+          success: false,
+          message: 'Unable to add connection. Please try again.',
+          error: ''
+        }
+        reject(errorObj);
+      }
+    });
+  });
+};
+
+module.exports.increaseViewCount = function(userId, viewingUserId) {
   return new Promise((resolve, reject) => {
     User.findById(userId, (error, user) => {
       user.profileViews = user.profileViews + 1;
+
+      user.dataProfileViews.push({
+        createdAt: Date.now(),
+        viewingUserId: viewingUserId
+      });
+
       user.save((error, newUser) => {
         if (error) {
           let errorObj = {
@@ -1912,6 +1891,12 @@ module.exports.addOutgoingConnectionRequest = function(currentUserId, connectedU
         reject(errorObj);
       } else if (user) {
         user.pendingOutgoingConnectionRequests.push(connectedUserId);
+
+        user.dataConnectionRequestsSent.push({
+          createdAt: Date.now(),
+          connectedUserId: connectedUserId
+        });
+
         user.save((error, newUser) => {
           if (error) {
             let errorObj = {
@@ -1960,6 +1945,12 @@ module.exports.addIncomingConnectionRequest = function(currentUserId, connectedU
         reject(errorObj);
       } else if (user) {
         user.pendingIncomingConnectionRequests.push(currentUserId);
+
+        user.dataConnectionRequestsReceived.push({
+          createdAt: Date.now(),
+          connectedUserId: connectedUserId
+        });
+
         user.save((error, newUser) => {
           if (error) {
             let errorObj = {
@@ -2018,6 +2009,12 @@ module.exports.acceptConnectionCurrentUser = function(body) {
 
         currentUser.connections.push(connectionUserId);
         currentUser.pendingIncomingConnectionRequests = newIncoming;
+
+        currentUser.dataConnectionsMade.push({
+          createdAt: Date.now(),
+          connectedUserId: connectionUserId
+        });
+
         currentUser.save((error, savedCurrentUser) => {
           if (error) {
             let errorObj = {
@@ -2322,6 +2319,10 @@ module.exports.addConnections = function(IDs, userId) {
 
           IDs.forEach((id) => {
             user.connections.push(id);
+            user.dataInvitesSent.push({
+              createdAt: Date.now(),
+              invitedUserId: id
+            });
           });
 
           user.save((error, savedUser) => {
