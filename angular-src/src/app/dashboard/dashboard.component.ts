@@ -34,45 +34,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private userType: String;
 
   private view = [1000,500];
-
-  multi: any[] = [
-  {
-    name: 'Cyan',
-    series: [
-      {
-        name: 5,
-        value: 2650
-      },
-      {
-        name: 10,
-        value: 2800      },
-      {
-        name: 15,
-        value: 2000
-      }
-    ]
-  },
-  {
-    name: 'Yellow',
-    series: [
-      {
-        name: 5,
-        value: 2500
-      },
-      {
-        name: 10,
-        value: 3100
-      },
-      {
-        name: 15,
-        value: 2350
-      }
-    ]
-  }
-];
-
-colorScheme: string = 'cool';
-schemeType: string = 'ordinal';
+  private profileViews;
+  private propertiesAddedPendingSold;
+  private connectionsMade;
+  private invitesSent;
+  private propertiesBought;
+  private propertiesSold;
+  private colorScheme: string = 'cool';
+  private schemeType: string = 'ordinal';
 
   constructor(private alertService: AlertService,
               private authService: AuthService,
@@ -101,8 +70,12 @@ schemeType: string = 'ordinal';
   getDashboardData() {
     this.dashboardServiceSubscription = this.dashboardService.getData()
       .subscribe((response) => {
-        // this.data = response;
-        console.log("response to getData:", response)
+        this.profileViews = response.profileViews;
+        this.propertiesAddedPendingSold = response.propertiesAddedPendingSold;
+        this.connectionsMade = response.connectionsMade;
+        this.invitesSent = response.invitesSent;
+        this.propertiesBought = response.propertiesBought;
+        this.propertiesSold = response.propertiesSold;
       }, (error) => {
 
       });
