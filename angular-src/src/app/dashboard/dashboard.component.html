@@ -22,7 +22,24 @@
       <div class="main-panel" *ngIf="currentUser">
         <div class="content-wrapper">
 
-
+          <ngx-charts-line-chart
+            [view]="view"
+            class="chart-container"
+            [scheme]="colorScheme"
+            schemeType="ordinal"
+            [results]="multi"
+            legend="true"
+            gradient="false"
+            xAxis="true"
+            yAxis="true"
+            showXAxisLabel="true"
+            showYAxisLabel="true"
+            xAxisLabel="x-axis-test"
+            yAxisLabel="y-axis-test"
+            autoScale="true"
+            timeline="false"
+            showGridLines="true">
+          </ngx-charts-line-chart>
 
         </div> <!-- content-wrapper ends -->
 
