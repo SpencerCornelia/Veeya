@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Bid = require('../models/bid');
-const Property = require('../models/Property');
+const Property = require('../models/property');
 const User = require('../models/user');
 
 // ROUTE all routes beginning with '/bids'
