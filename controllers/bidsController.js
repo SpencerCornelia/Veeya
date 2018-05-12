@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Bid = require('../models/Bid');
+const Bid = require('../models/bid');
 const Property = require('../models/Property');
 const User = require('../models/user');
 
