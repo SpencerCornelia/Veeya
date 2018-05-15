@@ -11,7 +11,7 @@ phases:
         - echo "Logging in to AWS ECR..."
         - $(aws ecr get-login --no-include-email --region us-east-1)
         - echo "Updating taskdef with image version..."
-        - RAND_BUILD_NUMBER = $RANDOM
+        - RAND_BUILD_NUMBER=$RANDOM
         - sed -e "s;%BUILD_NUMBER%;$RAND_BUILD_NUMBER;g" taskdef.json > new_taskdef.json
 
     build:
