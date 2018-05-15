@@ -14,4 +14,5 @@ RUN npm install -g forever
 EXPOSE 3000
 
 # Start mean application
+RUN chmod +x /app/startApp.sh
 ENTRYPOINT ["/app/startApp.sh"]
