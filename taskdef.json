@@ -2,7 +2,7 @@
     "family": "getveeya-api",
     "containerDefinitions": [
         {
-            "image": "381960425321.dkr.ecr.us-east-1.amazonaws.com/getveeya-api:latest",
+            "image": "381960425321.dkr.ecr.us-east-1.amazonaws.com/getveeya-api:v_%BUILD_NUMBER%",
             "name": "getveeya-api",
             "cpu": 0,
             "memoryReservation": 400,
