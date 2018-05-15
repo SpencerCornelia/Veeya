@@ -12,7 +12,7 @@ phases:
         - $(aws ecr get-login --no-include-email --region us-east-1)
         - echo "Updating taskdef with image version..."
         - RAND_BUILD_NUMBER=$RANDOM
-        - sed -e "s;%BUILD_NUMBER%;$RAND_BUILD_NUMBER;g" taskdef.json > new_taskdef.json
+        - sed -i "s;%BUILD_NUMBER%;$RAND_BUILD_NUMBER;g" taskdef.json
 
     build:
         commands:
@@ -28,4 +28,4 @@ phases:
         - docker push 381960425321.dkr.ecr.us-east-1.amazonaws.com/getveeya-api:RAND_BUILD_NUMBER
 
 artifacts:
-    files: new_taskdef.json
+    files: taskdef.json
