@@ -3,6 +3,9 @@
 LOGFILE=/var/log/app.log
 COUNT=0
 
+echo "Adding MONGO_URL..."
+sed -i "s;%MONGO_URL%;$MONGO_URL;g" config/database.js
+
 echo "Running npm start..."
 forever  -o $LOGFILE -e $LOGFILE start -c "npm start" .
 
