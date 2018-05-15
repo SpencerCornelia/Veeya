@@ -9,9 +9,9 @@ phases:
         commands:
         - echo "installing phase..."
         - echo "Logging in to AWS ECR..."
-        - $(aws ecr get-login --no-include-email --region us-east-1)
+        - $(aws ecr get-login --no-include-email --region us-east-1 --no-include-email)
         - echo "Updating taskdef with image version..."
-        - IMAGE_TAG=$RANDOM
+        - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
         - sed -i "s;%BUILD_NUMBER%;$IMAGE_TAG;g" taskdef.json
 
     build:
