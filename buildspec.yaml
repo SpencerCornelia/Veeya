@@ -1,0 +1,29 @@
+version: 0.1
+
+environment_variables:
+ plaintext:
+  FOO: "BAR"
+
+phases:
+    install:
+        commands:
+        - echo "installing phase..."
+        - echo "Logging in to AWS ECR..."
+        - $(aws ecr get-login --no-include-email --region us-east-1)
+
+    build:
+        commands:
+        - echo Build started on `date`
+        - docker build -t getveeya-api .
+        - docker tag getveeya-api:latest 381960425321.dkr.ecr.us-east-1.amazonaws.com/getveeya-api:latest
+
+    post_build:
+        commands:
+        - echo "post build..."
+        - echo Build completed on `date`
+        - echo "Pusing image to ECR..."
+        - docker push 381960425321.dkr.ecr.us-east-1.amazonaws.com/getveeya-api:latest
+
+# cache:
+#   paths:
+#     - 'node_modules/**/*'
