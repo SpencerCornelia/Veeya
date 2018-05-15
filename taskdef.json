@@ -1,0 +1,22 @@
+{
+    "family": "getveeya-api",
+    "containerDefinitions": [
+        {
+            "image": "381960425321.dkr.ecr.us-east-1.amazonaws.com/getveeya-api:latest",
+            "name": "getveeya-api",
+            "cpu": 0,
+            "memoryReservation": 500,
+            "essential": true,
+            "environment" : [
+                { "name" : "MONGO_URL", "value" : "mongodb://spencer:<dbpassword>@ds221990.mlab.com:21990/veeya" }
+            ],
+            "logConfiguration": {
+              "logDriver": "awslogs",
+              "options": {
+                "awslogs-group": "getveeya-api",
+                "awslogs-region": "us-east-1"
+              }
+            }
+        }
+    ]
+}
