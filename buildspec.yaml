@@ -26,7 +26,7 @@ phases:
         - echo Build completed on `date`
         - echo "Pusing image to ECR..."
         - docker push $REPOSITORY_URI:$IMAGE_TAG
-        - echo "Writing image definitions file...""
+        - echo "Writing image definitions file..."
         - printf '[{"name":"getveeya-api","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
 
 artifacts:
