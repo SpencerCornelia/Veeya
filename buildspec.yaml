@@ -5,7 +5,7 @@ environment_variables:
   REPOSITORY_URI: "381960425321.dkr.ecr.us-east-1.amazonaws.com/getveeya-api"
 
 phases:
-    install:
+    pre_build:
         commands:
         - echo "installing phase..."
         - echo "Logging in to AWS ECR..."
