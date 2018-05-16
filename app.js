@@ -1,3 +1,4 @@
+// Node.js server
 // We will declare all our dependencies here
 const express = require('express');
 const path = require('path');
@@ -54,9 +55,9 @@ app.use(express.static(path.join(__dirname, '/angular-src/src/')));
 
 // Set headers
 app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, GET, DELETE, OPTIONS, PATCH');
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, OPTIONS, PATCH");
   next();
 });
 
