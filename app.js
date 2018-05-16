@@ -20,6 +20,7 @@ const propertiesController = require('./controllers/propertiesController');
 const registerController = require('./controllers/registerController');
 const userController = require('./controllers/userController');
 const wholesalerController = require('./controllers/wholesalerController');
+const healthcheckController = require('./controllers/healthcheckController');
 
 const Bid = require('./models/bid.js');
 
@@ -85,7 +86,7 @@ app.use('/properties', propertiesController);
 app.use('/register', registerController);
 app.use('/user', userController);
 app.use('/wholesaler', wholesalerController);
-
+app.use('/health', healthcheckController);
 
 //Listen to port 3000
 server.listen(port, () => {

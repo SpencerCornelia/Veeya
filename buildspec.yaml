@@ -1,0 +1,33 @@
+version: 0.2
+
+environment_variables:
+ plaintext:
+  REPOSITORY_URI: "381960425321.dkr.ecr.us-east-1.amazonaws.com/getveeya-api"
+
+phases:
+    pre_build:
+        commands:
+        - echo "installing phase..."
+        - echo "Logging in to AWS ECR..."
+        - $(aws ecr get-login --no-include-email --region us-east-1 --no-include-email)
+        - echo "Updating taskdef with image version..."
+        - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+        - sed -i "s;%BUILD_NUMBER%;$IMAGE_TAG;g" taskdef.json
+
+    build:
+        commands:
+        - echo Build started on `date`
+        - docker build -t getveeya-api .
+        - docker tag getveeya-api:latest $REPOSITORY_URI:$IMAGE_TAG
+
+    post_build:
+        commands:
+        - echo "post build..."
+        - echo Build completed on `date`
+        - echo "Pusing image to ECR..."
+        - docker push $REPOSITORY_URI:$IMAGE_TAG
+        - echo "Writing image definitions file..."
+        - printf '[{"name":"getveeya-api","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+
+artifacts:
+    files: imagedefinitions.json
