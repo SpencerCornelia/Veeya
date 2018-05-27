@@ -15,7 +15,7 @@
                  }
             ],           
             "environment" : [
-                { "name" : "MONGO_URL", "value" : "mongodb://spencer:ecbyankee25@ds221990.mlab.com:21990/veeya" }
+                { "name" : "DUMMYVALUE", "value" : "DUMMYKEY" }
             ],
             "logConfiguration": {
               "logDriver": "awslogs",

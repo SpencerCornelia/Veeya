@@ -3,6 +3,8 @@
 LOGFILE=/var/log/app.log
 COUNT=0
 
+MONGO_URL=mongodb://spencer:ecbyankee25@ds221990.mlab.com:21990/veeya
+
 echo "Adding MONGO_URL..."
 sed -i "s;%MONGO_URL%;$MONGO_URL;g" config/database.js
 
