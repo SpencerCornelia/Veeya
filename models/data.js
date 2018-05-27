@@ -116,10 +116,10 @@ var getPropertiesAddedPendingSold = function(user) {
   let propertiesSold365Days = 0;
 
   user.dataPropertyAdded.forEach((prop) => {
-    if (prop.createdAt > last30Days) {
+    if (prop.createdAt > lastThirtyDays) {
       propertiesAdded30Days++;
     }
-    if (prop.createdAt > last90Days) {
+    if (prop.createdAt > lastNinetyDays) {
       propertiesAdded90Days++;
     }
     if (prop.createdAt > lastOneEightyDays) {

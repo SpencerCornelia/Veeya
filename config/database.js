@@ -1,3 +1,4 @@
 module.exports = {
-  database: 'mongodb://localhost:27017/Veeya'
+  database: '%MONGO_URL%'
+  //database: 'mongodb://localhost:27017/Veeya'
 }
