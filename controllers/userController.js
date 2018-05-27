@@ -120,11 +120,12 @@ router.get('/pendingconnections/:id', (req, res) => {
   user.getPendingConnections(userId)
     .then((response) => {
       let idArray = response.data;
-      if (idArray.length == 0) {
-        return res.status(200).json(response);
-      } else {
-        return user.getAllConnectionsByIDs(idArray);
-      }
+      // if (idArray.length == 0) {
+      //   return res.status(200).json(response);
+      // } else {
+      //   return user.getAllConnectionsByIDs(idArray);
+      // }
+      return user.getAllConnectionsByIDs(idArray);
     })
     .then((response) => {
       if (response.success) {
